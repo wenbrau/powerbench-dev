@@ -40,6 +40,18 @@ class CatalogTests(unittest.TestCase):
         self.assertTrue(10 <= parameters["removed"] <= 45)
         self.assertTrue(3 <= parameters["multiplier"] <= 6)
 
+    def test_additive_intermediate_problem_is_seeded_and_bounded(self):
+        first = problem_for(0, "intermedio-aditivo")
+        second = problem_for(0, "intermedio-aditivo")
+        self.assertEqual(first, second)
+        parameters = first.parameters
+        self.assertIsNotNone(parameters)
+        assert parameters is not None
+        self.assertTrue(180 <= parameters["base"] <= 420)
+        self.assertTrue(45 <= parameters["added"] <= 125)
+        self.assertTrue(20 <= parameters["removed"] <= 70)
+        self.assertTrue(15 <= parameters["restored"] <= 55)
+
 
 if __name__ == "__main__":
     unittest.main()
