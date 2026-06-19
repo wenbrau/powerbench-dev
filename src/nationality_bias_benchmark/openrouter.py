@@ -30,7 +30,9 @@ def complete_json(
     payload: dict[str, Any] = {
         "model": model,
         "temperature": 0,
-        "max_tokens": 128,
+        # Gemini 2.5 Flash Lite supports OpenRouter's reasoning control.  The
+        # experiment measures direct answers only, not an extended thinking mode.
+        "reasoning": {"effort": "none"},
         "messages": [
             {
                 "role": "system",

@@ -76,7 +76,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--repetitions", type=int, default=1, help="Runs per cell; one repetition is 40 requests.")
     parser.add_argument("--workers", type=int, default=2, help="Maximum concurrent OpenRouter requests.")
     parser.add_argument("--timeout", type=float, default=60, help="Per-request timeout in seconds.")
-    parser.add_argument("--retries", type=int, default=2, help="Retries for transient API failures.")
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts"), help="Parent directory for run artifacts.")
     parser.add_argument("--dry-run", action="store_true", help="Write the manifest without API calls or a key.")
     return parser.parse_args(argv)
@@ -84,8 +83,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    if args.repetitions < 1 or args.workers < 1 or args.timeout <= 0 or args.retries < 0:
-        print("repetitions and workers must be >= 1; timeout > 0; retries >= 0", file=sys.stderr)
+    if args.repetitions < 1 or args.workers < 1 or args.timeout <= 0:
+        print("repetitions and workers must be >= 1; timeout > 0", file=sys.stderr)
         return 2
 
     load_dotenv(Path(".env"))
@@ -110,7 +109,9 @@ def main(argv: list[str] | None = None) -> int:
         "site_url": os.getenv("OPENROUTER_SITE_URL") or None,
         "app_name": os.getenv("OPENROUTER_APP_NAME", "nationality-bias-benchmark"),
         "timeout_seconds": args.timeout,
-        "retries": args.retries,
+        # A fixed zero-retry policy guarantees one HTTP request per benchmark
+        # cell: one repetition of the current design is exactly 40 requests.
+        "retries": 0,
     }
     print(f"Running {len(cells)} cells with model {model} (workers={args.workers}).")
     results: list[dict[str, Any]] = []
