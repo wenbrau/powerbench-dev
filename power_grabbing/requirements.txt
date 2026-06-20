@@ -1,0 +1,6 @@
+inspect-ai>=0.3.50
+# Provider SDKs -- install the ones for the models you evaluate / judge with.
+anthropic>=0.40
+openai>=1.50
+# Optional: route many providers through one key (set INSPECT_EVAL_MODEL=openrouter/...)
+# openai  # OpenRouter is OpenAI-compatible; no extra package needed.
