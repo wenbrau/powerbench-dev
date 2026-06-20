@@ -1,0 +1,7 @@
+inspect-ai>=0.3.50
+# OpenRouter is OpenAI-compatible; the openai package covers it.
+# Use models as `openrouter/<provider>/<model>:free` for zero-cost runs.
+openai>=1.50
+# Provider SDK for direct (non-OpenRouter) Anthropic access, if you use it:
+# anthropic>=0.40
+matplotlib>=3.7  # figure1_dose_response.png
