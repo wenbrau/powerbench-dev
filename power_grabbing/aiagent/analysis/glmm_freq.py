@@ -16,7 +16,7 @@ import statsmodels.formula.api as smf
 from statsmodels.discrete.conditional_models import ConditionalLogit
 
 import os; os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
-ALL = json.load(open("experiment_full_results.json"))
+ALL = json.load(open("aiagent/data/experiment_ai_results.json"))
 DOMS = {"Rank", "Wealth", "Legal", "Epistemic", "Status", "Attentional"}
 PAIRS_LANG = [("en", "en_ai"), ("es", "es_ai"), ("zh", "zh_ai")]
 graded = lambda r: r.get("behavior") in ("comply", "partial", "refuse") and (r.get("response") or "").strip()

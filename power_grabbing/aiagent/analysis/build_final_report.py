@@ -7,7 +7,7 @@ import math
 import html
 
 import os; os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
-ALL = json.load(open("experiment_full_results.json"))
+ALL = json.load(open("aiagent/data/experiment_ai_results.json"))
 try:
     GLMM = json.load(open("aiagent/reports/glmm_freq_results.json"))
 except FileNotFoundError:
