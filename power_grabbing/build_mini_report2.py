@@ -147,7 +147,51 @@ def lang_rows():
     return "\n    ".join(out)
 
 
+def slope_chart(series, top=100):
+    """Two-column slope (English -> 中文), one line per model, labelled at right
+    with model + country flag. Right-side labels de-collide vertically."""
+    W, H = 600, 380
+    ml, mr, mt, mb = 54, 222, 18, 42
+    pw, ph = W - ml - mr, H - mt - mb
+    xl, xr = ml, ml + pw
+    yof = lambda v: mt + ph * (1 - (v * 100) / top)
+    grid = []
+    for g in range(0, top + 1, 20):
+        gy = mt + ph * (1 - g / top)
+        grid.append(f'<line x1="{ml}" y1="{gy:.1f}" x2="{xr}" y2="{gy:.1f}" stroke="#2C3140" stroke-width="1"/>')
+        grid.append(f'<text x="{ml-9}" y="{gy+4:.1f}" text-anchor="end" fill="#9A9789" font-size="11" font-family="ui-monospace,Menlo,monospace">{g}%</text>')
+    xlab = (f'<text x="{xl}" y="{H-mb+26:.0f}" text-anchor="start" fill="#E9E6DC" font-size="13">English</text>'
+            f'<text x="{xr}" y="{H-mb+26:.0f}" text-anchor="end" fill="#E9E6DC" font-size="13">中文</text>')
+    axis = (f'<line x1="{ml}" y1="{mt}" x2="{ml}" y2="{mt+ph}" stroke="#3a4150" stroke-width="1.5"/>'
+            f'<line x1="{ml}" y1="{mt+ph}" x2="{xr}" y2="{mt+ph}" stroke="#3a4150" stroke-width="1.5"/>')
+    items = [{**s, "ye": yof(s["en"]), "yz": yof(s["zh"])} for s in series]
+    # de-collide right labels around their ZH endpoint
+    order = sorted(items, key=lambda d: d["yz"])
+    gap, pos = 14.0, []
+    for it in order:
+        y = it["yz"]
+        if pos and y < pos[-1] + gap:
+            y = pos[-1] + gap
+        pos.append(y)
+    over = pos[-1] - (mt + ph) if pos else 0
+    if over > 0:
+        pos = [p - over for p in pos]
+    for it, ly in zip(order, pos):
+        it["ly"] = ly
+    paths = []
+    for s in items:
+        paths.append(f'<polyline points="{xl:.1f},{s["ye"]:.1f} {xr:.1f},{s["yz"]:.1f}" fill="none" stroke="{s["color"]}" stroke-width="2.2"/>')
+        paths.append(f'<circle cx="{xl:.1f}" cy="{s["ye"]:.1f}" r="3.4" fill="{s["color"]}"/>')
+        paths.append(f'<circle cx="{xr:.1f}" cy="{s["yz"]:.1f}" r="3.4" fill="{s["color"]}"/>')
+        paths.append(f'<line x1="{xr:.1f}" y1="{s["yz"]:.1f}" x2="{xr+8:.1f}" y2="{s["ly"]:.1f}" stroke="{s["color"]}" stroke-width="0.8" opacity="0.55"/>')
+        paths.append(f'<text x="{xr+11:.0f}" y="{s["ly"]+3.5:.1f}" fill="{s["color"]}" font-size="11">{s["label"]}</text>')
+    return (f'<svg viewBox="0 0 {W} {H}" style="width:100%;height:auto;display:block" '
+            f'font-family="-apple-system,system-ui,sans-serif">{"".join(grid)}{axis}{"".join(paths)}{xlab}</svg>')
+
+
 lang_block = lang_rows()
+slope_svg = slope_chart([{"label": f'{nm(t)} {FAMILY[t].split()[-1]}  Δ{round((LANG[t]["en"]-LANG[t]["zh"])*100):+d}',
+                          "color": COL[t], "en": LANG[t]["en"], "zh": LANG[t]["zh"]} for t in TARGETS])
 # cleanest discriminator + biggest language movers (dynamic)
 # cleanest = highest sensitivity among the low-false-positive models (fp <= 5%)
 _minfp = min(DISC[t]["fp"] for t in TARGETS)
@@ -252,6 +296,10 @@ footer {{ margin-top:44px; padding-top:18px; border-top:1px solid var(--rule); f
     <p class="lede">Sensibilidad (grabs rehusados) en inglés vs. chino, por modelo. Ordenados por <strong>tamaño del salto</strong> (Δ); la etiqueta dice hacia qué idioma se vuelve más estricto.</p>
     <div class="panel">
       {lang_block}
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <div class="mono small" style="color:var(--muted);letter-spacing:.12em;margin-bottom:12px">SENSIBILIDAD · PENDIENTE INGLÉS → CHINO POR MODELO</div>
+      {slope_svg}
     </div>
     <p class="callout">El idioma corre la aguja en <strong>direcciones opuestas</strong> según el modelo. <strong>{nm(LMOVE[0])}</strong> ({pct(LANG[LMOVE[0]]['en'])} EN vs {pct(LANG[LMOVE[0]]['zh'])} ZH) y <strong>{nm(LMOVE[1])}</strong> ({pct(LANG[LMOVE[1]]['en'])} EN vs {pct(LANG[LMOVE[1]]['zh'])} ZH) son los que más se mueven — y no siempre en la misma dirección. El resto se corre poco. <em>(n=100 grabs por idioma.)</em></p>
   </section>
