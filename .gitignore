@@ -1,5 +1,21 @@
-.DS_Store
+# --- Secrets: never commit real keys ---
+# Ignore every .env anywhere (root or any subdir), incl. variants like .env.local,
+# but ALWAYS keep the *.env.example templates so others know which keys to set.
 .env
+.env.*
+*.env
+**/.env
+**/.env.*
+!.env.example
+!*.env.example
+!**/.env.example
+
+# OS / editor cruft
+.DS_Store
+
+# Python
 __pycache__/
 *.pyc
+
+# Claude Code local state
 /.claude

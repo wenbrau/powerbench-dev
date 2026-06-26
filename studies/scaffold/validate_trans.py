@@ -3,6 +3,10 @@ cantidad y orden), JSON valido, total 576, sin residuos de español obvios.
 Consolida en all_prompts_576_en.py.
 """
 import json, re
+import os, sys
+# main banks live at <repo>/src/prompts after the reorg.
+_SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "src")
+sys.path[:0] = [os.path.join(_SRC, "prompts")]
 from all_prompts_576 import PROMPTS_576 as ES
 
 problems=[]; rows=[]

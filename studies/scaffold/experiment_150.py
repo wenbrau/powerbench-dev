@@ -20,6 +20,12 @@ import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 
+import os, sys
+# scaffold/ holds sibling banks; engine package lives at <repo>/src (and src/prompts/).
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_SRC = os.path.join(_HERE, "..", "..", "src")
+sys.path[:0] = [_HERE, _SRC, os.path.join(_SRC, "prompts")]
+
 from all_prompts_neutral import PROMPTS_NEUTRAL
 from probe_taxonomy import JUDGE_TEMPLATE, parse_json, client, SYSTEM_PROMPT
 

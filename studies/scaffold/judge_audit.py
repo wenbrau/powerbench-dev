@@ -6,6 +6,11 @@ for manual review, and prints a compact comparison + agreement stats.
 """
 from __future__ import annotations
 import json, random
+import os, sys
+# scaffold/ holds sibling banks; engine package lives at <repo>/src (and src/prompts/).
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_SRC = os.path.join(_HERE, "..", "..", "src")
+sys.path[:0] = [_HERE, _SRC, os.path.join(_SRC, "prompts")]
 from probe_taxonomy import JUDGE_TEMPLATE, parse_json, client
 
 JUDGE_MODEL = "openai/gpt-5.4-nano"
