@@ -6,8 +6,8 @@ reads no files and references no other dataset (sole exceptions: the full-design
 `cells_full_1728.json` and, for Dataset 3, the source bank — loaded by the orchestrator only).
 
 **How generation works, how to replicate it, and the design heuristics these prompts follow are
-documented in [`../METHODOLOGY.md`](../METHODOLOGY.md)** (which absorbed the former
-`DECISION_HEURISTICS.md`). A deterministic Workflow implementation of the pilot lives in
+documented in [`../METHODOLOGY.md`](../METHODOLOGY.md).** A deterministic Workflow implementation
+of the pilot lives in
 [`../build/generate_pilot.workflow.js`](../build/generate_pilot.workflow.js).
 
 | File | What it generates |

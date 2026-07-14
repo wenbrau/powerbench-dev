@@ -1,9 +1,7 @@
 # PowerBench — Metodología de generación de datasets
 
 Cómo se generan los bancos de prompts de PowerBench, por qué el proceso está diseñado así, y cómo
-replicarlo. Este documento absorbe y extiende el viejo `generation_prompts/DECISION_HEURISTICS.md`
-(sus heurísticas son el §7, misma numeración).
-Última actualización: 2026-07-14. *Traducción de [`METHODOLOGY.md`](METHODOLOGY.md) — la versión
+replicarlo. Última actualización: 2026-07-14. *Traducción de [`METHODOLOGY.md`](METHODOLOGY.md) — la versión
 en inglés es la canónica; ante cualquier discrepancia, vale la inglesa.*
 
 ---
