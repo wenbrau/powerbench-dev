@@ -4,6 +4,13 @@ Committed BEFORE the full run so analysis choices are fixed before we see result
 we estimate, the exclusion rules, and the corrections are set here; deviations go in the log at the
 bottom with a reason.
 
+> **UPDATE (18/07) — HYBRID design confirmed.** The **main balanced bank is independent / unmatched**
+> (team decision; supports H1 descriptively), AND a **dedicated matched-triplet slice is built on
+> top** (Tomi) for the causal legs — the two are generated separately and never mixed
+> (`decisiones_pendientes.md` #3, `triplet_design.md`). So **H2/H3 and §3 stay LIVE**, but run
+> ONLY on the matched slice, never on the main bank; H1/H4/H5/GLMM run on the main bank as written.
+> The matched slice is a scope addition to raise Friday (it re-adds what the team had set aside).
+
 ## 1. Primary hypotheses (directional)
 
 - **H1 (descriptive mode gradient).** Across the balanced bank (disjoint scenarios per mode),
