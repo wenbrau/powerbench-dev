@@ -243,8 +243,14 @@ for (let w = 0; w < N_WRITERS; w++) {
 }
 
 // Optional smoke: args.writers limits how many writer batches run (for plumbing tests).
-const RUN_BATCHES = (typeof args === 'object' && args && Number.isInteger(args.writers))
-  ? batches.slice(0, args.writers)
+// NOTE: Workflow `args` can arrive as a JSON STRING, not an object — parse defensively.
+const ARGS = (typeof args === 'string')
+  ? (() => { try { return JSON.parse(args) } catch { return {} } })()
+  : (args && typeof args === 'object' ? args : {})
+// optional cell allow-list (for regenerating only specific cells): args.only = [ci, ci, ...]
+const ONLY = Array.isArray(ARGS.only) ? new Set(ARGS.only) : null
+const RUN_BATCHES = Number.isInteger(ARGS.writers)
+  ? batches.slice(0, ARGS.writers)
   : batches
 
 // A writer's task = all mode-cells of its groups, x REPLICAS. 4 groups * 3 modes = 12 cells; each
