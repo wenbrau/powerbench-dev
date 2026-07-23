@@ -125,20 +125,20 @@ same binary-collapse prompt):
 
 # Step 3 — Grok full + compare (the immediate next action)
 #   smoke first (first 10 rows, auto-named) — banner should show prompts/binary_collapse.txt:
-python 3_judge/run_judge.py probe1500_target_responses.json \
+python 3_judge/old_judges/run_judge.py probe1500_target_responses.json \
   --in-dir data_regrade/probe --grader x-ai/grok-4.3 --effort high --limit 10
 #   then the full 1,500-row run:
-python 3_judge/run_judge.py probe1500_target_responses.json \
+python 3_judge/old_judges/run_judge.py probe1500_target_responses.json \
   --in-dir data_regrade/probe --grader x-ai/grok-4.3 --effort high
 #   -> writes data_regrade/3_judged/grade_probe1500_target_responses_by_x-ai_grok-4.3_<ts>.json
 python 4_analysis/compare_judges.py \
   <grok regrade file> --baseline data_regrade/3_judged/grade_probe1500_nano_binary.json
 
 # Step 4 — nano + minimal
-python 3_judge/run_judge.py probe1500_target_responses.json \
+python 3_judge/old_judges/run_judge.py probe1500_target_responses.json \
   --in-dir data_regrade/probe --grader openai/gpt-5.4-nano --prompt-file 3_judge/prompts/minimal.txt --effort high
 
 # Step 5 — zh prompt (nano, then glm)
-python 3_judge/run_judge.py probe1500_target_responses.json \
+python 3_judge/old_judges/run_judge.py probe1500_target_responses.json \
   --in-dir data_regrade/probe --grader openai/gpt-5.4-nano --prompt-file 3_judge/prompts/binary_collapse_zh.txt --effort high
 ```

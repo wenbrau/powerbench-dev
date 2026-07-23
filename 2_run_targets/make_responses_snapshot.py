@@ -8,7 +8,7 @@ judged file and dropping the judge-added fields. It is idempotent; re-run it
 whenever ``data/3_judged/`` changes.
 
 Going forward the stages are decoupled and this script is not needed: a target
-runner writes ``data/2_responses/`` directly, then ``3_judge/run_judge.py``
+runner writes ``data/2_responses/`` directly, then ``3_judge/old_judges/run_judge.py``
 grades those into ``data/3_judged/``. This file exists to backfill the responses
 for the historical runs we already paid for and won't re-run.
 

@@ -41,7 +41,7 @@ verdict straight onto the answer record), so for them `3_judged/` is the real
 artifact and `2_responses/` was regenerated backwards by
 [`../2_run_targets/make_responses_snapshot.py`](../2_run_targets/make_responses_snapshot.py).
 Going forward the stages are **decoupled**: a target runner writes `2_responses/`
-directly, then [`../3_judge/run_judge.py`](../3_judge/run_judge.py) grades it into
+directly, then [`../3_judge/old_judges/run_judge.py`](../3_judge/old_judges/run_judge.py) grades it into
 `3_judged/` — so you can re-judge without re-running the targets.
 
 ## The datasets

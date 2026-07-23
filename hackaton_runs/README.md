@@ -41,7 +41,7 @@ Don't add new all-in-one runners. Instead split the two stages so judging is che
 to repeat (this is what the multi-judge work needs):
 
 1. **Target only →** write `data/2_responses/<name>.json` (answers, no verdict).
-2. **Judge →** [`../3_judge/run_judge.py`](../3_judge/run_judge.py) reads that
+2. **Judge →** [`../3_judge/old_judges/run_judge.py`](../3_judge/old_judges/run_judge.py) reads that
    file and writes `data/3_judged/<name>.json`. Re-judging (different model /
    prompt / effort) never re-queries the targets.
 

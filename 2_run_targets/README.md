@@ -3,7 +3,7 @@
 This is where the **target-only** runners belong: scripts that query a target
 model and write its raw answers to `data/2_responses/<name>.json` (the design
 coordinates + prompt + response, **no** judge verdict). Judging is a separate
-stage — [`../3_judge/run_judge.py`](../3_judge/run_judge.py) reads those response
+stage — [`../3_judge/old_judges/run_judge.py`](../3_judge/old_judges/run_judge.py) reads those response
 files and writes `data/3_judged/<name>.json`. Keeping the two apart is what lets
 us re-judge (different judge model / prompt / effort) without re-paying for the
 target calls — the foundation for the multi-judge work.
@@ -11,7 +11,7 @@ target calls — the foundation for the multi-judge work.
 > **There are no target-only runners here yet.** The runs done so far used the
 > coupled, all-in-one scripts in [`../hackaton_runs/`](../hackaton_runs/), which
 > query the target **and** judge it in one pass. New runs should follow the
-> decoupled pattern (target → `data/2_responses/`, then `3_judge/run_judge.py`).
+> decoupled pattern (target → `data/2_responses/`, then `3_judge/old_judges/run_judge.py`).
 
 ## `make_responses_snapshot.py` — legacy backfill
 

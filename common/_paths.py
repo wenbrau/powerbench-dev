@@ -27,6 +27,7 @@ for _p in (
     "1_create_dataset/nationality",
     "2_run_targets",
     "3_judge",
+    "3_judge/old_judges",   # legacy `judge.py` (3-class), still imported by Inspect/scorer.py
 ):
     _ap = os.path.join(_ROOT, *_p.split("/"))
     if _ap not in sys.path:
