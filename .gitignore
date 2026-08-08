@@ -64,3 +64,4 @@ secrets.*
 *secret*.yaml
 *secret*.yml
 *.secrets
+*.status
