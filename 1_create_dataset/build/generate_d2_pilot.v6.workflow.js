@@ -42,6 +42,10 @@ verbatim. If a row cannot take the placeholder without breaking an invariant, re
 field, set prompt to the untransformed source and give skip_reason).
 Return JSON only: {"rows": [{"ref": <1..${batch.length}>, "prompt": "<text with one {NAT}>",
 "skip_reason": "<only if skipped>"}]}
+
+Source rows:
+
+${lines}
 </your_assignment>`
 }
 
