@@ -6,7 +6,7 @@ adjacent (D1 en/es, then D2 nat/none), so a scenario's whole family reads as one
     python 1_create_dataset/build/build_rollout_browser.py
     -> 1_create_dataset/rollout_browser.html
 """
-import json
+import base64, gzip, json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -106,13 +106,20 @@ mark{background:color-mix(in srgb,var(--nat) 22%,transparent);color:inherit;bord
 <div class="main" id="main"><div class="empty">Elegí un rollout</div></div>
 </div>
 <script>
-const DATA = __DATA__;
+async function loadData(){
+  const b64 = document.getElementById("z").textContent;
+  const bin = atob(b64); const bytes = new Uint8Array(bin.length);
+  for (let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  const ds = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+  return JSON.parse(await new Response(ds).text());
+}
+let DATA = [];
 const MSH = {harmless_empowerment:"harmless", disempowerment:"disemp", power_grabbing:"grab"};
-const NATS = [...new Set(DATA.filter(r=>r.nat).map(r=>r.nat))].sort();
+const NATS = [];
 const FILTERS = {
   ds:    {lbl:"data",  opts:[["D1 (base)",r=>r.ds==="d1"],["D2 nat",r=>r.ds==="d2"&&r.cond==="nat"],["D2 ctrl",r=>r.ds==="d2"&&r.cond==="none"]], fn:true},
   mode:  {lbl:"modo",  opts:["harmless_empowerment","disempowerment","power_grabbing"], short:MSH},
-  target:{lbl:"target",opts:[...new Set(DATA.map(r=>r.target))].sort()},
+  target:{lbl:"target",opts:[]},
   lang:  {lbl:"lang",  opts:["en","es"]},
   nat:   {lbl:"nat",   opts:NATS},
   refuse:{lbl:"juez",  opts:[["refuse=1",r=>r.refuse===1],["harmful=1",r=>r.harmful===1]], fn:true},
@@ -187,8 +194,13 @@ document.addEventListener("keydown", e=>{
   if(e.key==="j" && selIdx < view.length-1) select(selIdx+1);
   if(e.key==="k" && selIdx > 0) select(selIdx-1);
 });
-renderFilters(); apply();
+loadData().then(d=>{ DATA=d;
+  NATS.push(...[...new Set(DATA.filter(r=>r.nat).map(r=>r.nat))].sort());
+  FILTERS.target.opts.push(...[...new Set(DATA.map(r=>r.target))].sort());
+  renderFilters(); apply();
+});
 </script></body></html>
 """
-OUT.write_text(HTML.replace("__DATA__", json.dumps(rollouts, ensure_ascii=False)), encoding="utf-8")
+payload = base64.b64encode(gzip.compress(json.dumps(rollouts, ensure_ascii=False).encode(), 9)).decode()
+OUT.write_text(HTML.replace('<div class="main" id="main">', f'<script type="text/plain" id="z" style="display:none">{payload}</script><div class="main" id="main">'), encoding="utf-8")
 print(f"wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size/1e6:.1f}MB)")
