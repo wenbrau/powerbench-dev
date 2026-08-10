@@ -57,12 +57,6 @@ header h1{font-size:15px;margin:0}
 header .n{color:var(--ink2);font-size:12.5px}
 .app{flex:1;display:flex;min-height:0}
 .side{width:410px;flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
-.filters{padding:8px 10px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:5px;max-height:44vh;overflow-y:auto}
-.frow{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
-.frow .lbl{font-size:10.5px;color:var(--ink3);width:44px;flex:none;text-transform:uppercase;letter-spacing:.04em}
-.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:12px;
-  padding:2px 9px;font-size:11.5px;cursor:pointer;user-select:none}
-.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
 #q{margin:8px 10px 0;padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);
   color:var(--ink);font-size:13px;width:calc(100% - 20px)}
 .list{flex:1;overflow-y:auto}
@@ -79,6 +73,19 @@ header .n{color:var(--ink2);font-size:12.5px}
 .tag.H{color:#fff;background:var(--grab)}
 .tag.ds{color:var(--ink2);background:var(--bg);border:1px solid var(--line)}
 .tag.nat{color:var(--nat);background:color-mix(in srgb,var(--nat) 12%,transparent)}
+.dims{display:flex;gap:6px;flex-wrap:wrap;padding:8px 10px;border-bottom:1px solid var(--line)}
+.msdd{position:relative}
+.msdd>button{border:1px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:8px;
+  padding:5px 10px;font-size:12px;cursor:pointer;display:flex;gap:6px;align-items:center}
+.msdd>button.has{border-color:var(--accent);color:var(--accent);font-weight:600}
+.msdd>button .car{font-size:9px;opacity:.7}
+.msdd-panel{position:absolute;top:calc(100% + 4px);left:0;z-index:20;min-width:190px;background:var(--surface);
+  border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.14);padding:6px;display:none}
+.msdd.open .msdd-panel{display:block}
+.msdd-panel label{display:flex;gap:8px;align-items:center;padding:4px 8px;border-radius:6px;font-size:12.5px;cursor:pointer}
+.msdd-panel label:hover{background:var(--bg)}
+.msdd-panel .acts{display:flex;gap:8px;padding:4px 8px 2px;border-top:1px solid var(--line);margin-top:4px}
+.msdd-panel .acts span{font-size:11px;color:var(--accent);cursor:pointer}
 .main{flex:1;overflow-y:auto;min-width:0}
 .meta{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 18px;
   display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12.5px;z-index:2}
@@ -100,7 +107,7 @@ mark{background:color-mix(in srgb,var(--nat) 22%,transparent);color:inherit;bord
 <div class="app">
 <div class="side">
   <input id="q" placeholder="buscar en prompt + respuesta…">
-  <div class="filters" id="filters"></div>
+  <div class="dims" id="dims"></div>
   <div class="list" id="list"></div>
 </div>
 <div class="main" id="main"><div class="empty">Elegí un rollout</div></div>
@@ -115,34 +122,53 @@ async function loadData(){
 }
 let DATA = [];
 const MSH = {harmless_empowerment:"harmless", disempowerment:"disemp", power_grabbing:"grab"};
-const NATS = [];
 const FILTERS = {
-  ds:    {lbl:"data",  opts:[["D1 (base)",r=>r.ds==="d1"],["D2 nat",r=>r.ds==="d2"&&r.cond==="nat"],["D2 ctrl",r=>r.ds==="d2"&&r.cond==="none"]], fn:true},
-  mode:  {lbl:"modo",  opts:["harmless_empowerment","disempowerment","power_grabbing"], short:MSH},
-  target:{lbl:"target",opts:[]},
-  lang:  {lbl:"lang",  opts:["en","es"]},
-  nat:   {lbl:"nat",   opts:NATS},
-  refuse:{lbl:"juez",  opts:[["refuse=1",r=>r.refuse===1],["harmful=1",r=>r.harmful===1]], fn:true},
+  ds:      {lbl:"dataset", opts:[["D1 (base)",r=>r.ds==="d1"],["D2 nat",r=>r.ds==="d2"&&r.cond==="nat"],["D2 ctrl",r=>r.ds==="d2"&&r.cond==="none"]], fn:true},
+  mode:    {lbl:"modo",    opts:["harmless_empowerment","disempowerment","power_grabbing"], short:MSH},
+  domain:  {lbl:"domain",  opts:["Attentional","Epistemic","Health","Legal","Physical","Rank","Status","Wealth"]},
+  context: {lbl:"context", opts:["Academia","Diplomacy","Fiction","Government","Interpersonal","Markets","Media","Work"]},
+  scale:   {lbl:"scale",   opts:["individual","group","society"]},
+  standing:{lbl:"standing",opts:["low","med","high"]},
+  target:  {lbl:"target",  opts:[]},
+  lang:    {lbl:"lang",    opts:["en","es"]},
+  nat:     {lbl:"nat",     opts:[]},
+  refuse:  {lbl:"juez",    opts:[["refuse=1",r=>r.refuse===1],["refuse=0",r=>r.refuse===0],["harmful=1",r=>r.harmful===1]], fn:true},
 };
 const state = {q:""}; for(const k in FILTERS) state[k]=new Set();
 let view = [], selIdx = -1;
 
 function renderFilters(){
-  const el = document.getElementById("filters"); el.innerHTML = "";
+  const el = document.getElementById("dims"); el.innerHTML = "";
   for(const [key,f] of Object.entries(FILTERS)){
-    const row = document.createElement("div"); row.className="frow";
-    row.innerHTML = `<span class="lbl">${f.lbl}</span>`;
-    f.opts.forEach(o=>{
+    const dd = document.createElement("div"); dd.className="msdd"; dd.dataset.k=key;
+    const n = state[key].size;
+    const optRow = o=>{
       const val = f.fn ? o[0] : o;
-      const lab = f.fn ? o[0] : (f.short ? f.short[o] : val);
-      const c = document.createElement("span");
-      c.className = "chip"+(state[key].has(val)?" on":""); c.textContent = lab;
-      c.onclick = ()=>{ state[key].has(val)?state[key].delete(val):state[key].add(val); renderFilters(); apply(); };
-      row.appendChild(c);
-    });
-    el.appendChild(row);
+      const lab = f.fn ? o[0] : (f.short ? f.short[o] : o);
+      return `<label><input type="checkbox" data-v="${val}" ${state[key].has(val)?"checked":""}> ${lab}</label>`;
+    };
+    dd.innerHTML = `<button class="${n?"has":""}">${f.lbl}${n?` (${n})`:""} <span class="car">▾</span></button>
+      <div class="msdd-panel">${f.opts.map(optRow).join("")}
+        <div class="acts"><span data-act="all">todos</span><span data-act="none">ninguno</span></div>
+      </div>`;
+    dd.querySelector("button").onclick = e=>{ e.stopPropagation();
+      const was = dd.classList.contains("open");
+      document.querySelectorAll(".msdd.open").forEach(x=>x.classList.remove("open"));
+      if(!was) dd.classList.add("open"); };
+    dd.querySelector(".msdd-panel").onclick = e=>{
+      e.stopPropagation();
+      const cb = e.target.closest("input[type=checkbox]");
+      const act = e.target.closest("[data-act]");
+      if(cb){ cb.checked ? state[key].add(cb.dataset.v) : state[key].delete(cb.dataset.v); }
+      else if(act){ state[key] = new Set(act.dataset.act==="all" ? f.opts.map(o=>f.fn?o[0]:o) : []); }
+      else return;
+      renderFilters(); apply();
+      document.querySelector(`.msdd[data-k="${key}"]`)?.classList.add("open");
+    };
+    el.appendChild(dd);
   }
 }
+document.addEventListener("click", ()=>document.querySelectorAll(".msdd.open").forEach(x=>x.classList.remove("open")));
 function apply(){
   const q = state.q.toLowerCase();
   view = DATA.filter(r=>{
@@ -195,8 +221,8 @@ document.addEventListener("keydown", e=>{
   if(e.key==="k" && selIdx > 0) select(selIdx-1);
 });
 loadData().then(d=>{ DATA=d;
-  NATS.push(...[...new Set(DATA.filter(r=>r.nat).map(r=>r.nat))].sort());
-  FILTERS.target.opts.push(...[...new Set(DATA.map(r=>r.target))].sort());
+  FILTERS.nat.opts = [...new Set(DATA.filter(r=>r.nat).map(r=>r.nat))].sort();
+  FILTERS.target.opts = [...new Set(DATA.map(r=>r.target))].sort();
   renderFilters(); apply();
 });
 </script></body></html>
