@@ -65,3 +65,8 @@ secrets.*
 *secret*.yml
 *.secrets
 *.status
+
+# PyMC posteriors: regenerable with 4_analysis/bayes_v6*.py, ~1.7GB, several over GitHub 100MB limit
+4_analysis/bayes/*.nc
+.playwright-mcp/
+*.png
