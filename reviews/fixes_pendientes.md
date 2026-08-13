@@ -120,3 +120,37 @@ el ruido de medición es el limitante principal (κ test-retest 0,537).
   "confirma". Guardas de eventos mínimos en todo test automático.
 - **Con 3 grupos no se estima una varianza**: el efecto aleatorio sobre targets no es
   identificable; para comparar modelos, efectos fijos.
+
+---
+
+## Piloto de aleatorización de escritores — resultado (13/08)
+
+Se regeneraron las 144 celdas del piloto con **asignación aleatoria seedeada** (1 escenario por
+celda, EN, misma spec v6) y se corrieron contra los mismos 3 targets. Comparación contra el piloto
+original (stride), restringido a réplica 1 EN para que el n y las celdas coincidan: 432 filas cada uno.
+
+| | rango entre escritores | SD | global |
+|---|---|---|---|
+| stride (piloto) | 0,0% – 16,7% | 5,57 pp | 9,0% |
+| aleatorio | 0,0% – 22,2% | 8,08 pp | 9,7% |
+
+**El efecto de escritor no desaparece al aleatorizar** — si hubiera sido composición de celdas,
+tendría que haberse encogido. El modelo jerárquico con escritor y celda como efectos aleatorios da
+SD de escritor 0,33 [0, 0,95] en el stride contra **0,92 [0, 2,16]** en el aleatorio.
+
+**Pero el test de permutación dice que ninguno de los dos supera el azar.** Permutando las etiquetas
+de escritor entre celdas 20.000 veces: stride p=0,49, aleatorio p=0,17. Con 12 escritores y 4 celdas
+cada uno, la dispersión observada es la que produce el muestreo, y no hay evidencia de que los
+escritores difieran de verdad.
+
+**Conclusión operativa:** el fix es correcto y hay que mantenerlo —la aleatorización es lo que
+vuelve la pregunta *contestable*, y sin ella el efecto no era ni siquiera estimable—, pero **el
+efecto de escritor no está demostrado**. Lo que este piloto compra es saber que con 12 escritores
+no hay potencia para detectarlo; el banco completo, con muchos más escritores y celdas por escritor,
+sí la va a tener. Y hasta entonces, la afirmación "las tasas van de 1,4% a 16,7% entre escritores"
+que quedó en commits anteriores **es dispersión de muestreo, no un efecto** — corregido acá.
+
+*Caveat del diseño:* los dos bancos son generaciones distintas, así que el contraste stride-vs-
+aleatorio mezcla asignación con pasada de generación (la SD de celda también sube, 1,61 → 2,67).
+Es inherente: no se puede reasignar escritores sin regenerar. El test de permutación es interno a
+cada banco y no arrastra ese problema, y es el que manda.
