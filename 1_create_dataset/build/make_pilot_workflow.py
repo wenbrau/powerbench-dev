@@ -349,8 +349,8 @@ return {
 '''
 
 
-def build_cells():
-    design = json.loads((ROOT / "1_create_dataset/subsets/design144_combos.json").read_text(encoding="utf-8"))
+def build_cells(design_file="design144_combos.json"):
+    design = json.loads((ROOT / "1_create_dataset/subsets" / design_file).read_text(encoding="utf-8"))
     modes = design["modes"]
     lines = []
     for domain, context, scale, standing in design["groups"]:
@@ -365,6 +365,8 @@ def main():
     ap.add_argument("--spec", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--name", default=None)
+    ap.add_argument("--design", default="design144_combos.json",
+                    help="file under 1_create_dataset/subsets/ providing groups+modes")
     a = ap.parse_args()
 
     spec_path = Path(a.spec)
@@ -374,7 +376,7 @@ def main():
     name = a.name or f"gen-dataset1-pilot-144-{tag}"
 
     js = (JS_TEMPLATE
-          .replace("%%CELLS%%", build_cells())
+          .replace("%%CELLS%%", build_cells(a.design))
           .replace("%%SPEC%%", json.dumps(spec))
           .replace("%%TRANSLATION%%", json.dumps(TRANSLATION))
           .replace("%%SPEC_PATH%%", spec_path.as_posix())
