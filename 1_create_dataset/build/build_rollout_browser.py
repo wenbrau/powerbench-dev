@@ -81,61 +81,38 @@ for r in opt(B / "gen2_144_run_results.jsonl"):
     if r["id"] in bankg:
         rollouts.append(row("gen2", r, bankg[r["id"]], gen="gpt-5.4"))
 
-ORDER = {"d1": 0, "d2": 1, "d3": 2, "dy": 3, "gen2": 4}
-rollouts.sort(key=lambda r: (str(r["pair"]), ORDER[r["ds"]], r["lang"],
-                             r.get("cond") or "", r["target"]))
-n = {k: sum(1 for r in rollouts if r["ds"] == k) for k in ORDER}
-print(f"{len(rollouts)} rollouts — " + " · ".join(f"{k} {v}" for k, v in n.items() if v))
-
-# ---- the regenerated 576 bank, 6 targets, en+es. Its own browser file: 6,912 rows is too much to
-# fold into the pilot file, and it is the current data, so it reads best on its own.
-full576 = []
+# ---- the regenerated 576 bank (6 targets, en+es) plus its two derived studies.
 for r in opt(B / "full576_6models_run_results.jsonl"):
     p = bank576.get(r["id"])
     if p:
-        full576.append(row("d1_576", r, p))
-
-# ---- D4 (illicit means) and D5 (institutional beneficiary) share the 576 browser file. Both are
-# derived from D1, so they cluster with the 576 rows they extend.
+        rollouts.append(row("d1_576", r, p))
 for r in opt(B / "d4_illicit_run_results.jsonl"):
     m = bank4.get(r["id"])
     if m:
-        full576.append(row("d4", r, m["prompt"], form=m.get("form"), gen=m.get("generator")))
+        rollouts.append(row("d4", r, m["prompt"], form=m.get("form"), gen=m.get("generator")))
 for r in opt(B / "d5_institutional_run_results.jsonl"):
     m = bank5.get(r["id"])
     if m:
-        full576.append(row("d5", r, m["prompt"], arm=m.get("arm"),
+        rollouts.append(row("d5", r, m["prompt"], arm=m.get("arm"),
                            nat=m.get("inst_nationality"), inst=m.get("institution"),
                            gen=m.get("generator")))
-# cap the long tail so the combined file stays under the artifact ceiling (D1_576 p90 ~5.9k;
-# 4k keeps most whole). Applied to every dataset in this file, D4/D5 included.
-F576_CAP = 4000
-for r in full576:
-    resp = r["response"] or ""
-    if len(resp) > F576_CAP:
-        r["response"], r["cut"] = resp[:F576_CAP], len(resp)
-full576.sort(key=lambda r: ({"d1_576": 0, "d4": 1, "d5": 2}.get(r["ds"], 3),
-                            str(r["pair"]), r["lang"], r.get("form") or r.get("arm") or "",
-                            r["target"]))
-n576 = {k: sum(1 for r in full576 if r["ds"] == k) for k in ("d1_576", "d4", "d5")}
-print(f"{len(full576)} rollouts en el archivo 576 — " + " · ".join(
-    f"{k} {v}" for k, v in n576.items() if v))
 
-# The whole corpus is 66 MB of response text, which lands at ~32 MB once gzipped and base64'd —
-# over what an artifact will host. It splits along a natural seam. The dyads are 45 MB of that 66
-# and are the most redundant rows in the set by construction: the same scenario answered eleven
-# times with one demonym swapped, so the responses are near-identical to each other. They get their
-# own file, with responses capped, while the datasets you actually read side by side keep theirs
-# whole.
-DY_CAP = 2500
-MAIN = {"d1", "d2", "d3", "gen2"}
-main_rows = [r for r in rollouts if r["ds"] in MAIN]
-dyad_rows = []
-for r in (x for x in rollouts if x["ds"] == "dy"):
+# ---- ONE browser for everything. The eight datasets are ~32k rollouts; embedding every full
+# response would be huge, so responses are capped (the decision is legible well inside the cap; the
+# original length is shown and the cut is marked). The dyads are 44% of the rows and the most
+# redundant (same scenario, one demonym swapped), so they get a tighter cap than the datasets you
+# actually read end to end.
+ORDER = {"d1": 0, "d2": 1, "d3": 2, "dy": 3, "gen2": 4, "d1_576": 5, "d4": 6, "d5": 7}
+CAP = {"dy": 900}
+for r in rollouts:
+    cap = CAP.get(r["ds"], 2400)
     resp = r["response"] or ""
-    if len(resp) > DY_CAP:
-        r = {**r, "response": resp[:DY_CAP], "cut": len(resp)}
-    dyad_rows.append(r)
+    if len(resp) > cap:
+        r["response"], r["cut"] = resp[:cap], len(resp)
+rollouts.sort(key=lambda r: (ORDER[r["ds"]], str(r["pair"]), r["lang"],
+                             r.get("cond") or r.get("form") or r.get("arm") or "", r["target"]))
+n = {k: sum(1 for r in rollouts if r["ds"] == k) for k in ORDER}
+print(f"{len(rollouts)} rollouts — " + " · ".join(f"{k} {v}" for k, v in n.items() if v))
 
 HTML = """<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -360,16 +337,4 @@ def write(path, rows, title):
           + ("   ⚠ pasa los 16MB de un artifact" if mb > 16 else ""))
 
 
-write(OUT, main_rows, "PowerBench — rollout browser (v6)")
-write(OUT.with_name("rollout_browser_dyads.html"), dyad_rows,
-      "PowerBench — rollout browser · diadas")
-# split the 576 file: D1 (canonical, whole) on its own; D4+D5 (derived studies) together, so
-# neither file crosses the artifact ceiling.
-d1_576 = [r for r in full576 if r["ds"] == "d1_576"]
-d4d5 = [r for r in full576 if r["ds"] in ("d4", "d5")]
-if d1_576:
-    write(OUT.with_name("rollout_browser_576.html"), d1_576,
-          "PowerBench — rollout browser · banco 576 (6 modelos)")
-if d4d5:
-    write(OUT.with_name("rollout_browser_d4d5.html"), d4d5,
-          "PowerBench — rollout browser · D4 medios ilícitos + D5 institucional")
+write(OUT, rollouts, "PowerBench — rollout browser")
