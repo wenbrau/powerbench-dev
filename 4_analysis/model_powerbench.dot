@@ -1,0 +1,56 @@
+// PowerBench — the STATISTICAL model, drawn as a Kruschke-style diagram of what is estimated.
+//
+// This is the second of two graphs. dag_powerbench.dot says how the data came to be; this one says
+// what we fit to it. Every box below appears in bayes_cross_dataset.py, and every coordinate that
+// is NOT here is listed at the bottom with the reason it was left out -- an omission is a modelling
+// claim and gets stated like one.
+digraph model {
+  rankdir=TB;
+  graph [fontname="Helvetica", fontsize=11, labelloc="t", nodesep=0.3, ranksep=0.5,
+         label="Multilevel logistic model of refusal (McElreath ch. 11-14)"];
+  node  [fontname="Helvetica", fontsize=10, shape=box, style="rounded,filled", fillcolor="#f4f4f5",
+         color="#71717a"];
+  edge  [fontname="Helvetica", fontsize=9, color="#52525b"];
+
+  // ---------- likelihood ----------
+  subgraph cluster_lik {
+    label="likelihood"; color="#a1a1aa"; style=dashed; fontsize=10;
+    Y   [fillcolor="#d9f99d", label="refuse_i ~ Bernoulli(p_i)"];
+    LOGIT [fillcolor="#ecfccb", label="logit(p_i) = ᾱ + α_target + α_cell + α_dataset\n+ β_mode + γ_target×mode + β_means\n+ β_scale + β_standing + β_lang + β_judge"];
+    LOGIT -> Y;
+  }
+
+  // ---------- varying (partially pooled) effects ----------
+  subgraph cluster_vary {
+    label="varying effects — partial pooling (ch. 13)"; color="#0ea5e9"; style=dashed; fontsize=10;
+    AT [fillcolor="#e0f2fe", label="α_target[13 models]\n~ Normal(0, σ_target)"];
+    AC [fillcolor="#e0f2fe", label="α_cell[64 = domain×context]\n~ Normal(0, σ_cell)"];
+    AD [fillcolor="#e0f2fe", label="α_dataset[18 banks]\n~ Normal(0, σ_dataset)"];
+    GTM[fillcolor="#bae6fd", label="γ_target×mode\nvarying slopes, LKJ(2) (ch. 14)"];
+    SIG[fillcolor="#f0f9ff", label="σ_target, σ_cell, σ_dataset, σ_tm\n~ Exponential(1)"];
+    SIG -> AT; SIG -> AC; SIG -> AD; SIG -> GTM;
+  }
+
+  // ---------- fixed (index-coded) effects ----------
+  subgraph cluster_fixed {
+    label="index-coded effects — the estimands (ch. 5, 11)"; color="#f59e0b"; style=dashed; fontsize=10;
+    BM [fillcolor="#fef3c7", label="β_mode[3]  ~ Normal(0, 0.5)\nthe power-structure contrast"];
+    BK [fillcolor="#fef3c7", label="β_means[5]  ~ Normal(0, 0.5)\nroute legitimacy"];
+    BX [fillcolor="#fffbeb", label="β_scale[3], β_standing[3], β_lang[8]\n~ Normal(0, 0.5)"];
+    BJ [fillcolor="#fed7aa", label="β_judge[2]  ~ Normal(0, 0.5)\nera / judge offset — index, NOT varying"];
+    A  [fillcolor="#fef3c7", label="ᾱ ~ Normal(0, 1.5)\ngrand mean on the logit scale"];
+  }
+
+  AT -> LOGIT; AC -> LOGIT; AD -> LOGIT; GTM -> LOGIT;
+  BM -> LOGIT; BK -> LOGIT; BX -> LOGIT; BJ -> LOGIT; A -> LOGIT;
+
+  // ---------- deliberate omissions ----------
+  subgraph cluster_out {
+    label="deliberately NOT in the model"; color="#dc2626"; style=dashed; fontsize=10;
+    O1 [fillcolor="#fee2e2", label="ask-form, length, harm-vocab, severity\nPOST-TREATMENT (ch. 6.2): they are caused by\nmode via the writer. Conditioning on them\nestimates a direct effect, not the total effect."];
+    O2 [fillcolor="#fee2e2", label="writer\nALIASED with dataset in 15 of 18 banks\n(one writer per bank) — not separately\nidentified. Estimated only in the sub-design\nwhere writer is crossed with cells."];
+    O3 [fillcolor="#fee2e2", label="nationality\nPresent in 5 banks only. Including it would\nsilently restrict the pooled fit to those rows.\nFitted as its own stratified model."];
+    O4 [fillcolor="#fee2e2", label="harmful, premise_reject, resp_len\nOUTCOMES, not predictors."];
+    O5 [fillcolor="#fee2e2", label="judge as a varying effect\nOnly 2 levels — σ cannot be learned from\ntwo clusters (ch. 13). Index-coded instead."];
+  }
+}
