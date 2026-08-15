@@ -186,7 +186,8 @@ blob = base64.b64encode(gzip.compress(json.dumps(payload, ensure_ascii=False).en
 LANG_NAME = {"en": "English", "es": "Spanish", "de": "German", "fr": "French", "hi": "Hindi",
              "pt": "Portuguese", "sw": "Swahili", "zh": "Chinese"}
 
-HTML = r"""<title>PowerBench Translations</title>
+HTML = r"""<meta charset="utf-8">
+<title>PowerBench Translations</title>
 <style>
 :root{--bg:#FAFAFB;--surface:#fff;--ink:#16181D;--ink2:#3D4450;--ink3:#6B7280;--line:#E3E5EA;
   --navy:#1F3A5F;--grab:#C2610C;--emp:#2563EB;--src:#0D7A68}
@@ -428,7 +429,8 @@ const D=JSON.parse(new TextDecoder().decode(
 </script>""", """<script id="data" type="application/octet-stream">__DATA__</script>""")
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
-OUT.write_text(HTML.replace("__DATA__", blob).replace("__NAMES__", json.dumps(LANG_NAME)))
+OUT.write_text(HTML.replace("__DATA__", blob).replace("__NAMES__", json.dumps(LANG_NAME)),
+                   encoding="utf-8")
 size = OUT.stat().st_size
 print(f"-> {OUT.relative_to(ROOT)}  {size/1e6:.2f} MB  "
       f"({len(rows)} cells, languages {', '.join(langs_present)})")

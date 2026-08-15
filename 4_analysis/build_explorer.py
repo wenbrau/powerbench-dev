@@ -48,7 +48,8 @@ def main():
                "n_rows": int(d.shape[0]), "n_cells": len(rows)}
     blob = json.dumps(payload, separators=(",", ":"))
 
-    html = r"""<title>PowerBench Pivot</title>
+    html = r"""<meta charset="utf-8">
+<title>PowerBench Pivot</title>
 <style>
 :root{--bg:#FAFAFB;--surface:#fff;--ink:#16181D;--ink2:#3D4450;--ink3:#6B7280;--line:#E3E5EA;
   --navy:#1F3A5F;--grab:#C2610C;--emp:#2563EB;--ok:#0D7A68;--hot:#A6432C;--chipbg:#EEF1F6}
@@ -331,7 +332,7 @@ el('preset').onchange=e=>{
 drawShelves();drawFilters();render();
 </script>
 """
-    OUT.write_text(html.replace("__DATA__", blob))
+    OUT.write_text(html.replace("__DATA__", blob), encoding="utf-8")
     print(f"-> {OUT.relative_to(ROOT)}  ({len(rows):,} coordinate cells, "
           f"{len(blob)/1024:.0f} KB payload, {payload['n_rows']:,} responses)")
 

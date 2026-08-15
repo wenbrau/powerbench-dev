@@ -211,7 +211,8 @@ footer{border-top:1px solid var(--line); margin-top:60px; padding:20px 0 90px; f
 
 MODEL_ORDER = sorted(f576["rates_by_target"].items(), key=lambda kv: -kv[1]["power_grabbing"])
 
-html = f"""<title>PowerBench Results</title>
+html = f"""<meta charset="utf-8">
+<title>PowerBench Results</title>
 {CSS}
 <header class="masthead"><div class="wrap">
   <p class="eyebrow">PowerBench · results compendium · 15 Aug 2026</p>
@@ -1077,5 +1078,5 @@ _toc = "".join(f'<a href="#{sid}">{i:02d} · {t}</a>' for i, (sid, t) in enumera
 html = _re.sub(r'<div class="toc">.*?</div>', f'<div class="toc">{_toc}</div>', html,
                count=1, flags=_re.S)
 
-OUT.write_text(html)
+OUT.write_text(html, encoding="utf-8")
 print(f"wrote {len(html):,} chars, {len(_secs)} sections -> {OUT}")
