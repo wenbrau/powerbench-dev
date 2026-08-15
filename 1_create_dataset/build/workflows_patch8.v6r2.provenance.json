@@ -1,0 +1,51 @@
+{
+  "artifact": "D2/D3 full-bank transformation workflows, sourced from D1 v6r",
+  "bank": {
+    "file": "1_create_dataset/build/dataset1_full_576.v6r2.jsonl",
+    "sha256": "96dbe1e36adadd340be099b3f0dd646a487a1e2e71346c21a219a8f48b25b298",
+    "rows": 1152
+  },
+  "jobs": {
+    "d2": {
+      "spec": {
+        "file": "1_create_dataset/generation_prompts/dataset2_full.v6.md",
+        "sha256": "307821b4356c8776af96841ddcb40b69572b92b9e97131d3b6abbc032da2ee6f",
+        "blocks": [
+          "dimensions",
+          "transformation",
+          "fiction_inclusion"
+        ]
+      },
+      "template": {
+        "file": "1_create_dataset/build/generate_d2_pilot.v6.workflow.js",
+        "sha256": "ca2139cf3d5fc8c063d38fee02ca69ea4d1665d9196f200f0988a38f006c93c9"
+      },
+      "out": "1_create_dataset/build/generate_d2_patch8.v6r2.workflow.js",
+      "source_rows": 8,
+      "batch": 36,
+      "batches": 1
+    },
+    "d3": {
+      "spec": {
+        "file": "1_create_dataset/generation_prompts/dataset3_full.v6.md",
+        "sha256": "432c7c79c811d2ba88808c464685a08680d55a8863e3c63754c996c349b440e2",
+        "blocks": [
+          "dimensions",
+          "transformation",
+          "domains_included"
+        ]
+      },
+      "template": {
+        "file": "1_create_dataset/build/generate_d3_pilot.v6.workflow.js",
+        "sha256": "098439512024a23d874e9702cdd4e77f337ec582522b50ba3f464e6c7e11c1b3"
+      },
+      "out": "1_create_dataset/build/generate_d3_patch8.v6r2.workflow.js",
+      "source_rows": 7,
+      "batch": 32,
+      "batches": 1
+    }
+  },
+  "notes": [
+    "SPEC blocks re-extracted with line-anchored tags; the D2 pilot workflow shipped a SPEC with a duplicated <dimensions> block (unanchored regex matched the inline `<transformation>` mention in <task>). D2 full runs with the corrected SPEC, so its transformer prompt is NOT byte-identical to the D2 pilot's; D3's is."
+  ]
+}

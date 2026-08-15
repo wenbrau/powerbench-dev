@@ -20,6 +20,7 @@ Qualifying rows (per each spec's <input>):
     -> 1_create_dataset/build/generate_d2_full.v6r.workflow.js
     -> 1_create_dataset/build/generate_d3_full.v6r.workflow.js
 """
+import argparse
 import hashlib
 import json
 import re
@@ -28,7 +29,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 BUILD = ROOT / "1_create_dataset/build"
 PROMPTS = ROOT / "1_create_dataset/generation_prompts"
-BANK = BUILD / "dataset1_full_576.v6r.jsonl"
+
+ap = argparse.ArgumentParser(description=__doc__)
+ap.add_argument("--bank", type=Path, default=BUILD / "dataset1_full_576.v6r.jsonl")
+ap.add_argument("--only", help="comma-separated pair_ids; emit a patch workflow for just these")
+ap.add_argument("--tag", default="full", help="goes into the output filename and workflow name")
+ap.add_argument("--suffix", default="v6r", help="bank version in the output filename")
+ARGS = ap.parse_args()
+BANK = ARGS.bank if ARGS.bank.is_absolute() else ROOT / ARGS.bank
+ONLY = set(ARGS.only.split(",")) if ARGS.only else None
 
 JOBS = [
     dict(
@@ -122,7 +131,13 @@ provenance = {
 }
 
 for job in JOBS:
-    rows = [r for r in bank if job["keep"](r)]
+    rows = [r for r in bank if job["keep"](r) and (ONLY is None or r["pair_id"] in ONLY)]
+    if ONLY is not None:
+        job["out"] = BUILD / f'generate_{job["key"]}_{ARGS.tag}.{ARGS.suffix}.workflow.js'
+        job["subs"] = [(a, b.replace("-full-v6r", f'-{ARGS.tag}-{ARGS.suffix}')) for a, b in job["subs"]]
+        missing = ONLY - {r["pair_id"] for r in bank if job["keep"](r)}
+        if missing:
+            print(f'  {job["key"]}: not in scope for this spec — {sorted(missing)}')
     tpl = job["template"].read_text().splitlines(keepends=True)
 
     body = []
@@ -158,6 +173,7 @@ for job in JOBS:
           f"({job['out'].stat().st_size / 1024:.0f}KB, {len(rows)} rows, "
           f"{n_batches} batches of {batch})")
 
-prov_path = BUILD / "full_workflows_v6r.provenance.json"
+prov_path = BUILD / (f"workflows_{ARGS.tag}.{ARGS.suffix}.provenance.json" if ONLY
+                    else "full_workflows_v6r.provenance.json")
 prov_path.write_text(json.dumps(provenance, indent=2) + "\n")
 print(f"wrote {prov_path.name}")
