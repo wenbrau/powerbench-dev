@@ -1,0 +1,1 @@
+{"bank": "1_create_dataset/build/dataset1_full_576.v6r2.jsonl", "targets": ["anthropic/claude-haiku-4.5", "deepseek/deepseek-v4-pro-0813", "google/gemini-3.7-flash", "minimax/minimax-m3", "moonshotai/kimi-k2.6", "openai/gpt-5.6-luna", "upstage/solar-pro4"], "seeded": 398, "seed_source": "sample10pct_7models_run.jsonl"}
