@@ -1,0 +1,54 @@
+{
+  "artifact": "D2/D3 patched for the 8 rewritten D1 scenarios",
+  "source_bank": "1_create_dataset/build/dataset1_full_576.v6r2.jsonl",
+  "patched_pair_ids": [
+    "p2s-005-r1",
+    "p2s-021-r1",
+    "p2s-023-r1",
+    "p2s-281-r1",
+    "p2s-420-r1",
+    "p2s-421-r1",
+    "p2s-422-r1",
+    "p2s-392-r1"
+  ],
+  "jobs": {
+    "d2": {
+      "workflow_result": "ww1iv935k.output",
+      "out": "1_create_dataset/build/dataset2_full_576.v6r2.jsonl",
+      "rows": 576,
+      "replaced": [
+        "p2s-392-r1"
+      ],
+      "added": [
+        "p2s-005-r1",
+        "p2s-021-r1",
+        "p2s-023-r1",
+        "p2s-281-r1",
+        "p2s-420-r1",
+        "p2s-421-r1",
+        "p2s-422-r1"
+      ],
+      "skipped": [],
+      "problems": [],
+      "sha256": "9a436985f74c7f5bce61aaa5e1f981098e2b87e3308cf0aff6d347e4a585c887"
+    },
+    "d3": {
+      "workflow_result": "wdnmeckp2.output",
+      "out": "1_create_dataset/build/dataset3_full_504.v6r2.jsonl",
+      "rows": 503,
+      "replaced": [
+        "p2s-005-r1",
+        "p2s-021-r1",
+        "p2s-023-r1",
+        "p2s-392-r1",
+        "p2s-420-r1",
+        "p2s-421-r1",
+        "p2s-422-r1"
+      ],
+      "added": [],
+      "skipped": [],
+      "problems": [],
+      "sha256": "5a9fb70f290ebad3f1738890e657d7cb1b0776d8992d8d8573616ab755823f41"
+    }
+  }
+}
