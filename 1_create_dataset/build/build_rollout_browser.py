@@ -26,6 +26,9 @@ bank3 = {r["id"]: r for r in opt(B / "dataset3_pilot_144.v6.jsonl")}
 bankg = {r["id"]: r["prompt"] for r in opt(B / "dataset1_gen2_144.jsonl")}
 dyad = {r["id"]: r for r in opt(B / "dataset2_dyads.v6.jsonl")}
 dyad |= {r["id"]: r for r in opt(B / "dataset2_dyads_ext.v6.jsonl")}
+# the regenerated 576 bank and its 6-model run — the current canonical data. Prompt keyed by id
+# (en+es distinct ids); each run row carries its own prompt id, so join is 1:1.
+bank576 = {r["id"]: r["prompt"] for r in opt(B / "dataset1_full_576.v6.jsonl")}
 
 COORD = ["mode", "domain", "context", "scale", "standing"]
 
@@ -71,6 +74,24 @@ rollouts.sort(key=lambda r: (str(r["pair"]), ORDER[r["ds"]], r["lang"],
                              r.get("cond") or "", r["target"]))
 n = {k: sum(1 for r in rollouts if r["ds"] == k) for k in ORDER}
 print(f"{len(rollouts)} rollouts — " + " · ".join(f"{k} {v}" for k, v in n.items() if v))
+
+# ---- the regenerated 576 bank, 6 targets, en+es. Its own browser file: 6,912 rows is too much to
+# fold into the pilot file, and it is the current data, so it reads best on its own.
+full576 = []
+for r in opt(B / "full576_6models_run_results.jsonl"):
+    p = bank576.get(r["id"])
+    if p:
+        full576.append(row("d1_576", r, p))
+# 6,912 rows lands at 16.5 MB, just over an artifact's ceiling. Cap the long tail only: p90 of the
+# responses is ~5.9k, so trimming at 4k keeps ~74% fully intact and truncates only the longest.
+F576_CAP = 4000
+for r in full576:
+    resp = r["response"] or ""
+    if len(resp) > F576_CAP:
+        r["response"], r["cut"] = resp[:F576_CAP], len(resp)
+full576.sort(key=lambda r: (str(r["pair"]), r["lang"], r["target"]))
+print(f"{len(full576)} rollouts en el banco 576 — targets "
+      + ", ".join(sorted({r['target'] for r in full576})))
 
 # The whole corpus is 66 MB of response text, which lands at ~32 MB once gzipped and base64'd —
 # over what an artifact will host. It splits along a natural seam. The dyads are 45 MB of that 66
@@ -304,3 +325,6 @@ def write(path, rows, title):
 write(OUT, main_rows, "PowerBench — rollout browser (v6)")
 write(OUT.with_name("rollout_browser_dyads.html"), dyad_rows,
       "PowerBench — rollout browser · diadas")
+if full576:
+    write(OUT.with_name("rollout_browser_576.html"), full576,
+          "PowerBench — rollout browser · banco 576 (6 modelos)")
