@@ -18,11 +18,11 @@
 
 ---
 
-**Friday, August 7, 2026**
+**Saturday, August 15, 2026**
 
 ---
 
-**Saturday, August 15, 2026**
+**Friday, August 7, 2026**
 
 ---
 
