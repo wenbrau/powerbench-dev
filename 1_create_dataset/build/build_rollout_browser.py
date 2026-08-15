@@ -244,6 +244,10 @@ let view = [], selIdx = -1;
 function renderFilters(){
   const el = document.getElementById("dims"); el.innerHTML = "";
   for(const [key,f] of Object.entries(FILTERS)){
+    // show only options that actually match rows in THIS file; drop the whole filter if none do.
+    // (a value option is present iff some row carries it; a fn option iff its predicate matches.)
+    const vis = f.opts.filter(o => f.fn ? DATA.some(o[1]) : DATA.some(r=>r[key]===o));
+    if(vis.length < 2) continue;   // a filter with 0 or 1 usable option filters nothing
     const dd = document.createElement("div"); dd.className="msdd"; dd.dataset.k=key;
     const n = state[key].size;
     const optRow = o=>{
@@ -252,7 +256,7 @@ function renderFilters(){
       return `<label><input type="checkbox" data-v="${val}" ${state[key].has(val)?"checked":""}> ${lab}</label>`;
     };
     dd.innerHTML = `<button class="${n?"has":""}">${f.lbl}${n?` (${n})`:""} <span class="car">▾</span></button>
-      <div class="msdd-panel">${f.opts.map(optRow).join("")}
+      <div class="msdd-panel">${vis.map(optRow).join("")}
         <div class="acts"><span data-act="all">todos</span><span data-act="none">ninguno</span></div>
       </div>`;
     dd.querySelector("button").onclick = e=>{ e.stopPropagation();
@@ -264,7 +268,7 @@ function renderFilters(){
       const cb = e.target.closest("input[type=checkbox]");
       const act = e.target.closest("[data-act]");
       if(cb){ cb.checked ? state[key].add(cb.dataset.v) : state[key].delete(cb.dataset.v); }
-      else if(act){ state[key] = new Set(act.dataset.act==="all" ? f.opts.map(o=>f.fn?o[0]:o) : []); }
+      else if(act){ state[key] = new Set(act.dataset.act==="all" ? vis.map(o=>f.fn?o[0]:o) : []); }
       else return;
       renderFilters(); apply();
       document.querySelector(`.msdd[data-k="${key}"]`)?.classList.add("open");
