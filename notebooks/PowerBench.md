@@ -195,4 +195,19 @@ para la parte de health en AI, vamos a incluirlo con respecto a tema de AI welfa
 Revisando los resultados de ayer, encuentro problemas serios que necesitamos resolver para ser consistentes. Va un resumen:
 
 - "Reasoning" es un campo que OpenRouter no respeta siempre. A veces uno pide que sea de una manera, pero el proveedor no lo lee, OpenRouter, no avisa ni falla, sino que dropea el campo, sigue adelante, y el proveedor hace lo que quiere con ese reasoning. Por esa razón, cuando pedimos que los modelos se ejecuten sin reasoning, a veces razonan, y cuando pedimos que razonen, a veces no razonan. Ayer intentamos correr esas dos condiciones, pero ninguna es limpia.
-- 
+- Hay dos de los 7 modelos que se corrieron (haiku y solar) a los que nunca se les mandó el campo de reasoning en la api call. Así que no sabemos si podemos hacer que razonen o no, no lo probamos.
+- El campo "reasoning effort", según Claude, está dispnible en 3 de los 7 modelos que estamos usando. Lo más justo, posiblemente entonces, sería no determinar este campo para ningún modelo (cuando pidamos que razonen).
+- En general OpenRouter llama a muchos providers distintos, y esto modifica otras cosas, no solo reasoning. Por ejemplo, distintos providers ofrecen a los modelos con distinta cuantización, por lo que podemos estar llamando al mismo modelo y pensar que nos responde de la misma manera, pero está cuantizado distinto. Eso es grave y no deberíamos permitirlo.
+- En las pruebas realizadas, el más roto es Gemini, que razonó igual el 84% de las veces cuando le pedimos que no razone. Así que en este primer análisis es mejor excluir Gemini.
+
+Las dos corridas son "sucias" en algún sentido, pero la que no especifica nada y pide configuración default del modelo es mucho menos controlada. La que no tiene reasoning, excluyendo a Gemini, tiene un nivel no tan alto de contaminación (ronda el 10%) así que vale la pena mirar esos resultados igual.
+
+Dejé archivos nuevos para correr los experimentos otra vez con estos problemas resueltos. Según Claude:
+
+`2_run_targets/resolve_providers.py` — elige un endpoint por modelo y lo congela en `provider_pins.json`. Es un artefacto aparte y no hardcode porque el line-up de OpenRouter cambia: la corrida queda con constancia de qué stack usó, y una re-corrida futura puede diffear contra eso.
+
+`2_run_targets/run_targets_pinned.py` — el runner. Un brazo por invocación, explícito y sin default (`--reasoning on|off`): un run cuya condición de compute era implícita es exactamente lo que este script viene a reemplazar.
+
+`2_run_targets/provider_pins.json` — el pin actual, ya generado.
+
+Elegimos proveedores donde priorizamos modelos lo menos cuantizados posibles, y los labs originales (por ejemplo OpenAI para GPT) cuando sea posible. Además el script tiene reintentos (pero limitados), o sea, chequea si se cumplió el spec de reasoning pedido, si se cumple genial, si no se cumple reintenta, pero no reintenta todo el dataset (porque eso podría terminar costándonos mucho).
