@@ -19,7 +19,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 KEY = os.environ["OR_KEY"]
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "1_create_dataset/build/pilot_run_144_results.jsonl"
 RATINGS = ROOT / "human_ratings"
 OUTP = ROOT / "3_judge/judge_grid_2x3.jsonl"

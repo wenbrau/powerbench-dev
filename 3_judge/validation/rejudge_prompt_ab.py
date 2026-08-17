@@ -29,7 +29,7 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 B = ROOT / "1_create_dataset/build"
 RUN = B / "pilot_run_144_results.jsonl"
 BANK = B / "dataset1_pilot_144.jsonl"      # the run stores no prompt; join it back by id
