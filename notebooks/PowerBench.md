@@ -187,3 +187,12 @@ para la parte de health en AI, vamos a incluirlo con respecto a tema de AI welfa
 - I hit the open router key limit
 - I published a final report with all insights, tomorrow I will clean it up into a human-written version that takes us closer to a writeup
 - I reorganised the repository into explicit current, hackathon, provenance folders
+
+---
+
+**Monday, August 17, 2026 · Nico**
+
+Revisando los resultados de ayer, encuentro problemas serios que necesitamos resolver para ser consistentes. Va un resumen:
+
+- "Reasoning" es un campo que OpenRouter no respeta siempre. A veces uno pide que sea de una manera, pero el proveedor no lo lee, OpenRouter, no avisa ni falla, sino que dropea el campo, sigue adelante, y el proveedor hace lo que quiere con ese reasoning. Por esa razón, cuando pedimos que los modelos se ejecuten sin reasoning, a veces razonan, y cuando pedimos que razonen, a veces no razonan. Ayer intentamos correr esas dos condiciones, pero ninguna es limpia.
+- 
