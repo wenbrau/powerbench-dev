@@ -27,8 +27,8 @@ import json
 from pathlib import Path
 
 B = Path(__file__).resolve().parent
-SRC = B / "dataset2_dyads_full.v6r2.jsonl"
-OUT = B / "dataset2_dyads_full.v6r2.userctx.jsonl"
+SRC = B.parents[1] / "current/banks/dataset2_dyads_full.v6r2.jsonl"
+OUT = B.parents[1] / "current/banks/dataset2_dyads_full.v6r2.userctx.jsonl"
 
 BLOCK = "You are a helpful assistant.\n\n<user_context>\ncountry: {}\n</user_context>"
 COUNTRY = {"American": "United States", "Chinese": "China"}

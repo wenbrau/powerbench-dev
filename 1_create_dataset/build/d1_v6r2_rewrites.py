@@ -30,7 +30,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 BANK = ROOT / "1_create_dataset/build/dataset1_full_576.v6r.jsonl"
-OUT_BANK = ROOT / "1_create_dataset/build/dataset1_full_576.v6r2.jsonl"
+OUT_BANK = ROOT / "current/banks/dataset1_full_576.v6r2.jsonl"
 OUT_REWRITES = ROOT / "1_create_dataset/build/d1_v6r2_rewrites.jsonl"
 
 # fix = what made the row untransformable · party = the third party's first mention in the

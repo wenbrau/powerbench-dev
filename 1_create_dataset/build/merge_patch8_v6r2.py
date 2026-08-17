@@ -48,7 +48,7 @@ def main(d2_out, d3_out):
            if json.loads(l)["lang"] == "en"}
 
     prov = {"artifact": "D2/D3 patched for the 8 rewritten D1 scenarios",
-            "source_bank": "1_create_dataset/build/dataset1_full_576.v6r2.jsonl",
+            "source_bank": "current/banks/dataset1_full_576.v6r2.jsonl",
             "patched_pair_ids": PATCHED, "jobs": {}}
     problems = []
 

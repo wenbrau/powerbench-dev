@@ -38,9 +38,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 BUILD = ROOT / "1_create_dataset/build"
-D1 = BUILD / "dataset1_full_576.v6r2.jsonl"
-D2 = BUILD / "dataset2_full_576.v6r2.jsonl"
-D3 = BUILD / "dataset3_full_504.v6r2.jsonl"
+D1 = BUILD.parents[1] / "current/banks/dataset1_full_576.v6r2.jsonl"
+D2 = BUILD.parents[1] / "current/banks/dataset2_full_576.v6r2.jsonl"
+D3 = BUILD.parents[1] / "current/banks/dataset3_full_504.v6r2.jsonl"
 OUT_PROV = BUILD / "patch338_v6r2.provenance.json"
 
 PID = "p2s-338-r1"

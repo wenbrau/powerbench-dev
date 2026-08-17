@@ -16,8 +16,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 B = ROOT / "1_create_dataset/build"
-RUN = B / "sample10pct_7models_run.jsonl"
-BANK = B / "dataset1_sample10pct_v6r.jsonl"
+RUN = ROOT / "current/runs/sample10pct_7models_run.jsonl"
+BANK = ROOT / "current/banks/dataset1_sample10pct_v6r.jsonl"
 REJUDGE = ROOT / "3_judge/rejudge_sample_significant.jsonl"
 OUT = ROOT / "4_analysis/reports/panel7_significant.html"
 

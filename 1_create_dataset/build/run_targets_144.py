@@ -150,6 +150,16 @@ def load_done(out_path, bank_path):
             raise SystemExit(f"{out_path} was produced from bank {prev.get('bank')!r}, not "
                              f"{bank_path!r}. Resuming would mix two banks in one file — use a "
                              f"different --out.")
+        # Same guard for the panel. Found the hard way: resuming without TARGETS set fell back to
+        # the default panel, whose kimi-k2 (not k2.6) was absent from the file, so the runner
+        # happily appended a stranger model's rows to a finished run. New targets must be an
+        # explicit choice (--allow-new-targets), not a fallback.
+        prev_t = set(prev.get("targets") or [])
+        extra = set(TARGETS) - prev_t
+        if prev_t and extra and '--allow-new-targets' not in sys.argv:
+            raise SystemExit(f"{out_path} holds {sorted(prev_t)}; this invocation adds "
+                             f"{sorted(extra)}. If intended, pass --allow-new-targets; "
+                             f"otherwise set TARGETS to match.")
     done = {}
     for line in open(out_path):
         line = line.strip()

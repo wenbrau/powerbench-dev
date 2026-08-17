@@ -296,5 +296,5 @@ if __name__ == "__main__":
     mod = load_module(BUILD / "d1_v6r2_rewrites.py")
     bank = [json.loads(l) for l in (BUILD / "dataset1_full_576.v6r.jsonl").open()]
     d3 = {r["pair_id"]: r["prompt"]
-          for r in map(json.loads, (BUILD / "dataset3_full_504.v6r2.jsonl").open())}
+          for r in map(json.loads, (BUILD.parents[1] / "current/banks/dataset3_full_504.v6r2.jsonl").open())}
     build(mod, bank, d3, a.out)
