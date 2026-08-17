@@ -3,7 +3,7 @@
 baseline rows (same 18 cells), plus the applied team decisions and the QA sweep.
 
     python 1_create_dataset/build/build_v6_sample_report.py
-    -> 1_create_dataset/v6_sample_review.html
+    -> 1_create_dataset/review_pages/v6_sample_review.html
 """
 import json
 from pathlib import Path
@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 V6 = ROOT / "1_create_dataset/build/dataset1_pilot_144.v6_sample.jsonl"
 V3 = ROOT / "1_create_dataset/build/dataset1_pilot_144.jsonl"
 PROV = ROOT / "1_create_dataset/build/dataset1_pilot_144.v6_sample.provenance.json"
-OUT = ROOT / "1_create_dataset/v6_sample_review.html"
+OUT = ROOT / "1_create_dataset/review_pages/v6_sample_review.html"
 
 GROUPS = [6, 7, 29, 38, 41, 42]
 # v3 pilot refusal % per group (pooled 3 targets, from ACUERDOS_METAPROMPT §1.D)

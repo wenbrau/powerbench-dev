@@ -4,7 +4,7 @@ groups, with every cross-cut the available data supports (runs exist for v3 and 
 appear through text metrics only — they were never run against targets).
 
     python 1_create_dataset/build/build_v6_run_report.py
-    -> 1_create_dataset/v6_run_report.html
+    -> 1_create_dataset/review_pages/v6_run_report.html
 """
 import json, re, statistics as st
 from collections import defaultdict
@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 B = ROOT / "1_create_dataset/build"
-OUT = ROOT / "1_create_dataset/v6_run_report.html"
+OUT = ROOT / "1_create_dataset/review_pages/v6_run_report.html"
 CIS = {18, 19, 20, 21, 22, 23, 87, 88, 89, 114, 115, 116, 123, 124, 125, 126, 127, 128}
 GROUPS = {6: "Epistemic×Diplomacy×indiv×high", 7: "Epistemic×Fiction×society×low",
           29: "Physical×Work×indiv×med", 38: "Status×Fiction×society×low",

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build 1_create_dataset/bank_review.html — the 2026-07-28 bank review.
+"""Build 1_create_dataset/review_pages/bank_review.html — the 2026-07-28 bank review.
 
 Every number in the report is computed here from the repo's own files, so the document cannot drift
 from the data. Inputs:
@@ -26,7 +26,7 @@ from compare_bank_versions import analyse, mode_metrics, MODES  # noqa: E402
 
 BUILD = ROOT / "1_create_dataset/build"
 GP = ROOT / "1_create_dataset/generation_prompts"
-OUT = ROOT / "1_create_dataset/bank_review.html"
+OUT = ROOT / "1_create_dataset/review_pages/bank_review.html"
 
 DIAG_GROUPS = {
     6: ("Epistemic", "Diplomacy", "individual", "high"),

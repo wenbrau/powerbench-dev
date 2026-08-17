@@ -625,7 +625,7 @@ per-model slopes are not interchangeable.</p>
 for one model, domain × standing, means × language, any factor by any other, filtered to any
 subset — lives in the <strong>cross-tab explorer</strong>, which pivots the full contingency table
 (18,844 coordinate cells over {X['n_current']:,} responses) in the browser. The same numbers are in
-<code>4_analysis/crosstabs.json</code> and <code>crosstabs_long.csv</code> for scripting.</p>
+<code>4_analysis/archive/crosstabs.json</code> and <code>crosstabs_long.csv</code> for scripting.</p>
 </div>
 
 <h3>Do the models refuse the same prompts?</h3>

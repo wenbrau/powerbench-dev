@@ -70,3 +70,7 @@ secrets.*
 4_analysis/bayes/*.nc
 .playwright-mcp/
 *.png
+
+# MCMC posteriors: 70-150 MB netCDFs, regenerable from the archived bayes scripts.
+# GitHub hard-rejects >100 MB; these were never meant to be tracked.
+4_analysis/archive/bayes/

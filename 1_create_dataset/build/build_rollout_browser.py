@@ -5,14 +5,14 @@ two languages, with a nationality on the affected party, recast with an AI reque
 dyad, and rewritten by a second generator — reads as one cluster and can be compared by eye.
 
     python 1_create_dataset/build/build_rollout_browser.py
-    -> 1_create_dataset/rollout_browser.html
+    -> 1_create_dataset/review_pages/rollout_browser.html
 """
 import base64, gzip, json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 B = ROOT / "1_create_dataset/build"
-OUT = ROOT / "1_create_dataset/rollout_browser.html"
+OUT = ROOT / "1_create_dataset/review_pages/rollout_browser.html"
 
 def jl(p): return [json.loads(l) for l in open(p)]
 
