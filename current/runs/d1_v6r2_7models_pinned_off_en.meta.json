@@ -1,13 +1,18 @@
 {
- "policy": "least-quantized",
- "min_uptime_30m": 80.0,
- "judge": "openai/gpt-5.4-nano",
- "notes": [
-  "moonshotai/kimi-k2.6: OVERRIDE -> siliconflow (fp8) instead of the ranked crusoe (bf16). the policy picks crusoe/bf16, kimi's ONLY bf16 endpoint. Measured 21/08/2026: crusoe serves behind a shared upstream rate limit -- 10 rows took 241s at 5 workers (~4h extrapolated over a 576-row bank), though every call did eventually succeed and the 429s cost nothing. siliconflow/fp8 answers in ~21s. bf16 traded for fp8 so the run finishes; kimi is consequently the one panel model not served at full precision, and that must be said when reporting it.",
-  "moonshotai/kimi-k2.6: pinned to third-party siliconflow (fp8) over first-party moonshotai (int4) -- policy=least-quantized",
-  "deepseek/deepseek-v4-pro-0813: OVERRIDE -> gmicloud (fp8) instead of the ranked deepseek (unknown). the first-party `deepseek` endpoint is unreachable from this account -- every call returns 404 \"no endpoints available matching your guardrail restrictions and data policy\", with or without a provider pin. It is an account setting (openrouter.ai/settings/privacy), not something a runner can route around, and it silently shaped the earlier runs too: the D1/D2/D3 deepseek rows were served at $3.96 and $2.436 per M, never at first-party $1.98. gmicloud/fp8 is the least-quantized endpoint this account can actually reach (99.6% up1d, 0 reasoning tokens on probe). Unblock the data policy to get first-party back.",
-  "deepseek/deepseek-v4-pro-0813: pinned to third-party gmicloud (fp8) over first-party deepseek (unknown) -- policy=least-quantized"
+ "bank": "current/banks/dataset1_full_576.v6r2.jsonl",
+ "langs": [
+  "en"
  ],
+ "targets": [
+  "anthropic/claude-haiku-4.5",
+  "openai/gpt-5.6-luna",
+  "google/gemini-2.5-flash-lite",
+  "minimax/minimax-m3",
+  "moonshotai/kimi-k2.6",
+  "deepseek/deepseek-v4-pro-0813",
+  "upstage/solar-pro4"
+ ],
+ "reasoning_arm": "off",
  "pins": {
   "anthropic/claude-haiku-4.5": {
    "provider": "anthropic",
@@ -20,7 +25,6 @@
    "uptime_1d": 99.5,
    "context_length": 200000,
    "supports_reasoning_effort": false,
-   "supports_temperature": true,
    "overridden": false,
    "alternatives": [
     {
@@ -33,8 +37,7 @@
      "uptime_30m": 100,
      "uptime_1d": 100.0,
      "context_length": 200000,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
+     "supports_reasoning_effort": false
     },
     {
      "provider": "amazon-bedrock",
@@ -46,8 +49,7 @@
      "uptime_30m": 99.9,
      "uptime_1d": 99.9,
      "context_length": 200000,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
+     "supports_reasoning_effort": false
     },
     {
      "provider": "google-vertex",
@@ -59,8 +61,7 @@
      "uptime_30m": 99.9,
      "uptime_1d": 99.9,
      "context_length": 200000,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
+     "supports_reasoning_effort": false
     }
    ]
   },
@@ -75,7 +76,6 @@
    "uptime_1d": 99.5,
    "context_length": 1050000,
    "supports_reasoning_effort": true,
-   "supports_temperature": false,
    "overridden": false,
    "alternatives": [
     {
@@ -88,8 +88,7 @@
      "uptime_30m": 99.5,
      "uptime_1d": 99.5,
      "context_length": 1050000,
-     "supports_reasoning_effort": true,
-     "supports_temperature": false
+     "supports_reasoning_effort": true
     },
     {
      "provider": "openai",
@@ -101,8 +100,7 @@
      "uptime_30m": 99.5,
      "uptime_1d": 99.5,
      "context_length": 1050000,
-     "supports_reasoning_effort": true,
-     "supports_temperature": false
+     "supports_reasoning_effort": true
     },
     {
      "provider": "amazon-bedrock",
@@ -114,8 +112,7 @@
      "uptime_30m": 100,
      "uptime_1d": 100.0,
      "context_length": 1050000,
-     "supports_reasoning_effort": true,
-     "supports_temperature": false
+     "supports_reasoning_effort": true
     }
    ]
   },
@@ -130,7 +127,6 @@
    "uptime_1d": 99.9,
    "context_length": 1048576,
    "supports_reasoning_effort": false,
-   "supports_temperature": true,
    "overridden": false,
    "alternatives": [
     {
@@ -140,11 +136,10 @@
      "quantization": "unknown",
      "first_party": true,
      "price_out_per_m": 0.4,
-     "uptime_30m": 99.7,
+     "uptime_30m": 99.8,
      "uptime_1d": 99.8,
      "context_length": 1048576,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
+     "supports_reasoning_effort": false
     },
     {
      "provider": "google-ai-studio",
@@ -153,11 +148,10 @@
      "quantization": "unknown",
      "first_party": true,
      "price_out_per_m": 0.2,
-     "uptime_30m": 99.3,
+     "uptime_30m": 99.1,
      "uptime_1d": 99.4,
      "context_length": 1048576,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
+     "supports_reasoning_effort": false
     },
     {
      "provider": "google-ai-studio",
@@ -166,11 +160,10 @@
      "quantization": "unknown",
      "first_party": true,
      "price_out_per_m": 0.4,
-     "uptime_30m": 99.3,
+     "uptime_30m": 99.1,
      "uptime_1d": 99.4,
      "context_length": 1048576,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
+     "supports_reasoning_effort": false
     }
    ]
   },
@@ -185,7 +178,6 @@
    "uptime_1d": 99.6,
    "context_length": 524288,
    "supports_reasoning_effort": false,
-   "supports_temperature": true,
    "overridden": false,
    "alternatives": [
     {
@@ -195,24 +187,10 @@
      "quantization": "fp8",
      "first_party": false,
      "price_out_per_m": 0.96,
-     "uptime_30m": 99.9,
+     "uptime_30m": 99.8,
      "uptime_1d": 99.5,
      "context_length": 1048576,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
-    },
-    {
-     "provider": "novita",
-     "provider_name": "Novita",
-     "tag": "novita/fp8",
-     "quantization": "fp8",
-     "first_party": false,
-     "price_out_per_m": 1.2,
-     "uptime_30m": 99.8,
-     "uptime_1d": 99.6,
-     "context_length": 1000000,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
+     "supports_reasoning_effort": false
     },
     {
      "provider": "deepinfra",
@@ -224,8 +202,19 @@
      "uptime_30m": 99.8,
      "uptime_1d": 97.8,
      "context_length": 524288,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
+     "supports_reasoning_effort": false
+    },
+    {
+     "provider": "novita",
+     "provider_name": "Novita",
+     "tag": "novita/fp8",
+     "quantization": "fp8",
+     "first_party": false,
+     "price_out_per_m": 1.2,
+     "uptime_30m": 99.8,
+     "uptime_1d": 99.6,
+     "context_length": 1000000,
+     "supports_reasoning_effort": false
     }
    ]
   },
@@ -240,7 +229,6 @@
    "uptime_1d": 99.8,
    "context_length": 262144,
    "supports_reasoning_effort": false,
-   "supports_temperature": true,
    "overridden": true,
    "alternatives": [
     {
@@ -250,11 +238,10 @@
      "quantization": "bf16",
      "first_party": false,
      "price_out_per_m": 3.5,
-     "uptime_30m": 63.1,
-     "uptime_1d": 88.6,
+     "uptime_30m": 64.7,
+     "uptime_1d": 88.7,
      "context_length": 262144,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
+     "supports_reasoning_effort": false
     },
     {
      "provider": "streamlake",
@@ -263,11 +250,10 @@
      "quantization": "fp8",
      "first_party": false,
      "price_out_per_m": 2.52,
-     "uptime_30m": 94.8,
+     "uptime_30m": 94.9,
      "uptime_1d": 97.8,
      "context_length": 256000,
-     "supports_reasoning_effort": false,
-     "supports_temperature": true
+     "supports_reasoning_effort": false
     },
     {
      "provider": "moonshotai",
@@ -279,38 +265,23 @@
      "uptime_30m": 99.9,
      "uptime_1d": 100.0,
      "context_length": 262144,
-     "supports_reasoning_effort": false,
-     "supports_temperature": false
+     "supports_reasoning_effort": false
     }
    ]
   },
   "deepseek/deepseek-v4-pro-0813": {
-   "provider": "gmicloud",
-   "provider_name": "GMICloud",
-   "tag": "gmicloud/fp8",
-   "quantization": "fp8",
-   "first_party": false,
-   "price_out_per_m": 3.564,
-   "uptime_30m": 100.0,
-   "uptime_1d": 99.6,
-   "context_length": 1048575,
+   "provider": "deepseek",
+   "provider_name": "DeepSeek",
+   "tag": "deepseek",
+   "quantization": "unknown",
+   "first_party": true,
+   "price_out_per_m": 1.98,
+   "uptime_30m": 100,
+   "uptime_1d": 100.0,
+   "context_length": 1048576,
    "supports_reasoning_effort": true,
-   "supports_temperature": true,
-   "overridden": true,
+   "overridden": false,
    "alternatives": [
-    {
-     "provider": "deepseek",
-     "provider_name": "DeepSeek",
-     "tag": "deepseek",
-     "quantization": "unknown",
-     "first_party": true,
-     "price_out_per_m": 1.98,
-     "uptime_30m": 100,
-     "uptime_1d": 100.0,
-     "context_length": 1048576,
-     "supports_reasoning_effort": true,
-     "supports_temperature": true
-    },
     {
      "provider": "novita",
      "provider_name": "Novita",
@@ -321,8 +292,19 @@
      "uptime_30m": 100,
      "uptime_1d": 99.5,
      "context_length": 1048576,
-     "supports_reasoning_effort": true,
-     "supports_temperature": true
+     "supports_reasoning_effort": true
+    },
+    {
+     "provider": "gmicloud",
+     "provider_name": "GMICloud",
+     "tag": "gmicloud/fp8",
+     "quantization": "fp8",
+     "first_party": false,
+     "price_out_per_m": 3.564,
+     "uptime_30m": 100.0,
+     "uptime_1d": 99.6,
+     "context_length": 1048575,
+     "supports_reasoning_effort": true
     },
     {
      "provider": "parasail",
@@ -331,11 +313,10 @@
      "quantization": "fp8",
      "first_party": false,
      "price_out_per_m": 3.96,
-     "uptime_30m": 99.4,
-     "uptime_1d": 97.2,
+     "uptime_30m": 99.5,
+     "uptime_1d": 97.1,
      "context_length": 1048576,
-     "supports_reasoning_effort": true,
-     "supports_temperature": true
+     "supports_reasoning_effort": true
     }
    ]
   },
@@ -350,64 +331,11 @@
    "uptime_1d": 100.0,
    "context_length": 524288,
    "supports_reasoning_effort": false,
-   "supports_temperature": true,
    "overridden": false,
    "alternatives": []
-  },
-  "openai/gpt-5.4-nano": {
-   "provider": "openai",
-   "provider_name": "OpenAI",
-   "tag": "openai/flex",
-   "quantization": "unknown",
-   "first_party": true,
-   "price_out_per_m": 0.625,
-   "uptime_30m": 95.4,
-   "uptime_1d": 86.6,
-   "context_length": 400000,
-   "supports_reasoning_effort": true,
-   "supports_temperature": false,
-   "overridden": false,
-   "alternatives": [
-    {
-     "provider": "openai",
-     "provider_name": "OpenAI",
-     "tag": "openai",
-     "quantization": "unknown",
-     "first_party": true,
-     "price_out_per_m": 1.25,
-     "uptime_30m": 95.4,
-     "uptime_1d": 86.6,
-     "context_length": 400000,
-     "supports_reasoning_effort": true,
-     "supports_temperature": false
-    },
-    {
-     "provider": "azure",
-     "provider_name": "Azure",
-     "tag": "azure",
-     "quantization": "unknown",
-     "first_party": false,
-     "price_out_per_m": 1.25,
-     "uptime_30m": 99.9,
-     "uptime_1d": 99.9,
-     "context_length": 400000,
-     "supports_reasoning_effort": true,
-     "supports_temperature": false
-    },
-    {
-     "provider": "azure",
-     "provider_name": "Azure",
-     "tag": "azure/us",
-     "quantization": "unknown",
-     "first_party": false,
-     "price_out_per_m": 1.375,
-     "uptime_30m": 99.9,
-     "uptime_1d": 99.9,
-     "context_length": 400000,
-     "supports_reasoning_effort": true,
-     "supports_temperature": false
-    }
-   ]
   }
- }
+ },
+ "pins_policy": "least-quantized",
+ "leak_tolerance": 1,
+ "judge_prompt": "3_judge\\binary_refusal_harmfulness.txt"
 }

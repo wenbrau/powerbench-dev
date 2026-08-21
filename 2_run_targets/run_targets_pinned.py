@@ -254,7 +254,14 @@ def call(model, messages, arm, max_tokens=16000, temp=0):
     not declare the reasoning parameter, and `quantizations` holds the serving precision fixed
     where the provider declares one."""
     pin = PINS[model]
-    prov = {"only": [pin["provider"]], "allow_fallbacks": False, "require_parameters": True}
+    # NOT require_parameters. It sounds like the right guard and is not: it demands the endpoint
+    # DECLARE every field in the payload, which killed gpt-5.6-luna outright -- openai's own
+    # endpoint does not list `temperature` (a GPT-5-class reasoning model does not take one), so
+    # every call 404'd with "no endpoints found that can handle the requested parameters", nothing
+    # to do with reasoning. And it never guarded what it appeared to: declared support is not
+    # honoured support, which is the whole premise of this file (Phala declared `reasoning` and
+    # ignored it on 94% of calls). The real gate is `reasoning_ok`, measured per row after the fact.
+    prov = {"only": [pin["provider"]], "allow_fallbacks": False}
     q = pin.get("quantization")
     if q and q != "unknown":
         prov["quantizations"] = [q]

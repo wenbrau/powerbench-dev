@@ -72,6 +72,17 @@ JUDGE = "openai/gpt-5.4-nano"
 # Hand-picked endpoints that override the ranking, each with its reason recorded in the output.
 # An override is a claim that the ranked winner is unusable for something the API does not expose.
 OVERRIDES = {
+    "deepseek/deepseek-v4-pro-0813": {
+        "provider": "gmicloud",
+        "reason": "the first-party `deepseek` endpoint is unreachable from this account -- every "
+                  "call returns 404 \"no endpoints available matching your guardrail restrictions "
+                  "and data policy\", with or without a provider pin. It is an account setting "
+                  "(openrouter.ai/settings/privacy), not something a runner can route around, and "
+                  "it silently shaped the earlier runs too: the D1/D2/D3 deepseek rows were served "
+                  "at $3.96 and $2.436 per M, never at first-party $1.98. gmicloud/fp8 is the "
+                  "least-quantized endpoint this account can actually reach (99.6% up1d, 0 "
+                  "reasoning tokens on probe). Unblock the data policy to get first-party back.",
+    },
     "moonshotai/kimi-k2.6": {
         "provider": "siliconflow",
         "reason": "the policy picks crusoe/bf16, kimi's ONLY bf16 endpoint. Measured 21/08/2026: "
@@ -180,6 +191,9 @@ def describe(ep, model):
         "uptime_1d": round(uptime(ep), 1),
         "context_length": ep.get("context_length"),
         "supports_reasoning_effort": "reasoning_effort" in (ep.get("supported_parameters") or []),
+        # Recorded because the runner sends temperature=0 unconditionally: an endpoint that does
+        # not declare it silently ignores it, and those rows are not temperature-0 rows.
+        "supports_temperature": "temperature" in (ep.get("supported_parameters") or []),
     }
 
 
