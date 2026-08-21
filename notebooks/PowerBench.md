@@ -249,4 +249,4 @@ OJO: Todo esto es pooleando dos idiomas (inglés y español) así que para la es
 
 **Friday, August 21, 2026 · Nico**
 
-Hoy estamos con @gasp en casa trabajando. Nos dividimos así: 
+Hoy estamos con @gaspi en casa trabajando. Nos dividimos así: él está corrigiendo prompts en español con agentes que las revisen (con el objetivo de eventualmente traducir D1 a los 6 idiomas que faltan), y yo estoy poniendo a correr de nuevo D1 en inglés con las correcciones mencionadas la vez pasada.
