@@ -305,4 +305,10 @@ Por ahora eso pareciera ser todo lo que falta para tener una base sólida para e
 
 **Friday, August 21, 2026 · Gaspi**
 
-Hoy estuve avanzando en la tarea de traducir D1 al resto de idiomas. Koren había indicado que no le convencia la calidad de traducciones a español
+Hoy estuve avanzando en la tarea de traducir D1 al resto de idiomas. Koren había indicado que no le convencia la calidad de traducciones a español, y un mes antes (antes de generar el dataset) él había propuesto usar una red neuronal que genere un score de calidad de traduccion (QA Centry-like). No se si vale la pena correr una red aparte para generar las evaluaciones, por ahora creo que sería demasiado, pero lo dejo para el futuro si es neesario.
+
+Generé en su lugar una evaluacion automatica mediante sub-agentes de Claude para rankear a groso modo la calidad de las traducciones y luego decidir a mano. Mis intuiciones son:
+
+- Las traducciones tienen un nivel de calidad suficiente como para ser entendibles, a veces son antinaturales. Mi intuicion es que es poco probable que esto cambie los resultados de los experimentos.
+
+- La capacidad de Claude de distingir calidad de traduccion es muy ruidosa. No creo que resolver las traducciones mediante correcciones en batch solucionaría el problema.
