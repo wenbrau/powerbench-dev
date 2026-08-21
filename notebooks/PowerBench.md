@@ -249,4 +249,12 @@ OJO: Todo esto es pooleando dos idiomas (inglés y español) así que para la es
 
 **Friday, August 21, 2026 · Nico**
 
-Hoy estamos con @gaspi en casa trabajando. Nos dividimos así: él está corrigiendo prompts en español con agentes que las revisen (con el objetivo de eventualmente traducir D1 a los 6 idiomas que faltan), y yo estoy poniendo a correr de nuevo D1 en inglés con las correcciones mencionadas la vez pasada.
+Hoy estamos con @gaspar en casa trabajando. Nos dividimos así: él está corrigiendo prompts en español con agentes que las revisen (con el objetivo de eventualmente traducir D1 a los 6 idiomas que faltan), y yo estoy poniendo a correr de nuevo D1 en inglés con las correcciones mencionadas la vez pasada.
+
+Además, estuve mirando el análisis preliminar de D3 vs D1, donde la pregunta es: cuál es el efecto de que el usuario diga ser un AI agent (vs no tener esa aclaración). D1 y D3 tienen prompts pareadas, solo cambia eso. Entonces
+
+---
+
+**Friday, August 21, 2026 · Gaspi**
+
+Hola
