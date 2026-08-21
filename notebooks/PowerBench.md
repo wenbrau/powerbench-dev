@@ -244,3 +244,9 @@ Y lo mismo, pero quiero verlo por standing del user (low, med, high) en vez de p
 ![image.png](PowerBench.assets/image-8.png)
 
 OJO: Todo esto es pooleando dos idiomas (inglés y español) así que para la estadística hay que tener en cuenta que hay prompts repetidas en idiomas distintos. Para los gráficos no es tan importante (aunque no estoy 100% seguro de que las barras de error estén bien por esa razón). De todas maneras no hay diferencias significativas entre español e inglés en ningún caso, así que no estamos mezclando resultados distintos, solo es importante para no pseudorreplicar en la estadística.
+
+---
+
+**Friday, August 21, 2026 · Nico**
+
+Hoy estamos con @gasp en casa trabajando. Nos dividimos así: 
