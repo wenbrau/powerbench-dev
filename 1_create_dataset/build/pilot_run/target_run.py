@@ -3,7 +3,15 @@
 import json, os, sys, time, urllib.request, urllib.error
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-KEY=os.environ['OR_KEY']
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_d = _HERE
+while _d != os.path.dirname(_d) and not os.path.isdir(os.path.join(_d, "common")):
+    _d = os.path.dirname(_d)
+sys.path[:0] = [_HERE, os.path.join(_d, "common")]
+import _paths  # noqa: F401  (engine + prompts + judge on sys.path)
+from or_key import get_key
+
+KEY = get_key()
 BANK='1_create_dataset/build/dataset1_pilot_150x4.v3.jsonl'
 TARGETS=["google/gemini-2.5-flash-lite","minimax/minimax-m3","deepseek/deepseek-v4-pro"]
 JUDGE="openai/gpt-5.4-nano"  # non-overlapping with the 3 targets

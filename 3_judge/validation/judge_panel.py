@@ -7,7 +7,15 @@ import json, os, sys, time, re, urllib.request, urllib.error
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import defaultdict
 
-KEY = os.environ['OR_KEY']
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_d = _HERE
+while _d != os.path.dirname(_d) and not os.path.isdir(os.path.join(_d, "common")):
+    _d = os.path.dirname(_d)
+sys.path[:0] = [_HERE, os.path.join(_d, "common")]
+import _paths  # noqa: F401  (engine + prompts + judge on sys.path)
+from or_key import get_key
+
+KEY = get_key()
 RESULTS = sys.argv[1] if len(sys.argv) > 1 else '1_create_dataset/build/pilot_run_144_results.jsonl'
 OUT = '/private/tmp/claude-501/-Users-tk-Documents-Personal-ais-powerbench-dev/dd5cfeb4-0f2e-4915-836f-48c384e174fb/scratchpad/judge_panel.jsonl'
 # EVERY judge on the panel is graded HERE, on the text stored in RESULTS — including nano.

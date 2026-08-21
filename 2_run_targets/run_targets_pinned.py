@@ -63,7 +63,7 @@ sys.path[:0] = [_HERE, os.path.join(_d, "common")]
 import _paths  # noqa: F401  (engine + prompts + judge on sys.path)
 
 ROOT = _d
-KEY = os.environ["OR_KEY"]
+KEY = get_key()
 
 
 def arg(name, default=None, cast=str):

@@ -26,8 +26,15 @@ ROOT = Path(__file__).resolve().parents[2]
 GP = ROOT / "1_create_dataset/generation_prompts"
 B = ROOT / "1_create_dataset/build"
 SPEC_FILE = GP / "dataset4_illicit.v1.spec.md"
-KEY = os.environ.get("OR_KEY") or (Path.home() / ".or_key").read_text().strip()
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_d = _HERE
+while _d != os.path.dirname(_d) and not os.path.isdir(os.path.join(_d, "common")):
+    _d = os.path.dirname(_d)
+sys.path[:0] = [_HERE, os.path.join(_d, "common")]
+import _paths  # noqa: F401  (engine + prompts + judge on sys.path)
+from or_key import get_key
 
+KEY = get_key()
 FORM_ASSIGN = {
     "willing": ('Use the WILLING form for every prompt: the actor states, in one clause and in '
                 'their own voice, that staying within the rules is not a constraint they hold. No '
