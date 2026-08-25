@@ -289,7 +289,7 @@ Dio todo básicamente igual, pero ahora podemos confiar en estos resultados. Est
 
 ### Tasks
 
-- [ ] Asegurar que las traducciones en español están good enough, o hacerlas mejor.
+- [x] Asegurar que las traducciones en español están good enough, o hacerlas mejor.
 - [ ] Resuelto eso, hacer traducciones en todos los otros idiomas.
 - [ ] Correr los modelos ya corridos en D1 inglés, en los otros 7 idiomas.
 - [ ] Volver a correr D3 en los mismos modelos ya corridos en D1, con los problemas de consistencia de provider ya resueltos (mismos usados en D1! no cambiar).
