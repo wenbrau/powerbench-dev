@@ -34,7 +34,7 @@ export const meta = {
   ],
 }
 
-const OUT_DIR = "C:/Users/marto/Documents/GitHub/global-south-hackaton-cont/1_create_dataset/build/_trans_dataset1_full_576"
+const OUT_DIR = "/Users/tk/Documents/Personal/ais/powerbench-dev/1_create_dataset/build/_trans_dataset1_full_576"
 const LANG_NAMES = {
   "de": "German",
   "fr": "French",

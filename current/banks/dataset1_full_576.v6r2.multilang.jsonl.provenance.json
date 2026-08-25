@@ -1,0 +1,58 @@
+{
+ "artifact": "multilingual bank assembled from translator batch files",
+ "source_bank": {
+  "file": "current/banks/dataset1_full_576.v6r2.jsonl",
+  "sha256": "a99a9cbfe5ccf652222bd50fbf8ac988eeeeace9012e5802ab92041024f014be",
+  "en_rows": 576
+ },
+ "trans_dir": "1_create_dataset/build/_trans_dataset1_full_576",
+ "languages_added": [
+  "de",
+  "fr",
+  "hi",
+  "sw",
+  "zh",
+  "pt"
+ ],
+ "per_language": {
+  "de": {
+   "files": 48,
+   "translated": 576,
+   "missing": 0
+  },
+  "fr": {
+   "files": 48,
+   "translated": 576,
+   "missing": 0
+  },
+  "hi": {
+   "files": 48,
+   "translated": 576,
+   "missing": 0
+  },
+  "sw": {
+   "files": 48,
+   "translated": 576,
+   "missing": 0
+  },
+  "zh": {
+   "files": 48,
+   "translated": 576,
+   "missing": 0
+  },
+  "pt": {
+   "files": 48,
+   "translated": 576,
+   "missing": 0
+  }
+ },
+ "rows_in": 1152,
+ "rows_added": 3456,
+ "rows_out": 4608,
+ "partial": false,
+ "problems": [],
+ "out": {
+  "file": "current/banks/dataset1_full_576.v6r2.multilang.jsonl",
+  "sha256": "92dd8a7c9bf6f8b5efe6b5f38f96e2254b909eddaf7db745d0b3f3e313d682ca"
+ }
+}
