@@ -1,0 +1,3 @@
+# Workflow scripts must stay LF: CR is a control character and the Claude Code Workflow
+# permission dialog refuses a script that contains one.
+*.workflow.js text eol=lf

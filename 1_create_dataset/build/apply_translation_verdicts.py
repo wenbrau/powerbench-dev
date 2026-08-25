@@ -39,6 +39,11 @@ def main():
     ap.add_argument("--verdicts", required=True, help="directory the verifiers wrote into")
     ap.add_argument("--langs", required=True, nargs="+")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--patch", default=None, nargs="+",
+                    help="one or more JSONL files of post-verdict corrections {lang, pair_id, prompt_fixed, issues, "
+                         "source[, prompt_old]}, applied ON TOP of the verdicts. Use for defects no "
+                         "verifier caught; the verdict files stay untouched so they keep recording "
+                         "what each verifier actually said.")
     ap.add_argument("--allow-partial", action="store_true",
                     help="apply what is valid, leave the rest as-is, and report instead of exiting 1")
     a = ap.parse_args()
@@ -138,6 +143,55 @@ def main():
             print("  -", p)
         raise SystemExit(1)
 
+    # Patch layer: applied after the verdicts, on top of whatever text they produced.
+    patches, patch_problems = {}, []
+    for pf in [resolve(x) for x in (a.patch or [])]:
+        for ln, line in enumerate(pf.read_text(encoding="utf-8").splitlines(), 1):
+            if not line.strip():
+                continue
+            v = json.loads(line)
+            key = (v.get("lang"), v.get("pair_id"))
+            if key not in lang_rows:
+                patch_problems.append(f"{pf.name}:{ln}: no bank row for {key}")
+                continue
+            if key in patches:
+                patch_problems.append(f"{pf.name}:{ln}: duplicate patch for {key}")
+                continue
+            base = new_prompt.get(key, lang_rows[key]["prompt"])
+            fixed = v.get("prompt_fixed")
+            if not isinstance(fixed, str) or not fixed.strip():
+                patch_problems.append(f"{pf.name}:{ln}: empty prompt_fixed for {key}")
+                continue
+            if v.get("prompt_old") and " ".join(v["prompt_old"].split()) != " ".join(base.split()):
+                patch_problems.append(f"{pf.name}:{ln}: {key} prompt_old does not match the post-verdict text")
+                continue
+            if " ".join(fixed.split()) == " ".join(base.split()):
+                patch_problems.append(f"{pf.name}:{ln}: {key} patch changes nothing")
+                continue
+            if " ".join(fixed.split()) == " ".join(en[key[1]]["prompt"].split()):
+                patch_problems.append(f"{pf.name}:{ln}: {key} patch is the English source")
+                continue
+            patches[key] = v
+            new_prompt[key] = " ".join(fixed.split())
+    if a.patch:
+        per_lang = {}
+        for (l, _) in patches:
+            per_lang[l] = per_lang.get(l, 0) + 1
+        print(f"patch: {len(patches)} row(s) {per_lang} from {', '.join(Path(x).name for x in a.patch)}")
+        if patch_problems:
+            print(f"  {len(patch_problems)} patch problem(s); nothing written. First 20:")
+            for x in patch_problems[:20]:
+                print("   -", x)
+            raise SystemExit(1)
+        by_key = {(r["lang"], r["pair_id"]): r for r in records}
+        for key, v in patches.items():
+            rec = by_key.get(key)
+            if rec is not None:
+                rec["prompt_new"] = new_prompt[key]
+                rec["patched"] = True
+                rec["patch_issues"] = v.get("issues") or []
+                rec["patch_source"] = v.get("source") or "patch"
+
     out_rows = []
     for r in rows:
         key = (r.get("lang"), r.get("pair_id"))
@@ -160,6 +214,8 @@ def main():
         "verdict_files": {f.name: sha256(f) for f in sorted(vdir.glob("*_batch_*.json"))},
         "langs": a.langs,
         "counts": counts,
+        "patch_files": {Path(x).name: sha256(resolve(x)) for x in (a.patch or [])},
+        "patch_rows": sorted(f"{l}:{p}" for (l, p) in patches) if a.patch else [],
         "n_rows_out": len(out_rows),
         "partial": bool(problems),
         "problems": problems,

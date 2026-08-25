@@ -10,6 +10,7 @@ under one of these roots, it belongs to the middle layer (working provenance) by
 | | |
 |---|---|
 | `current/banks/` | the v6r2 prompt banks: D1 (576×en+es), D2 nat/none (rendered), D2 dyads (sentence + `userctx` channels), D3 (504), plus the 10% sample slice |
+| | **D1 multilingual: use `dataset1_full_576.v6r2.multilang.verified.jsonl`** (8 langs × 576, verified + patched) — `…multilang.jsonl` is its pre-verification input. Sidecars: `.verify.jsonl` (per-row verdict, old/new text) and `.provenance.json`. ⚠️ its verdicts come from two verifier passes of different strictness — see `1_create_dataset/build/_verify_dataset1_full_576/` and the `verdict_file` column |
 | `current/runs/` | the seven-model runs: D1 in both compute arms (`*_run` = provider default, `*_noreason_run` = reasoning disabled), D2, D3, the 10% pilot. Each with `.meta.json` (resume guard) and `.status` |
 
 Panel: claude-haiku-4.5, gpt-5.6-luna, gemini-3.7-flash (US) · minimax-m3, kimi-k2.6,
