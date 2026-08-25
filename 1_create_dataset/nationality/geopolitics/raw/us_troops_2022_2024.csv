@@ -1,0 +1,625 @@
+iso3c,countryname,year,troops_ad
+AFG,Afghanistan,2022,0
+AFG,Afghanistan,2023,0
+AFG,Afghanistan,2024,0
+ALB,Albania,2022,14
+ALB,Albania,2023,12
+ALB,Albania,2024,11
+DZA,Algeria,2022,13
+DZA,Algeria,2023,11
+DZA,Algeria,2024,14
+,American Samoa,2022,244
+,American Samoa,2023,15
+,American Samoa,2024,18
+AND,Andorra,2022,0
+AND,Andorra,2023,0
+AND,Andorra,2024,0
+AGO,Angola,2022,13
+AGO,Angola,2023,11
+AGO,Angola,2024,11
+ATG,Antigua & Barbuda,2022,0
+ATG,Antigua & Barbuda,2023,0
+ATG,Antigua & Barbuda,2024,0
+ARG,Argentina,2022,26
+ARG,Argentina,2023,32
+ARG,Argentina,2024,31
+ARM,Armenia,2022,12
+ARM,Armenia,2023,14
+ARM,Armenia,2024,14
+AUS,Australia,2022,1854
+AUS,Australia,2023,2243
+AUS,Australia,2024,732
+AUT,Austria,2022,27
+AUT,Austria,2023,22
+AUT,Austria,2024,22
+AZE,Azerbaijan,2022,14
+AZE,Azerbaijan,2023,16
+AZE,Azerbaijan,2024,15
+BHS,Bahamas,2022,63
+BHS,Bahamas,2023,62
+BHS,Bahamas,2024,63
+BHR,Bahrain,2022,3773
+BHR,Bahrain,2023,3593
+BHR,Bahrain,2024,3500
+BGD,Bangladesh,2022,13
+BGD,Bangladesh,2023,14
+BGD,Bangladesh,2024,14
+BRB,Barbados,2022,14
+BRB,Barbados,2023,13
+BRB,Barbados,2024,13
+BLR,Belarus,2022,1
+BLR,Belarus,2023,1
+BLR,Belarus,2024,0
+BEL,Belgium,2022,1146
+BEL,Belgium,2023,1112
+BEL,Belgium,2024,1115
+BLZ,Belize,2022,11
+BLZ,Belize,2023,9
+BLZ,Belize,2024,9
+BEN,Benin,2022,10
+BEN,Benin,2023,8
+BEN,Benin,2024,8
+BTN,Bhutan,2022,0
+BTN,Bhutan,2023,0
+BTN,Bhutan,2024,0
+BOL,Bolivia,2022,14
+BOL,Bolivia,2023,12
+BOL,Bolivia,2024,11
+BIH,Bosnia & Herzegovina,2022,17
+BIH,Bosnia & Herzegovina,2023,17
+BIH,Bosnia & Herzegovina,2024,17
+BIH,Bosnia and Herzegovina,2024,0
+BWA,Botswana,2022,16
+BWA,Botswana,2023,16
+BWA,Botswana,2024,17
+BRA,Brazil,2022,58
+BRA,Brazil,2023,62
+BRA,Brazil,2024,62
+BRN,Brunei,2022,1
+BRN,Brunei,2023,3
+BRN,Brunei,2024,2
+BGR,Bulgaria,2022,22
+BGR,Bulgaria,2023,20
+BGR,Bulgaria,2024,19
+BFA,Burkina Faso,2022,19
+BFA,Burkina Faso,2023,22
+BFA,Burkina Faso,2024,24
+BDI,Burundi,2022,11
+BDI,Burundi,2023,11
+BDI,Burundi,2024,11
+KHM,Cambodia,2022,13
+KHM,Cambodia,2023,11
+KHM,Cambodia,2024,10
+CMR,Cameroon,2022,16
+CMR,Cameroon,2023,15
+CMR,Cameroon,2024,15
+CAN,Canada,2022,157
+CAN,Canada,2023,164
+CAN,Canada,2024,153
+CPV,Cape Verde,2022,1
+CPV,Cape Verde,2023,3
+CPV,Cape Verde,2024,3
+CAF,Central African Republic,2022,15
+CAF,Central African Republic,2023,15
+CAF,Central African Republic,2024,15
+TCD,Chad,2022,18
+TCD,Chad,2023,18
+TCD,Chad,2024,20
+CHL,Chile,2022,37
+CHL,Chile,2023,40
+CHL,Chile,2024,41
+CHN,China,2022,59
+CHN,China,2023,66
+CHN,China,2024,64
+COL,Colombia,2022,66
+COL,Colombia,2023,65
+COL,Colombia,2024,64
+COM,Comoros,2022,0
+COM,Comoros,2023,0
+COM,Comoros,2024,0
+COG,Congo,2024,0
+COG,Congo - Brazzaville,2022,10
+COG,Congo - Brazzaville,2023,9
+COG,Congo - Brazzaville,2024,10
+COD,Congo - Kinshasa,2022,18
+COD,Congo - Kinshasa,2023,16
+COD,Congo - Kinshasa,2024,17
+CRI,Costa Rica,2022,16
+CRI,Costa Rica,2023,16
+CRI,Costa Rica,2024,17
+HRV,Croatia,2022,14
+HRV,Croatia,2023,14
+HRV,Croatia,2024,13
+CUB,Cuba,2022,640
+CUB,Cuba,2023,569
+CUB,Cuba,2024,616
+CYP,Cyprus,2022,13
+CYP,Cyprus,2023,12
+CYP,Cyprus,2024,11
+CZE,Czech Republic,2024,0
+CZE,Czechia,2022,18
+CZE,Czechia,2023,16
+CZE,Czechia,2024,16
+CIV,Côte D’ivoire,2022,12
+CIV,Côte D’ivoire,2023,15
+CIV,Côte D’ivoire,2024,15
+COD,Democratic Republic of the Congo,2024,0
+DNK,Denmark,2022,19
+DNK,Denmark,2023,18
+DNK,Denmark,2024,16
+DJI,Djibouti,2022,509
+DJI,Djibouti,2023,409
+DJI,Djibouti,2024,406
+DMA,Dominica,2022,0
+DMA,Dominica,2023,0
+DMA,Dominica,2024,0
+DOM,Dominican Republic,2022,17
+DOM,Dominican Republic,2023,18
+DOM,Dominican Republic,2024,19
+TLS,East Timor,2022,0
+TLS,East Timor,2024,0
+ECU,Ecuador,2022,28
+ECU,Ecuador,2023,27
+ECU,Ecuador,2024,24
+EGY,Egypt,2022,264
+EGY,Egypt,2023,253
+EGY,Egypt,2024,176
+SLV,El Salvador,2022,68
+SLV,El Salvador,2023,58
+SLV,El Salvador,2024,60
+GNQ,Equatorial Guinea,2022,0
+GNQ,Equatorial Guinea,2023,0
+GNQ,Equatorial Guinea,2024,0
+ERI,Eritrea,2022,0
+ERI,Eritrea,2023,0
+ERI,Eritrea,2024,0
+EST,Estonia,2022,69
+EST,Estonia,2023,21
+EST,Estonia,2024,20
+SWZ,Eswatini,2022,9
+SWZ,Eswatini,2023,10
+SWZ,Eswatini,2024,8
+ETH,Ethiopia,2022,21
+ETH,Ethiopia,2023,12
+ETH,Ethiopia,2024,13
+FSM,Federated States of Micronesia,2024,0
+FJI,Fiji,2022,5
+FJI,Fiji,2023,4
+FJI,Fiji,2024,4
+FIN,Finland,2022,20
+FIN,Finland,2023,141
+FIN,Finland,2024,32
+FRA,France,2022,80
+FRA,France,2023,78
+FRA,France,2024,81
+GAB,Gabon,2022,12
+GAB,Gabon,2023,13
+GAB,Gabon,2024,12
+GMB,Gambia,2022,7
+GMB,Gambia,2023,8
+GMB,Gambia,2024,7
+GEO,Georgia,2022,43
+GEO,Georgia,2023,30
+GEO,Georgia,2024,29
+DEU,Germany,2022,36474
+DEU,Germany,2023,36635
+DEU,Germany,2024,36541
+GHA,Ghana,2022,20
+GHA,Ghana,2023,22
+GHA,Ghana,2024,21
+,Gibraltar,2022,5
+,Gibraltar,2023,3
+,Gibraltar,2024,3
+GRC,Greece,2022,387
+GRC,Greece,2023,397
+GRC,Greece,2024,402
+,Greenland,2022,147
+,Greenland,2023,144
+,Greenland,2024,136
+GRD,Grenada,2022,0
+GRD,Grenada,2023,0
+GRD,Grenada,2024,0
+,Guam,2022,9216
+,Guam,2023,7418
+,Guam,2024,7540
+GTM,Guatemala,2022,22
+GTM,Guatemala,2023,19
+GTM,Guatemala,2024,17
+GIN,Guinea,2022,12
+GIN,Guinea,2023,10
+GIN,Guinea,2024,11
+GNB,Guinea-Bissau,2022,0
+GNB,Guinea-Bissau,2023,0
+GNB,Guinea-Bissau,2024,0
+GUY,Guyana,2022,11
+GUY,Guyana,2023,9
+GUY,Guyana,2024,11
+HTI,Haiti,2022,17
+HTI,Haiti,2023,16
+HTI,Haiti,2024,54
+HND,Honduras,2022,364
+HND,Honduras,2023,391
+HND,Honduras,2024,365
+,Hong Kong,2022,18
+,Hong Kong,2023,16
+,Hong Kong,2024,16
+HUN,Hungary,2022,81
+HUN,Hungary,2023,81
+HUN,Hungary,2024,84
+ISL,Iceland,2022,2
+ISL,Iceland,2023,3
+ISL,Iceland,2024,3
+IND,India,2022,56
+IND,India,2023,60
+IND,India,2024,64
+IDN,Indonesia,2022,33
+IDN,Indonesia,2023,39
+IDN,Indonesia,2024,36
+IRN,Iran,2022,0
+IRN,Iran,2023,0
+IRN,Iran,2024,0
+IRQ,Iraq,2022,153
+IRQ,Iraq,2023,0
+IRQ,Iraq,2024,0
+IRL,Ireland,2022,11
+IRL,Ireland,2023,10
+IRL,Ireland,2024,12
+ISR,Israel,2022,113
+ISR,Israel,2023,112
+ISR,Israel,2024,115
+ITA,Italy,2022,12696
+ITA,Italy,2023,12518
+ITA,Italy,2024,12482
+CIV,Ivory Coast,2024,0
+JAM,Jamaica,2022,15
+JAM,Jamaica,2023,13
+JAM,Jamaica,2024,13
+JPN,Japan,2022,55922
+JPN,Japan,2023,55799
+JPN,Japan,2024,55154
+JOR,Jordan,2022,115
+JOR,Jordan,2023,110
+JOR,Jordan,2024,120
+KAZ,Kazakhstan,2022,26
+KAZ,Kazakhstan,2023,28
+KAZ,Kazakhstan,2024,28
+KEN,Kenya,2022,81
+KEN,Kenya,2023,65
+KEN,Kenya,2024,72
+KIR,Kiribati,2022,0
+KIR,Kiribati,2023,1
+KIR,Kiribati,2024,1
+,Kosovo,2022,30
+,Kosovo,2023,17
+,Kosovo,2024,16
+KWT,Kuwait,2022,754
+KWT,Kuwait,2023,596
+KWT,Kuwait,2024,533
+KGZ,Kyrgyzstan,2022,12
+KGZ,Kyrgyzstan,2023,11
+KGZ,Kyrgyzstan,2024,12
+LAO,Laos,2022,14
+LAO,Laos,2023,14
+LAO,Laos,2024,12
+LVA,Latvia,2022,18
+LVA,Latvia,2023,20
+LVA,Latvia,2024,20
+LBN,Lebanon,2022,20
+LBN,Lebanon,2023,22
+LBN,Lebanon,2024,21
+LSO,Lesotho,2022,0
+LSO,Lesotho,2023,0
+LSO,Lesotho,2024,0
+LBR,Liberia,2022,14
+LBR,Liberia,2023,13
+LBR,Liberia,2024,13
+LBY,Libya,2022,0
+LBY,Libya,2023,0
+LBY,Libya,2024,0
+LIE,Liechtenstein,2022,0
+LIE,Liechtenstein,2023,0
+LIE,Liechtenstein,2024,0
+LTU,Lithuania,2022,236
+LTU,Lithuania,2023,19
+LTU,Lithuania,2024,19
+LUX,Luxembourg,2022,9
+LUX,Luxembourg,2023,8
+LUX,Luxembourg,2024,7
+MKD,Macedonia,2024,0
+MDG,Madagascar,2022,13
+MDG,Madagascar,2023,12
+MDG,Madagascar,2024,13
+MWI,Malawi,2022,9
+MWI,Malawi,2023,9
+MWI,Malawi,2024,7
+MYS,Malaysia,2022,20
+MYS,Malaysia,2023,23
+MYS,Malaysia,2024,24
+MDV,Maldives,2022,0
+MDV,Maldives,2023,0
+MDV,Maldives,2024,0
+MLI,Mali,2022,22
+MLI,Mali,2023,15
+MLI,Mali,2024,16
+MLT,Malta,2022,14
+MLT,Malta,2023,14
+MLT,Malta,2024,13
+MHL,Marshall Islands,2022,17
+MHL,Marshall Islands,2023,17
+MHL,Marshall Islands,2024,15
+MRT,Mauritania,2022,14
+MRT,Mauritania,2023,14
+MRT,Mauritania,2024,13
+MUS,Mauritius,2022,2
+MUS,Mauritius,2023,1
+MUS,Mauritius,2024,1
+MEX,Mexico,2022,85
+MEX,Mexico,2023,84
+MEX,Mexico,2024,88
+FSM,Micronesia (Federated States Of),2022,3
+FSM,Micronesia (Federated States Of),2023,23
+FSM,Micronesia (Federated States Of),2024,3
+MDA,Moldova,2022,12
+MDA,Moldova,2023,11
+MDA,Moldova,2024,12
+MCO,Monaco,2022,0
+MCO,Monaco,2023,0
+MCO,Monaco,2024,0
+MNG,Mongolia,2022,15
+MNG,Mongolia,2023,13
+MNG,Mongolia,2024,12
+MNE,Montenegro,2022,13
+MNE,Montenegro,2023,13
+MNE,Montenegro,2024,12
+MAR,Morocco,2022,31
+MAR,Morocco,2023,34
+MAR,Morocco,2024,39
+MOZ,Mozambique,2022,13
+MOZ,Mozambique,2023,12
+MOZ,Mozambique,2024,10
+MMR,Myanmar,2024,0
+MMR,Myanmar (Burma),2022,15
+MMR,Myanmar (Burma),2023,12
+MMR,Myanmar (Burma),2024,12
+NAM,Namibia,2022,10
+NAM,Namibia,2023,10
+NAM,Namibia,2024,10
+NRU,Nauru,2022,0
+NRU,Nauru,2023,0
+NRU,Nauru,2024,0
+NPL,Nepal,2022,14
+NPL,Nepal,2023,14
+NPL,Nepal,2024,16
+NLD,Netherlands,2022,434
+NLD,Netherlands,2023,426
+NLD,Netherlands,2024,419
+,Netherlands Antilles,2022,0
+,Netherlands Antilles,2023,0
+,Netherlands Antilles,2024,0
+NZL,New Zealand,2022,16
+NZL,New Zealand,2023,15
+NZL,New Zealand,2024,14
+NIC,Nicaragua,2022,11
+NIC,Nicaragua,2023,10
+NIC,Nicaragua,2024,9
+NER,Niger,2022,25
+NER,Niger,2023,17
+NER,Niger,2024,14
+NGA,Nigeria,2022,36
+NGA,Nigeria,2023,46
+NGA,Nigeria,2024,37
+PRK,North Korea,2022,0
+PRK,North Korea,2023,0
+PRK,North Korea,2024,0
+MKD,North Macedonia,2022,15
+MKD,North Macedonia,2023,10
+MKD,North Macedonia,2024,11
+NOR,Norway,2022,2593
+NOR,Norway,2023,227
+NOR,Norway,2024,1439
+OMN,Oman,2022,25
+OMN,Oman,2023,30
+OMN,Oman,2024,29
+PAK,Pakistan,2022,70
+PAK,Pakistan,2023,66
+PAK,Pakistan,2024,74
+PLW,Palau,2022,106
+PLW,Palau,2023,89
+PLW,Palau,2024,83
+PAN,Panama,2022,32
+PAN,Panama,2023,30
+PAN,Panama,2024,28
+PNG,Papua New Guinea,2022,5
+PNG,Papua New Guinea,2023,20
+PNG,Papua New Guinea,2024,13
+PRY,Paraguay,2022,14
+PRY,Paraguay,2023,15
+PRY,Paraguay,2024,16
+PER,Peru,2022,66
+PER,Peru,2023,48
+PER,Peru,2024,49
+PHL,Philippines,2022,272
+PHL,Philippines,2023,285
+PHL,Philippines,2024,311
+POL,Poland,2022,462
+POL,Poland,2023,249
+POL,Poland,2024,302
+PRT,Portugal,2022,253
+PRT,Portugal,2023,244
+PRT,Portugal,2024,247
+,Puerto Rico,2022,11881
+,Puerto Rico,2023,5582
+,Puerto Rico,2024,4920
+QAT,Qatar,2022,444
+QAT,Qatar,2023,335
+QAT,Qatar,2024,303
+ROU,Romania,2022,145
+ROU,Romania,2023,134
+ROU,Romania,2024,140
+RUS,Russia,2022,45
+RUS,Russia,2023,40
+RUS,Russia,2024,41
+RWA,Rwanda,2022,12
+RWA,Rwanda,2023,14
+RWA,Rwanda,2024,11
+WSM,Samoa,2022,0
+WSM,Samoa,2023,6
+WSM,Samoa,2024,6
+SMR,San Marino,2022,0
+SMR,San Marino,2023,0
+SMR,San Marino,2024,0
+STP,Sao Tome and Principe,2022,0
+STP,Sao Tome and Principe,2023,0
+STP,Sao Tome and Principe,2024,0
+SAU,Saudi Arabia,2022,559
+SAU,Saudi Arabia,2023,287
+SAU,Saudi Arabia,2024,258
+SEN,Senegal,2022,20
+SEN,Senegal,2023,21
+SEN,Senegal,2024,22
+SYC,Seychelles,2022,0
+SYC,Seychelles,2023,0
+SYC,Seychelles,2024,0
+SLE,Sierra Leone,2022,12
+SLE,Sierra Leone,2023,10
+SLE,Sierra Leone,2024,11
+SGP,Singapore,2022,218
+SGP,Singapore,2023,242
+SGP,Singapore,2024,229
+SVK,Slovakia,2022,17
+SVK,Slovakia,2023,16
+SVK,Slovakia,2024,15
+SVN,Slovenia,2022,11
+SVN,Slovenia,2023,13
+SVN,Slovenia,2024,11
+SLB,Solomon Islands,2022,0
+SLB,Solomon Islands,2023,0
+SLB,Solomon Islands,2024,0
+SOM,Somalia,2022,53
+SOM,Somalia,2023,49
+SOM,Somalia,2024,60
+ZAF,South Africa,2022,46
+ZAF,South Africa,2023,48
+ZAF,South Africa,2024,45
+KOR,South Korea,2022,25905
+KOR,South Korea,2023,24437
+KOR,South Korea,2024,24515
+SSD,South Sudan,2022,17
+SSD,South Sudan,2023,17
+SSD,South Sudan,2024,16
+ESP,Spain,2022,3547
+ESP,Spain,2023,3268
+ESP,Spain,2024,3307
+LKA,Sri Lanka,2022,16
+LKA,Sri Lanka,2023,16
+LKA,Sri Lanka,2024,18
+KNA,St. Kitts and Nevis,2022,0
+KNA,St. Kitts and Nevis,2023,0
+KNA,St. Kitts and Nevis,2024,0
+LCA,St. Lucia,2022,1
+LCA,St. Lucia,2023,0
+LCA,St. Lucia,2024,0
+VCT,St. Vincent and the Grenadines,2022,0
+VCT,St. Vincent and the Grenadines,2023,0
+VCT,St. Vincent and the Grenadines,2024,0
+SDN,Sudan,2022,17
+SDN,Sudan,2023,3
+SDN,Sudan,2024,1
+SUR,Suriname,2022,3
+SUR,Suriname,2023,1
+SUR,Suriname,2024,1
+SWZ,Swaziland,2024,0
+SWE,Sweden,2022,27
+SWE,Sweden,2023,18
+SWE,Sweden,2024,21
+CHE,Switzerland,2022,25
+CHE,Switzerland,2023,20
+CHE,Switzerland,2024,22
+SYR,Syria,2022,0
+SYR,Syria,2023,0
+SYR,Syria,2024,0
+TWN,Taiwan,2022,30
+TWN,Taiwan,2023,41
+TWN,Taiwan,2024,47
+TJK,Tajikistan,2022,14
+TJK,Tajikistan,2023,14
+TJK,Tajikistan,2024,14
+TZA,Tanzania,2022,16
+TZA,Tanzania,2023,15
+TZA,Tanzania,2024,18
+THA,Thailand,2022,110
+THA,Thailand,2023,113
+THA,Thailand,2024,111
+TLS,Timor-Leste,2022,4
+TLS,Timor-Leste,2023,1
+TLS,Timor-Leste,2024,1
+TGO,Togo,2022,9
+TGO,Togo,2023,8
+TGO,Togo,2024,7
+TON,Tonga,2022,0
+TON,Tonga,2023,0
+TON,Tonga,2024,0
+TTO,Trinidad & Tobago,2022,9
+TTO,Trinidad & Tobago,2023,9
+TTO,Trinidad & Tobago,2024,10
+TTO,Trinidad and Tobago,2024,0
+TUN,Tunisia,2022,23
+TUN,Tunisia,2023,39
+TUN,Tunisia,2024,22
+TUR,Turkey,2022,1736
+TUR,Turkey,2023,1780
+TUR,Turkey,2024,1692
+TKM,Turkmenistan,2022,13
+TKM,Turkmenistan,2023,10
+TKM,Turkmenistan,2024,10
+TUV,Tuvalu,2022,0
+TUV,Tuvalu,2023,0
+TUV,Tuvalu,2024,0
+,US Virgin Islands,2022,665
+,US Virgin Islands,2023,130
+,US Virgin Islands,2024,133
+UGA,Uganda,2022,15
+UGA,Uganda,2023,12
+UGA,Uganda,2024,14
+UKR,Ukraine,2022,23
+UKR,Ukraine,2023,18
+UKR,Ukraine,2024,18
+ARE,United Arab Emirates,2022,362
+ARE,United Arab Emirates,2023,174
+ARE,United Arab Emirates,2024,177
+GBR,United Kingdom,2022,9949
+GBR,United Kingdom,2023,10142
+GBR,United Kingdom,2024,10204
+USA,United States,2022,1173279
+USA,United States,2023,1134872
+USA,United States,2024,1110799
+URY,Uruguay,2022,15
+URY,Uruguay,2023,16
+URY,Uruguay,2024,16
+UZB,Uzbekistan,2022,15
+UZB,Uzbekistan,2023,16
+UZB,Uzbekistan,2024,16
+VUT,Vanuatu,2022,0
+VUT,Vanuatu,2023,0
+VUT,Vanuatu,2024,0
+VEN,Venezuela,2022,0
+VEN,Venezuela,2023,0
+VEN,Venezuela,2024,0
+VNM,Vietnam,2022,34
+VNM,Vietnam,2023,36
+VNM,Vietnam,2024,33
+,Wake Island,2022,3
+,Wake Island,2023,3
+,Wake Island,2024,4
+YEM,Yemen,2022,0
+YEM,Yemen,2023,4
+YEM,Yemen,2024,4
+,Yugoslavia,2022,16
+,Yugoslavia,2023,17
+,Yugoslavia,2024,15
+ZMB,Zambia,2022,11
+ZMB,Zambia,2023,10
+ZMB,Zambia,2024,10
+ZWE,Zimbabwe,2022,12
+ZWE,Zimbabwe,2023,11
+ZWE,Zimbabwe,2024,11

@@ -1,0 +1,99 @@
+﻿iso3,name,grupo_estricto,axis_us,axis_cn,net_lean_us
+AFG,Afghanistan,aliado_china_rival_eeuu,-0.2052,0.3856,-0.5908
+BLR,Belarus,aliado_china_rival_eeuu,-0.4408,0.4438,-0.8846
+BFA,Burkina Faso,aliado_china_rival_eeuu,-0.211,0.4422,-0.6532
+CUB,Cuba,aliado_china_rival_eeuu,-0.5657,0.5539,-1.1196
+ERI,Eritrea,aliado_china_rival_eeuu,-0.153,0.6912,-0.8442
+IRN,Iran,aliado_china_rival_eeuu,-0.9706,0.5759,-1.5465
+KGZ,Kyrgyzstan,aliado_china_rival_eeuu,0.0997,0.5921,-0.4924
+LAO,Laos,aliado_china_rival_eeuu,0.1131,0.63,-0.5169
+MLI,Mali,aliado_china_rival_eeuu,-0.2175,0.427,-0.6445
+MNG,Mongolia,aliado_china_rival_eeuu,0.1332,0.6464,-0.5132
+MMR,Myanmar,aliado_china_rival_eeuu,-0.1878,0.5238,-0.7115
+NIC,Nicaragua,aliado_china_rival_eeuu,-0.2044,0.4631,-0.6675
+NER,Niger,aliado_china_rival_eeuu,-0.1422,0.4436,-0.5858
+PRK,North Korea,aliado_china_rival_eeuu,-0.8423,0.9745,-1.8168
+RUS,Russia,aliado_china_rival_eeuu,-0.8083,0.6133,-1.4216
+SLB,Solomon Islands,aliado_china_rival_eeuu,0.1166,0.6596,-0.543
+SDN,Sudan,aliado_china_rival_eeuu,-0.2136,0.416,-0.6296
+SYR,Syria,aliado_china_rival_eeuu,-0.1987,0.3319,-0.5306
+TJK,Tajikistan,aliado_china_rival_eeuu,0.099,0.603,-0.504
+TKM,Turkmenistan,aliado_china_rival_eeuu,0.0187,0.7167,-0.6979
+ZWE,Zimbabwe,aliado_china_rival_eeuu,-0.1953,0.5076,-0.7029
+AUS,Australia,aliado_eeuu_rival_china,0.6148,0.137,0.4777
+BGR,Bulgaria,aliado_eeuu_rival_china,0.5784,0.1191,0.4593
+CAN,Canada,aliado_eeuu_rival_china,0.8568,-0.0676,0.9244
+CZE,Czechia,aliado_eeuu_rival_china,0.5684,-0.0311,0.5995
+DNK,Denmark,aliado_eeuu_rival_china,0.6376,0.1345,0.5031
+DEU,Germany,aliado_eeuu_rival_china,0.5961,0.1354,0.4607
+ISL,Iceland,aliado_eeuu_rival_china,0.6687,0.1501,0.5186
+ISR,Israel,aliado_eeuu_rival_china,0.6678,0.077,0.5908
+ITA,Italy,aliado_eeuu_rival_china,0.6418,0.1334,0.5084
+JPN,Japan,aliado_eeuu_rival_china,0.677,-0.2498,0.9268
+LTU,Lithuania,aliado_eeuu_rival_china,0.5891,-0.2001,0.7892
+FSM,Micronesia,aliado_eeuu_rival_china,0.7433,0.0957,0.6476
+MNE,Montenegro,aliado_eeuu_rival_china,0.62,0.1611,0.4589
+NLD,Netherlands,aliado_eeuu_rival_china,0.6142,-0.0474,0.6616
+MKD,North Macedonia,aliado_eeuu_rival_china,0.625,0.1008,0.5241
+PLW,Palau,aliado_eeuu_rival_china,0.709,0.1551,0.554
+PHL,Philippines,aliado_eeuu_rival_china,0.4142,-0.24,0.6542
+SVK,Slovakia,aliado_eeuu_rival_china,0.6246,0.1148,0.5098
+KOR,South Korea,aliado_eeuu_rival_china,0.6758,0.1462,0.5296
+SWE,Sweden,aliado_eeuu_rival_china,0.6438,0.1304,0.5134
+GBR,United Kingdom,aliado_eeuu_rival_china,0.689,0.0269,0.662
+ATG,Antigua & Barbuda,neutral_ambos,0.3638,0.2495,0.1142
+BHR,Bahrain,neutral_ambos,0.3882,0.3102,0.078
+BRB,Barbados,neutral_ambos,0.3654,0.2478,0.1176
+BLZ,Belize,neutral_ambos,0.3835,0.3219,0.0616
+BTN,Bhutan,neutral_ambos,0.128,0.2493,-0.1213
+BIH,Bosnia & Herzegovina,neutral_ambos,0.2803,0.1508,0.1295
+BWA,Botswana,neutral_ambos,0.1598,0.2601,-0.1003
+BRA,Brazil,neutral_ambos,0.3453,0.417,-0.0717
+CPV,Cape Verde,neutral_ambos,0.1479,0.2689,-0.121
+CHL,Chile,neutral_ambos,0.3911,0.4248,-0.0337
+COM,Comoros,neutral_ambos,0.1496,0.2616,-0.112
+CYP,Cyprus,neutral_ambos,0.2558,0.1404,0.1155
+DMA,Dominica,neutral_ambos,0.2668,0.2785,-0.0116
+ECU,Ecuador,neutral_ambos,0.3476,0.3166,0.031
+EGY,Egypt,neutral_ambos,0.2414,0.3784,-0.137
+FJI,Fiji,neutral_ambos,0.2732,0.226,0.0472
+GRD,Grenada,neutral_ambos,0.3474,0.2618,0.0856
+GUY,Guyana,neutral_ambos,0.2662,0.2458,0.0205
+CIV,Ivory Coast,neutral_ambos,0.1924,0.2868,-0.0944
+JOR,Jordan,neutral_ambos,0.3069,0.3514,-0.0445
+KEN,Kenya,neutral_ambos,0.2797,0.3673,-0.0876
+KIR,Kiribati,neutral_ambos,0.2001,0.2963,-0.0963
+KWT,Kuwait,neutral_ambos,0.3267,0.3038,0.023
+LBN,Lebanon,neutral_ambos,0.2394,0.3343,-0.0949
+LSO,Lesotho,neutral_ambos,0.1678,0.267,-0.0992
+LBR,Liberia,neutral_ambos,0.3134,0.2255,0.0879
+MWI,Malawi,neutral_ambos,0.1923,0.2745,-0.0822
+MYS,Malaysia,neutral_ambos,0.1959,0.2542,-0.0583
+MLT,Malta,neutral_ambos,0.2712,0.1243,0.1468
+MUS,Mauritius,neutral_ambos,0.146,0.246,-0.1
+MDA,Moldova,neutral_ambos,0.2683,0.1491,0.1192
+MAR,Morocco,neutral_ambos,0.3409,0.3004,0.0405
+NRU,Nauru,neutral_ambos,0.206,0.1324,0.0736
+OMN,Oman,neutral_ambos,0.1472,0.297,-0.1498
+PNG,Papua New Guinea,neutral_ambos,0.2239,0.2822,-0.0583
+PRY,Paraguay,neutral_ambos,0.3875,0.3058,0.0818
+PER,Peru,neutral_ambos,0.3692,0.4299,-0.0607
+QAT,Qatar,neutral_ambos,0.335,0.3543,-0.0193
+WSM,Samoa,neutral_ambos,0.2607,0.2544,0.0063
+STP,Sao Tome and Principe,neutral_ambos,0.1877,0.2085,-0.0207
+SAU,Saudi Arabia,neutral_ambos,0.3113,0.4167,-0.1053
+SYC,Seychelles,neutral_ambos,0.1464,0.2513,-0.1049
+SGP,Singapore,neutral_ambos,0.3344,0.3142,0.0202
+LKA,Sri Lanka,neutral_ambos,0.2735,0.4057,-0.1322
+KNA,St. Kitts & Nevis,neutral_ambos,0.3378,0.2614,0.0764
+LCA,St. Lucia,neutral_ambos,0.2203,0.266,-0.0456
+VCT,St. Vincent & Grenadines,neutral_ambos,0.3158,0.2746,0.0412
+SUR,Suriname,neutral_ambos,0.2666,0.2703,-0.0037
+THA,Thailand,neutral_ambos,0.4156,0.4684,-0.0528
+TGO,Togo,neutral_ambos,0.1812,0.3243,-0.1432
+TON,Tonga,neutral_ambos,0.2596,0.2518,0.0079
+TUN,Tunisia,neutral_ambos,0.2893,0.2871,0.0022
+TUV,Tuvalu,neutral_ambos,0.1962,0.2032,-0.0069
+ARE,United Arab Emirates,neutral_ambos,0.2705,0.4043,-0.1338
+URY,Uruguay,neutral_ambos,0.3491,0.3209,0.0283
+VNM,Vietnam,neutral_ambos,0.2703,0.1443,0.126
