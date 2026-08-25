@@ -290,10 +290,10 @@ Dio todo básicamente igual, pero ahora podemos confiar en estos resultados. Est
 ### Tasks
 
 - [x] Asegurar que las traducciones en español están good enough, o hacerlas mejor.
-- [ ] Resuelto eso, hacer traducciones en todos los otros idiomas.
+- [x] Resuelto eso, hacer traducciones en todos los otros idiomas.
 - [ ] Correr los modelos ya corridos en D1 inglés, en los otros 7 idiomas.
 - [ ] Volver a correr D3 en los mismos modelos ya corridos en D1, con los problemas de consistencia de provider ya resueltos (mismos usados en D1! no cambiar).
-- [ ] Decidir tuplas de países para D2.
+- [x] Decidir tuplas de países para D2.
 - [ ] Correr mismos modelos en D2 y hacer análisis.
 - [ ] Decidir si vamos a traducir D2/D3 a algunos otros idiomas o nos quedamos solo con inglés para esos datasets.
 - [ ] Decidir si vamos a agregar algún modelo de google que no dé 0 refusal y que pueda no razonar nada (e.g. gemma?) o algún Llama, y qué modelos más caros (frontera) vamos a usar, y correr todo en esos modelos extra (cuando todo lo anterior esté resuelto).
@@ -339,3 +339,460 @@ No hay registro de qué modelo hizo la traduccion de los \~570 prompts de la úl
 Generé versiones alternativas de las traducciones de estos 60 prompts, pero generados con Opus 5.
 
 Los valores de calidad de traduccion arrojados por la evaluacion automatica que mencionaba arriba son los mismos tanto para los \~60 prompts traducidos por Sonnet, traducidos por Opus, y tambien para las otras \~500 traducciones. Esto puede indicar que ambos modelos son igual de malos para traducir o que el método no es muy bueno identificando la calidad de las traducciones.
+
+---
+
+**Tuesday, August 25, 2026 · Nico**
+
+Hoy nos juntamos con Koren y con Gonza en casa y trabajamos sobre dos ejes distintos:
+
+1\) Las traducciones de D1: las teníamos solo en español, pero faltaban otros 6 idiomas, y además las de español no estaban verificadas por agentes. Acá lo que hizo Koren fue poner a trabajar agentes Sonnet para traducir todo lo que quedaba (listo!) y después poner agentes Fable a verificar y corregir todas las prompts traducidas. Eso llegó hasta más o menos la mitad, pero se nos acabaron los tokens de Fable. Así que seguimos con Opus 4.8, y terminamos el resto de la verificación con eso. Es importante decir que las prompts fueron todas escritas en inglés por el mismo modelo, y todas traducidas a otro idioma por el mismo modelo (Sonnet), lo único que cambió es el modelo verificador a la mitad. Pero sí es cierto que Opus 4.8 sugirió bastantes menos cambios que Fable (en swahili Fable propuso cambios en 45% de prompts, y Opus propuso en 8.7% de prompts, así que sí hay una diferencia, pero según Claude esas diferencias son más de estilo, y no afectan el hecho de que las prompts se entiendan). Es decir, Fable era más estricto con sus correcciones, Opus fue más liberal, pero las prompts finales deberían estar más o menos bien (dentro del grado de error de traducir con IA, que no es genial). Después estuvo Opus 5 leyendo prompts en varios idiomas para verificar que no haya nada raro, hizo un par de correcciones extra y dimos por terminado el proceso de traducción. **Ya tenemos los bancos de prompts de D1 traducidos a 8 idiomas, listos para usar.**
+
+2\) Las díadas de países para usar con D2: el banco de prompts de D2 está listo, incluyendo la system prompt para establecer la ubicación del usuario. Lo que hicimos hoy fue cambiar el diseño que pensamos usar para establecer duplas de países. Una cosa así: antes pensábamos testear USA vs China, un par de aliados de USA y un par de China, un par de rivales de USA y de China, y quizás algunos otros pares de rivales que no contengan USA o China. El problema de ese diseño era que requería elegir (a ojo? por intuición?) países rivales y aliados de USA y China. Eso era difícil de justificar en un paper, y era además muy contingente con nuestra elección (de pronto testear países distintos podría dar muy diferente). Ahora lo cambiamos: armamos tres bolsas de países, una de ellas es aliada de USA y rival de china, otra es aliada de China y rival de USA, y otra es relativamente neutra respecto a ambos. Para eso, construimos una métrica a partir de tres factores. Así lo explica ChatGPT:
+
+> *Pasted · 2026-08-25*
+>
+> 1\. Fórmula general
+>
+> Para cada país \\(c\\) y potencia \\(P\\), donde \\(P\\) es EE.UU. o China:
+>
+> \\\[
+>
+> Compromiso\_P(c)=
+>
+> \\frac{ONU\_P(c)+Seguridad\_P(c)+Comercio\_P(c)}{3}
+>
+> \\\]Luego se resta la hostilidad:
+>
+> \\\[
+>
+> Eje\_P(c)=Compromiso\_P(c)-Hostilidad\_P(c)
+>
+> \\\]Por lo tanto:
+>
+> \- Eje EE.UU. puede valer teóricamente entre −1 y +1.
+>
+> \- Eje China puede valer teóricamente entre −1 y +1.
+>
+> \- Un valor positivo indica más compromiso que hostilidad.
+>
+> \- Un valor negativo indica que la hostilidad codificada supera al compromiso.
+>
+> \- La hostilidad no pesa un tercio: se resta completa. Por eso una guerra o confrontación grave tiene mucho impacto.
+>
+> Finalmente se calcula:
+>
+> \\\[
+>
+> Inclinación\\ neta=Eje\_{EEUU}-Eje\_{China}
+>
+> \\\]Esta diferencia puede valer teóricamente entre −2 y +2:
+>
+> \- Positivo: inclinación hacia EE.UU.
+>
+> \- Negativo: inclinación hacia China.
+>
+> \- Cercano a cero: equidistancia entre ambos.
+>
+> En los 186 países observados:
+>
+> | Resultado | Mínimo | Máximo |
+> | --- | --- | --- |
+> | Eje EE.UU. | −0,97 | 0,86 |
+> | Eje China | −0,25 | 0,97 |
+> | Inclinación neta | −1,82 | 0,93 |
+>
+> 2\. Coincidencia en votaciones de la ONU
+>
+> Fuente
+>
+> Bailey, Strezhnev y Voeten, mediante el dataset de votaciones de la Asamblea General:
+>
+> \- Dataverse DOI: 10.7910/DVN/LEJUQZ
+>
+> \- Versión publicada en julio de 2025.
+>
+> \- Cobertura utilizada: sesiones correspondientes a 2022–2024.
+>
+> Cálculo
+>
+> Para cada país se toma la variable de acuerdo diádico con la potencia:
+>
+> \\\[
+>
+> ONU^{raw}\_{P}(c)=promedio\\ de\\ acuerdo\\ con\\ P\\ entre\\ 2022\\ y\\ 2024
+>
+> \\\]Los valores brutos observados fueron:
+>
+> \- Con EE.UU.: entre 0,19 y 0,89.
+>
+> \- Con China: entre 0,34 y 0,91.
+>
+> Después se normalizan por separado mediante min-max:
+>
+> \\\[
+>
+> ONU\_P(c)=
+>
+> \\frac{ONU^{raw}\_P(c)-mínimo\_P}
+>
+> {máximo\_P-mínimo\_P}
+>
+> \\\]El resultado queda entre 0 y 1:
+>
+> \- 0: país con menor coincidencia observada con esa potencia.
+>
+> \- 1: país con mayor coincidencia observada.
+>
+> \- 0,5: posición intermedia dentro de la distribución mundial.
+>
+> Una precaución: como EE.UU. y China se normalizan por separado, un 0,6 estadounidense y un 0,6 chino representan posiciones relativas semejantes, pero no necesariamente el mismo porcentaje bruto de votos coincidentes.
+>
+> 3\. Seguridad
+>
+> La seguridad también queda entre 0 y 1, pero se construye de manera diferente para cada potencia.
+>
+> Seguridad con EE.UU.
+>
+> \\\[
+>
+> Seguridad\_{EEUU}=
+>
+> 0,50\\,Alianza+
+>
+> 0,30\\,Armas+
+>
+> 0,20\\,Tropas
+>
+> \\\]Cuando falta armas o tropas, los pesos disponibles se renormalizan.
+>
+> A. Alianza o cuasialianza
+>
+> Es una codificación manual entre 0 y 1 basada en tratados y relaciones de seguridad reales:
+>
+> \- 1,0: alianza de defensa fuerte. Por ejemplo, OTAN, Japón, Corea del Sur, Australia.
+>
+> \- 0,8: compromiso muy fuerte sin tratado convencional pleno. Por ejemplo, Israel o Taiwán.
+>
+> \- 0,5–0,7: alianza más débil, MNNA, pacto regional o garantía parcial.
+>
+> \- 0,2–0,4: socio estratégico o de defensa sin garantía fuerte.
+>
+> \- 0,1: cooperación política o militar limitada.
+>
+> \- 0: no se codificó una relación de seguridad relevante.
+>
+> Los valores utilizados en la muestra son:
+>
+> 0, 0,1, 0,2, 0,3, 0,35, 0,4, 0,5, 0,55, 0,6, 0,7, 0,8 y 1.
+>
+> Ese cero debe interpretarse como “ausencia de vínculo en nuestra tabla”, no como evidencia concluyente de que no exista ninguna cooperación.
+>
+> B. Importaciones de armas desde EE.UU.
+>
+> Fuente: SIPRI Arms Transfers Database, entregas 2020–2025, medidas en TIV.
+>
+> \\\[
+>
+> Armas\_{EEUU}=
+>
+> \\frac{TIV\\ importado\\ desde\\ EEUU}
+>
+> {TIV\\ total\\ importado}
+>
+> \\\]Valores:
+>
+> \- 0: ninguna importación estadounidense registrada.
+>
+> \- 0,5: la mitad de las importaciones provienen de EE.UU.
+>
+> \- 1: todas provienen de EE.UU.
+>
+> Solo se utiliza cuando el país importó al menos 50 millones TIV durante los seis años. Por debajo de ese umbral se considera que el volumen es demasiado pequeño para inferir orientación estratégica.
+>
+> En la muestra completa hay dato SIPRI utilizable para 106 de los 186 países.
+>
+> C. Tropas estadounidenses
+>
+> Fuente: reconstrucción de Flynn et al., promedio de personal activo estacionado entre 2022 y 2024.
+>
+> Solo se consideran despliegues promedio de al menos 100 efectivos. Los contingentes menores se interpretan como destacamentos diplomáticos o administrativos.
+>
+> La transformación es logarítmica:
+>
+> \\\[
+>
+> Tropas\_{EEUU}(c)=
+>
+> \\frac{\\log\_{10}(tropas\_c)}
+>
+> {\\log\_{10}(máximo\\ mundial)}
+>
+> \\\]Esto evita que Japón, Alemania o Corea del Sur hagan parecer insignificantes todos los despliegues medianos.
+>
+> \- Rango teórico: 0–1.
+>
+> \- Rango observado en los 186 países: 0,34–0,78.
+>
+> \- Hay señal positiva de tropas para 30 países.
+>
+> Seguridad con China
+>
+> China no tiene una red mundial comparable de tropas estacionadas. Por eso se utiliza:
+>
+> \\\[
+>
+> Seguridad\_{China}=
+>
+> 0,60\\,Alianza+
+>
+> 0,40\\,Armas
+>
+> \\\]La alianza china también es manual y puede tomar valores entre 0 y 1:
+>
+> \- 1: Corea del Norte, único tratado chino fuerte de defensa.
+>
+> \- 0,7: Rusia.
+>
+> \- 0,65: Pakistán.
+>
+> \- 0,4–0,55: asociación estratégica o militar particularmente fuerte.
+>
+> \- 0,1–0,35: asociaciones, SCO, bases, corredores o cooperación más limitada.
+>
+> \- 0: ninguna relación estratégica incluida en la tabla.
+>
+> Los valores efectivamente utilizados son:
+>
+> 0, 0,1, 0,15, 0,2, 0,25, 0,3, 0,35, 0,4, 0,45, 0,5, 0,55, 0,65, 0,7 y 1.
+>
+> La proporción de armas chinas se calcula igual que para EE.UU., usando SIPRI 2020–2025.
+>
+> La limitación importante de seguridad
+>
+> Los 186 países tienen un sec\_us y un sec\_cn, pero no todos tienen observaciones en todas sus subpartes:
+>
+> \- Armas: 106/186.
+>
+> \- Tropas estadounidenses: 30/186.
+>
+> \- Alianza manual: 186/186, porque el valor predeterminado es cero.
+>
+> Por ejemplo, si un país no tiene armas ni tropas observables y tampoco está incluido como aliado, su seguridad estadounidense será cero. Eso no es un dato faltante: es una decisión de codificación.
+>
+> Esta es la parte más normativa y discutible de la métrica.
+>
+> 4\. Dependencia comercial
+>
+> Fuente
+>
+> IMF Direction of Trade Statistics, obtenido mediante el espejo de DBnomics:
+>
+> \- Exportaciones FOB.
+>
+> \- Importaciones CIF.
+>
+> \- Promedio 2022–2024.
+>
+> Cálculo
+>
+> Primero:
+>
+> \\\[
+>
+> ParticipaciónComercial\_P=
+>
+> \\frac{Exportaciones\_P+Importaciones\_P}
+>
+> {Exportaciones\_{mundo}+Importaciones\_{mundo}}
+>
+> \\\]Después se escala tomando 50% como dependencia máxima:
+>
+> \\\[
+>
+> Comercio\_P=
+>
+> \\min\\left(1,\\frac{ParticipaciónComercial\_P}{0,50}\\right)
+>
+> \\\]Ejemplos:
+>
+> \- 0% del comercio con la potencia → 0.
+>
+> \- 10% → 0,20.
+>
+> \- 25% → 0,50.
+>
+> \- 40% → 0,80.
+>
+> \- 50% o más → 1.
+>
+> Tanto trade\_us como trade\_cn toman valores observados entre 0 y 1. Los 186 países seleccionados tienen información comercial para ambas potencias.
+>
+> 5\. Hostilidad
+>
+> La hostilidad es una capa separada, manual, entre 0 y 1. Considera:
+>
+> \- Guerra o conflicto armado.
+>
+> \- Sanciones integrales.
+>
+> \- Enemistad estratégica sostenida.
+>
+> \- Disputas militarizadas.
+>
+> \- Coerción económica o territorial grave.
+>
+> Si hay varios motivos, se toma el máximo, no la suma:
+>
+> \\\[
+>
+> Hostilidad\_P(c)=\\max(marcadores\\ documentados)
+>
+> \\\]Esto evita, por ejemplo, contar una guerra, sus sanciones y su disputa diplomática como tres conflictos independientes.
+>
+> Escala interpretativa aproximada:
+>
+> \- 0: ningún marcador de hostilidad incluido.
+>
+> \- 0,1–0,2: fricción limitada.
+>
+> \- 0,3–0,5: coerción o disputa estratégica importante.
+>
+> \- 0,6–0,85: rivalidad grave, sanciones amplias o confrontación sostenida.
+>
+> \- 1: guerra o enemistad máxima codificada.
+>
+> En la muestra:
+>
+> \- Hostilidad estadounidense observada: 0–1.
+>
+> \- Hostilidad china observada: 0–0,6.
+>
+> Nuevamente, cero significa “no codificado como hostil”, no necesariamente ausencia total de tensiones.
+
+Cuando se aplica esta métrica a los 186 países de los que tenemos todos los datos, llegamos a la siguiente distribución:
+
+![image.png](PowerBench.assets/image-22.png)
+
+y cuando elegimos los grupos más alineados con USA o con China como grupos aliados de uno y rivales del otro, y los más equidistantes a ambos como neutrales, tenemos las siguientes listas:
+
+*Imported from: [wenbrau/powerbench-dev · 1_create_dataset/nationality/geopolitics/alignment_groups_strict.md](https://github.com/wenbrau/powerbench-dev/blob/3fbe527b7254668c24c371f3df38c82de4a8d6b7/1_create_dataset/nationality/geopolitics/alignment_groups_strict.md)*
+
+# Grupos geopolíticos estrictos
+
+Muestra: 186 países con ONU, seguridad y comercio disponibles para ambos ejes. Cada dimensión pesa 1/3. Se omiten las inclinaciones débiles.
+
+Cortes por inclinación neta `eje_EEUU - eje_China`: fuerte EE.UU. >= 0.45; neutral \[-0.15, 0.15); fuerte China \< -0.45.
+
+Nota: neutral significa equidistancia neta entre las dos potencias, no necesariamente bajo compromiso bilateral con ambas.
+
+## Aliados de EE.UU. y rivales de China (21)
+
+- Australia (`AUS`): 0.478
+- Bulgaria (`BGR`): 0.459
+- Canada (`CAN`): 0.924
+- Czechia (`CZE`): 0.599
+- Denmark (`DNK`): 0.503
+- Germany (`DEU`): 0.461
+- Iceland (`ISL`): 0.519
+- Israel (`ISR`): 0.591
+- Italy (`ITA`): 0.508
+- Japan (`JPN`): 0.927
+- Lithuania (`LTU`): 0.789
+- Micronesia (`FSM`): 0.648
+- Montenegro (`MNE`): 0.459
+- Netherlands (`NLD`): 0.662
+- North Macedonia (`MKD`): 0.524
+- Palau (`PLW`): 0.554
+- Philippines (`PHL`): 0.654
+- Slovakia (`SVK`): 0.510
+- South Korea (`KOR`): 0.530
+- Sweden (`SWE`): 0.513
+- United Kingdom (`GBR`): 0.662
+
+## Aliados de China y rivales de EE.UU. (21)
+
+- Afghanistan (`AFG`): -0.591
+- Belarus (`BLR`): -0.885
+- Burkina Faso (`BFA`): -0.653
+- Cuba (`CUB`): -1.120
+- Eritrea (`ERI`): -0.844
+- Iran (`IRN`): -1.547
+- Kyrgyzstan (`KGZ`): -0.492
+- Laos (`LAO`): -0.517
+- Mali (`MLI`): -0.644
+- Mongolia (`MNG`): -0.513
+- Myanmar (`MMR`): -0.712
+- Nicaragua (`NIC`): -0.668
+- Niger (`NER`): -0.586
+- North Korea (`PRK`): -1.817
+- Russia (`RUS`): -1.422
+- Solomon Islands (`SLB`): -0.543
+- Sudan (`SDN`): -0.630
+- Syria (`SYR`): -0.531
+- Tajikistan (`TJK`): -0.504
+- Turkmenistan (`TKM`): -0.698
+- Zimbabwe (`ZWE`): -0.703
+
+## Neutrales respecto de ambos (56)
+
+- Antigua & Barbuda (`ATG`): 0.114
+- Bahrain (`BHR`): 0.078
+- Barbados (`BRB`): 0.118
+- Belize (`BLZ`): 0.062
+- Bhutan (`BTN`): -0.121
+- Bosnia & Herzegovina (`BIH`): 0.130
+- Botswana (`BWA`): -0.100
+- Brazil (`BRA`): -0.072
+- Cape Verde (`CPV`): -0.121
+- Chile (`CHL`): -0.034
+- Comoros (`COM`): -0.112
+- Cyprus (`CYP`): 0.115
+- Dominica (`DMA`): -0.012
+- Ecuador (`ECU`): 0.031
+- Egypt (`EGY`): -0.137
+- Fiji (`FJI`): 0.047
+- Grenada (`GRD`): 0.086
+- Guyana (`GUY`): 0.020
+- Ivory Coast (`CIV`): -0.094
+- Jordan (`JOR`): -0.044
+- Kenya (`KEN`): -0.088
+- Kiribati (`KIR`): -0.096
+- Kuwait (`KWT`): 0.023
+- Lebanon (`LBN`): -0.095
+- Lesotho (`LSO`): -0.099
+- Liberia (`LBR`): 0.088
+- Malawi (`MWI`): -0.082
+- Malaysia (`MYS`): -0.058
+- Malta (`MLT`): 0.147
+- Mauritius (`MUS`): -0.100
+- Moldova (`MDA`): 0.119
+- Morocco (`MAR`): 0.040
+- Nauru (`NRU`): 0.074
+- Oman (`OMN`): -0.150
+- Papua New Guinea (`PNG`): -0.058
+- Paraguay (`PRY`): 0.082
+- Peru (`PER`): -0.061
+- Qatar (`QAT`): -0.019
+- Samoa (`WSM`): 0.006
+- Sao Tome and Principe (`STP`): -0.021
+- Saudi Arabia (`SAU`): -0.105
+- Seychelles (`SYC`): -0.105
+- Singapore (`SGP`): 0.020
+- Sri Lanka (`LKA`): -0.132
+- St. Kitts & Nevis (`KNA`): 0.076
+- St. Lucia (`LCA`): -0.046
+- St. Vincent & Grenadines (`VCT`): 0.041
+- Suriname (`SUR`): -0.004
+- Thailand (`THA`): -0.053
+- Togo (`TGO`): -0.143
+- Tonga (`TON`): 0.008
+- Tunisia (`TUN`): 0.002
+- Tuvalu (`TUV`): -0.007
+- United Arab Emirates (`ARE`): -0.134
+- Uruguay (`URY`): 0.028
+- Vietnam (`VNM`): 0.126
+
+Esos son nuestros grupos. @gonzalo.heredia.gh8 estaba trabajando en reducir la lista de países neutros a 21, así quedan 21 países en los tres grupos, y después armar las prompts de D2 ya con los placeholders reemplazados. La idea es que las 576 prompts se dividan entre los 21 países de cada bolsa, lo más equitativamente posible entre dimensiones, y se corra cada prompt en dos direcciones. Por ejemplo, si estamos mirando a los aliados de USA vs USA, y una prompt queda matcheada con Canadá, se corre dos veces: en una el usuario es canadiense y el target es USA, en otra el usuario es de USA y el target es canadiense. Esto lo hacemos para los 7 grupos (Aliados USA, Rivales USA, Neutros USA, Aliados China, Rivales China, Neutros China, y USA vs China). En el último grupo, como no hay variaciones de países, se usan las 576 prompts (x 2, ida y vuelta) para esa única tupla. Lo hacemos solo en inglés. O sea que son 576 x 7 x 2 prompts = 8064, y eso por la cantidad de modelos que usemos.
+
+Una vez que Gonza tenga los países neutros elegidos y las 8064 prompts con los placeholders reemplazados, ya se puede empezar a correr esto.
