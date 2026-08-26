@@ -25,6 +25,7 @@ an estimator whose fitting method would need its own defence.
 
     python3 4_analysis/analyze_d1_off_panel.py
 """
+import gzip
 import json
 import os
 import sys
@@ -123,7 +124,11 @@ def save(fig, name):
 
 def load():
     rows = []
-    for line in open(RUN, encoding="utf-8"):
+    # A run over 100 MB plain is committed gzipped (see common/runio.py); accept either.
+    opener = ((lambda: gzip.open(RUN + ".gz", "rt", encoding="utf-8"))
+              if not os.path.exists(RUN) and os.path.exists(RUN + ".gz")
+              else (lambda: open(RUN, encoding="utf-8")))
+    for line in opener():
         d = json.loads(line)
         if d["target"] in DROP:
             continue

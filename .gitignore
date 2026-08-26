@@ -73,3 +73,8 @@ secrets.*
 # MCMC posteriors: 70-150 MB netCDFs, regenerable from the archived bayes scripts.
 # GitHub hard-rejects >100 MB; these were never meant to be tracked.
 4_analysis/archive/bayes/
+
+# Run files over GitHub's 100 MB limit are committed gzipped instead (common/runio.py reads
+# either). This keeps the uncompressed twin out of the index; already-tracked plain runs are
+# unaffected, and a small new one can still be added with `git add -f`.
+current/runs/d1_v6r2_6models_pinned_off_7langs.jsonl
