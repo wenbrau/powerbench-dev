@@ -291,8 +291,8 @@ Dio todo básicamente igual, pero ahora podemos confiar en estos resultados. Est
 
 - [x] Asegurar que las traducciones en español están good enough, o hacerlas mejor.
 - [x] Resuelto eso, hacer traducciones en todos los otros idiomas.
-- [ ] Correr los modelos ya corridos en D1 inglés, en los otros 7 idiomas.
-- [ ] Volver a correr D3 en los mismos modelos ya corridos en D1, con los problemas de consistencia de provider ya resueltos (mismos usados en D1! no cambiar).
+- [x] Correr los modelos ya corridos en D1 inglés, en los otros 7 idiomas.
+- [x] Volver a correr D3 en los mismos modelos ya corridos en D1, con los problemas de consistencia de provider ya resueltos (mismos usados en D1! no cambiar).
 - [x] Decidir tuplas de países para D2.
 - [ ] Correr mismos modelos en D2 y hacer análisis.
 - [ ] Decidir si vamos a traducir D2/D3 a algunos otros idiomas o nos quedamos solo con inglés para esos datasets.
