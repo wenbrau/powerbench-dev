@@ -46,8 +46,8 @@ warnings.filterwarnings("ignore")
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(_HERE)
-D1 = os.path.join(ROOT, "current", "runs", "d1_v6r2_7models_noreason_run.jsonl")
-D3 = os.path.join(ROOT, "current", "runs", "d3_v6r2_7models_noreason_run.jsonl")
+D1 = os.path.join(ROOT, "current", "runs", "old_unpinned_DO_NOT_USE", "d1_v6r2_7models_noreason_run.jsonl")
+D3 = os.path.join(ROOT, "current", "runs", "old_unpinned_DO_NOT_USE", "d3_v6r2_7models_noreason_run.jsonl")
 FIGDIR = os.path.join(_HERE, "figures", "d3_vs_d1")
 os.makedirs(FIGDIR, exist_ok=True)
 

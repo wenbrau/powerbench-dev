@@ -9,7 +9,8 @@ Rules of the folder:
 - Every run carries its bank in `<name>.meta.json`; the runner aborts rather than resume onto a
   different bank.
 - `*_run.jsonl` vs `*_noreason_run.jsonl` are different stimuli (provider-default vs disabled
-  test-time reasoning). Never pool them.
+  test-time reasoning). Never pool them. All such **unpinned** runs now live in
+  `runs/old_unpinned_DO_NOT_USE/` — provenance only; new analysis reads the pinned files.
 - `*.with403` files are forensic copies from the 16/08 key-limit incident; the live `.jsonl` files
   were re-bought clean.
 

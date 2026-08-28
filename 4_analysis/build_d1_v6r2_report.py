@@ -19,9 +19,9 @@ from build_panel7_report import (CSS, esc, grouped_bars, heatmap, interval_plot,
                                  svg_open, wilson)
 
 ROOT = Path(__file__).resolve().parents[1]
-RUN = ROOT / "current/runs/d1_v6r2_7models_run.jsonl"
-RUN_OFF = ROOT / "current/runs/d1_v6r2_7models_noreason_run.jsonl"
-SAMPLE = ROOT / "current/runs/sample10pct_7models_run.jsonl"
+RUN = ROOT / "current/runs/old_unpinned_DO_NOT_USE/d1_v6r2_7models_run.jsonl"
+RUN_OFF = ROOT / "current/runs/old_unpinned_DO_NOT_USE/d1_v6r2_7models_noreason_run.jsonl"
+SAMPLE = ROOT / "current/runs/old_unpinned_DO_NOT_USE/sample10pct_7models_run.jsonl"
 BANK = ROOT / "current/banks/dataset1_full_576.v6r2.jsonl"
 OUT = ROOT / "4_analysis/reports/d1_v6r2_panel.html"
 

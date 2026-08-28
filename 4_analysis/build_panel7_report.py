@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 B = ROOT / "1_create_dataset/build"
-RUN = ROOT / "current/runs/sample10pct_7models_run.jsonl"
+RUN = ROOT / "current/runs/old_unpinned_DO_NOT_USE/sample10pct_7models_run.jsonl"
 BANK = ROOT / "current/banks/dataset1_sample10pct_v6r.jsonl"
 REJUDGE = ROOT / "3_judge/validation/rejudge_sample_significant.jsonl"
 OUT = ROOT / "4_analysis/reports/panel7_significant.html"
