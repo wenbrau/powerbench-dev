@@ -258,7 +258,16 @@ def post(payload):
             # carries the per-key spend ceiling ("Key limit exceeded"), which is NOT the same thing
             # as a provider refusing one prompt -- so 403 is only fatal when the body says quota.
             low = detail.lower()
-            fatal = (e.code in (401, 402)
+            # A 402/"insufficient" that OpenRouter merely FORWARDS from an upstream provider is not
+            # the account limit. Measured 28/08/2026: GMICloud's own upstream balance ran dry
+            # mid-run and its wrapped error -- {"message":"Provider returned error", metadata:
+            # {"provider_name":"GMICloud","raw":"Insufficient balance"}} -- halted all six models
+            # with $44 still on the account. The true account 402 is top-level ("Insufficient
+            # credits"), carries no provider_name, and stays fatal below. Wrapped ones fall through
+            # to the per-row retry ladder like any other provider failure.
+            provider_wrapped = "provider returned error" in low or '"provider_name"' in low
+            fatal = not provider_wrapped and (
+                     e.code in (401, 402)
                      or "insufficient" in low
                      or (e.code == 403 and any(w in low for w in
                          ("key limit", "limit exceeded", "quota", "credit", "billing"))))
@@ -572,7 +581,11 @@ def main():
         return
 
     done = load_done()
-    jobs = [(t, r) for t in targets for r in rows if (t, r["id"]) not in done]
+    # Row-major on purpose: model-major order kept all WORKERS in-flight calls on ONE provider at a
+    # time (the pool consumes in submission order), serialising the run per model and concentrating
+    # 429 risk. Interleaving spreads in-flight load to ~WORKERS/len(targets) per provider. Resume is
+    # keyed on (target, id) and order-independent, so this changes scheduling only, not results.
+    jobs = [(t, r) for r in rows for t in targets if (t, r["id"]) not in done]
     _retry_cap = max(25, int(len(jobs) * RETRY_BUDGET_FRAC))
     est = sum(PINS[t]["price_out_per_m"] * 1600 / 1e6 for t in targets) * len(rows)
     print(f"\n{len(jobs)} target calls to go (+ {JUDGE_VOTES} judge call(s) each)")
