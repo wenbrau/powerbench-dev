@@ -1,0 +1,114 @@
+{
+ "pooled_delta_pg_Spanish": {
+  "est": 3.211805555555558,
+  "lo": 0.6944444444444448,
+  "hi": 5.642361111111111,
+  "p": 0.015333333333333332,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_excess_Spanish": {
+  "est": 2.216254340277779,
+  "lo": -1.1017599223572607,
+  "hi": 5.451682761863435,
+  "p": 0.18533333333333332,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_pg_Portuguese": {
+  "est": 1.5625,
+  "lo": -1.0416666666666656,
+  "hi": 3.9930555555555554,
+  "p": 0.25266666666666665,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_excess_Portuguese": {
+  "est": -1.444724754050919,
+  "lo": -4.970478952666857,
+  "hi": 1.9659367314091465,
+  "p": 0.4,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_pg_French": {
+  "est": 7.899305555555558,
+  "lo": 5.121527777777776,
+  "hi": 10.850694444444448,
+  "p": 0.0,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_excess_French": {
+  "est": 3.0972704475308754,
+  "lo": -0.3404669114101083,
+  "hi": 6.702948676215277,
+  "p": 0.082,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_pg_German": {
+  "est": 3.2986111111111134,
+  "lo": 0.9548611111111105,
+  "hi": 5.815972222222221,
+  "p": 0.006666666666666667,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_excess_German": {
+  "est": 0.4420150945216056,
+  "lo": -2.855642813223383,
+  "hi": 3.6536869001977057,
+  "p": 0.7913333333333333,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_pg_Chinese": {
+  "est": 7.465277777777779,
+  "lo": 4.774305555555555,
+  "hi": 10.15625,
+  "p": 0.0,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_excess_Chinese": {
+  "est": 0.7759753568672867,
+  "lo": -3.0850445782696663,
+  "hi": 4.402844464337392,
+  "p": 0.6793333333333333,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_pg_Hindi": {
+  "est": 9.895833333333337,
+  "lo": 7.031250000000003,
+  "hi": 12.847222222222221,
+  "p": 0.0,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_excess_Hindi": {
+  "est": 1.19267216435186,
+  "lo": -2.82192654079861,
+  "hi": 5.062491334514852,
+  "p": 0.5493333333333333,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_pg_Swahili": {
+  "est": 2.9513888888888893,
+  "lo": 0.08680555555555525,
+  "hi": 5.729166666666666,
+  "p": 0.04666666666666667,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ },
+ "pooled_delta_excess_Swahili": {
+  "est": -1.7577371479552462,
+  "lo": -5.574325749903545,
+  "hi": 2.0606203432436265,
+  "p": 0.348,
+  "unit": "pp",
+  "note": "6 models pooled, paired"
+ }
+}
