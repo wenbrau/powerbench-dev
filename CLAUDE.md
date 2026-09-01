@@ -32,6 +32,13 @@
 >   rows of a prompt — languages, conditions — resampled together), **per model**; pool models or
 >   languages only when the question calls for it, and say so. Temperature 0 → the prompt set is the
 >   only random component; models and languages are fixed factors.
+> - **Analysis layer (2026-09-01): `4_analysis/pbanalysis/`** — `load_all()` (one table over D1/D2/D3,
+>   `prompt_id` = the pairing key), `metrics` (R(mode), components, excess), `Boot` (prompt bootstrap),
+>   `report.Result` (output convention). Every analysis is a script `4_analysis/analysis_NN_*.py` that
+>   writes `4_analysis/results/NN_*/` (README in plain language + csv + png + stats.json); the index
+>   is `4_analysis/results/README.md`. Template: `analysis_00_smoke_baseline.py`. Tests:
+>   `python 4_analysis/tests/test_pbanalysis.py`. The older `build_*_report.py` builders predate this
+>   design and use the dropped metrics — do not extend them.
 > - `hackaton_runs/`, `data/`, `data_regrade/`, `paper/powerbench.tex` are the frozen hackathon study,
 >   not comparable with current runs without the anchored era comparison.
 
