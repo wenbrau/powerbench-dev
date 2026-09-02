@@ -16,3 +16,6 @@ seaborn>=0.13
 # Jupyter notebook support
 ipykernel>=6.0
 nbconvert>=7.0
+
+# capability probe bank builder (reads the MMLU-Pro parquet)
+pyarrow>=15

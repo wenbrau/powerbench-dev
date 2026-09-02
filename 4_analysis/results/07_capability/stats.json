@@ -1,0 +1,18 @@
+{
+ "spearman_pg_vs_capability": {
+  "est": 0.08571428571428573,
+  "lo": null,
+  "hi": null,
+  "p": 0.8717434402332361,
+  "unit": "ρ",
+  "note": "6 models; D1 8 languages within model"
+ },
+ "spearman_excess_vs_capability": {
+  "est": 0.028571428571428574,
+  "lo": null,
+  "hi": null,
+  "p": 0.9571545189504373,
+  "unit": "ρ",
+  "note": "6 models; D1 8 languages within model"
+ }
+}

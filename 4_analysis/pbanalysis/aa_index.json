@@ -1,0 +1,13 @@
+{
+ "_what": "Artificial Analysis intelligence index in the NON-reasoning setting, copied by hand for the models that have one. Used only as an external check of our capability probe (analysis 07). null = AA has no non-reasoning row for that model.",
+ "_source": "https://artificialanalysis.ai/ (Intelligence Index, non-reasoning variant)",
+ "_copied_on": null,
+ "index_nonreasoning": {
+  "anthropic/claude-haiku-4.5": null,
+  "openai/gpt-5.6-luna": null,
+  "minimax/minimax-m3": null,
+  "moonshotai/kimi-k2.6": null,
+  "deepseek/deepseek-v4-pro-0813": null,
+  "upstage/solar-pro4": null
+ }
+}

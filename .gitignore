@@ -79,3 +79,8 @@ secrets.*
 # unaffected, and a small new one can still be added with `git add -f`.
 current/runs/d1_v6r2_6models_pinned_off_7langs.jsonl
 current/runs/d2_geobloc_v2_6models_pinned_off.jsonl
+
+# capability probe bank: GPQA asks that its questions not be republished in plain text; the ids manifest is committed instead
+current/banks/capability_probe*.jsonl
+1_create_dataset/build/_cache_capability_probe/
+current/runs/capability_probe_*.full.jsonl
