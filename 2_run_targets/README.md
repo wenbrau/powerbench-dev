@@ -37,4 +37,4 @@ The committed `current/runs/capability_probe_off.jsonl` keeps only the last 300 
 replies (models restate the gated questions while reasoning); the untouched file is the local, gitignored
 `capability_probe_off.full.jsonl`. Scores (`pred`, `correct`, `parse_ok`) are identical in both.
 
-Scored by `4_analysis/analysis_07_capability.py` (accuracy per source, index = mean, scatter vs R(pg) and excess).
+Scored by `4_analysis/analysis_08_capability.py` (accuracy per source, index = mean, scatter vs R(pg) and excess).

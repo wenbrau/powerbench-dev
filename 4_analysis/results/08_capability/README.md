@@ -1,6 +1,6 @@
-# Block 7 — Capability measured under our serving conditions, and refusal vs capability
+# Block 8 — Capability measured under our serving conditions, and refusal vs capability
 
-*preliminary · 2026-09-02 · commit `c1280d3` · `07_capability`*
+*preliminary · 2026-09-02 · commit `a728744` · `08_capability`*
 
 ## Question
 
