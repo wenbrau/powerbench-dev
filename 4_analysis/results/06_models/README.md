@@ -1,6 +1,6 @@
 # Block 6 — The model as the unit: bias profile per model
 
-*preliminary · 2026-09-02 · commit `c1280d3` · `06_models`*
+*preliminary · 2026-09-02 · commit `cd83766` · `06_models`*
 
 ## Question
 

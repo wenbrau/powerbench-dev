@@ -14,7 +14,8 @@ import pandas as pd
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pbanalysis import Boot, ci, load_all, list_runs, plots, report  # noqa: E402
 from pbanalysis.assoc import sign_consistency  # noqa: E402
-from _shared import (B, SEED, LANGS, STANDINGS, SCALES, models_in, origin_of, round_pp, forest_grid)  # noqa: E402
+from _shared import (B, SEED, LANGS, STANDINGS, SCALES, models_in, origin_of, round_pp,  # noqa: E402
+                     levels_axis, levels_figure, levels_grid, trend_row)
 
 
 def main():
@@ -89,13 +90,50 @@ def main():
     res.table("contrasts", round_pp(pd.concat([t8, tEN, tD2])),
               "Standing contrasts per model for R(pg), excess, R(he), R(de): estimate, 95% interval, p. Three "
               "views: D1 8 languages (main), D1 English only, D2 (replication on the dyad bank).")
-    fig = forest_grid(tabs8, ("pg", "excess"), "Standing: high − low and med − low (D1, 8 languages within model, pp)")
-    res.figure("forest_standing_d1", fig,
-               "Per model. Blue = Δ in raw power-grab refusal, red = Δ in excess. Positive high − low means the "
-               "model refuses users who already hold power MORE than users who hold little.")
-    fig = forest_grid(tabsD2, ("pg", "excess"), "Standing, replication on D2 (14 dyad conditions within model, pp)")
-    res.figure("forest_standing_d2", fig, "Same contrasts on the D2 bank (same stories, nationality-slotted). "
-               "Agreement with the D1 panel is the replication check.")
+    # --- levels, not differences. Standing is ordered, so the two banks go side by side in one
+    #     figure: the replication question is "does the same shape appear in D2", and two sets of
+    #     bars answer it at a glance where two separate forests did not.
+    X_ST = [0.0, 1.0, 2.0]
+    lv_d1, tr_d1 = levels_axis(bs, {v: bs.mask(dataset="D1", standing=v) for v in STANDINGS},
+                               ref="low", x=X_ST)
+    lv_d2, tr_d2 = levels_axis(bs, {v: bs.mask(dataset="D2", standing=v) for v in STANDINGS},
+                               ref="low", x=X_ST)
+    st_lv, st_tr = {}, {}
+    for m in models:
+        a, ta = levels_axis(bs, {v: bs.mask(model=m, dataset="D1", standing=v) for v in STANDINGS},
+                            ref="low", x=X_ST)
+        b, _ = levels_axis(bs, {v: bs.mask(model=m, dataset="D2", standing=v) for v in STANDINGS},
+                           ref="low", x=X_ST)
+        st_lv[m], st_tr[m] = {"D1": a, "D2": b}, ta
+    res.table("standing_levels",
+              round_pp(pd.concat([lv_d1.assign(bank="D1 8 langs"), lv_d2.assign(bank="D2")],
+                                 ignore_index=True)),
+              "6 models pooled: the LEVEL of R(pg), the excess and the two components at each "
+              "standing, in both banks, with 95% intervals and the difference vs low standing.")
+    res.table("standing_trend",
+              pd.DataFrame([trend_row("pooled D1", "—", "standing (D1)", "step", tr_d1),
+                            trend_row("pooled D2", "—", "standing (D2)", "step", tr_d2)]
+                           + [trend_row(m, origin[m], "standing (D1)", "step", st_tr[m])
+                              for m in models]).round(3),
+              "Is the rise with standing a straight line? `slope` in pp per step, `curvature` the "
+              "orthogonal quadratic contrast (0 = the three levels lie on a line), "
+              "`last_step_share` the fraction of the low → high rise happening in the second step "
+              "(0.5 under linearity, `p_vs_linear` tests it against 0.5).")
+    res.figure("standing_levels", levels_figure(
+        {"D1 (8 languages)": lv_d1, "D2 (dyad bank)": lv_d2}, "low",
+        "Prior standing of the user — 6 models pooled, both banks", tr=None),
+        "LEFT: the level of power-grab refusal at each standing, in both banks. Bars rising to the "
+        "right mean the model refuses the ALREADY-POWERFUL more — the anti-entrenchment direction. "
+        "The two banks side by side ARE the replication check: same shape in D2 as in D1 is the "
+        "claim. RIGHT: the excess at each standing, stars = p against 0. Slopes and the linearity "
+        "test are in `standing_trend`; the D1 slope is +4.7 pp per step with the rise concentrated "
+        "in the last step, the same accelerating shape scale shows, weaker.")
+    res.figure("standing_levels_by_model", levels_grid(
+        None, "low", "Prior standing of the user — per model, both banks", trs=st_tr, step="step",
+        series_by_model=st_lv),
+        "The same bars per model, blue = D1, gold = D2, shared y axis; each panel's subtitle is that "
+        "model's D1 slope and curvature. 64 pg prompts per standing per model in D1, so read this "
+        "for whether the sign holds in 6 of 6 and repeats in D2, not for the size in any one cell.")
 
     # pooled (descriptive)
     pooled_pairs = {}
