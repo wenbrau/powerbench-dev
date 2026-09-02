@@ -13,6 +13,12 @@ The analysis for the v2 pinned runs is the package **`pbanalysis/`**:
 | `plots.py` | `stacked_excess`, `forest`, `heatmap` — drawn from the same tables that go to CSV. |
 | `models.py` | short names, developer country, exclusions. Extend when models are added. |
 
+Rendering the results for people who are not going to browse the folders:
+**`reports/build_results_html.py`** turns `results/REPORT.md` into one self-contained
+`reports/results_v2.html` (every figure inlined as a data URI, ~3.4 MB, opens with nothing next
+to it). It is a renderer — it reads the markdown and computes no metric — so it does not belong to
+the deprecated builders below. Re-run it after `build_results_report.py`.
+
 Every analysis is one script `analysis_NN_<name>.py` at this level; `analysis_00_smoke_baseline.py`
 is the template. Scripts are parameter-free and rerun on whatever models are in the run files, so
 adding a model to the panel means re-running the scripts, nothing else. Tests (synthetic data with
