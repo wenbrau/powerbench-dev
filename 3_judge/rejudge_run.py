@@ -67,7 +67,7 @@ def post(payload, tries=8):
     last = ""
     for k in range(tries):
         try:
-            with urllib.request.urlopen(req, timeout=180) as r:
+            with urllib.request.urlopen(req, timeout=120) as r:
                 return json.load(r), None
         except urllib.error.HTTPError as e:
             try:

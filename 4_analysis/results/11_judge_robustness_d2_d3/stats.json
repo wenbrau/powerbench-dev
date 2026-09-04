@@ -1,0 +1,34 @@
+{
+ "kappa_D2": {
+  "est": 0.778,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "",
+  "note": "κ judge-judge, D2, n=48381"
+ },
+ "kappa_D3": {
+  "est": 0.762,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "",
+  "note": "κ judge-judge, D3, n=3024"
+ },
+ "contrasts_pg_spearman": {
+  "est": 0.8430615774692505,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "",
+  "note": "ρ between judges over all D2-condition and D3 contrasts vs D1en (pg)"
+ },
+ "contrasts_excess_spearman": {
+  "est": 0.5046221982292655,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "",
+  "note": "same, excess"
+ }
+}
