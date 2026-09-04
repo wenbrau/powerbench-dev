@@ -54,6 +54,7 @@ while _d != os.path.dirname(_d) and not os.path.isdir(os.path.join(_d, "common")
     _d = os.path.dirname(_d)
 sys.path[:0] = [_HERE, os.path.join(_d, "common")]
 import _paths  # noqa: F401  (engine + prompts + judge on sys.path)
+from judge_config import OFFICIAL_JUDGE, judge_pin_entry
 
 ROOT = _d
 OUT = os.path.join(_HERE, "provider_pins.json")
@@ -67,7 +68,9 @@ OUT = os.path.join(_HERE, "provider_pins.json")
 PANEL = ["anthropic/claude-haiku-4.5", "openai/gpt-5.6-luna", "google/gemini-2.5-flash-lite",
          "minimax/minimax-m3", "moonshotai/kimi-k2.6", "deepseek/deepseek-v4-pro-0813",
          "upstage/solar-pro4"]
-JUDGE = "openai/gpt-5.4-nano"
+# The judge is not ranked: it is fixed in common/judge_config.py and written into the pins file
+# as-is (2026-09-04). Only the TARGETS go through the endpoint ranking below.
+JUDGE = OFFICIAL_JUDGE["model"]
 
 # Hand-picked endpoints that override the ranking, each with its reason recorded in the output.
 # An override is a claim that the ranked winner is unusable for something the API does not expose.
@@ -205,7 +208,8 @@ def main():
     targets = (os.environ["TARGETS"].split(",") if os.environ.get("TARGETS") else PANEL)
 
     pins, notes = {}, []
-    for m in targets + [JUDGE]:
+    pins[JUDGE] = judge_pin_entry()
+    for m in targets:
         best, ordered, allep, err = resolve(m, policy)
         if err:
             notes.append(f"{m}: {err}")
@@ -252,8 +256,10 @@ def main():
     print(f"\npolicy: {policy}   (uptime floor {MIN_UPTIME}% over {UPTIME_FIELD})")
     print(f"{'model':34s} {'provider':18s} {'quant':9s} {'$/M out':>8s} {'up1d':>6s} {'up30m':>6s}  first-party")
     for m, p in pins.items():
-        tag = "JUDGE " if m == JUDGE else ""
-        print(f"{tag}{m:34s} {p['provider']:18s} {p['quantization']:9s} "
+        if m == JUDGE:
+            print(f"JUDGE {m:34s} {p['provider']:18s} {p['quantization']:9s}  (fixed, common/judge_config.py)")
+            continue
+        print(f"{m:34s} {p['provider']:18s} {p['quantization']:9s} "
               f"{p['price_out_per_m']:8.2f} {p['uptime_1d']:5.0f}% {p['uptime_30m']:5.0f}%  {p['first_party']}")
     if notes:
         print("\n-- decisions worth reviewing --")
