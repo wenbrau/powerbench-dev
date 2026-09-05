@@ -1,0 +1,80 @@
+{
+  "source_bank": "1_create_dataset\\build\\_v11_slice26.multilang.jsonl",
+  "source_sha256": "9c7837df9b14cd3fb4083953f07ad8a6f5fafc9b9bb35828ba150b7312eb6e43",
+  "verdict_dir": "C:\\Users\\marto\\Documents\\GitHub\\global-south-hackaton-cont\\1_create_dataset\\build\\_verify_control_192_v11",
+  "verdict_files": {
+    "de_batch_000.json": "843f704623b5d7c955fd4a1797bb9296a1daf83f48967796d68adabfb33823e7",
+    "de_batch_001.json": "c423c1f6be7f14758942a693cc4528cd6c0e51cc7d547af38ba54adc1f392ff3",
+    "es_batch_000.json": "09edcfc8a9b480166e8b01dafff019c1b968634f9071940cf2056491d6a8bb43",
+    "es_batch_001.json": "c8a4b1b414c400859c29d9e9ea1fc2e4bb9543f978ff4435cb5de0acbb97b822",
+    "fr_batch_000.json": "09edcfc8a9b480166e8b01dafff019c1b968634f9071940cf2056491d6a8bb43",
+    "fr_batch_001.json": "5e7de436a2a562131663403aad783e01832da6b811dd366d30db0cce016b2c9d",
+    "hi_batch_000.json": "09edcfc8a9b480166e8b01dafff019c1b968634f9071940cf2056491d6a8bb43",
+    "hi_batch_001.json": "b9af405869c27929b16031de0bbf3cf968f877a5f097c73ba1c52c626f9926c9",
+    "pt_batch_000.json": "09edcfc8a9b480166e8b01dafff019c1b968634f9071940cf2056491d6a8bb43",
+    "pt_batch_001.json": "4fe0ffdec5f4251b92e1ac83ac7635b579224483b5944ba04fde4ffb63471029",
+    "sw_batch_000.json": "67a76ef4fae5f286a0540a204b0623c1e6c6410e36dddfa965c075909b68068f",
+    "sw_batch_001.json": "c423c1f6be7f14758942a693cc4528cd6c0e51cc7d547af38ba54adc1f392ff3",
+    "zh_batch_000.json": "2b218b0e43a281bd753b729274dff3a967c94e11845567a26cf69d721b2ca72c",
+    "zh_batch_001.json": "c423c1f6be7f14758942a693cc4528cd6c0e51cc7d547af38ba54adc1f392ff3"
+  },
+  "langs": [
+    "es",
+    "de",
+    "fr",
+    "hi",
+    "sw",
+    "zh",
+    "pt"
+  ],
+  "counts": {
+    "es": {
+      "verified": 25,
+      "repaired": 1,
+      "missing": 0,
+      "invalid": 0
+    },
+    "de": {
+      "verified": 25,
+      "repaired": 1,
+      "missing": 0,
+      "invalid": 0
+    },
+    "fr": {
+      "verified": 25,
+      "repaired": 1,
+      "missing": 0,
+      "invalid": 0
+    },
+    "hi": {
+      "verified": 25,
+      "repaired": 1,
+      "missing": 0,
+      "invalid": 0
+    },
+    "sw": {
+      "verified": 23,
+      "repaired": 3,
+      "missing": 0,
+      "invalid": 0
+    },
+    "zh": {
+      "verified": 24,
+      "repaired": 2,
+      "missing": 0,
+      "invalid": 0
+    },
+    "pt": {
+      "verified": 23,
+      "repaired": 3,
+      "missing": 0,
+      "invalid": 0
+    }
+  },
+  "patch_files": {},
+  "patch_rows": [],
+  "n_rows_out": 208,
+  "partial": false,
+  "problems": [],
+  "out_sha256": "fd6284be3c1763a5631199166f10b3eaeb71b2623d66bf85916955fef1ee7d5e"
+}

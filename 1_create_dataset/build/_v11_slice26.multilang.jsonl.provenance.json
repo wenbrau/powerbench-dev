@@ -1,0 +1,64 @@
+{
+ "artifact": "multilingual bank assembled from translator batch files",
+ "source_bank": {
+  "file": "1_create_dataset\\build\\_v11_slice26_en.jsonl",
+  "sha256": "aa2561cdd2297c1720421ef7f6da7cbf9f2ce4d2eabd7ce71bacaec15ac5816f",
+  "en_rows": 26
+ },
+ "trans_dir": "1_create_dataset\\build\\_trans_control_192_v11",
+ "languages_added": [
+  "es",
+  "de",
+  "fr",
+  "hi",
+  "sw",
+  "zh",
+  "pt"
+ ],
+ "per_language": {
+  "es": {
+   "files": 2,
+   "translated": 26,
+   "missing": 0
+  },
+  "de": {
+   "files": 2,
+   "translated": 26,
+   "missing": 0
+  },
+  "fr": {
+   "files": 2,
+   "translated": 26,
+   "missing": 0
+  },
+  "hi": {
+   "files": 2,
+   "translated": 26,
+   "missing": 0
+  },
+  "sw": {
+   "files": 2,
+   "translated": 26,
+   "missing": 0
+  },
+  "zh": {
+   "files": 2,
+   "translated": 26,
+   "missing": 0
+  },
+  "pt": {
+   "files": 2,
+   "translated": 26,
+   "missing": 0
+  }
+ },
+ "rows_in": 26,
+ "rows_added": 182,
+ "rows_out": 208,
+ "partial": false,
+ "problems": [],
+ "out": {
+  "file": "1_create_dataset\\build\\_v11_slice26.multilang.jsonl",
+  "sha256": "9c7837df9b14cd3fb4083953f07ad8a6f5fafc9b9bb35828ba150b7312eb6e43"
+ }
+}
