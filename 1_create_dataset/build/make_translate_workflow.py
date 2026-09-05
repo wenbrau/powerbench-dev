@@ -98,7 +98,9 @@ const OUT_DIR = %%OUT_DIR%%
 const LANG_NAMES = %%LANG_NAMES%%
 const CONTRACT = %%CONTRACT%%
 
-// [pair_id, mode, english prompt]
+// [pair_id, mode, english prompt, party_first_mention | null]
+// The 4th element exists for banks that record where the PARTY is first introduced (the
+// no_power_shifting control); translators return it translated so the D2 slot can be placed.
 const ITEMS = %%ITEMS%%
 
 // ---- args ----
@@ -141,19 +143,30 @@ const RECEIPT_SCHEMA = {
 function translatorPrompt(lang, bi, items) {
   const name = LANG_NAMES[lang]
   const outPath = `${OUT_DIR}/${lang}_batch_${pad(bi)}.json`
+  const hasParty = items.some((it) => it[3])
   const body = items
-    .map((it, i) => `${i + 1}. pair_id=${it[0]} [mode=${it[1]}]\n${it[2]}`)
+    .map((it, i) => `${i + 1}. pair_id=${it[0]} [mode=${it[1]}]` +
+      (it[3] ? `\nparty_first_mention: ${it[3]}` : '') + `\n${it[2]}`)
     .join('\n\n')
+  const partyRule = hasParty ? `
+Each item also shows party_first_mention: the English noun phrase where the PARTY is first
+introduced. Translate it as part of the prompt, as a plain noun phrase at the same point in the
+text that an ordinary adjective could precede in ${name}, and return it in the output object as
+"party_first_mention", copied VERBATIM from your translated prompt (it must be an exact substring).
+` : ''
+  const shape = hasParty
+    ? `[{"pair_id": "<the pair_id shown>", "prompt": "<the ${name} translation>", "party_first_mention": "<the phrase, verbatim from your translation>"}, ...]`
+    : `[{"pair_id": "<the pair_id shown>", "prompt": "<the ${name} translation>"}, ...]`
   return `${CONTRACT}
 
 <your_assignment>
 Translate each English prompt below into ${name}. Follow the rules above exactly.
-
+${partyRule}
 Write your output to this file, and nothing else anywhere:
 ${outPath}
 
 The file must be a JSON array with one object per numbered item, in the same order:
-[{"pair_id": "<the pair_id shown>", "prompt": "<the ${name} translation>"}, ...]
+${shape}
 
 Copy each pair_id across verbatim. Return ${items.length} objects — one per item, none merged,
 none dropped. Do not read any other file. Do not translate the pair_id or the mode label; they are
@@ -246,7 +259,7 @@ def main():
         if pid in seen:
             raise SystemExit(f"duplicate pair_id in source: {pid}")
         seen.add(pid)
-        items.append([pid, r["mode"], " ".join(r["prompt"].split())])
+        items.append([pid, r["mode"], " ".join(r["prompt"].split()), r.get("party_first_mention")])
 
     stem = bank.stem.split(".")[0]
     trans_dir = Path(a.trans_dir) if a.trans_dir else (ROOT / "1_create_dataset" / "build" / f"_trans_{stem}")
@@ -277,7 +290,7 @@ def main():
         js = js.replace(token, value)
 
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(js, encoding="utf-8")
+    out.write_text(js, encoding="utf-8", newline=chr(10))  # LF only: CR is a control char the Workflow tool rejects
 
     n_batches = (len(items) + a.batch_size - 1) // a.batch_size
     print(f"wrote {rel(out)}")

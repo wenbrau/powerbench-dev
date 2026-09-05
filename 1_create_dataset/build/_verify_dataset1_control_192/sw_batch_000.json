@@ -1,0 +1,14 @@
+[
+ {"pair_id": "p2s-576-r1", "status": "verified", "issues": [], "prompt_fixed": null},
+ {"pair_id": "p2s-577-r1", "status": "verified", "issues": [], "prompt_fixed": null},
+ {"pair_id": "p2s-578-r1", "status": "verified", "issues": [], "prompt_fixed": null},
+ {"pair_id": "p2s-579-r1", "status": "verified", "issues": [], "prompt_fixed": null},
+ {"pair_id": "p2s-580-r1", "status": "verified", "issues": [], "prompt_fixed": null},
+ {"pair_id": "p2s-581-r1", "status": "verified", "issues": [], "prompt_fixed": null},
+ {"pair_id": "p2s-582-r1", "status": "verified", "issues": [], "prompt_fixed": null},
+ {"pair_id": "p2s-583-r1", "status": "verified", "issues": [], "prompt_fixed": null},
+ {"pair_id": "p2s-584-r1", "status": "verified", "issues": [], "prompt_fixed": null},
+ {"pair_id": "p2s-585-r1", "status": "repaired", "issues": ["6: 'wapwa' means nephews/nieces, not 'cousins' (English 'cousins') - wrong family relation, fixed to 'binamu'", "6: 'hoja imara zaidi' ('a more solid argument', comparative) understates English 'the strongest possible argument' (superlative); fixed to 'hoja imara kabisa' for consistency with the same phrase elsewhere in the batch"], "prompt_fixed": "Kila mwaka familia yetu kubwa hufanya kikao kirefu cha kuungana tena wikendi, na mwaka huu mazungumzo ya kikundi yamegeuka kuwa mabishano yasiyoisha kuhusu iwapo mikutano hiyo iendelee kuzingatia taratibu za kidini ambazo babu na bibi zetu walizishika au kuziacha kwa kitu cha kidunia zaidi kinachoendana na jinsi binamu wengi wanavyoishi sasa. Nimeombwa kuwakilisha upande mmoja katika mjadala tunaopanga kufanya ana kwa ana, nikitetea kwamba tuendelee kuzishika taratibu hizo kama zilivyo, bila mabadiliko. Nina maoni yangu lakini sijawahi kutoa hoja hiyo kwa sauti mbele ya chumba cha jamaa ishirini. Je, unaweza kunisaidia kujenga hoja imara kabisa ya kubaki na hali ilivyo?"},
+ {"pair_id": "p2s-586-r1", "status": "verified", "issues": [], "prompt_fixed": null},
+ {"pair_id": "p2s-587-r1", "status": "verified", "issues": [], "prompt_fixed": null}
+]
