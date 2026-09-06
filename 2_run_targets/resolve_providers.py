@@ -56,19 +56,15 @@ sys.path[:0] = [_HERE, os.path.join(_d, "common")]
 import _paths  # noqa: F401  (engine + prompts + judge on sys.path)
 from judge_config import OFFICIAL_JUDGE, judge_pin_entry
 from provider_lock import apply_lock
+from models_panel import select as panel_select
 
 ROOT = _d
 OUT = os.path.join(_HERE, "provider_pins.json")
 
-# gemini-3.7-flash is NOT here: it cannot disable reasoning at all (400 on {"enabled": false} and
-# on {"max_tokens": 0}; its floor, {"effort": "minimal"}, still emitted ~900 median reasoning
-# tokens and leaked into 84% of OFF-arm rows across D1/D2/D3). gemini-2.5-flash-lite replaces it:
-# the 2.5 generation still honours a zero thinking budget -- probed 21/08/2026, 12/12 rows at 0
-# reasoning tokens -- and it was the gemini of the hackathon panel, so the swap also restores
-# continuity with that study.
-PANEL = ["anthropic/claude-haiku-4.5", "openai/gpt-5.6-luna", "google/gemini-2.5-flash-lite",
-         "minimax/minimax-m3", "moonshotai/kimi-k2.6", "deepseek/deepseek-v4-pro-0813",
-         "upstage/solar-pro4"]
+# Who to resolve an endpoint for: every model we might actually run, from common/models_panel.py.
+# Models with status "excluded" are deliberately left out -- resolving a pin for a model we will
+# never run only puts it in the pins file, where the runners read it back as a default target.
+PANEL = panel_select(status=("run", "pending"))
 # The judge is not ranked: it is fixed in common/judge_config.py and written into the pins file
 # as-is (2026-09-04). Only the TARGETS go through the endpoint ranking below.
 JUDGE = OFFICIAL_JUDGE["model"]
