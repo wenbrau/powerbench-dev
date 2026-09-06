@@ -105,6 +105,13 @@ FIRST_PARTY = {
     "moonshotai": ["moonshotai"],
     "deepseek": ["deepseek"],
     "upstage": ["upstage"],
+    # Two labs whose provider slug shares nothing with the id prefix, so they were silently
+    # invisible to the first-party rule: GLM is published under `z-ai/...` and served by the
+    # provider `z-ai`, Qwen under `qwen/...` and served by `alibaba`. Without these rows Z.AI's
+    # own fp8 endpoint lost the tiebreak to third parties selling the same precision 11% cheaper,
+    # and Alibaba's only Qwen endpoint was recorded as `first_party: false` in the pins file.
+    "z-ai": ["z-ai"],
+    "qwen": ["alibaba"],
 }
 
 # Lower is better. Full precision first; `unknown` is resolved contextually (see rank()).

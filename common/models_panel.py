@@ -12,7 +12,10 @@ Fields
     stratum    "no_reasoning" = reasoning can be switched off and is verified off per row
                "reasoning"    = the endpoint will not disable reasoning; run at the minimum the
                                 API allows, reported separately, NEVER pooled with no_reasoning
-    floor      only for stratum "reasoning": the reasoning payload to send as its minimum
+    floor      the smallest reasoning payload the endpoint accepts (e.g. {"effort": "low"}).
+               Independent of stratum: a "reasoning" model needs it because it cannot go lower,
+               and a "no_reasoning" model may carry one so it can also be run at minimum effort
+               on purpose (--min-effort). Only stratum decides whether the off arm is possible
     provider   the endpoint we want. None = let resolve_providers.py rank one
     status     "run" = already run on the current banks | "pending" = still to run |
                "excluded" = kept in the file with the reason, never run or analysed
@@ -131,8 +134,13 @@ MODELS = {
     },
     "moonshotai/kimi-k3": {
         "short": "kimi-k3", "origin": "CN", "lab": "Moonshot",
-        "stratum": NO_REASONING, "provider": None, "status": "pending", "aa_index": 60,
-        "note": "$2.55/M in, $12.75/M out. 18 endpoints. Unlike k2.6 there IS a usable bf16 one "
+        "stratum": NO_REASONING, "floor": {"effort": "low"}, "provider": None,
+        "status": "pending", "aa_index": 60,
+        "note": "$2.55/M in, $12.75/M out. 18 endpoints. Carries a `floor` while staying in the "
+                "no_reasoning stratum: it CAN run with reasoning off, and it can also be run at "
+                "minimum effort on purpose (--min-effort), which is how it bridges the two "
+                "strata -- the same model measured in both arms separates the reasoning effect "
+                "from the model effect. Unlike k2.6 there IS a usable bf16 one "
                 "(DeepInfra, $14.25/M out, 99.8% up1d), which the least-quantized policy will "
                 "pick -- and it is both better precision and cheaper than first-party Moonshot, "
                 "which serves mxfp4 at $15.00. So k3 can be run at full precision where k2.6 "
@@ -153,12 +161,22 @@ MODELS = {
         "short": "qwen3.8-max", "origin": "CN", "lab": "Alibaba",
         "stratum": REASONING, "floor": {"effort": "low"}, "provider": "alibaba",
         "status": "pending", "aa_index": 58,
-        "note": "$2.00/M in, $6.00/M out. REASONING IS MANDATORY (enabled by default, cannot be "
-                "turned off). ONE endpoint only -- first-party Alibaba, quantization undeclared, "
-                "100% up1d -- so there is no provider choice to make and no precision to control; "
-                "if it goes down the model is simply unavailable. Note the slug carries the 0902 "
-                "date: `qwen/qwen3.8-max` is not the servable id. The floor effort below is a "
-                "guess from `reasoning_effort` being supported; confirm it at preflight.",
+        "note": "$2.00/M in, $6.00/M out. ONE endpoint only -- first-party Alibaba, 100% up1d -- "
+                "so there is no provider choice and no fallback. Note the slug carries the 0902 "
+                "date: `qwen/qwen3.8-max` is not the servable id. "
+                "PRECISION IS UNKNOWABLE, not merely undeclared: OpenRouter reports `unknown` and "
+                "Alibaba's own Model Studio page for the model does not state it either. Qwen "
+                "publishes official BF16 and FP8 checkpoints (2.4T params: ~4.8 TB of weights at "
+                "BF16, ~2.4 TB at FP8), so a commercial API at this scale is probably FP8 -- an "
+                "inference from hardware economics, NOT a disclosure. It is the only candidate "
+                "whose serving precision we can neither choose nor verify; say so when reporting "
+                "it. "
+                "REASONING: through OpenRouter it is mandatory -- our own 2026-09-01 stratum probe "
+                "got 'reasoning is mandatory' from the endpoint. Alibaba's docs do list a "
+                "'Standard mode' (991,808 in / 131,072 out) beside 'Thinking mode' (983,616 / "
+                "131,072), so the NATIVE API may expose an off switch that OpenRouter does not. "
+                "We call it through OpenRouter, so `reasoning` stands. The floor effort below is a "
+                "guess from `reasoning_effort` being supported; the preflight settles both.",
     },
     "minimax/minimax-m3": {
         "short": "minimax-m3", "origin": "CN", "lab": "MiniMax",
@@ -238,9 +256,26 @@ def runner_arm(model_or_stratum: str) -> str:
     return RUNNER_ARM[s]
 
 
-def floor_payloads() -> dict:
-    """model id -> reasoning payload to send when the model cannot switch reasoning off. This is
-    what the runners used to hold as a hand-copied CANNOT_DISABLE table, in two places."""
+def cannot_disable() -> dict:
+    """model id -> minimum reasoning payload, for models that CANNOT run with reasoning off.
+
+    This is the table the runners hold as CANNOT_DISABLE. Membership is a property of the model
+    (stratum "reasoning"), not of the `floor` field: a model that merely HAS a minimum effort we
+    sometimes want is not a model that is unable to serve the off arm, and conflating the two
+    would make the runners skip it whenever --reasoning off is requested.
+    """
+    return {mid: m["floor"] for mid, m in MODELS.items()
+            if m["stratum"] == REASONING and m.get("floor")}
+
+
+def min_effort() -> dict:
+    """model id -> the smallest reasoning payload the endpoint accepts, for ANY model that has one.
+
+    Used by the runners' --min-effort flag to run the ON arm at the floor instead of at whatever
+    the provider defaults to -- which matters because the defaults are not modest: glm-5.3
+    defaults to effort `max`. Includes models that could also run with reasoning off (kimi-k3),
+    which is exactly the case `cannot_disable()` must not cover.
+    """
     return {mid: m["floor"] for mid, m in MODELS.items() if m.get("floor")}
 
 
