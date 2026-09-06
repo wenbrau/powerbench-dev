@@ -1784,4 +1784,4 @@ Cuando usamos deepseek, usamos de 2 providers distintos, no sé si esto fue repa
 >
 > Eje agente IA. Δpg = D3 (SiliconFlow) − D1-en (GMICloud). Δcontrol = control-D3 (GMICloud) − control-en (GMICloud). Misma asimetría, mismo signo de sesgo.
 
-Le pedí a mi Claude que fijara el provider de deepseek a GMICloud y armó nuevos archivos
+Le pedí a mi Claude que fijara el provider de deepseek a GMICloud y armó nuevos archivos. (Aunque luego de entrar mas a fondo me enteré que no usar GMICloud fue una decisión debido a que en un momento ese provider había dejado de honrar la flag de reasoning:false. Por eso cambiamos, luego cuando lo volvimos a usar volvió a honrarla pero un par de runs quedaron con ese otro provider)
