@@ -8,7 +8,8 @@
   "deepseek/deepseek-v4-pro-0813: OVERRIDE -> gmicloud (fp8) instead of the ranked deepseek (unknown). the first-party `deepseek` endpoint is unreachable from this account -- every call returns 404 \"no endpoints available matching your guardrail restrictions and data policy\", with or without a provider pin. It is an account setting (openrouter.ai/settings/privacy), not something a runner can route around, and it silently shaped the earlier runs too: the D1/D2/D3 deepseek rows were served at $3.96 and $2.436 per M, never at first-party $1.98. gmicloud/fp8 is the least-quantized endpoint this account can actually reach (99.6% up1d, 0 reasoning tokens on probe). Unblock the data policy to get first-party back.",
   "deepseek/deepseek-v4-pro-0813: pinned to third-party gmicloud (fp8) over first-party deepseek (unknown) -- policy=least-quantized",
   "26/08/2026, D1 7-lang OFF arm: deepseek re-pinned gmicloud/fp8 -> siliconflow/fp8. GMICloud stopped honouring reasoning:{enabled:false} between 25 and 26/08 (preflight 12/12 -> 9/12, 0.33 extra calls/row). Probed same-day at fp8: siliconflow 12/12 (99.9% up1d), deepinfra 12/12 but 77.5% up1d = below MIN_UPTIME, novita 8/12. siliconflow chosen: honours the flag, same precision, clears the uptime floor. Consequence to report: deepseek is served by GMICloud in d1_v6r2_7models_pinned_off_en.jsonl and by SiliconFlow in the 7-language file; same model, same fp8, different serving stack.",
-  "2026-09-04: judge switched to deepseek/deepseek-v4-flash-0731 @ morph/bf16 (official, see common/judge_config.py); the gpt-5.4-nano pin removed. Runs made with this file before that date were graded inline by gpt-5.4-nano."
+  "2026-09-04: judge switched to deepseek/deepseek-v4-flash-0731 @ morph/bf16 (official, see common/judge_config.py); the gpt-5.4-nano pin removed. Runs made with this file before that date were graded inline by gpt-5.4-nano.",
+  "2026-09-06, PROVIDER LOCK: deepseek re-pinned siliconflow/fp8 -> gmicloud/fp8 by common/provider_lock.py. The 26/08 re-pin (GMICloud had stopped honouring reasoning:{enabled:false}) was correct then but split the study across two stacks: GMICloud served D1-en, D2 and all three control runs, SiliconFlow served D1-7langs and D3, so the language and AI-agent difference-in-differences change provider in the power arm and not in the control arm. GMICloud honours the flag again (verified 05/09/2026, 12/12 and 6/6 rows at zero reasoning tokens across control192_ml_parts/, control_d2_parts/, control_d3_parts/). This edits the PIN FILE ONLY: the run it produced, d1_v6r2_6models_pinned_off_7langs.jsonl.gz, was served by SiliconFlow on all 4032 deepseek rows and stays that way -- every row carries its own provider/pinned_provider. Re-running the 7-language arm now lands on GMICloud and must go to a NEW --out, never a resume of that file."
  ],
  "pins": {
   "anthropic/claude-haiku-4.5": {
@@ -287,15 +288,15 @@
    ]
   },
   "deepseek/deepseek-v4-pro-0813": {
-   "provider": "siliconflow",
-   "provider_name": "SiliconFlow",
-   "tag": "siliconflow/fp8",
+   "provider": "gmicloud",
+   "provider_name": "GMICloud",
+   "tag": "gmicloud/fp8",
    "quantization": "fp8",
    "first_party": false,
-   "price_out_per_m": 3.96,
-   "uptime_30m": 100,
-   "uptime_1d": 99.93756243756243,
-   "context_length": 1048576,
+   "price_out_per_m": 3.564,
+   "uptime_30m": 100.0,
+   "uptime_1d": 99.6,
+   "context_length": 1048575,
    "supports_reasoning_effort": true,
    "supports_temperature": true,
    "overridden": true,

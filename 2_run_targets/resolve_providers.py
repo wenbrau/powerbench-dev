@@ -55,6 +55,7 @@ while _d != os.path.dirname(_d) and not os.path.isdir(os.path.join(_d, "common")
 sys.path[:0] = [_HERE, os.path.join(_d, "common")]
 import _paths  # noqa: F401  (engine + prompts + judge on sys.path)
 from judge_config import OFFICIAL_JUDGE, judge_pin_entry
+from provider_lock import apply_lock
 
 ROOT = _d
 OUT = os.path.join(_HERE, "provider_pins.json")
@@ -252,6 +253,15 @@ def main():
                 notes.append(f"{m}: pinned to third-party {pins[m]['provider']} "
                              f"({pins[m]['quantization']}) over first-party {slug(fp_ok[0])} "
                              f"({fq}) -- policy={policy}")
+
+    # The ranking above answers "which endpoint is best today". For a model whose stack is locked
+    # (common/provider_lock.py) that is not the question -- the study needs the SAME stack it
+    # already ran on, and re-ranking against a moved market is exactly how deepseek ended up split
+    # between GMICloud and SiliconFlow. The lock is applied last, so it overrides both the ranking
+    # and the soft OVERRIDES above, and it is recorded in the file's notes like any other decision.
+    for change in apply_lock(pins):
+        notes.append(f"PROVIDER LOCK -- {change}")
+        print(f"!! provider lock: {change}")
 
     print(f"\npolicy: {policy}   (uptime floor {MIN_UPTIME}% over {UPTIME_FIELD})")
     print(f"{'model':34s} {'provider':18s} {'quant':9s} {'$/M out':>8s} {'up1d':>6s} {'up30m':>6s}  first-party")
