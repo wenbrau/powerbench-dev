@@ -1,0 +1,39 @@
+{
+  "_comment": [
+    "PURPOSE: make the imports resolve. Nothing else.",
+    "",
+    "Every pipeline script imports its siblings by BARE NAME (`engine`, `models_panel`,",
+    "`or_key`, `provider_lock`, ...) and gets away with it because `common/_paths.py` inserts",
+    "the stage folders into sys.path at import time. That works at runtime and is invisible to",
+    "static analysis, so without the extraPaths below Pylance flags every one of those imports",
+    "as unresolved -- a wall of false warnings that hides the real ones.",
+    "",
+    "typeCheckingMode is OFF, and deliberately so. Merely creating this file makes Pyright use",
+    "its own default mode ('standard') instead of the editor's, which on a codebase with no type",
+    "annotations produces a second wall of false positives: `arg('--workers', 24, int)` looks",
+    "wrong because arg()'s `cast` parameter defaults to str; `MAX_TOKENS[ARM]` looks wrong",
+    "because arg() can return None, even though the line above it raises SystemExit unless ARM",
+    "is 'on' or 'off'; post() looks like it can return None because Pyright cannot prove the",
+    "retry loop's last iteration always returns. Trading one wall of noise for another is not a",
+    "fix. If this repo ever adopts annotations, raise this to 'basic' and work through the real",
+    "findings then.",
+    "",
+    "Keep extraPaths in sync with the list common/_paths.py inserts."
+  ],
+  "typeCheckingMode": "off",
+  "reportMissingImports": "warning",
+  "extraPaths": [
+    "common",
+    "1_create_dataset",
+    "1_create_dataset/prompts",
+    "1_create_dataset/nationality",
+    "2_run_targets",
+    "3_judge",
+    "3_judge/old_judges",
+    "4_analysis",
+    "Inspect"
+  ],
+  "venvPath": ".",
+  "venv": ".venv",
+  "exclude": ["**/__pycache__", ".venv", "old_unpinned_DO_NOT_USE"]
+}

@@ -89,7 +89,21 @@ OVERRIDES = {
                   "it silently shaped the earlier runs too: the D1/D2/D3 deepseek rows were served "
                   "at $3.96 and $2.436 per M, never at first-party $1.98. gmicloud/fp8 is the "
                   "least-quantized endpoint this account can actually reach (99.6% up1d, 0 "
-                  "reasoning tokens on probe). Unblock the data policy to get first-party back.",
+                  "reasoning tokens on probe). "
+                  "DO NOT 'FIX' THIS BY RELAXING THE ACCOUNT SETTING (reviewed 2026-09-07). The "
+                  "404 text names the cause: OUR data policy, not DeepSeek being down. "
+                  "OpenRouter's account-level data policy is the control that refuses providers "
+                  "which may train on or retain what we send, so the most likely reading is that "
+                  "the first-party endpoint fails that bar and the setting is doing exactly what "
+                  "it is there for. For a benchmark under CANARY.md -- whose whole point is that "
+                  "these prompts must never enter a training corpus -- a block like this is a "
+                  "feature. It also means every endpoint we DO reach has passed that filter, "
+                  "which is a systemic protection worth keeping rather than a nuisance to route "
+                  "around. NOT VERIFIED FROM THE API: neither /providers nor /endpoints exposes "
+                  "a training or retention flag, so the reading above rests on the error text "
+                  "plus what that setting means. Confirm at openrouter.ai/settings/privacy which "
+                  "policy is set and what it excludes, and record it -- the same page carries "
+                  "the training opt-in that muse-spark's note asks about.",
     },
     "moonshotai/kimi-k2.6": {
         "provider": "siliconflow",
@@ -115,11 +129,31 @@ FIRST_PARTY = {
     "upstage": ["upstage"],
     # Two labs whose provider slug shares nothing with the id prefix, so they were silently
     # invisible to the first-party rule: GLM is published under `z-ai/...` and served by the
-    # provider `z-ai`, Qwen under `qwen/...` and served by `alibaba`. Without these rows Z.AI's
-    # own fp8 endpoint lost the tiebreak to third parties selling the same precision 11% cheaper,
-    # and Alibaba's only Qwen endpoint was recorded as `first_party: false` in the pins file.
+    # provider `z-ai`, Qwen under `qwen/...` and served by `alibaba`.
+    #
+    # These rows do MORE than feed the first-party tiebreak, which since 2026-09-07 sits below
+    # price and rarely decides anything. They feed the QUANTIZATION rank, which decides first:
+    # an undeclared quant reads 0.5 from the lab itself and 9 from anyone else (see rank()), so
+    # a missing row here turns "Alibaba does not publish a number for its own model" into "we
+    # have no idea what this reseller is serving" and drops the only Qwen endpoint there is to
+    # the bottom of the list. They also set `first_party` in the pins file, which is reported.
     "z-ai": ["z-ai"],
     "qwen": ["alibaba"],
+    # Added 2026-09-07 with the labs the panel grew to. Missing rows are not cosmetic: an
+    # undeclared quantization ranks 0.5 when it comes from the lab and 9 when it comes from
+    # anyone else (see rank()), so a lab absent from this table has its own endpoint demoted to
+    # the bottom as if it were an anonymous reseller -- and `first_party` is reported wrong in
+    # the pins file either way. ByteDance publishes under `bytedance-seed/...` and serves as
+    # `seed`; the rest match their id prefix.
+    "x-ai": ["xai"],
+    "meta": ["meta"],
+    "amazon": ["amazon-bedrock"],
+    "tencent": ["tencent"],
+    "xiaomi": ["xiaomi"],
+    "nvidia": ["nvidia"],
+    "bytedance-seed": ["seed"],
+    "inclusionai": ["inclusionai"],
+    "thinkingmachines": ["thinkingmachines"],
 }
 
 # Lower is better. Full precision first; `unknown` is resolved contextually (see rank()).
@@ -136,6 +170,11 @@ QUANT_RANK = {"bf16": 0, "fp16": 0, "fp32": 0, "bfloat16": 0, "float16": 0,
 # fact; downtime can, because a request that never returns a completion returns no tokens and costs
 # nothing -- the runner's `post()` retries transport failures for free, and only VERIFICATION
 # retries (which do burn tokens) come out of the bounded budget. Precision is bought with patience.
+#
+# This gate is now the ONLY place uptime does real work. In the ranking below it was demoted to
+# the last tiebreak on 2026-09-07: a floor over a day is a liveness screen, which is what uptime
+# is good for, while a 30-minute reading deciding between a $1.88 and a $6.75 endpoint is noise
+# with a price tag. See rank() for the case that forced the change.
 MIN_UPTIME = 80.0          # % over the last DAY
 UPTIME_FIELD = "uptime_last_1d"
 
@@ -164,22 +203,59 @@ def price_out(ep):
         return float("inf")
 
 
+def price_in(ep):
+    """Prompt price per million tokens. Only used to break ties on equal completion price."""
+    try:
+        return float((ep.get("pricing") or {}).get("prompt") or 0) * 1e6
+    except (TypeError, ValueError):
+        return float("inf")
+
+
 def rank(ep, model, policy):
+    """Sort key over the ELIGIBLE endpoints: quantization, then price, then first party, then
+    uptime. Lower is better on every component.
+
+    Quantization outranks everything: two quantizations of one model are two models, while a
+    flaky endpoint is only a slower run.
+
+    Price comes second and uptime is LAST, since 2026-09-07. It used to be the other way round,
+    and the old ordering was wrong for a reason worth keeping written down.
+
+    Uptime already does its real job in the eligibility gate above -- a floor read over a whole
+    DAY, which drops endpoints that are simply not serving. Letting it ALSO break ties, on a
+    30-minute reading, made it decide questions it has no business deciding. The case that
+    exposed this is service tiers: the flex / standard / priority variants of an endpoint are
+    the same provider at the same precision, so they tie on the first two components and the
+    tie falls to half an hour of uptime noise -- while their prices differ by 2-4x. On
+    gemini-3.8-flash that pinned `google-vertex/global/priority` at $6.75/M over
+    `google-ai-studio/flex` at $1.88/M: a 3.6x premium bought with 0.12 points of uptime. On
+    gpt-5.6-luna and grok-4.6 the top two tiers both read EXACTLY 100.00, so price broke the tie
+    and we landed on the cheap one by luck -- and the next resolve could as easily land on the
+    dear one, changing the serving conditions mid-study, which is the confound this file exists
+    to remove.
+
+    The asymmetry that settles the order: a request to a down endpoint returns no completion,
+    hence no tokens and no bill (`post()` retries transport failures for free, and 429s cost
+    nothing), so downtime is paid in wall-clock time while price is paid in money. A criterion
+    that costs time should not outrank one that costs money. What downtime cannot fix is a run
+    that never finishes -- kimi-k2.6 on crusoe, ~4h per 576-row bank -- and that is handled by
+    the floor plus a hand override, both of which survive this change.
+
+    Note what uptime never sees either way: an endpoint that answers but ignores the reasoning
+    flag. DeepInfra served kimi-k3 at 99.8% uptime and burned three verification retries a row.
+    That is what `audit_provider_flags.py` is for.
+    """
     author = model.split("/")[0]
     fp = slug(ep) in FIRST_PARTY.get(author, [])
     q = (ep.get("quantization") or "unknown").lower()
     # An undeclared quant means "the lab didn't publish a number" when it IS the lab, and "we have
     # no idea what you are being served" when it is not. Rank it accordingly.
     qr = QUANT_RANK.get(q, 0.5 if fp else 9)
-    # Quantization outranks everything: two quantizations of one model are two models, while a
-    # flaky endpoint is only a slower run. It always did -- what let uptime override precision
-    # was never this ordering but the eligibility gate above, which used to drop a bf16
-    # endpoint for a 30-minute dip before the ranking ever saw it. First-party stays ahead of
-    # uptime: among endpoints equal on precision, a 0.2% uptime difference is not a reason to
-    # walk away from the lab that trained the model.
+    # Output price leads and input price breaks its ties: completions dominate the bill on every
+    # bank we run, but two endpoints often list the same completion price and differ on prompt.
+    price = (price_out(ep), price_in(ep))
     up = -(ep.get("uptime_last_30m") or 0.0)
-    return (qr, not fp, up, price_out(ep)) if policy == "least-quantized" \
-        else (not fp, qr, up, price_out(ep))
+    return (qr, price, not fp, up) if policy == "least-quantized"         else (not fp, qr, price, up)
 
 
 def resolve(model, policy):
@@ -243,12 +319,35 @@ def main():
                              or "declared in common/models_panel.py -- see that model's note")}
         if ov:
             want = ov["provider"]
-            forced = [e for e in ordered
-                      if (e.get("tag") or "") == want or slug(e) == want]
+            # An EXACT tag match wins over a company match, and the difference is not cosmetic.
+            # `upstage` is at once the company and the exact tag of one of its two endpoints, the
+            # other being `upstage/zdr`; matching on either rule at once let the ranking pick zdr
+            # while the declaration read as if it had pinned the plain endpoint. Every solar-pro4
+            # row on disk was served by `upstage`, so that silent flip would have split one
+            # model's rows across two endpoints -- the deepseek confound, arriving through the
+            # override that exists to prevent it.
+            exact = [e for e in ordered if (e.get("tag") or "") == want]
+            company = [e for e in ordered if slug(e) == want]
+            forced = exact or company
+            if exact and len({(e.get("tag") or "") for e in company}) > 1:
+                others = sorted({(e.get("tag") or "") for e in company} - {want})
+                notes.append(f"{m}: `{want}` was read as the EXACT endpoint, but the same "
+                             f"company also serves {', '.join(others)}. This is the reading "
+                             f"that freezes the pin, and it is deliberate -- but if what was "
+                             f"meant was 'this company, best endpoint of theirs', the "
+                             f"declaration in common/models_panel.py has to say which tag.")
+            if forced and not exact and len({(e.get("tag") or "") for e in company}) > 1:
+                notes.append(f"{m}: the declared provider `{want}` is a COMPANY, not an endpoint, "
+                             f"and it matches "
+                             f"{', '.join(sorted({(e.get('tag') or '') for e in company}))}. Took "
+                             f"the best-ranked of them ({forced[0].get('tag')}), which means the "
+                             f"ranking still decides -- declare the full tag in "
+                             f"common/models_panel.py to freeze it.")
             if forced:
-                notes.append(f"{m}: OVERRIDE -> {slug(forced[0])} "
+                notes.append(f"{m}: OVERRIDE -> {forced[0].get('tag') or slug(forced[0])} "
                              f"({forced[0].get('quantization') or 'unknown'}) instead of the "
-                             f"ranked {slug(best)} ({best.get('quantization') or 'unknown'}). "
+                             f"ranked {best.get('tag') or slug(best)} "
+                             f"({best.get('quantization') or 'unknown'}). "
                              f"{ov['reason']}")
                 best = forced[0]
                 ordered = [best] + [e for e in ordered if e is not best]
@@ -257,7 +356,8 @@ def main():
                              f"(below the uptime floor or no reasoning support) -- fell back to "
                              f"the ranked winner {slug(best)}.")
         pins[m] = describe(best, m)
-        pins[m]["overridden"] = bool(ov and slug(best) == ov["provider"])
+        pins[m]["overridden"] = bool(ov and ov["provider"] in
+                                     ((best.get("tag") or ""), slug(best)))
         pins[m]["alternatives"] = [describe(e, m) for e in ordered[1:4]]
 
         author = m.split("/")[0]
