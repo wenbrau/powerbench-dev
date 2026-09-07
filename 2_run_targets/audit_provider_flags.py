@@ -163,7 +163,23 @@ def endpoints(model):
 
 
 def slug(ep):
-    return (ep.get("tag") or "").split("/")[0]
+    """The endpoint's FULL tag, which is what `provider.only` routes on.
+
+    Not `tag.split("/")[0]`. OpenRouter's docs are explicit that a bare provider slug does NOT
+    match service-tier endpoints -- `openai` excludes `openai/flex` and `openai/fast`, which
+    "require explicit opt-in". Stripping the suffix therefore cannot reach a tier at all, and
+    silently means the standard tier: measured on 2026-09-07, gpt-5.6-luna billed at $0.20/$1.20
+    across every run we have, i.e. the standard endpoint, while our pins file recorded the tag
+    `openai/flex` at half that. The tag is the routable identity; the bare slug is a prefix."""
+    return ep.get("tag") or ""
+
+
+def matches(ep, want):
+    """A --providers entry names either the full tag (`openai/flex`) or a bare provider
+    (`baseten`, which then covers `baseten/fp8`). Both are useful: the bare form asks "this
+    company", the tagged form asks "this tier / region / precision"."""
+    tag = slug(ep)
+    return tag == want or tag.split("/")[0] == want
 
 
 def post(payload):
@@ -209,6 +225,7 @@ def one_call(provider, shape_name):
     _spent += cost
     return {"provider": provider, "shape": shape_name, "sent": reasoning,
             "reasoning_tokens": rtok, "completion_tokens": usage.get("completion_tokens"),
+            "prompt_tokens": usage.get("prompt_tokens"),
             "cost": cost, "served_by": served_by, "error": err}
 
 
@@ -233,13 +250,17 @@ def main():
     if PROVIDERS:
         chosen, seen = [], set()
         for p in PROVIDERS:
-            if not any(slug(e) == p for e in eps):
+            hits = [slug(e) for e in eps if matches(e, p)]
+            if not hits:
                 print(f"!! {p!r} does not serve {MODEL}; known: "
                       f"{sorted({slug(e) for e in eps})}")
                 continue
-            if p not in seen:
-                chosen.append(p)
-                seen.add(p)
+            # A bare slug can cover several tags (a tier ladder, or one precision per host).
+            # Audit each, because they are different endpoints and can behave differently.
+            for h in hits:
+                if h not in seen:
+                    chosen.append(h)
+                    seen.add(h)
     else:
         # No ranking policy here on purpose: the audit is what INFORMS a policy. Take the most
         # available endpoints and let the operator read the table.
@@ -369,6 +390,27 @@ def main():
                    "FLAT -> effort not wired through" if flat else
                    "non-monotone, read the numbers")
             print(f"  {p:16s} " + " -> ".join(f"{v:5d}" for v in vals) + f"   {tag}")
+
+    # Price fingerprint. Service tiers of one provider are the SAME model at 1x / 2x / 4x,
+    # so cost is the only evidence of which endpoint answered -- the response says "OpenAI"
+    # either way. This is the technique that caught Phala in August, used here to confirm
+    # that routing on a full tag actually reached the tier we asked for.
+    print()
+    print("realized price (confirms which endpoint answered):")
+    for p in chosen:
+        cs = [c for c in calls if c["provider"] == p and not c["error"] and c["cost"]]
+        if not cs:
+            print(f"  {p:22s} no billed call")
+            continue
+        ptok = sum(c.get("prompt_tokens") or 0 for c in cs)
+        ctok = sum(c.get("completion_tokens") or 0 for c in cs)
+        tot = sum(c["cost"] for c in cs)
+        listed = price.get(p, 0)
+        # completion dominates; report $/M out implied by the bill at the listed in:out ratio
+        implied = tot / (ctok / 1e6) if ctok else 0
+        flag = "" if not listed else ("  <-- matches listed" if abs(implied - listed) / listed < 0.5
+                                      else f"  <-- LISTED ${listed:.2f}, BILLED LIKE ANOTHER ENDPOINT")
+        print(f"  {p:22s} {ptok:7d} in / {ctok:6d} out  ${tot:7.4f}  implied ${implied:6.2f}/M out{flag}")
 
     errs = {c["error"] for c in calls if c["error"]}
     if errs:

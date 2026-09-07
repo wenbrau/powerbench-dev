@@ -295,7 +295,13 @@ def post(payload):
                 _consec_fail = 0
             ch = d["choices"][0]
             return (ch["message"].get("content") or ""), \
-                   {**d.get("usage", {}), "finish_reason": ch.get("finish_reason")}, \
+                   {**d.get("usage", {}), "finish_reason": ch.get("finish_reason"),
+                    # Which service tier actually served this row. Recorded for the same
+                    # reason as `provider`: flex / standard / fast are the same weights at
+                    # 1x / 2x / 4x, the provider name reads "OpenAI" for all three, and
+                    # until 2026-09-07 the only way to tell them apart after the fact was
+                    # to divide the bill by the tokens. Now the API reports it directly.
+                    "service_tier": d.get("service_tier")}, \
                    d.get("provider")
         except urllib.error.HTTPError as e:
             detail = ""
@@ -352,7 +358,17 @@ def call(model, messages, arm, max_tokens=16000, temp=0):
     # to do with reasoning. And it never guarded what it appeared to: declared support is not
     # honoured support, which is the whole premise of this file (Phala declared `reasoning` and
     # ignored it on 94% of calls). The real gate is `reasoning_ok`, measured per row after the fact.
-    prov = {"only": [pin["provider"]], "allow_fallbacks": False}
+    # Route on the endpoint TAG, not the bare provider slug. OpenRouter treats a bare slug as
+    # "this company's standard endpoint" and explicitly does NOT match service tiers: `openai`
+    # excludes `openai/flex` and `openai/fast`, which "require explicit opt-in". Stripping the
+    # suffix therefore could never reach the tier the ranking chose -- measured 2026-09-07,
+    # gpt-5.6-luna billed at $0.20/$1.20 on every run we have (the standard tier) while its pin
+    # recorded `openai/flex` at half that. The tag also pins the exact endpoint where a provider
+    # exposes several (Fireworks lists three for kimi-k3, at three prices), which closes the
+    # residual limitation resolve_providers documents. Verified by price fingerprint on both a
+    # tier suffix (openai/flex, 1x vs 2x vs 4x) and a quantization suffix (baseten/fp8).
+    route = pin.get("tag") or pin["provider"]
+    prov = {"only": [route], "allow_fallbacks": False}
     q = pin.get("quantization")
     if q and q != "unknown":
         prov["quantizations"] = [q]
@@ -759,7 +775,7 @@ def main():
                 "reasoning_ok": ok,                         # verified, not merely requested
                 "attempts": attempts,
                 "provider": provider,                       # what actually served it
-                "pinned_provider": PINS[t]["provider"],
+                "pinned_provider": (PINS[t].get("tag") or PINS[t]["provider"]),
                 "quantization": PINS[t]["quantization"],
                 "temperature": 1 if forced else 0,
                 "temp_forced": forced,

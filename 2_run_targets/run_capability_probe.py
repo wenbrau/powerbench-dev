@@ -186,7 +186,11 @@ def post(payload):
             account(d.get("usage"))
             ch = d["choices"][0]
             return ((ch["message"].get("content") or ""),
-                    {**d.get("usage", {}), "finish_reason": ch.get("finish_reason")},
+                    {**d.get("usage", {}), "finish_reason": ch.get("finish_reason"),
+                     # Which service tier served this row. Same reason as `provider`:
+                     # flex / standard / fast are the same weights at 1x / 2x / 4x and
+                     # all three report the provider as "OpenAI".
+                     "service_tier": d.get("service_tier")},
                     d.get("provider"))
         except urllib.error.HTTPError as e:
             detail = ""
@@ -229,7 +233,17 @@ def verified(arm, usage):
 
 def call(model, messages, arm):
     pin = PINS[model]
-    prov = {"only": [pin["provider"]], "allow_fallbacks": False}
+    # Route on the endpoint TAG, not the bare provider slug. OpenRouter treats a bare slug as
+    # "this company's standard endpoint" and explicitly does NOT match service tiers: `openai`
+    # excludes `openai/flex` and `openai/fast`, which "require explicit opt-in". Stripping the
+    # suffix therefore could never reach the tier the ranking chose -- measured 2026-09-07,
+    # gpt-5.6-luna billed at $0.20/$1.20 on every run we have (the standard tier) while its pin
+    # recorded `openai/flex` at half that. The tag also pins the exact endpoint where a provider
+    # exposes several (Fireworks lists three for kimi-k3, at three prices), which closes the
+    # residual limitation resolve_providers documents. Verified by price fingerprint on both a
+    # tier suffix (openai/flex, 1x vs 2x vs 4x) and a quantization suffix (baseten/fp8).
+    route = pin.get("tag") or pin["provider"]
+    prov = {"only": [route], "allow_fallbacks": False}
     q = pin.get("quantization")
     if q and q != "unknown":
         prov["quantizations"] = [q]
@@ -481,7 +495,7 @@ def main():
                 "reasoning_arm": arm, "reasoning_tokens": reasoning_tokens(usage),
                 "reasoning_ok": (not empty) and verified(arm, usage), "attempts": attempts,
                 "max_tokens": MAX_TOKENS[arm],
-                "provider": provider, "pinned_provider": PINS[t]["provider"],
+                "provider": provider, "pinned_provider": (PINS[t].get("tag") or PINS[t]["provider"]),
                 "quantization": PINS[t]["quantization"],
                 "temperature": 1 if forced else 0, "temp_forced": forced,
                 "usage": usage, "answer_raw": txt}

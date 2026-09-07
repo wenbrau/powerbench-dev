@@ -37,11 +37,19 @@ free, since a call that returns no completion is billed no tokens.
 full precision when the endpoint is first-party (a lab serving its own model is the reference
 implementation) and dead last otherwise (an undeclared third-party quant could be anything).
 
-Residual limitation, recorded rather than hidden: `provider.only` pins the PROVIDER, not the
-endpoint. Where one provider exposes several endpoints (openai has three price tiers, google-vertex
-three) the pin still allows variation between them. They share a quantization and a lab, so this is
-a much smaller confound than the one being removed -- and the runner records the provider actually
-returned on every row, so it stays auditable.
+The pin is an ENDPOINT, not a provider (closed 2026-09-07; this used to be a recorded limitation).
+`provider.only` accepts the full endpoint tag, so the runners send `pin["tag"]` -- `openai/flex`,
+`baseten/fp8`, `google-vertex/europe` -- and land on exactly the endpoint that was ranked. The bare
+slug was never equivalent: OpenRouter does not match service tiers from it, so `openai` silently
+meant "the standard tier" and gpt-5.6-luna billed at $0.20/$1.20 on every run while its own pin
+recorded `openai/flex` at half that. Where a provider exposes several endpoints (openai has three
+price tiers, google-ai-studio three, Fireworks three for kimi-k3) the tag now picks one of them
+instead of leaving it to the router.
+
+Service tiers are worth knowing about when reading a pin: `flex` is the same model and weights in a
+lower-priority queue at half the standard price, `fast` / `priority` the same at 2-4x. Only price
+and queueing differ, so the ranking's price tiebreak selects `flex` on its own wherever a lab
+offers one -- which is every OpenAI model and the Gemini line. Anthropic and xAI have no flex tier.
 """
 import json
 import os
@@ -226,12 +234,17 @@ def main():
         # already disqualified.
         ov = OVERRIDES.get(m)
         declared = (PANEL_MODELS.get(m) or {}).get("provider")
+        # A declaration may name the company (`baseten`) or the exact endpoint (`openai/flex`).
+        # Both are legitimate: the first says "this host, best endpoint of theirs", the second
+        # pins a service tier or region that the ranking would otherwise decide on price alone.
         if declared and (not ov or ov["provider"] != declared):
             ov = {"provider": declared,
                   "reason": (OVERRIDES.get(m, {}).get("reason", "")
                              or "declared in common/models_panel.py -- see that model's note")}
         if ov:
-            forced = [e for e in ordered if slug(e) == ov["provider"]]
+            want = ov["provider"]
+            forced = [e for e in ordered
+                      if (e.get("tag") or "") == want or slug(e) == want]
             if forced:
                 notes.append(f"{m}: OVERRIDE -> {slug(forced[0])} "
                              f"({forced[0].get('quantization') or 'unknown'}) instead of the "
