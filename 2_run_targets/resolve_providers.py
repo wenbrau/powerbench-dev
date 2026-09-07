@@ -56,7 +56,7 @@ sys.path[:0] = [_HERE, os.path.join(_d, "common")]
 import _paths  # noqa: F401  (engine + prompts + judge on sys.path)
 from judge_config import OFFICIAL_JUDGE, judge_pin_entry
 from provider_lock import apply_lock
-from models_panel import select as panel_select
+from models_panel import MODELS as PANEL_MODELS, select as panel_select
 
 ROOT = _d
 OUT = os.path.join(_HERE, "provider_pins.json")
@@ -219,7 +219,17 @@ def main():
             notes.append(f"{m}: {err}")
             print(f"!! {m}: {err}")
             continue
+        # The endpoint we want is DECLARED in common/models_panel.py (`provider`), which is the
+        # single place the panel is edited; OVERRIDES below only supplies the long-form reason for
+        # the two historical cases. Keeping the choice in one file is the point -- a pins file that
+        # disagreed with the registry is how kimi-k3 stayed on an endpoint the flag audit had
+        # already disqualified.
         ov = OVERRIDES.get(m)
+        declared = (PANEL_MODELS.get(m) or {}).get("provider")
+        if declared and (not ov or ov["provider"] != declared):
+            ov = {"provider": declared,
+                  "reason": (OVERRIDES.get(m, {}).get("reason", "")
+                             or "declared in common/models_panel.py -- see that model's note")}
         if ov:
             forced = [e for e in ordered if slug(e) == ov["provider"]]
             if forced:
