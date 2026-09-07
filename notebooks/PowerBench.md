@@ -1889,3 +1889,64 @@ Resultados de un analisis de los modelos que podriamos usar (queda pendiente cor
 > 5. **Adaptar el runner a batch**, que es async: no se puede verificar `reasoning_ok` por fila e ir reintentando. Patrón: mandar el lote → recolectar → reenviar las fallidas. Solo en los cerrados de US.
 > 6. Resolver lo de GLM antes de que su índice entre a ningún reporte.
 > 7. Decidir si D2 geobloc entra para algún modelo de B, y verificar el opt-in de entrenamiento en la cuenta de OpenRouter.
+
+---
+
+**lunes, 7 de septiembre de 2026 · gonza**
+
+Entonces mi propuesta que voy a correr la minieval ahora para tener el ranking sería esta:
+
+> *Pegado · 2026-09-07*
+>
+> ### **Brazo OFF — Estrato A (19 nuevos + 6 ya medidos = 25)**
+>
+> **🇺🇸 US — 12 modelos, $25.** Diez nuevos; `gpt-5.6-luna` y `claude-haiku-4.5` ya medidos el 02/09.
+>
+> `anthropic/claude-opus-5` · `openai/gpt-5.6-sol` · `openai/gpt-5.6-terra` · `anthropic/claude-sonnet-5` · `thinkingmachines/inkling` · `x-ai/grok-4.3` · `nvidia/nemotron-3-ultra-550b-a55b` · `nvidia/nemotron-3.5-lightning` · `google/gemma-4-31b-it` · `amazon/nova-2-lite-v1`
+>
+> *7 labs: Anthropic · OpenAI · Thinking Machines · xAI · NVIDIA · Google · Amazon*
+>
+> **🇨🇳 China — 12 modelos, $10.** Nueve nuevos; `kimi-k2.6`, `deepseek-v4-pro-0813` y `minimax-m3` ya medidos el 02/09.
+>
+> `moonshotai/kimi-k3` · `qwen/qwen3.8-flash` · `qwen/qwen3.8-27b` · `qwen/qwen3.7-plus` · `z-ai/glm-5.2` · `bytedance-seed/seed-2-1-turbo` · `tencent/hy3` · `xiaomi/mimo-v2.5-pro` · `inclusionai/ling-3.0-flash`
+>
+> *9 labs: Moonshot · Alibaba · DeepSeek · *[*Z.ai*](http://Z.ai)* · MiniMax · ByteDance · Tencent · Xiaomi · InclusionAI*
+
+> *Pegado · 2026-09-07*
+>
+> ### **Brazo FLOOR (effort mínimo) — Estrato B (10 medidas) — $168**
+>
+> `--reasoning on --include-floor`, que las estampa `arm="floor"`. **Salida aparte, nunca pooleada con OFF.**
+>
+> **🇺🇸 US (5)**
+>
+> `anthropic/claude-fable-5.1` · `openai/gpt-6-astra` · `x-ai/grok-4.6` · `google/gemini-3.8-flash` · `meta/muse-spark-1.3`
+>
+> **🇨🇳 China (5)**
+>
+> `z-ai/glm-5.3` · `qwen/qwen3.8-max-0902` · `qwen/qwen3.8-2.4t-a95b` · `z-ai/glm-5.3-flash` · `moonshotai/kimi-k3` *(ON voluntario)*
+
+También tenemos que discutir si incluir escenarios en el que tenemos modelos entre ambos estratos (su reasoning se puede apagar y encender, como Kimi, y para que su uso sea comparable)
+
+> *Pegado · 2026-09-07*
+>
+> Qué son. 8 modelos del Estrato A corridos también con reasoning ON, en D1-inglés + D3 (1.080 filas). Pareados US/China en cada nivel de capacidad:
+>
+> | Nivel | 🇺🇸 US | 🇨🇳 China |
+> | --- | --- | --- |
+> | ~54 / ~50 | anthropic/claude-opus-5 | moonshotai/kimi-k3 |
+> | ~45 / ~43 | anthropic/claude-sonnet-5 | z-ai/glm-5.2 |
+> | ~43 / ~42 | openai/gpt-5.6-luna | deepseek/deepseek-v4-pro-0813 |
+> | ~28 / ~41 | x-ai/grok-4.3 | qwen/qwen3.8-27b |
+>
+> Costo: $136 el run + $54 el probe = $190, sobre un programa de \~$3.200. El 6%.
+>
+> Por qué importa. El Estrato B tiene 9 modelos obligados a razonar. Cuando fable rechace más que glm-5.3, no vamos a poder decir si es el modelo o es el razonamiento — están confundidos por diseño. Los puentes son lo único que separa las dos cosas, porque miden el mismo modelo en las dos condiciones. Sin ellos, B se reporta pero no se interpreta.
+>
+> De paso contesta la pregunta 41 de la lista de análisis ("Reasoning on vs off: ¿el razonamiento cambia el sesgo o solo el nivel?"), que quedó abierta.
+>
+> Corrección al plan del 01/09: gemma-4-31b, qwen3.8-flash y minimax-m3 no pueden hacer de puente — 0 endpoints con reasoning\_effort; prenden y apagan pero no gradúan. Por eso los reemplazos de arriba.
+>
+> Sub-decisión que va junto. kimi-k3 en B está encendido voluntariamente mientras los otros ocho están forzados. Eso lo convierte en la referencia que hace legible a B, pero pide el espejo US: claude-opus-5 con ON al alcance de B (6.840 filas), +$248, que daría el par voluntario-ON 54.1 ↔ 50.2 arriba de todo. Es la decisión más cara de este bloque y la que menos claro tengo.
+>
+> Alternativa si el presupuesto aprieta: antes que los puentes, recortaría el alcance de fable en B — de 6.840 filas a D1-en + D3 baja de $495 a $156, ahorra $339, que es 2,5 veces lo que cuestan los puentes enteros.
