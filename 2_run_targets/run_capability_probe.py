@@ -67,7 +67,7 @@ ROOT = _d
 
 from provider_lock import apply_lock  # noqa: E402  (needs the sys.path bootstrap above)
 from models_panel import (cannot_disable, check_only_flag, confirm_plan, excluded,  # noqa: E402
-                          min_effort)
+                          min_effort, select as panel_select)
 
 
 def arg(name, default=None, cast=str):
@@ -145,8 +145,22 @@ JUDGE = PINCFG.get("judge")
 # numpy, so in any environment without the analysis deps the exclusion silently became empty and
 # the probe billed the excluded model. models_panel has no third-party imports for exactly this.
 PANEL_EXCLUDED = excluded()
+# Restrict the run to one stratum of common/models_panel.py. Without it the default target list
+# is EVERY pinned model, which on `--reasoning on --include-floor` means the 25 no_reasoning
+# models get an ON arm too -- the bridge programme, a separate and undecided question, silently
+# bought. The strata are the two arms of the study, so selecting by stratum is the ordinary way
+# to run one of them; --only and TARGETS stay for the exceptions.
+STRATUM = arg("--stratum")
+if STRATUM and STRATUM not in ("reasoning", "no_reasoning"):
+    raise SystemExit("--stratum must be `reasoning` or `no_reasoning` (see common/models_panel.py)")
+
 TARGETS = ([ONLY] if ONLY else os.environ["TARGETS"].split(",") if os.environ.get("TARGETS")
+           else panel_select(stratum=STRATUM) if STRATUM
            else [m for m in PINS if m != JUDGE and m not in PANEL_EXCLUDED])
+if STRATUM:
+    missing = [t for t in TARGETS if t not in PINS]
+    if missing:
+        raise SystemExit(f"no pin for {missing}: run 2_run_targets/resolve_providers.py first.")
 
 KEY = None
 if not DRY and not REPARSE:

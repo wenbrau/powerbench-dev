@@ -65,6 +65,7 @@ secrets.*
 *secret*.yml
 *.secrets
 *.status
+draft.md
 
 # PyMC posteriors: regenerable with 4_analysis/bayes_v6*.py, ~1.7GB, several over GitHub 100MB limit
 4_analysis/bayes/*.nc
@@ -84,3 +85,6 @@ current/runs/d2_geobloc_v2_6models_pinned_off.jsonl
 current/banks/capability_probe*.jsonl
 1_create_dataset/build/_cache_capability_probe/
 current/runs/capability_probe_*.full.jsonl
+
+# transient: the live-progress snapshot the runners rewrite beside their output
+*.jsonl.progress
