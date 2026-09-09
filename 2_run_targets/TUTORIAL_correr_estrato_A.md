@@ -59,15 +59,22 @@ minimax-m3, kimi-k2.6, deepseek-v4-pro, solar-pro4).
 
 ## 2. Los cuatro modelos de Anthropic: qué pasa exactamente
 
+> **Actualización 2026-09-09.** Dos cosas cambiaron después de escribir esta sección: (1) **batch
+> está apagado** — ningún modelo tiene `batch: True` en el panel, `--batch` se rechaza para todos y
+> el aviso del plan ya no aparece; la cuenta no puede crear batches (`CLAUDE.md` §6d). (2) **opus-5
+> quedó excluido** del estrato A (razona visible en el brazo OFF) y lo reemplaza
+> `google/gemini-3.1-flash-lite`. Lo que sigue describe el estado del 2026-09-08; la tabla está
+> corregida.
+
 Esta es la pregunta que más confusión genera, así que va con detalle. **Ninguno de los cuatro
 "se saltea" ni "espera a que lo corras con batch".** Cada uno hace algo distinto, y lo hace en
 silencio salvo donde se indica.
 
 | modelo | estrato | en una corrida `--reasoning off` | ¿lo alcanza `--batch`? |
 |---|---|---|---|
-| `claude-haiku-4.5` | A | **corre** — pero está declarado `run`, ya tiene las 6 bancos hechos | sí, aunque ya no hace falta |
-| `claude-opus-5` | A | **corre, sincrónico, a $25/M de salida** | **sí** → $12,50 |
-| `claude-sonnet-5` | A | **corre, sincrónico, a $10/M de salida** | **sí** → $5,00 |
+| `claude-haiku-4.5` | A | **corre** — pero está declarado `run`, ya tiene las 6 bancos hechos | no: aprobación retirada 2026-09-09 |
+| `claude-opus-5` | — | **no corre**: excluido el 2026-09-09 (razona visible en el brazo OFF); lo reemplaza `gemini-3.1-flash-lite` | no |
+| `claude-sonnet-5` | A | **corre, sincrónico, a $10/M de salida** | no: aprobación retirada 2026-09-09 (habría sido $5,00) |
 | `claude-fable-5.1` | **B** | **se saltea**, con un mensaje | no: batch es solo brazo OFF y fable no tiene brazo OFF |
 
 ### 2.1 fable-5.1 es el único que no corre, y avisa
@@ -105,15 +112,11 @@ Sobre el programa completo (20.664 filas) esos $14 son **~$580**. El aviso **no 
 sincrónico es una decisión legítima —batch compromete la plata al mandar y puede tardar 24 horas—
 pero tiene que ser una decisión, no un descuido.
 
-**Recomendación práctica:** sacá a opus-5 y sonnet-5 de la corrida sincrónica y corrélos aparte con
-`--batch`. La sección 6 muestra cómo.
-
-> ⛔ **2026-09-09: hoy no se puede.** La Batch API rechaza *todo* `create` de esta cuenta (haiku y
-> gpt-5.4-nano, cualquier endpoint, cualquier id) con `does not have a :batch endpoint`; el catálogo
-> lista los endpoints pero nunca sirvieron. Es la cuenta, y no es la data policy (ZDR está apagado;
-> se verificó) ni BYOK (opcional según los docs): queda revisar los guardrails y el límite de gasto
-> de la key, y si no, soporte de OpenRouter (ver `CLAUDE.md` §6d). Hasta que se resuelva, opus-5 y
-> sonnet-5 van sincrónicos a precio de lista, y el aviso del plan es solo informativo.
+**Recomendación práctica (actualizada 2026-09-09):** ninguna. Batch está apagado en el panel,
+sonnet-5 va sincrónico a precio de lista como el resto, y opus-5 ya no está en la corrida.
+Cuando la cuenta pueda crear batches (siete `create` rechazados el 2026-09-09 con `does not
+have a :batch endpoint`; ZDR apagado, BYOK opcional; falta revisar guardrails/límite de la
+key y soporte), la re-aprobación se hace en `common/models_panel.py`, no acá.
 
 ### 2.3 Por qué batch es seguro acá y no en otros modelos
 

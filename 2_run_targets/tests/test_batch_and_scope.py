@@ -501,7 +501,7 @@ def test_unconfirmed_intents():
     Offline: `_get` is replaced by a fake account listing."""
     print("\nunconfirmed intents (died between the ledger write and the POST returning)")
     import importlib
-    T = "anthropic/claude-opus-5"
+    T = "anthropic/claude-haiku-4.5"     # still pinned and in stratum A after 2026-09-09
     real_get, real_poll, argv = bc._get, bc.poll, sys.argv[:]
     polled = []
 

@@ -39,8 +39,20 @@ WHICH BANKS -- not here
     or control D2. The guard has no override, by design; read that file before trying to work
     around it.
 
-BATCH -- what `batch: True` means and does not mean
-    Four models carry it, all Anthropic, and the reason is a market fact rather than a preference:
+BATCH -- SWITCHED OFF 2026-09-09. No model carries `batch: True`.
+    The account cannot create batches: seven creates on 2026-09-09 -- haiku-4.5 and gpt-5.4-nano,
+    /v1/chat/completions and /v1/messages, base id, `:batch` id and the canonical dated slugs --
+    were all refused with HTTP 400 "does not have a :batch endpoint", while the catalog lists 72
+    `:batch` variants that have never reported uptime. Not the data policy (ZDR is off on the
+    account), not BYOK (optional per the docs); what is left to check is the key's guardrails and
+    spend limit, then OpenRouter support. Decided the same day: the programme runs synchronously,
+    sonnet-5 at list price, and `--batch` is refused for every model until a create is accepted
+    AND a researcher re-approves here. The transport (2_run_targets/batch_client.py) stays in the
+    tree, dormant, with its own record of the refusals. What follows is the reasoning behind the
+    approval of 2026-09-08, kept as history.
+
+    (2026-09-08) What `batch: True` meant. Four models carried it, all Anthropic, and the reason
+    was a market fact rather than a preference:
     Anthropic is the only lab in this panel with no synchronous flex tier, and its `:batch`
     variants are served by the SAME first-party `anthropic` endpoint we already pin, at exactly
     half price (verified live 2026-09-08: haiku 5.00 -> 2.50, sonnet 10.00 -> 5.00, opus 25.00 ->
@@ -196,8 +208,8 @@ MODELS = {
     "anthropic/claude-haiku-4.5": {
         "short": "haiku-4.5", "origin": "US", "lab": "Anthropic",
         "stratum": NO_REASONING, "provider": "anthropic", "status": "run", "aa_index": 30,
-        "batch": True,
-        "note": "BATCH APPROVED 2026-09-08 (see the BATCH section at the top of this file). "
+        "batch": False,
+        "note": "BATCH APPROVAL WITHDRAWN 2026-09-09 -- the account cannot create batches (BATCH section at the top of this file). Was approved 2026-09-08 (see the BATCH section at the top of this file). "
                 "`anthropic/claude-haiku-4.5:batch` has exactly one endpoint, `anthropic` -- the "
                 "same one this model is already pinned to -- at 0.50/2.50 against 1.00/5.00. "
                 "CAVEAT for whoever pools it: this model is already RUN on all four current banks "
@@ -208,9 +220,24 @@ MODELS = {
     },
     "anthropic/claude-opus-5": {
         "short": "opus-5", "origin": "US", "lab": "Anthropic",
-        "stratum": NO_REASONING, "provider": "anthropic", "status": "pending", "aa_index": 63,
-        "batch": True,
-        "note": "BATCH APPROVED 2026-09-08: `:batch` is one endpoint, `anthropic`, the same pin, "
+        "stratum": NO_REASONING, "provider": "anthropic", "status": "excluded", "aa_index": 63,
+        "batch": False,
+        "why": "REPLACED IN STRATUM A by google/gemini-3.1-flash-lite, decided 2026-09-09. It "
+               "cannot hold the verified-off condition: 71 of its 398 OFF probe rows carry a full "
+               "chain of thought inside <thinking> tags while every row reports zero reasoning "
+               "tokens, so `verified()` cannot see it. Not random: the tagged rows are the hard "
+               "items (median 319 chars, 40% correct) against one-character answers elsewhere "
+               "(79%). Anthropic documents this for Opus 5 with thinking disabled and recommends "
+               "low effort instead; the workaround is a system-prompt instruction, which cannot be "
+               "given to one model without a confound. Its 398 probe rows are kept: they are the "
+               "evidence for this decision, and the parser strips the tags to score them, but its "
+               "81.6% is NOT a verified-off measurement and the report marks it. Second strike, "
+               "already known: `temperature=0` is ignored on its pin. NOT moved to stratum B: the "
+               "note below names that option (effort low, reported apart, ~$150-290 at B's scope, "
+               "B would go 6 US / 3 CN); it is open, not taken. Stratum A stays 12 US / 12 CN / "
+               "1 KR; the US mean on the probe goes from 60.3 to 58.3 against CN 60.5, a gap a "
+               "quarter of the within-group spread, accepted.",
+        "note": "BATCH APPROVAL WITHDRAWN 2026-09-09 -- the account cannot create batches (BATCH section at the top of this file). Was approved 2026-09-08: `:batch` is one endpoint, `anthropic`, the same pin, "
                 "at 2.50/12.50 against 5.00/25.00 -- the largest absolute saving in the panel and "
                 "on a model with NO synchronous rows yet, so nothing is mixed. "
                 "$5/M in, $25/M out -- 5x haiku-4.5 on output and the most expensive model in the "
@@ -389,8 +416,8 @@ MODELS = {
     "anthropic/claude-sonnet-5": {
         "short": "sonnet-5", "origin": "US", "lab": "Anthropic",
         "stratum": NO_REASONING, "floor": {"effort": "low"}, "provider": "anthropic",
-        "status": "pending", "aa_index": None, "batch": True,
-        "note": "BATCH APPROVED 2026-09-08: one endpoint, `anthropic`, the same pin, 1.00/5.00 "
+        "status": "pending", "aa_index": None, "batch": False,
+        "note": "BATCH APPROVAL WITHDRAWN 2026-09-09 -- the account cannot create batches (BATCH section at the top of this file). Was approved 2026-09-08: one endpoint, `anthropic`, the same pin, 1.00/5.00 "
                 "against 2.00/10.00, and no synchronous rows exist yet. The sentence below saying "
                 "batch is unusable was written before the transport existed and is now WRONG in "
                 "its conclusion though right in its premise: verification is still per row, and "
@@ -475,12 +502,13 @@ MODELS = {
         "short": "gemini-3.1-flash-lite", "origin": "US", "lab": "Google",
         "stratum": NO_REASONING, "provider": "google-ai-studio/flex",
         "status": "pending", "aa_index": None,
-        "note": "CANDIDATE 2026-09-09, NOT YET IN THE PROGRAMME: probed as a possible replacement "
-                "for opus-5 in stratum A (opus-5 reasons visibly inside <thinking> tags on 71 of "
-                "its 398 OFF probe rows while reporting zero reasoning tokens -- see its entry). "
-                "Listed as `pending` only so resolve_providers.py issues it a pin and the "
-                "capability probe can run; decide keep/drop right after, and do not point a bank "
-                "at it before that. Metadata: reasoning.mandatory false, temperature accepted on "
+        "note": "IN THE PROGRAMME since 2026-09-09, replacing opus-5 in stratum A (opus-5 reasons "
+                "visibly inside <thinking> tags on 71 of its 398 OFF probe rows while reporting "
+                "zero reasoning tokens -- see its entry). Decided on the probe below: 57.5%, 14th "
+                "of 26 in the off arm, next to deepseek-v4-pro and gpt-5.6-terra; it keeps stratum "
+                "A at 12 US / 12 CN / 1 KR and moves the US mean from 60.3 to 58.3 against CN "
+                "60.5, a gap a quarter of the within-group spread, accepted -- what is lost is the "
+                "US ceiling (81.6 -> sonnet-5 74.1), which the writeup has to say. Metadata: reasoning.mandatory false, temperature accepted on "
                 "all 8 endpoints, $0.25/$1.50 standard, $0.12/$0.75 on the two flex tiers. "
                 "FLAG AUDIT 2026-09-09 (current/runs/flag_audit_google_gemini-3.1-flash-lite.json): "
                 "OFF honoured on all 8 Google endpoints, 0 reasoning tokens on 24/24 calls, median "
@@ -646,8 +674,8 @@ MODELS = {
     "anthropic/claude-fable-5.1": {
         "short": "fable-5.1", "origin": "US", "lab": "Anthropic",
         "stratum": REASONING, "floor": {"effort": "low"}, "provider": "anthropic",
-        "status": "pending", "aa_index": None, "batch": True,
-        "note": "BATCH: the endpoint qualifies (one endpoint, `anthropic`, the same pin, 5.00/25.00 "
+        "status": "pending", "aa_index": None, "batch": False,
+        "note": "BATCH approval withdrawn 2026-09-09 (BATCH section). The endpoint qualified (one endpoint, `anthropic`, the same pin, 5.00/25.00 "
                 "against 10.00/50.00 -- the biggest saving available anywhere in the panel) but "
                 "THE MODEL IS OUT OF REACH OF THE BATCH PATH ANYWAY, because that path is only "
                 "offered in the verified-off arm and this model has no off arm. That is not a "
