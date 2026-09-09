@@ -110,8 +110,9 @@ pero tiene que ser una decisión, no un descuido.
 
 > ⛔ **2026-09-09: hoy no se puede.** La Batch API rechaza *todo* `create` de esta cuenta (haiku y
 > gpt-5.4-nano, cualquier endpoint, cualquier id) con `does not have a :batch endpoint`; el catálogo
-> lista los endpoints pero nunca sirvieron. Es la cuenta, probablemente su data policy, y eso no se
-> relaja sin decisión de los investigadores (ver `CLAUDE.md` §6d). Hasta que se resuelva, opus-5 y
+> lista los endpoints pero nunca sirvieron. Es la cuenta, y no es la data policy (ZDR está apagado;
+> se verificó) ni BYOK (opcional según los docs): queda revisar los guardrails y el límite de gasto
+> de la key, y si no, soporte de OpenRouter (ver `CLAUDE.md` §6d). Hasta que se resuelva, opus-5 y
 > sonnet-5 van sincrónicos a precio de lista, y el aviso del plan es solo informativo.
 
 ### 2.3 Por qué batch es seguro acá y no en otros modelos

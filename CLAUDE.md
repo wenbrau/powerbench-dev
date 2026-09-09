@@ -533,10 +533,12 @@ python 2_run_targets/tests/test_batch_and_scope.py          # 68 offline checks,
 > endpoint"` — haiku-4.5 and gpt-5.4-nano alike, `/v1/chat/completions` and `/v1/messages` alike,
 > base id and `:batch` id alike — while the catalog lists all 72 `:batch` variants with
 > `uptime: null` (never served). So it is not the model, the endpoint shape or the body: it is the
-> account. The likely cause is the account data policy (`openrouter.ai/settings/privacy`), the
-> same setting that 404s deepseek's first-party endpoint — batch retains inputs and results on
-> OpenRouter for 30 days — and that setting is **not to be relaxed** for a benchmark under
-> `CANARY.md` without a researcher decision. Until it is settled, plan every model synchronously:
+> account. Ruled out the same day: the id (base, `:batch` and the canonical dated slugs are all
+> refused), the endpoint shape, the body, the data policy (ZDR is not active — checked in
+> `settings/privacy`) and BYOK (optional per the docs). Still to check: the key's guardrails and
+> spend limit (`settings/keys`; this key carries a $350 limit), then OpenRouter support — the beta
+> was announced 2026-08-07 and the catalog's `:batch` endpoints have never reported uptime. Until
+> it is settled, plan every model synchronously:
 > the ~$580 discount is not on the table. `batch_client.py --check-endpoints` cannot see this; it
 > reads the catalog, not the create. Fixed the same day: the create takes the **base** model id
 > ([docs](https://openrouter.ai/docs/batch-quickstart)), not the `:batch` id the code used to send.
