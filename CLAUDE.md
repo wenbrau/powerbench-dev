@@ -400,8 +400,16 @@ python 2_run_targets/run_capability_probe.py --reasoning off --only inclusionai/
 python 2_run_targets/run_capability_probe.py --reasoning off --reparse
 ```
 
-On Windows `cmd.exe` use backslashes (`2_run_targets\run_capability_probe.py`) — a forward slash
-is read as a switch. `python` alone works with the venv activated.
+**Shells.** These commands are the same everywhere. Forward slashes work in `cmd.exe` too —
+measured 2026-09-09, `python 2_run_targets/run_capability_probe.py` and
+`python 2_run_targets\run_capability_probe.py` produce byte-identical output; what needs a
+backslash is cmd's own built-ins (`dir`), not an argument being handed to `python.exe`. (An
+earlier version of this line said the opposite. It was wrong.) What *does* differ per shell is
+only line continuation — `\` in bash/zsh, `` ` `` in PowerShell, `^` in cmd — and setting an
+environment variable for one command: `VAR=x cmd` in bash/zsh, `$env:VAR = '…'` in PowerShell,
+`set VAR=…` in cmd. `python` alone works with the venv activated; on macOS without it, `python3`.
+For the one place that bites — building `TARGETS` from the panel —
+`models_panel.py --csv` prints the ids on one comma-separated line, so no shell needs to join them.
 
 **`--stratum` is not optional in practice.** Without it the target list is every pinned model, so
 `--reasoning on` would buy an ON arm for the 25 no_reasoning models too — the bridge programme,
@@ -432,6 +440,13 @@ while :; do clear; cat current/runs/capability_probe_off.jsonl.progress; sleep 2
 
 Ctrl+C is safe: rows are written and flushed one at a time, and re-running the same command
 resumes exactly where it stopped.
+
+**A plan abandoned at the prompt now leaves nothing behind.** The probe reads its resume before
+printing the plan, so the estimate reflects what is actually left — and until 2026-09-09 that put a
+write before the question: an aborted plan still created a `.meta.json`, which is the file
+`models_panel.runs_with()` reads to answer "has this model been run?". An abandoned plan therefore
+invented a run, and every invocation by an agent ends that way by design. The read and the write
+are now split: nothing touches the disk until `confirm_plan()` returns.
 
 ### ⚠️ If you are an AI agent
 
@@ -574,8 +589,11 @@ python 2_run_targets/batch_client.py --list                     # every batch on
 python 2_run_targets/batch_client.py --ledger <out.jsonl>       # what a run has outstanding
 python 2_run_targets/batch_client.py --compare A.jsonl B.jsonl  # are batch rows the same rows?
 
-# prove the transport where it is cheap (no judge, 398 short items), THEN on a real bank
-python 2_run_targets/run_capability_probe.py --reasoning off --batch \
+# prove the transport where it is cheap (no judge, 398 short items), THEN on a real bank.
+# --runanyway is required and is the point: haiku has already run this probe, so the guard
+# refuses to pay for it twice -- and paying twice for 20 rows is exactly what a batch-vs-sync
+# comparison is. That authorisation is a person's to give.
+python 2_run_targets/run_capability_probe.py --reasoning off --batch --runanyway \
     --only anthropic/claude-haiku-4.5 --limit 20 --out current/runs/probe_batch_smoke.jsonl
 python 2_run_targets/run_targets_pinned.py --reasoning off --batch --only anthropic/claude-opus-5 \
     --bank current/banks/dataset3_full_504.v6r2.jsonl --out current/runs/d3_opus5_batch_off.jsonl

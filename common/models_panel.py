@@ -98,6 +98,12 @@ Use
 CLI
     python common/models_panel.py                                   full table
     python common/models_panel.py --origin CN --status pending      matching ids, one per line
+    python common/models_panel.py --stratum no_reasoning --status pending --csv
+                                                                    the same ids on ONE line,
+                                                                    comma-separated: the shape
+                                                                    TARGETS takes, and the only
+                                                                    form that is one command in
+                                                                    every shell
     python common/models_panel.py --check                           declared status vs current/runs/
 
 ===============================================================================================
@@ -163,6 +169,13 @@ Which scripts spend
 
 Safe to do without asking, because none of it makes a paid call: reading this file, the CLI
 above, `--check`, and `--dry-run` / `--reparse` on `run_capability_probe.py`.
+
+Also safe, and worth knowing: LETTING A RUNNER ABORT AT THE PROMPT LEAVES NO TRACE. Not one file
+is written before `confirm_plan()` returns -- not the run file, not its `.meta.json`, not the
+resume's housekeeping. (That was not true of the probe until 2026-09-09: an abandoned plan used to
+leave a meta behind, and `runs_with()` then reported a run that never happened.) So running a
+command to see its plan is free in every sense, and copying that plan back to the user is the
+right move.
 """
 from __future__ import annotations
 
@@ -831,6 +844,12 @@ def stratum(target: str) -> str:
     return m["stratum"] if m else ""
 
 
+def status(target: str) -> str:
+    """The model's declared status ("run" | "pending" | "excluded"), or "" if it is not listed."""
+    m = MODELS.get(target)
+    return m["status"] if m else ""
+
+
 def reasoning_forced(target: str) -> bool:
     """Is a reasoning-enabled arm on this model a CONSTRAINT rather than a choice?
 
@@ -1004,6 +1023,13 @@ def _cli():
     picked = select(origin=opt("--origin"), stratum=opt("--stratum"),
                     status=opt("--status") or ("run", "pending", "excluded"),
                     lab=opt("--lab"))
+    if "--csv" in args:
+        # One line, comma-separated: the shape the runners' TARGETS env var takes. It exists
+        # because the obvious pipeline -- print one id per line, then join -- is a different
+        # incantation in every shell, and in cmd.exe it needs a `for /f` loop with delayed
+        # expansion. One flag removes that from the instructions on all four platforms.
+        print(",".join(picked))
+        return
     if any(a.startswith("--") for a in args):
         for mid in picked:
             print(mid)

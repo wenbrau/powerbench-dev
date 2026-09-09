@@ -451,6 +451,39 @@ def test_bank_extension():
             os.environ["TARGETS"] = env
 
 
+def test_probe_writes_nothing_before_confirmation():
+    """A plan abandoned at `Continue? [y/N]` must leave the directory exactly as it found it.
+
+    The probe reads its resume BEFORE printing the plan, so the estimate reflects what is actually
+    left -- and that used to put a WRITE before the question: an abandoned plan still created a
+    `.meta.json`, which is the file `models_panel.runs_with()` reads to answer "has this model been
+    run?". An abandoned plan therefore invented a run. Both halves are pinned here: read-only
+    writes nothing, and the post-confirmation call does write.
+    """
+    print("\nthe probe writes nothing until the plan is confirmed")
+    import importlib
+    argv = sys.argv[:]
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            out = os.path.join(d, "probe.jsonl")
+            sys.argv = ["run_capability_probe.py", "--reasoning", "off", "--only",
+                        "anthropic/claude-opus-5", "--limit", "5", "--out", out]
+            import run_capability_probe as probe
+            importlib.reload(probe)
+
+            probe.load_done(["anthropic/claude-opus-5"], mutate=False)
+            check(os.listdir(d) == [], "mutate=False leaves the directory empty")
+
+            probe.load_done(["anthropic/claude-opus-5"], mutate=True)
+            check(os.path.exists(out.replace(".jsonl", ".meta.json")),
+                  "the post-confirmation call does write the meta")
+            meta = json.load(open(out.replace(".jsonl", ".meta.json"), encoding="utf-8"))
+            check(meta["targets"] == ["anthropic/claude-opus-5"], "and it names the right target")
+            check(meta.get("transport") == "sync", "and records the transport")
+    finally:
+        sys.argv = argv
+
+
 def test_configurations():
     print("\nconfiguration table")
     check(rs.configuration_of(NO_REASONING, "off") == "A_off", "stratum A + off  = A_off")
@@ -476,6 +509,7 @@ if __name__ == "__main__":
     test_row_builders()
     test_meta_accumulates_targets()
     test_bank_extension()
+    test_probe_writes_nothing_before_confirmation()
     print(f"\n{'FAILED: ' + str(len(_fails)) if _fails else 'all checks passed'}")
     for m in _fails:
         print(f"  - {m}")
