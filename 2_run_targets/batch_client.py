@@ -52,6 +52,12 @@ CLI -- free, read-only, safe to run without asking anyone:
     python 2_run_targets/batch_client.py --list                 every batch on the account
     python 2_run_targets/batch_client.py --status <batch_id>    one batch, with counts and cost
     python 2_run_targets/batch_client.py --ledger <out.jsonl>   what a run has outstanding
+    python 2_run_targets/batch_client.py --adopt <intent_id> <batch_id> --ledger <out.jsonl>
+                                                                an intent that never got its id:
+                                                                attach the batch --list shows
+    python 2_run_targets/batch_client.py --forget <intent_id> --ledger <out.jsonl>
+                                                                ...or declare it never created,
+                                                                so its rows are re-issued
     python 2_run_targets/batch_client.py --check-endpoints      which panel models may be batched
     python 2_run_targets/batch_client.py --compare A.jsonl B.jsonl
                                                                 join two run files on (target, id)
@@ -323,7 +329,14 @@ class Ledger:
         return {b["batch_id"] for b in self.batches if b.get("batch_id")}
 
     def attempts_for(self, target):
-        return max([b.get("attempt", 1) for b in self.batches if b.get("target") == target] or [0])
+        """Highest attempt number among this model's batches that DELIVERED (status `completed`).
+
+        A batch that expired, failed, was cancelled or was rejected at create answered nothing,
+        so it does not spend an attempt for its rows. Until 2026-09-09 every entry counted, and a
+        model whose third batch expired was left with rows that nothing would ever re-issue.
+        """
+        return max([b.get("attempt", 1) for b in self.batches
+                    if b.get("target") == target and b.get("status") == "completed"] or [0])
 
     # -- mutations --------------------------------------------------
     def intent(self, target, batch_model, arm, attempt, reqs, max_tokens):
@@ -381,20 +394,25 @@ def submit(entry, reqs, key, endpoint=CHAT_ENDPOINT, provider_block=None, timeou
     return d
 
 
-def reconcile(entry, key, window_s=900):
+def reconcile(entry, key, window_s=900, exclude=()):
     """After an ambiguous submit: did the batch actually get created?
 
     Lists the account's batches and looks for one that matches this intent -- same model, same
-    request count, created around the time we tried. Returns the batch object or None. Adopting a
-    match is always safer than resubmitting: the worst case of adopting is a batch we did not
-    create being polled (harmless, and the custom_ids would not join), while the worst case of
-    resubmitting is paying twice for the whole chunk.
+    request count, created around the time we tried, and NOT already in the ledger (`exclude`:
+    pass `led.known_ids()`). Returns the batch object or None. Adopting a match is safer than
+    resubmitting: the worst case of adopting a stranger's batch is polling it for nothing (the
+    custom_ids would not join), while the worst case of resubmitting is paying twice for the
+    whole chunk. Adopting one of OUR OWN batches is not harmless, though: with several same-sized
+    chunks of one model submitted seconds apart, an ambiguous submit would otherwise adopt its
+    predecessor, collect that one twice and re-buy its own rows -- hence `exclude` (2026-09-09).
     """
     try:
         d = _get(BATCH_API, key)
     except BatchError:
         return None
     for b in (d.get("data") or []):
+        if b.get("id") in exclude:
+            continue
         if b.get("model") != entry["batch_model"]:
             continue
         counts = b.get("request_counts") or {}
@@ -409,6 +427,33 @@ def reconcile(entry, key, window_s=900):
             continue
         return b
     return None
+
+
+def adopt_unconfirmed(led, entry, key):
+    """An outstanding ledger entry with NO batch id: the process died between the pre-POST write
+    and the POST returning -- the case the ledger exists for. The batch may or may not have been
+    created. Look for it on the account, skipping ids the ledger already holds, and adopt it if it
+    is there. Never resubmit here, and never poll: there is no id to poll. Returns the batch
+    object, or None when nothing matched (the caller stops and prints `unconfirmed_message`)."""
+    b = reconcile(entry, key, exclude=led.known_ids())
+    if b is not None:
+        led.confirm(entry, b.get("id"), b.get("status"))
+    return b
+
+
+def unconfirmed_message(entry, ledger_path, why=""):
+    """What to tell a person when an intent cannot be matched to a batch on the account."""
+    when = time.strftime("%Y-%m-%d %H:%M", time.localtime(entry.get("submitted_at") or 0))
+    return (f"\n!! cannot tell whether a batch of {entry['n']} rows for {entry['target']} was "
+            f"created{(' (' + why[:200] + ')') if why else ''}.\n"
+            f"   The intent is in {ledger_path} as intent_id {entry['intent_id']}, with no batch "
+            f"id. Not resubmitting: a blind re-run would pay for these rows a second time.\n"
+            f"   1. `python 2_run_targets/batch_client.py --list` -- is there a batch for "
+            f"{entry['batch_model']} with {entry['n']} requests created around {when}?\n"
+            f"   2. If yes:  python 2_run_targets/batch_client.py --adopt {entry['intent_id']} "
+            f"<batch_id> --ledger <out.jsonl>   then re-run; it is collected, not bought.\n"
+            f"   3. If no:   python 2_run_targets/batch_client.py --forget {entry['intent_id']} "
+            f"--ledger <out.jsonl>   then re-run; the rows are re-issued.\n")
 
 
 def poll(batch_id, key):
@@ -476,7 +521,7 @@ def load_cached_results(cache_dir, batch_id):
 
 
 def unpack_result(item):
-    """One result item -> (custom_id, text, usage, provider, error) in the shape the runners' own
+    """One result item -> (custom_id, text, usage, provider) in the shape the runners' own
     `post()` returns, so a batch row and a sync row go through exactly the same code afterwards."""
     cid = item.get("custom_id")
     err = item.get("error")
@@ -518,6 +563,34 @@ def _cli():
     def opt(name):
         return args[args.index(name) + 1] if name in args and len(args) > args.index(name) + 1 \
             else None
+
+    if "--forget" in args or "--adopt" in args:
+        # The two ways out of an intent that never got its batch id (see unconfirmed_message):
+        # attach the batch the operator found with --list, or declare it never created so the
+        # rows are re-issued. Both are offline edits of the ledger, done here instead of by hand.
+        out = opt("--ledger")
+        if not out:
+            raise SystemExit("--forget / --adopt need --ledger <out.jsonl or out.batches.json>")
+        path = out if out.endswith(".batches.json") else out.replace(".jsonl", "") + ".batches.json"
+        led = Ledger(path)
+        iid = opt("--forget") or opt("--adopt")
+        entry = next((b for b in led.batches if b.get("intent_id") == iid), None)
+        if entry is None:
+            raise SystemExit(f"no intent {iid!r} in {path}")
+        if entry.get("batch_id"):
+            raise SystemExit(f"intent {iid} already carries batch id {entry['batch_id']}; "
+                             f"nothing to do")
+        if "--forget" in args:
+            led.update(entry, status="never_created", harvested=True)
+            print(f"intent {iid} marked never_created: its {entry['n']} row(s) are re-issued by "
+                  f"the next run.")
+        else:
+            i = args.index("--adopt")
+            if len(args) <= i + 2 or args[i + 2].startswith("--"):
+                raise SystemExit("--adopt <intent_id> <batch_id>")
+            led.confirm(entry, args[i + 2], "adopted")
+            print(f"intent {iid} now carries batch id {args[i + 2]}: the next run collects it.")
+        return
 
     if "--ledger" in args:
         out = opt("--ledger")

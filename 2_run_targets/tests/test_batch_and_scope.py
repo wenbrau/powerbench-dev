@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Offline tests for the batch transport and the scope guard. NO API CALLS, NO KEY NEEDED.
+"""Offline tests for the batch transport and the scope guard. NO API CALLS.
+
+A key must still be CONFIGURED (common/.env or OR_KEY): importing either runner reads it at import
+time, before anything here runs. Nothing here spends it.
 
     python 2_run_targets/tests/test_batch_and_scope.py
 
@@ -174,10 +177,17 @@ def test_ledger():
         check(led2.outstanding()[0]["batch_id"] is None, "and is marked as having no batch id yet")
         check(len(led2.outstanding()[0]["custom_ids"]) == 5, "with the rows it was going to buy")
         led.confirm(e, "batch_abc", "validating")
-        led.update(e, harvested=True, cost=1.25)
+        led.update(e, status="completed", harvested=True, cost=1.25)
         check(bc.Ledger(path).outstanding() == [], "a harvested batch is no longer outstanding")
         check(bc.Ledger(path).attempts_for("anthropic/claude-opus-5") == 1,
               "attempt numbers survive the reload, so a resume does not restart the ladder")
+        # A batch that answered nothing must not spend an attempt for its rows.
+        e2 = led.intent("anthropic/claude-opus-5", "anthropic/claude-opus-5:batch", "off", 2,
+                        reqs, 32000)
+        led.confirm(e2, "batch_def", "validating")
+        led.update(e2, status="expired", harvested=True)
+        check(bc.Ledger(path).attempts_for("anthropic/claude-opus-5") == 1,
+              "an expired batch does not count as an attempt, so its rows are re-issued")
 
 
 # ------------------------------------------------------------------ scope
@@ -484,6 +494,76 @@ def test_probe_writes_nothing_before_confirmation():
         sys.argv = argv
 
 
+def test_unconfirmed_intents():
+    """The crash the ledger exists for: an intent on disk with no batch id. The resume must look
+    for the batch on the account -- skipping ids the ledger already holds -- and adopt it or stop
+    with guidance. It must never poll `None` (which it did until 2026-09-09) and never resubmit.
+    Offline: `_get` is replaced by a fake account listing."""
+    print("\nunconfirmed intents (died between the ledger write and the POST returning)")
+    import importlib
+    T = "anthropic/claude-opus-5"
+    real_get, real_poll, argv = bc._get, bc.poll, sys.argv[:]
+    polled = []
+
+    def fake_poll(bid, key):
+        polled.append(bid)
+        raise bc.BatchError(f"HTTP 404 on {bc.BATCH_API}/{bid}")
+
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            led = bc.Ledger(os.path.join(d, "run.batches.json"))
+            reqs = [{"custom_id": bc.custom_id(T, f"p2s-{i:03d}-r1-en")} for i in range(5)]
+            known = led.intent(T, T + ":batch", "off", 1, reqs, 16000)
+            led.confirm(known, "batch_known", "in_progress")
+            orphan = led.intent(T, T + ":batch", "off", 1, reqs, 16000)   # never confirmed
+            now = orphan["submitted_at"]
+            bc._get = lambda url, key, **kw: {"data": [
+                {"id": "batch_known", "model": T + ":batch", "request_counts": {"total": 5},
+                 "created_at": now - 2},
+                {"id": "batch_other", "model": T + ":batch", "request_counts": {"total": 5},
+                 "created_at": now + 3}]}
+            naive = bc.reconcile(orphan, "k")
+            check(naive is not None and naive["id"] == "batch_known",
+                  "without `exclude`, reconcile adopts our OWN earlier batch (the 2026-09-09 bug)")
+            found = bc.reconcile(orphan, "k", exclude=led.known_ids())
+            check(found is not None and found["id"] == "batch_other",
+                  "with `exclude`, it skips the batch the ledger already holds")
+            b = bc.adopt_unconfirmed(led, orphan, "k")
+            check(b is not None and orphan["batch_id"] == "batch_other",
+                  "adopt_unconfirmed fills the id into the ledger entry")
+            check(all(e["batch_id"] for e in bc.Ledger(led.path).outstanding()),
+                  "after adoption every outstanding entry has an id to collect")
+            orphan2 = led.intent(T, T + ":batch", "off", 1, reqs[:2], 16000)
+            check(bc.adopt_unconfirmed(led, orphan2, "k") is None,
+                  "an intent with no match on the account is NOT adopted (and not resubmitted)")
+            msg = bc.unconfirmed_message(orphan2, led.path)
+            check("--forget" in msg and "--adopt" in msg and orphan2["intent_id"] in msg,
+                  "and the operator is told the two ways out, by intent id")
+
+            # The runner: an orphan must stop with that guidance, not GET /batches/None. Its own
+            # --out, so its ledger does not inherit the entries above.
+            out = os.path.join(d, "runner", "run.jsonl")
+            sys.argv = ["run_targets_pinned.py", "--reasoning", "off", "--only", T, "--batch",
+                        "--bank", os.path.join(BANKS, "dataset3_full_504.v6r2.jsonl"),
+                        "--out", out]
+            import run_targets_pinned as runner
+            importlib.reload(runner)
+            led2 = bc.Ledger(runner.BATCH_LEDGER)
+            led2.intent(T, T + ":batch", "off", 1, reqs, 16000)
+            bc._get = lambda url, key, **kw: {"data": []}
+            bc.poll = fake_poll
+            try:
+                runner.run_batched([T], {T: "off"}, {}, [], lambda row: None, skip=set())
+                check(False, "runner: an orphan intent stops the run")
+            except SystemExit as e:
+                check("--forget" in str(e) and not polled,
+                      "runner: an orphan intent stops the run with the two ways out, polling nothing")
+            except bc.BatchError as e:
+                check(False, f"runner: crashed polling {polled} instead of reconciling ({e})")
+    finally:
+        bc._get, bc.poll, sys.argv = real_get, real_poll, argv
+
+
 def test_configurations():
     print("\nconfiguration table")
     check(rs.configuration_of(NO_REASONING, "off") == "A_off", "stratum A + off  = A_off")
@@ -493,7 +573,7 @@ def test_configurations():
           "stratum A + on   = ON_reference (voluntary)")
     check(rs.rows_for(rs.B_SCOPE) == 6840, f"B's scope is 6,840 rows/model "
                                            f"(got {rs.rows_for(rs.B_SCOPE):,})")
-    check(rs.rows_for(rs.FULL_SCOPE) == 19896, f"the full programme is 19,896 rows/model at 17 D2 "
+    check(rs.rows_for(rs.FULL_SCOPE) == 20664, f"the full programme is 20,664 rows/model at 18 D2 "
                                                f"conditions (got {rs.rows_for(rs.FULL_SCOPE):,})")
     check(rs.NATIONALITY_BANKS == {rs.D2, rs.D2_CONTROL}, "the guarded families are D2 and its control")
 
@@ -506,6 +586,7 @@ if __name__ == "__main__":
     test_families()
     test_guard()
     test_configurations()
+    test_unconfirmed_intents()
     test_row_builders()
     test_meta_accumulates_targets()
     test_bank_extension()
