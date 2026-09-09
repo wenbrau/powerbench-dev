@@ -25,7 +25,8 @@
   "bytedance-seed/seed-2-1-turbo",
   "tencent/hy3",
   "xiaomi/mimo-v2.5-pro",
-  "inclusionai/ling-3.0-flash"
+  "inclusionai/ling-3.0-flash",
+  "google/gemini-3.1-flash-lite"
  ],
  "reasoning_arm": "off",
  "pins": {
@@ -1139,6 +1140,61 @@
      "supports_temperature": true
     }
    ]
+  },
+  "google/gemini-3.1-flash-lite": {
+   "provider": "google-ai-studio",
+   "provider_name": "Google AI Studio",
+   "tag": "google-ai-studio/flex",
+   "quantization": "unknown",
+   "first_party": true,
+   "price_out_per_m": 0.75,
+   "uptime_30m": 99.9,
+   "uptime_1d": 99.9,
+   "context_length": 1048576,
+   "supports_reasoning_effort": true,
+   "supports_temperature": true,
+   "overridden": true,
+   "alternatives": [
+    {
+     "provider": "google-vertex",
+     "provider_name": "Google",
+     "tag": "google-vertex/global",
+     "quantization": "unknown",
+     "first_party": true,
+     "price_out_per_m": 1.5,
+     "uptime_30m": 99.9,
+     "uptime_1d": 99.7,
+     "context_length": 1048576,
+     "supports_reasoning_effort": true,
+     "supports_temperature": true
+    },
+    {
+     "provider": "google-ai-studio",
+     "provider_name": "Google AI Studio",
+     "tag": "google-ai-studio",
+     "quantization": "unknown",
+     "first_party": true,
+     "price_out_per_m": 1.5,
+     "uptime_30m": 99.6,
+     "uptime_1d": 99.8,
+     "context_length": 1048576,
+     "supports_reasoning_effort": true,
+     "supports_temperature": true
+    },
+    {
+     "provider": "google-vertex",
+     "provider_name": "Google",
+     "tag": "google-vertex/us",
+     "quantization": "unknown",
+     "first_party": true,
+     "price_out_per_m": 1.65,
+     "uptime_30m": 100,
+     "uptime_1d": 100,
+     "context_length": 1048576,
+     "supports_reasoning_effort": true,
+     "supports_temperature": true
+    }
+   ]
   }
  },
  "pins_policy": "least-quantized",
@@ -1167,6 +1223,12 @@
     "tencent/hy3",
     "xiaomi/mimo-v2.5-pro",
     "inclusionai/ling-3.0-flash"
+   ],
+   "max_tokens": 4000
+  },
+  {
+   "targets": [
+    "google/gemini-3.1-flash-lite"
    ],
    "max_tokens": 4000
   }
