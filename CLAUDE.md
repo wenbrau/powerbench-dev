@@ -507,7 +507,7 @@ not settled, and this field does not need it to be.
 ```bash
 python common/run_scope.py                                  # the table, plus every bank on disk
 python common/run_scope.py --classify current/banks/*.jsonl # what family a bank is, and why
-python 2_run_targets/tests/test_batch_and_scope.py          # 40 offline checks, no API, no key
+python 2_run_targets/tests/test_batch_and_scope.py          # 68 offline checks, no API, no key
 ```
 
 ## 6d. The batch path (`--batch`, 2026-09-08)
@@ -550,7 +550,22 @@ What differs from a synchronous run, and what is done about it:
 Rows gain `transport` (`sync`/`batch`) and `batch_id`. Appending batch rows to a file of sync rows
 is refused unless `--allow-mixed-transport`, and the mix is recorded in the meta — **whether a
 batch-served row and a sync-served row of the same model may be pooled is the researchers' call**,
-not the runner's.
+not the runner's. Both runners carry that guard; it matters most on the probe, whose `--out` has a
+default, so `--batch` without one would otherwise append into `capability_probe_off.jsonl` and
+destroy the very comparison the smoke test exists to make.
+
+Two resume behaviours changed with it, both because one `--out` per bank with models accumulating
+in it is how these runs are actually done:
+
+- **The meta keeps up.** It used to be written once, at file creation, so a file that later grew by
+  nineteen models went on describing the six it started with — the defect already found and fixed
+  in the probe runner on 2026-09-07. New targets, their pins and their strata are merged in, and
+  the pass is recorded in `appended_in_passes`.
+- **A bank that GREW resumes into the same file.** D2's 14 → 17 back-fill needs exactly that, and
+  the bank guard used to refuse it on the filename. It is now allowed *only* when every existing id
+  is still present with a byte-identical prompt — proven by reading both banks, not assumed from
+  the name — and recorded as `bank_extended`. A bank that dropped ids or reworded a prompt still
+  aborts.
 
 ```bash
 # free and read-only, no key needed for --compare
