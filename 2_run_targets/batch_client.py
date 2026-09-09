@@ -18,6 +18,22 @@ WHY A BATCH PATH EXISTS AT ALL
     no synchronous flex tier -- OpenAI and Google already sell the same 50% discount synchronously
     on the endpoint we pin -- which is why this is worth engineering for Anthropic and nobody else.
 
+THE `:batch` ID IS A CATALOG ENTRY, NOT WHAT IS SENT
+    The create takes the BASE model id and applies the batch price itself; sending the `:batch`
+    id is rejected (HTTP 400 "does not have a :batch endpoint", measured 2026-09-09 on the first
+    real create this transport ever made). So `check_batch_endpoint` reads the `:batch` variant's
+    metadata and `submit` sends the base id; the ledger records what was sent.
+
+STATUS 2026-09-09: NO CREATE IS ACCEPTED ON THIS ACCOUNT
+    Every create -- haiku-4.5 and gpt-5.4-nano, /v1/chat/completions and /v1/messages, base id and
+    :batch id -- is rejected with HTTP 400 "Model '<id>' does not have a :batch endpoint", while
+    the catalog lists all 72 :batch variants with uptime null (never served). Not the model, not
+    the endpoint shape, not the body: the account, most likely its data policy (batch retains
+    inputs and results on OpenRouter for 30 days; the same setting 404s deepseek's first-party
+    endpoint). That setting is not to be relaxed for a benchmark under CANARY.md without a
+    researcher decision. Until it is settled, nothing here can run; `--check-endpoints` cannot
+    see it, because it reads the catalog, not the create. See CLAUDE.md section 6d.
+
 WHAT MAKES IT DANGEROUS, AND WHAT IS DONE ABOUT IT
     A synchronous run can be interrupted: Ctrl+C stops the next call and everything already paid
     for is on disk. A batch cannot. The money commits at SUBMIT, the results arrive up to 24 hours
@@ -159,6 +175,22 @@ def _get(url, key, timeout=120, attempts=5):
 # ------------------------------------------------------------------ endpoint check
 
 def batch_model_id(model: str) -> str:
+    """The id to SEND in a batch create: the BASE model id.
+
+    Measured 2026-09-09, on the first real create this transport ever made: sending
+    `anthropic/claude-haiku-4.5:batch` is rejected with HTTP 400 "Model
+    'anthropic/claude-haiku-4.5:batch' does not have a :batch endpoint" -- the API appends the
+    suffix itself when it resolves the batch endpoint, and applies the batch price itself
+    (openrouter.ai/docs/batch-quickstart: `"model": "openai/gpt-4o"`). The `:batch` id is the
+    CATALOG entry -- metadata, price, endpoint list -- which is what `check_batch_endpoint` reads
+    through `batch_catalog_id`, and what the plan displays. Until this fix the function returned
+    the catalog id, and nothing had executed a create to notice.
+    """
+    return model[:-len(BATCH_SUFFIX)] if model.endswith(BATCH_SUFFIX) else model
+
+
+def batch_catalog_id(model: str) -> str:
+    """The `:batch` variant id: for metadata lookups and display, never for a create."""
     return model if model.endswith(BATCH_SUFFIX) else model + BATCH_SUFFIX
 
 
@@ -190,7 +222,7 @@ def check_batch_endpoint(model: str, sync_pin: dict, key: str) -> dict:
 
     Returns a verdict dict; `ok` is the only field a caller must read.
     """
-    bid = batch_model_id(model)
+    bid = batch_catalog_id(model)
     sync_tag = sync_pin.get("tag") or sync_pin.get("provider")
     out = {"model": model, "batch_model": bid, "sync_tag": sync_tag, "ok": False,
            "reason": "", "tag": None, "price_out_per_m": None, "price_in_per_m": None,
@@ -224,6 +256,12 @@ def check_batch_endpoint(model: str, sync_pin: dict, key: str) -> dict:
     out["ok"] = True
     out["reason"] = (f"same endpoint {out['tag']!r} as the sync pin, "
                      f"{out['price_out_per_m']:.2f} vs {sp:.2f} $/M out")
+    if ep.get("uptime_last_1d") is None:
+        # The catalog proves the price, not that a create will be accepted: every :batch endpoint
+        # reports uptime null, and on 2026-09-09 every create was refused on this account.
+        out["never_served"] = True
+        out["reason"] += (" -- uptime null, never served; the catalog does not prove the create "
+                          "is accepted (2026-09-09: refused for every model on this account)")
     return out
 
 

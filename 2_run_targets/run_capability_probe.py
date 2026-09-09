@@ -852,7 +852,7 @@ def main():
             if not v["ok"]:
                 bad.append(f"{t}: {v['reason']}")
             else:
-                print(f"batch endpoint OK  {bc.batch_model_id(t)}  {v['reason']}")
+                print(f"batch endpoint OK  {bc.batch_catalog_id(t)}  {v['reason']}")
         if bad:
             raise SystemExit("--batch refused for:\n   " + "\n   ".join(bad))
         n_b = sum(-(-left[t] // BATCH_SIZE) for t in spend_on)
@@ -866,7 +866,7 @@ def main():
             "    --out. For a comparison against the existing sync rows, give it one.")
     confirm_plan(
         [(t, arms[t], f"{PINS[t]['provider']} ({PINS[t]['quantization']}) -- {left[t]} rows"
-          + (f" [batch: {bc.batch_model_id(t)}]" if BATCH else ""))
+          + (f" [batch: {bc.batch_catalog_id(t)}]" if BATCH else ""))
          for t in spend_on],
         [f"{os.path.relpath(BANK, ROOT)}  --  {len(rows)} items {src}",
          f"-> {os.path.relpath(OUT, ROOT)}",

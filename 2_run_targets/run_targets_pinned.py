@@ -1405,7 +1405,7 @@ def main():
             "  * Only the TARGET calls are batched. The judge stays synchronous and pinned.")
     confirm_plan(
         [(t, arms[t], f"{PINS[t]['provider']} ({PINS[t]['quantization']})"
-          + (f" [batch: {bc.batch_model_id(t)}]" if t in batch_checks else ""))
+          + (f" [batch: {bc.batch_catalog_id(t)}]" if t in batch_checks else ""))
          for t in targets],
         [f"{BANK}  --  {len(rows)} rows"
          + (f", langs {','.join(LANGS)}" if LANGS else "")

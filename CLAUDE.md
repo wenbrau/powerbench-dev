@@ -528,6 +528,19 @@ python 2_run_targets/tests/test_batch_and_scope.py          # 68 offline checks,
 
 ## 6d. The batch path (`--batch`, 2026-09-08)
 
+> ⛔ **Status 2026-09-09: no batch create is accepted on this account.** The first real creates
+> this transport ever made were all rejected with `HTTP 400 "Model '<id>' does not have a :batch
+> endpoint"` — haiku-4.5 and gpt-5.4-nano alike, `/v1/chat/completions` and `/v1/messages` alike,
+> base id and `:batch` id alike — while the catalog lists all 72 `:batch` variants with
+> `uptime: null` (never served). So it is not the model, the endpoint shape or the body: it is the
+> account. The likely cause is the account data policy (`openrouter.ai/settings/privacy`), the
+> same setting that 404s deepseek's first-party endpoint — batch retains inputs and results on
+> OpenRouter for 30 days — and that setting is **not to be relaxed** for a benchmark under
+> `CANARY.md` without a researcher decision. Until it is settled, plan every model synchronously:
+> the ~$580 discount is not on the table. `batch_client.py --check-endpoints` cannot see this; it
+> reads the catalog, not the create. Fixed the same day: the create takes the **base** model id
+> ([docs](https://openrouter.ai/docs/batch-quickstart)), not the `:batch` id the code used to send.
+
 All four Anthropic models expose a `<model>:batch` id at **exactly half price served by the same
 first-party `anthropic` endpoint they are already pinned to** (verified live 2026-09-08: haiku
 5.00→2.50, sonnet 10.00→5.00, opus 25.00→12.50, fable 50.00→25.00 $/M out, one endpoint each).
