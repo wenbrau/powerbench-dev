@@ -27,6 +27,43 @@ Fields
     why        required for status "excluded"
     aa_index   Artificial Analysis intelligence index, reasoning mode, as an a-priori guide only.
                Our own measurement is the capability probe (4_analysis/results/08_capability)
+    batch      True = APPROVED for the OpenRouter batch transport (`--batch`). A DECISION, and
+               only half the gate: `2_run_targets/batch_client.py` also verifies live that the
+               model's `:batch` variant is one endpoint, the SAME endpoint tag as the sync pin,
+               and strictly cheaper. See the BATCH section below
+
+WHICH BANKS -- not here
+    This file says who runs and in which arm. It does NOT say over which banks: that is
+    `common/run_scope.py`, which holds the three configurations, classifies a bank by its content,
+    and carries the guard that stops stratum B -- and any reasoning-enabled arm -- from running D2
+    or control D2. The guard has no override, by design; read that file before trying to work
+    around it.
+
+BATCH -- what `batch: True` means and does not mean
+    Four models carry it, all Anthropic, and the reason is a market fact rather than a preference:
+    Anthropic is the only lab in this panel with no synchronous flex tier, and its `:batch`
+    variants are served by the SAME first-party `anthropic` endpoint we already pin, at exactly
+    half price (verified live 2026-09-08: haiku 5.00 -> 2.50, sonnet 10.00 -> 5.00, opus 25.00 ->
+    12.50, fable 50.00 -> 25.00 $/M out; one endpoint each). Same lab, same endpoint, half the
+    price -- so batch here does NOT change serving conditions, which is the only reason it is
+    allowed at all.
+
+    Everywhere else it would. `openai/gpt-5.6-luna` passes the live check by accident -- its pin
+    is the standard `openai` tier and batch is the same tag at half price -- and is deliberately
+    NOT marked: OpenAI and Google already sell the same 50% discount SYNCHRONOUSLY on
+    `openai/flex` and `google-ai-studio/flex`, so batch buys nothing there except latency and
+    un-interruptible spend. Every other model fails the live check outright -- kimi-k3 batches on
+    `together` while pinned to `baseten/fp8`, glm-5.3 on `fireworks` against `z-ai/fp8`,
+    gemini-3.8-flash on `google-vertex/global` against `google-ai-studio/flex` -- which is the
+    GMICloud/SiliconFlow confound this repo spent 2026-09-06 removing, bought at a discount.
+
+    `batch: True` on fable-5.1 records that the ENDPOINT qualifies; the model is still unreachable
+    by the batch path, which is offered only in the verified-off arm. Its entry says why.
+
+    The judge is never batched. `deepseek/deepseek-v4-flash-0731:batch` resolves to two endpoints
+    (fireworks 0.33, together 0.28 $/M out) rather than the pinned `morph/bf16` -- a different
+    stack, and dearer than the endpoint we grade on. Batching it would change the grader
+    mid-study to save nothing.
 
 TEMPERATURE -- read before adding a model
     Every runner sends `temperature=0`, and the reason is the INFERENCE MODEL, not reproducible
@@ -146,11 +183,24 @@ MODELS = {
     "anthropic/claude-haiku-4.5": {
         "short": "haiku-4.5", "origin": "US", "lab": "Anthropic",
         "stratum": NO_REASONING, "provider": "anthropic", "status": "run", "aa_index": 30,
+        "batch": True,
+        "note": "BATCH APPROVED 2026-09-08 (see the BATCH section at the top of this file). "
+                "`anthropic/claude-haiku-4.5:batch` has exactly one endpoint, `anthropic` -- the "
+                "same one this model is already pinned to -- at 0.50/2.50 against 1.00/5.00. "
+                "CAVEAT for whoever pools it: this model is already RUN on all four current banks "
+                "synchronously, so batching more of it mixes two serving paths within one model. "
+                "Same endpoint at half price is the strongest case anyone will ever have for "
+                "saying that is fine, but it is still the researchers' call and it is not made "
+                "here; the runner records `transport` per row so the question stays answerable.",
     },
     "anthropic/claude-opus-5": {
         "short": "opus-5", "origin": "US", "lab": "Anthropic",
         "stratum": NO_REASONING, "provider": "anthropic", "status": "pending", "aa_index": 63,
-        "note": "$5/M in, $25/M out -- 5x haiku-4.5 on output and the most expensive model in the "
+        "batch": True,
+        "note": "BATCH APPROVED 2026-09-08: `:batch` is one endpoint, `anthropic`, the same pin, "
+                "at 2.50/12.50 against 5.00/25.00 -- the largest absolute saving in the panel and "
+                "on a model with NO synchronous rows yet, so nothing is mixed. "
+                "$5/M in, $25/M out -- 5x haiku-4.5 on output and the most expensive model in the "
                 "panel; 1M context, 128K max output. Same first-party `anthropic` endpoint as "
                 "haiku, which keeps the two Anthropic models comparable in serving terms. "
                 "TEMPERATURE, decided 2026-09-07: of opus-5's 10 endpoints only `azure/us` and "
@@ -326,8 +376,15 @@ MODELS = {
     "anthropic/claude-sonnet-5": {
         "short": "sonnet-5", "origin": "US", "lab": "Anthropic",
         "stratum": NO_REASONING, "floor": {"effort": "low"}, "provider": "anthropic",
-        "status": "pending", "aa_index": None,
-        "note": "$2.00/$10.00, identical on all 9 endpoints -- Anthropic exposes NO flex tier on "
+        "status": "pending", "aa_index": None, "batch": True,
+        "note": "BATCH APPROVED 2026-09-08: one endpoint, `anthropic`, the same pin, 1.00/5.00 "
+                "against 2.00/10.00, and no synchronous rows exist yet. The sentence below saying "
+                "batch is unusable was written before the transport existed and is now WRONG in "
+                "its conclusion though right in its premise: verification is still per row, and "
+                "`2_run_targets/batch_client.py` handles it by collecting the batch, verifying "
+                "every returned row with the same `verified()`, and re-submitting the failures as "
+                "a further batch, up to the same attempt budget. "
+                "$2.00/$10.00, identical on all 9 endpoints -- Anthropic exposes NO flex tier on "
                 "any model, so there is nothing to optimise and the first-party endpoint keeps "
                 "this on the same stack as haiku-4.5 and opus-5. Batch is ~50% cheaper but "
                 "ASYNCHRONOUS, and the runner has to verify reasoning_tokens per row and retry "
@@ -557,8 +614,23 @@ MODELS = {
     "anthropic/claude-fable-5.1": {
         "short": "fable-5.1", "origin": "US", "lab": "Anthropic",
         "stratum": REASONING, "floor": {"effort": "low"}, "provider": "anthropic",
-        "status": "pending", "aa_index": None,
-        "note": "FLAG AUDIT 2026-09-07, and it is the most surprising result of the batch: at its floor (`effort: low`) fable returned ZERO reasoning tokens on 3 of 3 calls, and 224 at `effort: max`. The rising ladder says the parameter does reach the model, so this is not an ignored flag -- it is a model DECLARED `mandatory: true` that produced no thinking at all at its lowest rung. Same shape as the glm-5.3 open question, now on the most expensive model in the panel, and it cuts both ways: if it holds across the bank, this model is far cheaper than the R=2,000 budget assumed AND its rows are a mixture of thinking and not-thinking answers, which makes the `reasoning` stratum label a statement about capability rather than about the rows. One prompt, n=3, so it is a signal to chase, not a result -- the capability probe over 398 items settles it. Data: current/runs/flag_audit_anthropic_claude-fable-5.1.json. "
+        "status": "pending", "aa_index": None, "batch": True,
+        "note": "BATCH: the endpoint qualifies (one endpoint, `anthropic`, the same pin, 5.00/25.00 "
+                "against 10.00/50.00 -- the biggest saving available anywhere in the panel) but "
+                "THE MODEL IS OUT OF REACH OF THE BATCH PATH ANYWAY, because that path is only "
+                "offered in the verified-off arm and this model has no off arm. That is not a "
+                "technical accident: at its floor fable returned zero API-level reasoning tokens "
+                "on ALL 398 capability-probe rows while reasoning perfectly well in the visible "
+                "response text (~158 characters of worked algebra ending in the answer), so under "
+                "the current `verified()` every one of its rows in an `on` arm fails and is "
+                "re-sent three times for nothing -- three full batches that cannot succeed. See "
+                "sections 4a/4b of 2_run_targets/BATCH_ADAPTATION_BRIEF.md: Anthropic's current "
+                "models are ADAPTIVE-thinking only (`thinking: {type: enabled}` returns 400 on "
+                "opus-5, sonnet-5 and fable-5.1), so `mandatory: true` means `you cannot send a "
+                "disable flag`, NOT `it always thinks`, and there is no always-thinks-at-minimum "
+                "condition to buy. Settling what the `reasoning` stratum can claim about Anthropic "
+                "is a question for the researchers, not for a runner. "
+                "FLAG AUDIT 2026-09-07, and it is the most surprising result of the batch: at its floor (`effort: low`) fable returned ZERO reasoning tokens on 3 of 3 calls, and 224 at `effort: max`. The rising ladder says the parameter does reach the model, so this is not an ignored flag -- it is a model DECLARED `mandatory: true` that produced no thinking at all at its lowest rung. Same shape as the glm-5.3 open question, now on the most expensive model in the panel, and it cuts both ways: if it holds across the bank, this model is far cheaper than the R=2,000 budget assumed AND its rows are a mixture of thinking and not-thinking answers, which makes the `reasoning` stratum label a statement about capability rather than about the rows. One prompt, n=3, so it is a signal to chase, not a result -- the capability probe over 398 items settles it. Data: current/runs/flag_audit_anthropic_claude-fable-5.1.json. "
                 "THE MOST EXPENSIVE MODEL IN THE PANEL: $10.00/$50.00, identical on all four "
                 "endpoints. There is no cheaper tier to move to -- Anthropic publishes no flex "
                 "on any model -- and batch, which is ~50% off, is asynchronous and therefore "
@@ -753,6 +825,40 @@ def min_effort() -> dict:
     return {mid: m["floor"] for mid, m in MODELS.items() if m.get("floor")}
 
 
+def stratum(target: str) -> str:
+    """The model's declared stratum, or "" for a model this file does not know."""
+    m = MODELS.get(target)
+    return m["stratum"] if m else ""
+
+
+def reasoning_forced(target: str) -> bool:
+    """Is a reasoning-enabled arm on this model a CONSTRAINT rather than a choice?
+
+    True  = stratum "reasoning": the endpoint will not disable thinking, so running it ON is the
+            only condition available. These are stratum B.
+    False = stratum "no_reasoning": the model can run with reasoning verified off, so an ON row is
+            a VOLUNTARY-ON reference, deliberately bought (configuration 3 in common/run_scope.py).
+
+    The runners stamp this on every row. It exists because `reasoning_arm` reads "on" for both
+    cases, and the analysis layer must be able to tell a forced-ON row from a voluntarily-ON one
+    without re-deriving it from this file -- which would silently change the meaning of rows
+    already written the day a model moves stratum. It is deliberately NOT a list of approved
+    reference models: that list is not settled (candidates: deepseek-v4-pro-0813, kimi-k3), and
+    this field does not need it to be.
+    """
+    return stratum(target) == REASONING
+
+
+def batch_approved() -> dict:
+    """model id -> True, for the models APPROVED for the batch transport.
+
+    Half the gate. `2_run_targets/batch_client.check_batch_endpoint()` is the other half and runs
+    live before every batch run: exactly one endpoint, the same endpoint tag as the sync pin,
+    strictly cheaper. A model must pass both -- a decision of ours AND a fact about the market.
+    """
+    return {mid: True for mid, m in MODELS.items() if m.get("batch")}
+
+
 def short(target: str) -> str:
     m = MODELS.get(target)
     return m["short"] if m else target.split("/", 1)[-1]
@@ -828,12 +934,13 @@ def check_only_flag(model: str, bank: str | None, run_anyway: bool) -> None:
     print("   --runanyway passed: running it again.\n")
 
 
-def confirm_plan(rows, datasets, assume_yes=False) -> None:
+def confirm_plan(rows, datasets, assume_yes=False, warning=None) -> None:
     """Print the plan and ask for confirmation before anything is spent.
 
     `rows` is a list of (model id, reasoning label, provider label); `datasets` a list of strings
-    describing what will be run over. Non-interactive callers must pass --yes explicitly: a run
-    that cannot ask is not allowed to assume.
+    describing what will be run over; `warning` an optional block printed immediately before the
+    question, for a commitment the plan itself does not convey. Non-interactive callers must pass
+    --yes explicitly: a run that cannot ask is not allowed to assume.
     """
     print("\n" + "=" * 78)
     print("You'll run the following models:")
@@ -844,6 +951,15 @@ def confirm_plan(rows, datasets, assume_yes=False) -> None:
     for d in datasets:
         print(f"  {d}")
     print("=" * 78)
+    # A warning that belongs to the QUESTION, not to the plan: printed last, immediately above
+    # `Continue?`, because the batch transport changes what answering yes commits you to. A
+    # synchronous run can be stopped with Ctrl+C and everything already paid for is on disk; a
+    # batch commits its whole spend at submit and cannot be interrupted. That difference is the
+    # single thing a person approving a batch plan most needs to have read.
+    if warning:
+        for _line in str(warning).splitlines():
+            print(_line)
+        print("=" * 78)
     if assume_yes:
         print("--yes: continuing without asking.\n")
         return
