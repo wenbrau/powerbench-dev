@@ -1,0 +1,2 @@
+stat,n_US,n_CN,mean_US,mean_CN,diff_US_minus_CN,median_US,median_CN,sd_US,sd_CN,welch_t,welch_p,mannwhitney_U,mannwhitney_p
+capability,12,12,58.236,60.443,-2.207,57.247,58.01,8.757,8.32,-0.633,0.533,61.0,0.544

@@ -1,0 +1,6 @@
+pairs,n_pairs,mean_kappa
+within US,66,0.29
+within CN,66,0.499
+US × CN,144,0.372
+same lab,10,0.516
+"same bloc, different lab",122,0.384
