@@ -548,7 +548,7 @@ def messages_for(r):
 
 
 def build_row(t, r, arm, resp, usage, provider, attempts, forced,
-              transport="sync", batch_id=None):
+              transport="sync", batch_id=None, grade=True):
     """Grade one response and assemble the output row. The ONLY place a row is built.
 
     Both transports come through here, which is the point: a batch row and a synchronous row are
@@ -564,7 +564,8 @@ def build_row(t, r, arm, resp, usage, provider, attempts, forced,
     ok = (not empty) and verified(arm, usage)
     jinfo = {"judge": JUDGE, "judge_provider": None, "judge_reasoning_tokens": None,
              "judge_reasoning_ok": None, "judge_error": None}
-    if empty:
+    # Recovery checkpoints a paid target response before making the judge call.
+    if empty or not grade:
         ref, harm, prem = -1, -1, 0
     else:
         # A row that failed verification is graded anyway. It is real data about the model, it
@@ -725,12 +726,15 @@ def _validate_meta(prev, quiet=False):
         # the guard below refused it, because the new bank has a new filename.
         #
         # So: allow it, but PROVE it is an extension rather than take the filename's word.
-        # Every id of the old bank must still be present AND carry a byte-identical prompt. The
+        # Every id must retain its prompt, system message and experimental coordinates. The
         # second half is the one that matters: ids alone would let a bank that reused them for
         # different scenarios pool two stimuli in one file, invisibly, which is worse than the
         # inconvenience this fixes. Anything else still aborts.
         old_bank = os.path.join(ROOT, prev.get("bank", "")) \
             if not os.path.isabs(prev.get("bank") or "") else prev["bank"]
+        fields = ("prompt", "system_prompt", "pair_id", "triplet_id", "lang", "mode",
+                  "domain", "trigger", "context", "scale", "standing", "replica",
+                  "condition", "user_nationality", "affected_nationality", "narrator")
         old = {}
         try:
             with open(old_bank if os.path.exists(old_bank) else prev["bank"],
@@ -738,7 +742,7 @@ def _validate_meta(prev, quiet=False):
                 for line in f:
                     if line.strip():
                         d = json.loads(line)
-                        old[d["id"]] = d.get("prompt")
+                        old[d["id"]] = tuple(d.get(k) for k in fields)
         except (OSError, KeyError, ValueError) as e:
             raise SystemExit(
                 f"{OUT} was produced from bank {prev.get('bank')!r}, not {BANK!r}, and that "
@@ -749,21 +753,23 @@ def _validate_meta(prev, quiet=False):
             for line in f:
                 if line.strip():
                     d = json.loads(line)
-                    new[d["id"]] = d.get("prompt")
+                    new[d["id"]] = tuple(d.get(k) for k in fields)
         missing = [i for i in old if i not in new]
         changed = [i for i in old if i in new and new[i] != old[i]]
         if missing or changed:
             raise SystemExit(
                 f"{OUT} was produced from bank {prev.get('bank')!r}, not {BANK!r}, and the new "
                 f"bank does not extend the old one: {len(missing)} id(s) dropped, "
-                f"{len(changed)} prompt(s) changed. Resuming would pool two different stimuli "
+                f"{len(changed)} prompt(s) changed (text, system message or experimental "
+                f"coordinates). Resuming would pool two different stimuli "
                 f"in one file. Use a different --out.")
         bank_extended = {"from": prev.get("bank"), "to": BANK,
                          "kept": len(old), "added": len(new) - len(old)}
         if not quiet:
             print(f"bank extended: {os.path.basename(prev.get('bank') or '?')} -> "
                   f"{os.path.basename(BANK)}; all {len(old):,} existing ids are present with "
-                  f"identical prompts, {len(new) - len(old):,} new row(s) to run. Resuming.")
+                  f"identical stimuli and coordinates, {len(new) - len(old):,} new row(s) "
+                  f"to run. Resuming.")
     # The arm guard is the one this file adds: resuming an OFF run into an ON file would
     # interleave two stimuli in one artifact, which is the exact failure the arm split exists
     # to prevent, and it would be invisible afterwards.
@@ -981,23 +987,21 @@ def submit_chunk(led, t, arm, attempt, reqs, max_tokens):
     if _provider_block_accepted.get(bmodel) is False:
         block = None
     try:
-        b = bc.submit(entry, reqs, KEY, provider_block=block)
-        _provider_block_accepted.setdefault(bmodel, bool(block))
-    except bc.SubmitRejected as e:
-        if block is None:
-            led.update(entry, status="rejected", error=str(e)[:400], harvested=True)
-            raise
-        print(f"!! batch create rejected while carrying a provider block ({str(e)[:200]}).")
-        print(f"   Retrying WITHOUT it, and recording in the run's meta that the pin could not be "
-              f"asserted on the batch endpoint. Expected to be harmless here: a :batch id resolves "
-              f"to exactly ONE endpoint, and that endpoint was checked to be the same one as the "
-              f"sync pin before any of this ran -- there is nothing else it could route to.")
-        _provider_block_accepted[bmodel] = False
         try:
+            b = bc.submit(entry, reqs, KEY, provider_block=block)
+            _provider_block_accepted.setdefault(bmodel, bool(block))
+        except bc.SubmitRejected as e:
+            if block is None:
+                raise
+            print(f"!! batch create rejected while carrying a provider block ({str(e)[:200]}).")
+            print(f"   Retrying WITHOUT it, and recording in the run's meta that the pin could "
+                  f"not be asserted. The endpoint check found exactly one endpoint matching "
+                  f"the sync pin.")
+            _provider_block_accepted[bmodel] = False
             b = bc.submit(entry, reqs, KEY, provider_block=None)
-        except bc.BatchError as e2:
-            led.update(entry, status="rejected", error=str(e2)[:400], harvested=True)
-            raise
+    except bc.SubmitRejected as e:
+        led.update(entry, status="rejected", error=str(e)[:400], harvested=True)
+        raise
     except bc.AmbiguousSubmit as e:
         print(f"!! batch create was AMBIGUOUS ({str(e)[:200]}).")
         print(f"   Not resubmitting: it may have been accepted, and a blind retry would buy the "
@@ -1109,6 +1113,11 @@ def run_batched(targets, arms, rows_by_id, jobs, write, prog=None, skip=()):
     not append a second copy of a row it already delivered.
     """
     led = bc.Ledger(BATCH_LEDGER)
+    completed = set(skip)
+
+    def write_completed(row):
+        write(row)
+        completed.add((row["target"], row["id"]))
 
     # 1. OUTSTANDING FIRST. Anything in the ledger that has not been harvested was paid for and is
     #    still collectable (OpenRouter keeps inputs and results 30 days). Doing this before
@@ -1136,9 +1145,10 @@ def run_batched(targets, arms, rows_by_id, jobs, write, prog=None, skip=()):
             print(f"   intent {entry['intent_id']} had no batch id; found {b.get('id')} on the "
                   f"account and adopted it.")
         print(f"   {entry['batch_id']}  {t}  attempt {entry.get('attempt', 1)}  {entry['n']} rows")
-        retries, _st = harvest(led, entry, rows_by_id, arms, write,
-                               final=entry.get("attempt", 1) >= MAX_ATTEMPTS, prog=prog, skip=skip)
-        pending.setdefault(t, []).extend(r for r in retries if (t, r) not in skip)
+        retries, _st = harvest(led, entry, rows_by_id, arms, write_completed,
+                               final=entry.get("attempt", 1) >= MAX_ATTEMPTS, prog=prog,
+                               skip=completed)
+        pending.setdefault(t, []).extend(retries)
 
     # 2. NEW WORK, per model, attempt by attempt.
     todo = {}
@@ -1146,7 +1156,7 @@ def run_batched(targets, arms, rows_by_id, jobs, write, prog=None, skip=()):
         todo.setdefault(t, []).append(r["id"])
     for t in targets:
         carried = pending.get(t, [])
-        ids = [i for i in todo.get(t, []) if i not in set(carried)] + carried
+        ids = [i for i in dict.fromkeys(todo.get(t, []) + carried) if (t, i) not in completed]
         attempt = led.attempts_for(t)
         stopped = False
         while ids and attempt < MAX_ATTEMPTS and not _stop.is_set():
@@ -1169,8 +1179,8 @@ def run_batched(targets, arms, rows_by_id, jobs, write, prog=None, skip=()):
             print(f"   canary batch {entry['batch_id']} submitted ({len(chunks[0])} rows). "
                   f"Polling every {BATCH_POLL}s. Ctrl+C is safe: the id is in "
                   f"{os.path.basename(BATCH_LEDGER)} and the next run collects it.")
-            retries, st = harvest(led, entry, rows_by_id, arms, write, final=final, prog=prog,
-                                  skip=skip)
+            retries, st = harvest(led, entry, rows_by_id, arms, write_completed, final=final,
+                                  prog=prog, skip=completed)
             failures.extend(retries)
             if st.get("live") and not st.get("verified") and arms[t] != "floor":
                 print(f"\n!! STOPPING {t}: not one of {st['live']} delivered rows reached "
@@ -1192,8 +1202,8 @@ def run_batched(targets, arms, rows_by_id, jobs, write, prog=None, skip=()):
                 if not flight:
                     break
                 e = flight.pop(0)
-                retries, _st = harvest(led, e, rows_by_id, arms, write, final=final, prog=prog,
-                                       skip=skip)
+                retries, _st = harvest(led, e, rows_by_id, arms, write_completed, final=final,
+                                       prog=prog, skip=completed)
                 failures.extend(retries)
             ids = failures
             if ids and not final:
