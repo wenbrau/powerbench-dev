@@ -73,3 +73,28 @@ After collection: validate 76,608 and 25,536 unique valid rows, per-model × lan
 (576 and 192), reasoning verified off, official judge on every row, unchanged pins; recover with
 `recover_run.py` on the same pins; then extend the analysis loader explicitly (do not pool with the
 legacy inline verdicts of the six-model 7-language file — use its re-grade).
+
+## 2026-09-11, mid-run: output cap cut from 16000 to 5000
+
+Both runs were launched at ~14:00 local with the runner's constant `max_tokens = 16000` and
+stopped by hand after 4,748 (D1) and 4,282 (control) complete rows, at ~28 rows/min each. Cause
+of the slowness, measured on those rows: degenerate repetition loops, almost all in **Swahili**,
+that ran to the 16,000-token cap (3–8 minutes each) and were then judged as if they were answers.
+nova-2-lite hit the cap on 29 of its first 30 Swahili rows; nemotron-3.5-lightning and
+ling-3.0-flash followed. Genuine answers: median 1,143 completion tokens, p90 2,139, p97.5 3,048
+without the loops; the highest genuine per-model p97.5 is 4,211 (glm-5.2), Hindi's is 4,019.
+
+**Decision (Nico):** resume both files with `--max-tokens 5000` (new runner flag). A row the
+provider stops at the cap is stored and judged as-is — 5,000 tokens is enough to grade refusal —
+and marked `truncated`; each row records its `max_tokens`; the meta records the change in
+`max_tokens_passes` with the row count at which it happened; the end of the run prints the
+truncated share by language and model and writes the list to `<out>.truncated.json`, so those
+rows can be re-run or re-judged later if wanted.
+
+**Rows already collected that exceed 5,000 tokens are kept and used.** They are listed in
+`over_5000_before_cap.{json,csv}` (164 rows across the six A19 files; 52 in D1-7langs = 1.10%,
+76 in control-7langs = 1.79%, 36 in the four English files ≈ 0.1%), with per-language and
+per-model shares. Whether to truncate them at 5,000 and re-judge is a decision deferred until the
+runs finish; nothing about them has been changed.
+
+Resume commands are the ones above plus `--max-tokens 5000`. Provider pins unchanged.
