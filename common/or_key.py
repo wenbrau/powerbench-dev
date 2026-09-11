@@ -34,7 +34,25 @@ from pathlib import Path
 #: The two env names the repo uses, in lookup order. Both are exported on a hit.
 ENV_NAMES = ("OR_KEY", "OPENROUTER_API_KEY")
 
+#: A second key on a separate account (2026-09-11), so two runs need not share one account's
+#: rate limits. A process opts in with the env var ``OR_KEY_SLOT=2``; it then reads
+#: ``OPENROUTER_API_KEY_2`` / ``OR_KEY_2`` (env or .env) instead of the unsuffixed names, and
+#: exports the key it found under the unsuffixed names so every caller downstream -- runner,
+#: judge call, ``engine.py`` -- uses that one key for the whole process. Unset, or ``1``, is the
+#: first key and nothing changes. Which slot served a row is not recorded on the row (yet).
+SLOT_VAR = "OR_KEY_SLOT"
+
 _HERE = Path(__file__).resolve().parent
+
+
+def _slot() -> str:
+    s = os.environ.get(SLOT_VAR, "").strip()
+    return "" if s in ("", "1") else s
+
+
+def _names() -> tuple[str, ...]:
+    s = _slot()
+    return tuple(f"{n}_{s}" for n in ENV_NAMES) if s else ENV_NAMES
 
 _MISSING = """\
 No OpenRouter API key found.
@@ -51,7 +69,7 @@ Template: common/.env.example
 
 
 def _from_env() -> str | None:
-    for name in ENV_NAMES:
+    for name in _names():
         v = os.environ.get(name, "").strip()
         if v:
             return v
@@ -69,7 +87,7 @@ def _from_dotenv(path: Path) -> str | None:
         if not line or line.startswith("#") or "=" not in line:
             continue
         k, v = line.split("=", 1)
-        if k.strip() in ENV_NAMES:
+        if k.strip() in _names():
             v = v.strip().strip('"').strip("'")
             if v:
                 return v
@@ -90,16 +108,25 @@ def get_key(required: bool = True) -> str | None:
     ``required=False`` returns ``None`` instead of exiting -- for scripts with
     modes that do no API calls at all and should stay runnable without a key.
     """
+    slot = _slot()
     key = (
         _from_env()
         or _from_dotenv(_HERE / ".env")
         or _from_dotenv(Path.cwd() / ".env")
-        or _from_or_key_file()
+        or (None if slot else _from_or_key_file())   # the bare-file fallback is slot-less
     )
     if not key:
         if required:
+            if slot:
+                raise SystemExit(
+                    f"{SLOT_VAR}={slot} is set but no key was found under "
+                    f"{' / '.join(_names())} (environment or common/.env). Fill in "
+                    f"OPENROUTER_API_KEY_{slot} in common/.env, or unset {SLOT_VAR}.")
             raise SystemExit(_MISSING)
         return None
     for name in ENV_NAMES:
-        os.environ.setdefault(name, key)
+        if slot:
+            os.environ[name] = key        # a chosen slot overrides whatever was exported before
+        else:
+            os.environ.setdefault(name, key)
     return key
