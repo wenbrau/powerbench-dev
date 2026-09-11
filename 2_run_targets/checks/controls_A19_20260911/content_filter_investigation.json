@@ -1,0 +1,40 @@
+{
+  "checked_at": "2026-09-11T04:18:51.860380+00:00",
+  "finding": "Repeated API-reported content_filter with empty content for Sonnet on the same D1/D3 control pair. Exact policy trigger and filtering layer unknown.",
+  "runs": {
+    "d1": {
+      "rows": 3648,
+      "valid_rows_in_run_file": 3647,
+      "recovery_status": "incomplete",
+      "recovery_remaining": 1,
+      "current_failures": [
+        {
+          "target": "anthropic/claude-sonnet-5",
+          "id": "p2s-582-r1-en",
+          "pair_id": "p2s-582-r1",
+          "finish_reason": "content_filter",
+          "empty": true
+        }
+      ],
+      "sonnet_filtered_observations_in_original_and_recovery": 4,
+      "other_models_with_text_on_same_pair": 18
+    },
+    "d3": {
+      "rows": 3648,
+      "valid_rows_in_run_file": 3647,
+      "recovery_status": "running",
+      "recovery_remaining": 1,
+      "current_failures": [
+        {
+          "target": "anthropic/claude-sonnet-5",
+          "id": "p2s-582-r1-ai",
+          "pair_id": "p2s-582-r1",
+          "finish_reason": "content_filter",
+          "empty": true
+        }
+      ],
+      "sonnet_filtered_observations_in_original_and_recovery": 3,
+      "other_models_with_text_on_same_pair": 18
+    }
+  }
+}

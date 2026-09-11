@@ -93,3 +93,14 @@ current/runs/capability_probe_*.full.jsonl
 
 # transient: the live-progress snapshot the runners rewrite beside their output
 *.jsonl.progress
+
+# Published D3/A19 controls: compressed results and compact audited provenance.
+current/runs/d3_en_A19_pinned_off.jsonl
+current/runs/control_d1_en_A19_pinned_off.jsonl
+current/runs/control_d3_en_A19_pinned_off.jsonl
+current/runs/d3_en_A19_pinned_off.recovery.status.json
+current/runs/control_d1_en_A19_pinned_off.recovery.status.json
+current/runs/control_d3_en_A19_pinned_off.recovery.status.json
+current/runs/recovery/d3_en_A19_pinned_off/
+current/runs/recovery/control_d1_en_A19_pinned_off/
+current/runs/recovery/control_d3_en_A19_pinned_off/

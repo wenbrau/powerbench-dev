@@ -1,0 +1,50 @@
+{
+ "panel_delta_he": {
+  "est": 1.8170426065162912,
+  "lo": 0.971177944862156,
+  "hi": 2.7255639097744364,
+  "p": null,
+  "unit": "pp",
+  "note": "equal-model mean; paired prompt bootstrap"
+ },
+ "panel_delta_de": {
+  "est": 6.328320802005008,
+  "lo": 4.94987468671679,
+  "hi": 7.769423558897248,
+  "p": null,
+  "unit": "pp",
+  "note": "equal-model mean; paired prompt bootstrap"
+ },
+ "panel_delta_pg": {
+  "est": 7.080200501253128,
+  "lo": 5.32581453634085,
+  "hi": 8.865914786967421,
+  "p": null,
+  "unit": "pp",
+  "note": "equal-model mean; paired prompt bootstrap"
+ },
+ "panel_delta_components": {
+  "est": 7.4264903329752965,
+  "lo": 5.99768580677885,
+  "hi": 8.953219171440505,
+  "p": null,
+  "unit": "pp",
+  "note": "equal-model mean; paired prompt bootstrap"
+ },
+ "panel_delta_excess": {
+  "est": -0.3462898317221651,
+  "lo": -2.684548051676812,
+  "hi": 1.9316054272586203,
+  "p": null,
+  "unit": "pp",
+  "note": "equal-model mean; paired prompt bootstrap"
+ },
+ "panel_delta_harm_pg": {
+  "est": 0.40726817042606306,
+  "lo": -0.6265664160401017,
+  "hi": 1.5037593984962405,
+  "p": null,
+  "unit": "pp",
+  "note": "equal-model mean; paired prompt bootstrap"
+ }
+}

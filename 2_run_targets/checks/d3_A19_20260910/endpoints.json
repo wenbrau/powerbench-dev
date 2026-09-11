@@ -1,0 +1,818 @@
+{
+  "checked_at_utc": "2026-09-10T15:56:06Z",
+  "method": "Public GET endpoint metadata only; no generation or reasoning verification calls",
+  "results": [
+    {
+      "model": "moonshotai/kimi-k3",
+      "url": "https://openrouter.ai/api/v1/models/moonshotai/kimi-k3/endpoints",
+      "expected_tag": "baseten/fp8",
+      "expected_quantization": "fp8",
+      "matches": [
+        {
+          "tag": "baseten/fp8",
+          "provider_name": "BaseTen",
+          "quantization": "fp8",
+          "status": 0,
+          "uptime_last_30m": 100,
+          "pricing": {
+            "prompt": "0.000003",
+            "completion": "0.000015",
+            "input_cache_read": "0.0000003",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "tools",
+            "tool_choice",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 262144
+        }
+      ]
+    },
+    {
+      "model": "openai/gpt-5.6-sol",
+      "url": "https://openrouter.ai/api/v1/models/openai/gpt-5.6-sol/endpoints",
+      "expected_tag": "openai/flex",
+      "expected_quantization": "unknown",
+      "matches": [
+        {
+          "tag": "openai/flex",
+          "provider_name": "OpenAI",
+          "quantization": "unknown",
+          "status": -2,
+          "uptime_last_30m": 93.12714776632302,
+          "pricing": {
+            "prompt": "0.000001",
+            "completion": "0.000005",
+            "web_search": "0.01",
+            "input_cache_read": "0.0000001",
+            "input_cache_write": "0.00000125",
+            "discount": 0.5,
+            "overrides": [
+              {
+                "min_prompt_tokens": 272000,
+                "prompt": "0.000002",
+                "completion": "0.0000075",
+                "input_cache_read": "0.0000002",
+                "input_cache_write": "0.0000025"
+              }
+            ]
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "seed",
+            "max_tokens",
+            "response_format",
+            "structured_outputs",
+            "tools",
+            "tool_choice",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 128000
+        }
+      ]
+    },
+    {
+      "model": "openai/gpt-5.6-terra",
+      "url": "https://openrouter.ai/api/v1/models/openai/gpt-5.6-terra/endpoints",
+      "expected_tag": "openai/flex",
+      "expected_quantization": "unknown",
+      "matches": [
+        {
+          "tag": "openai/flex",
+          "provider_name": "OpenAI",
+          "quantization": "unknown",
+          "status": 0,
+          "uptime_last_30m": 100,
+          "pricing": {
+            "prompt": "0.000001",
+            "completion": "0.000006",
+            "web_search": "0.01",
+            "input_cache_read": "0.0000001",
+            "input_cache_write": "0.00000125",
+            "discount": 0,
+            "overrides": [
+              {
+                "min_prompt_tokens": 272000,
+                "prompt": "0.000002",
+                "completion": "0.000009",
+                "input_cache_read": "0.0000002",
+                "input_cache_write": "0.0000025"
+              }
+            ]
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "seed",
+            "max_tokens",
+            "response_format",
+            "structured_outputs",
+            "tools",
+            "tool_choice",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 128000
+        }
+      ]
+    },
+    {
+      "model": "anthropic/claude-sonnet-5",
+      "url": "https://openrouter.ai/api/v1/models/anthropic/claude-sonnet-5/endpoints",
+      "expected_tag": "anthropic",
+      "expected_quantization": "unknown",
+      "matches": [
+        {
+          "tag": "anthropic",
+          "provider_name": "Anthropic",
+          "quantization": "unknown",
+          "status": 0,
+          "uptime_last_30m": 100,
+          "pricing": {
+            "prompt": "0.000002",
+            "completion": "0.00001",
+            "web_search": "0.01",
+            "input_cache_read": "0.0000002",
+            "input_cache_write": "0.0000025",
+            "input_cache_write_1h": "0.000004",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "max_tokens",
+            "stop",
+            "reasoning",
+            "include_reasoning",
+            "tools",
+            "tool_choice",
+            "structured_outputs",
+            "response_format",
+            "verbosity",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 128000
+        }
+      ]
+    },
+    {
+      "model": "thinkingmachines/inkling",
+      "url": "https://openrouter.ai/api/v1/models/thinkingmachines/inkling/endpoints",
+      "expected_tag": "baseten/fp8",
+      "expected_quantization": "fp8",
+      "matches": [
+        {
+          "tag": "baseten/fp8",
+          "provider_name": "BaseTen",
+          "quantization": "fp8",
+          "status": 0,
+          "uptime_last_30m": 99.86320109439124,
+          "pricing": {
+            "prompt": "0.000001",
+            "completion": "0.00000405",
+            "input_cache_read": "0.00000017",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "tools",
+            "tool_choice",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 32768
+        },
+        {
+          "tag": "baseten/fp8",
+          "provider_name": "BaseTen",
+          "quantization": "fp8",
+          "status": 0,
+          "uptime_last_30m": 100,
+          "pricing": {
+            "prompt": "0.000001",
+            "completion": "0.00000405",
+            "input_cache_read": "0.00000017",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "tools",
+            "tool_choice",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 32768
+        }
+      ]
+    },
+    {
+      "model": "x-ai/grok-4.3",
+      "url": "https://openrouter.ai/api/v1/models/x-ai/grok-4.3/endpoints",
+      "expected_tag": "xai/zdr",
+      "expected_quantization": "unknown",
+      "matches": [
+        {
+          "tag": "xai/zdr",
+          "provider_name": "xAI",
+          "quantization": "unknown",
+          "status": 0,
+          "uptime_last_30m": 97.66549669414741,
+          "pricing": {
+            "prompt": "0.00000125",
+            "completion": "0.0000025",
+            "web_search": "0.005",
+            "input_cache_read": "0.0000002",
+            "discount": 0,
+            "overrides": [
+              {
+                "min_prompt_tokens": 200000,
+                "prompt": "0.0000025",
+                "completion": "0.000005",
+                "input_cache_read": "0.0000004"
+              }
+            ]
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "structured_outputs",
+            "response_format",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "logprobs",
+            "top_logprobs",
+            "tools",
+            "tool_choice",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 900000
+        }
+      ]
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b",
+      "url": "https://openrouter.ai/api/v1/models/nvidia/nemotron-3-ultra-550b-a55b/endpoints",
+      "expected_tag": "venice/fp8",
+      "expected_quantization": "fp8",
+      "matches": [
+        {
+          "tag": "venice/fp8",
+          "provider_name": "Venice",
+          "quantization": "fp8",
+          "status": 0,
+          "uptime_last_30m": 100,
+          "pricing": {
+            "prompt": "0.000000625",
+            "completion": "0.000003125",
+            "input_cache_read": "0.0000001875",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "response_format",
+            "tools",
+            "tool_choice",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 32768
+        }
+      ]
+    },
+    {
+      "model": "nvidia/nemotron-3.5-lightning",
+      "url": "https://openrouter.ai/api/v1/models/nvidia/nemotron-3.5-lightning/endpoints",
+      "expected_tag": "deepinfra/bf16",
+      "expected_quantization": "bf16",
+      "matches": [
+        {
+          "tag": "deepinfra/bf16",
+          "provider_name": "DeepInfra",
+          "quantization": "bf16",
+          "status": 0,
+          "uptime_last_30m": 99.88766957573662,
+          "pricing": {
+            "prompt": "0.00000008",
+            "completion": "0.0000002",
+            "input_cache_read": "0.00000004",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "top_k",
+            "seed",
+            "min_p",
+            "response_format",
+            "structured_outputs",
+            "tools",
+            "tool_choice",
+            "logit_bias"
+          ],
+          "max_completion_tokens": 131072
+        }
+      ]
+    },
+    {
+      "model": "google/gemma-4-31b-it",
+      "url": "https://openrouter.ai/api/v1/models/google/gemma-4-31b-it/endpoints",
+      "expected_tag": "venice/bf16",
+      "expected_quantization": "bf16",
+      "matches": [
+        {
+          "tag": "venice/bf16",
+          "provider_name": "Venice",
+          "quantization": "bf16",
+          "status": -2,
+          "uptime_last_30m": 94.23302694499327,
+          "pricing": {
+            "prompt": "0.00000012",
+            "completion": "0.00000036",
+            "input_cache_read": "0.00000009",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "top_k",
+            "response_format",
+            "structured_outputs",
+            "tools",
+            "tool_choice",
+            "logprobs",
+            "top_logprobs"
+          ],
+          "max_completion_tokens": 8192
+        }
+      ]
+    },
+    {
+      "model": "google/gemini-3.1-flash-lite",
+      "url": "https://openrouter.ai/api/v1/models/google/gemini-3.1-flash-lite/endpoints",
+      "expected_tag": "google-ai-studio/flex",
+      "expected_quantization": "unknown",
+      "matches": [
+        {
+          "tag": "google-ai-studio/flex",
+          "provider_name": "Google AI Studio",
+          "quantization": "unknown",
+          "status": 0,
+          "uptime_last_30m": 99.98826428822908,
+          "pricing": {
+            "prompt": "0.000000125",
+            "completion": "0.00000075",
+            "image": "0.000000125",
+            "audio": "0.00000025",
+            "input_audio_cache": "0.000000025",
+            "web_search": "0.014",
+            "internal_reasoning": "0.00000075",
+            "input_cache_read": "0.0000000125",
+            "input_cache_write": "0.0000000416666666666667",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "response_format",
+            "structured_outputs",
+            "tool_choice",
+            "tools",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 65536
+        }
+      ]
+    },
+    {
+      "model": "amazon/nova-2-lite-v1",
+      "url": "https://openrouter.ai/api/v1/models/amazon/nova-2-lite-v1/endpoints",
+      "expected_tag": "amazon-bedrock",
+      "expected_quantization": "unknown",
+      "matches": [
+        {
+          "tag": "amazon-bedrock",
+          "provider_name": "Amazon Bedrock",
+          "quantization": "unknown",
+          "status": 0,
+          "uptime_last_30m": 99.88982739625413,
+          "pricing": {
+            "prompt": "0.0000003",
+            "completion": "0.0000025",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "top_k",
+            "stop",
+            "tool_choice",
+            "tools"
+          ],
+          "max_completion_tokens": 65535
+        }
+      ]
+    },
+    {
+      "model": "qwen/qwen3.8-flash",
+      "url": "https://openrouter.ai/api/v1/models/qwen/qwen3.8-flash/endpoints",
+      "expected_tag": "alibaba",
+      "expected_quantization": "unknown",
+      "matches": [
+        {
+          "tag": "alibaba",
+          "provider_name": "Alibaba",
+          "quantization": "unknown",
+          "status": 0,
+          "uptime_last_30m": 99.76123679341013,
+          "pricing": {
+            "prompt": "0.00000015",
+            "completion": "0.00000047",
+            "input_cache_read": "0.000000016",
+            "input_cache_write": "0.0000002",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "presence_penalty",
+            "response_format",
+            "tools",
+            "structured_outputs",
+            "top_k",
+            "frequency_penalty",
+            "stop",
+            "logprobs",
+            "top_logprobs",
+            "tool_choice"
+          ],
+          "max_completion_tokens": 131072
+        }
+      ]
+    },
+    {
+      "model": "qwen/qwen3.8-27b",
+      "url": "https://openrouter.ai/api/v1/models/qwen/qwen3.8-27b/endpoints",
+      "expected_tag": "alibaba",
+      "expected_quantization": "unknown",
+      "matches": [
+        {
+          "tag": "alibaba",
+          "provider_name": "Alibaba",
+          "quantization": "unknown",
+          "status": 0,
+          "uptime_last_30m": 99.52978056426332,
+          "pricing": {
+            "prompt": "0.000000425",
+            "completion": "0.00000255",
+            "input_cache_read": "0.000000085",
+            "input_cache_write": "0.00000053125",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "presence_penalty",
+            "response_format",
+            "top_k",
+            "frequency_penalty",
+            "stop",
+            "tools",
+            "tool_choice",
+            "logprobs",
+            "top_logprobs",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 131072
+        }
+      ]
+    },
+    {
+      "model": "qwen/qwen3.7-plus",
+      "url": "https://openrouter.ai/api/v1/models/qwen/qwen3.7-plus/endpoints",
+      "expected_tag": "alibaba",
+      "expected_quantization": "unknown",
+      "matches": [
+        {
+          "tag": "alibaba",
+          "provider_name": "Alibaba",
+          "quantization": "unknown",
+          "status": 0,
+          "uptime_last_30m": 99.98604261654415,
+          "pricing": {
+            "prompt": "0.00000032",
+            "completion": "0.00000128",
+            "input_cache_read": "0.000000064",
+            "input_cache_write": "0.0000004",
+            "discount": 0,
+            "overrides": [
+              {
+                "min_prompt_tokens": 256000,
+                "prompt": "0.00000096",
+                "completion": "0.00000384",
+                "input_cache_read": "0.000000192",
+                "input_cache_write": "0.0000012"
+              }
+            ]
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "presence_penalty",
+            "response_format",
+            "logprobs",
+            "top_logprobs",
+            "tools",
+            "tool_choice",
+            "structured_outputs",
+            "top_k",
+            "frequency_penalty",
+            "stop"
+          ],
+          "max_completion_tokens": 131072
+        }
+      ]
+    },
+    {
+      "model": "z-ai/glm-5.2",
+      "url": "https://openrouter.ai/api/v1/models/z-ai/glm-5.2/endpoints",
+      "expected_tag": "streamlake/fp8",
+      "expected_quantization": "fp8",
+      "matches": [
+        {
+          "tag": "streamlake/fp8",
+          "provider_name": "StreamLake",
+          "quantization": "fp8",
+          "status": 0,
+          "uptime_last_30m": 99.78163910053894,
+          "pricing": {
+            "prompt": "0.00000028",
+            "completion": "0.00000088",
+            "input_cache_read": "0.000000052",
+            "discount": 0.8
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "tool_choice",
+            "tools",
+            "response_format",
+            "structured_outputs",
+            "logprobs",
+            "top_logprobs",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 128000
+        }
+      ]
+    },
+    {
+      "model": "bytedance-seed/seed-2-1-turbo",
+      "url": "https://openrouter.ai/api/v1/models/bytedance-seed/seed-2-1-turbo/endpoints",
+      "expected_tag": "seed/fp8",
+      "expected_quantization": "fp8",
+      "matches": [
+        {
+          "tag": "seed/fp8",
+          "provider_name": "Seed",
+          "quantization": "fp8",
+          "status": 0,
+          "uptime_last_30m": 100,
+          "pricing": {
+            "prompt": "0.0000005",
+            "completion": "0.0000025",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "frequency_penalty",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "tools",
+            "response_format",
+            "structured_outputs",
+            "tool_choice"
+          ],
+          "max_completion_tokens": 235929
+        }
+      ]
+    },
+    {
+      "model": "tencent/hy3",
+      "url": "https://openrouter.ai/api/v1/models/tencent/hy3/endpoints",
+      "expected_tag": "gmicloud/bf16",
+      "expected_quantization": "bf16",
+      "matches": [
+        {
+          "tag": "gmicloud/bf16",
+          "provider_name": "GMICloud",
+          "quantization": "bf16",
+          "status": 0,
+          "uptime_last_30m": 100,
+          "pricing": {
+            "prompt": "0.00000014",
+            "completion": "0.00000058",
+            "input_cache_read": "0.000000035",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "seed",
+            "response_format",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 235929
+        }
+      ]
+    },
+    {
+      "model": "xiaomi/mimo-v2.5-pro",
+      "url": "https://openrouter.ai/api/v1/models/xiaomi/mimo-v2.5-pro/endpoints",
+      "expected_tag": "xiaomi/fp8",
+      "expected_quantization": "fp8",
+      "matches": [
+        {
+          "tag": "xiaomi/fp8",
+          "provider_name": "Xiaomi",
+          "quantization": "fp8",
+          "status": 0,
+          "uptime_last_30m": 99.24763680792232,
+          "pricing": {
+            "prompt": "0.000000435",
+            "completion": "0.00000087",
+            "input_cache_read": "0.0000000036",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "response_format",
+            "tools",
+            "tool_choice"
+          ],
+          "max_completion_tokens": 131072
+        }
+      ]
+    },
+    {
+      "model": "inclusionai/ling-3.0-flash",
+      "url": "https://openrouter.ai/api/v1/models/inclusionai/ling-3.0-flash/endpoints",
+      "expected_tag": "deepinfra/bf16",
+      "expected_quantization": "bf16",
+      "matches": [
+        {
+          "tag": "deepinfra/bf16",
+          "provider_name": "DeepInfra",
+          "quantization": "bf16",
+          "status": 0,
+          "uptime_last_30m": 98.24497257769652,
+          "pricing": {
+            "prompt": "0.00000006",
+            "completion": "0.00000018",
+            "input_cache_read": "0.000000012",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "top_p",
+            "stop",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "top_k",
+            "seed",
+            "min_p",
+            "response_format",
+            "tools",
+            "tool_choice",
+            "logit_bias"
+          ],
+          "max_completion_tokens": 32768
+        }
+      ]
+    },
+    {
+      "model": "deepseek/deepseek-v4-flash-0731",
+      "url": "https://openrouter.ai/api/v1/models/deepseek/deepseek-v4-flash-0731/endpoints",
+      "expected_tag": "morph/bf16",
+      "expected_quantization": "bf16",
+      "matches": [
+        {
+          "tag": "morph/bf16",
+          "provider_name": "Morph",
+          "quantization": "bf16",
+          "status": 0,
+          "uptime_last_30m": 100,
+          "pricing": {
+            "prompt": "0.000000123438",
+            "completion": "0.0000003475",
+            "input_cache_read": "0.00000003125",
+            "discount": 0
+          },
+          "supported_parameters": [
+            "reasoning",
+            "include_reasoning",
+            "max_tokens",
+            "temperature",
+            "stop",
+            "response_format",
+            "structured_outputs",
+            "tools",
+            "tool_choice",
+            "logprobs",
+            "top_logprobs",
+            "top_p",
+            "top_k",
+            "min_p",
+            "frequency_penalty",
+            "presence_penalty",
+            "repetition_penalty",
+            "seed",
+            "logit_bias",
+            "reasoning_effort"
+          ],
+          "max_completion_tokens": 943718
+        }
+      ]
+    }
+  ]
+}
