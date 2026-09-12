@@ -1,0 +1,36 @@
+{
+ "source": "d1_7langs_A19_pinned_off.jsonl",
+ "source_sha256": "5652810d120f83224aced653eef6fb5e4f2069bbe390925210903e4af7aa99fd",
+ "rows": 76608,
+ "parts": {
+  "de": {
+   "rows": 10944,
+   "mb": 19.6
+  },
+  "es": {
+   "rows": 10944,
+   "mb": 18.9
+  },
+  "fr": {
+   "rows": 10944,
+   "mb": 19.0
+  },
+  "hi": {
+   "rows": 10944,
+   "mb": 20.1
+  },
+  "pt": {
+   "rows": 10944,
+   "mb": 19.0
+  },
+  "sw": {
+   "rows": 10944,
+   "mb": 14.7
+  },
+  "zh": {
+   "rows": 10944,
+   "mb": 23.3
+  }
+ },
+ "reassemble": "cat <stem>.parts/*.jsonl.gz | gunzip > <stem>.jsonl  (order does not matter; rows are keyed by (target,id))"
+}

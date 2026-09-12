@@ -104,3 +104,11 @@ current/runs/control_d3_en_A19_pinned_off.recovery.status.json
 current/runs/recovery/d3_en_A19_pinned_off/
 current/runs/recovery/control_d1_en_A19_pinned_off/
 current/runs/recovery/control_d3_en_A19_pinned_off/
+
+# 2026-09-12: the 19-model 7-language D1 runs are committed as <stem>.parts/*.jsonl.gz (too large
+# even gzipped for GitHub's 100 MB limit); the plain twins and the runner's working files stay local.
+current/runs/d1_7langs_A19_pinned_off.jsonl
+current/runs/control_d1_7langs_A19_pinned_off.jsonl
+*.pending_judge.jsonl
+*.pending_judge.jsonl.tmp
+current/runs/*.status
