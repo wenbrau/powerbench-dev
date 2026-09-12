@@ -1,10 +1,10 @@
 {
  "openai/gpt-5.6-terra": "low",
  "x-ai/grok-4.3": "low",
- "anthropic/claude-sonnet-5": "low",
  "thinkingmachines/inkling": "low",
  "deepseek/deepseek-v4-pro-0813": "low",
  "tencent/hy3": "low",
  "qwen/qwen3.8-27b": "low",
- "z-ai/glm-5.2": "high"
+ "z-ai/glm-5.2": "high",
+ "google/gemini-3.1-flash-lite": "low"
 }
