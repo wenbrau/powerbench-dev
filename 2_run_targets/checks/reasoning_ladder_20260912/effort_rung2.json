@@ -1,0 +1,10 @@
+{
+ "openai/gpt-5.6-terra": "medium",
+ "x-ai/grok-4.3": "medium",
+ "anthropic/claude-sonnet-5": "medium",
+ "thinkingmachines/inkling": "medium",
+ "deepseek/deepseek-v4-pro-0813": "high",
+ "tencent/hy3": "high",
+ "qwen/qwen3.8-27b": "medium",
+ "z-ai/glm-5.2": "xhigh"
+}
