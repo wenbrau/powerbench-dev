@@ -148,3 +148,18 @@ via their re-grade files and the v1.1 control run). Both new runs remain local, 
 publishing (gzip + `.provenance/`, as for D3) and registering them in the analysis loader are
 the next steps and were not done here. Decision pending: truncate-and-rejudge the 239 pre-cap
 rows over 5,000 tokens across the older files (registered in `over_5000_before_cap.*`).
+
+## 2026-09-12: D2 (18 conditions) and control D2 launched for the 19 models; control D2 COMPLETE
+
+Both launched ~03:40 local at 128/128 with `--fail-streak 500` and `--max-tokens 5000`, D2 on
+key 2 and control D2 on key 1 (plans in `plan_d2_geobloc.txt`, `plan_control_d2_geobloc.txt`).
+Preflight 19/19 in both. Key 2 reached its $500 total limit at ~07:45 with D2 at 63,398 rows; the
+runner stopped cleanly (2,694 paid responses checkpointed) and D2 was resumed on key 1, whose
+limit is $1,000 with ~$700 left at that point.
+
+**Control D2** (`current/runs/control_d2_geobloc_A19_pinned_off.jsonl`): 65,664 rows, all unique,
+**65,646 verified and scored** after two closing passes (32/64 then 8/8). Not scored: the 18
+conditions of Sonnet 5's story p2s-582 -- the same control story blocked by `content_filter` in
+D1 English and D3 -- so every Sonnet condition has 191 usable control rows instead of 192. 190
+rows truncated at 5,000 (0.29%; English rarely loops). Target cost ~$159 plus the judge. Local,
+uncompressed; publish as parts like the D1 runs.
