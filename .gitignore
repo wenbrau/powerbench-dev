@@ -112,3 +112,5 @@ current/runs/control_d1_7langs_A19_pinned_off.jsonl
 *.pending_judge.jsonl
 *.pending_judge.jsonl.tmp
 current/runs/*.status
+current/runs/d2_geobloc_A19_pinned_off.jsonl
+current/runs/control_d2_geobloc_A19_pinned_off.jsonl
