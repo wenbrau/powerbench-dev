@@ -1,0 +1,14 @@
+{
+ "arm": "on",
+ "leak_tolerance": 1,
+ "unverified": [
+  {
+   "target": "google/gemini-3.1-flash-lite",
+   "id": "p2s-676-r1-en",
+   "reasoning_tokens": 0,
+   "attempts": 3
+  }
+ ],
+ "floor": [],
+ "temp_forced": []
+}
