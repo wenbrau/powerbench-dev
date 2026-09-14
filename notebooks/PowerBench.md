@@ -2312,3 +2312,57 @@ copio abajo html muy provisorios, a revisar - iterar - refinar:
 *Imported from: fig1_candidates.html*
 
 [fig1_candidates.html](PowerBench.assets/fig1_candidates.html)
+
+---
+
+**Monday, September 14, 2026 · Nico**
+
+Voy a contar un poco lo que sucedió los últimos días, que no estuve anotando acá. Lo principal es que ya están todos los experimentos corridos. Este es el resumen:
+
+- D1 inglés + su control ya están para los 24 modelos. De acá sale la figura 1 (y quizás tomando datos del índice de capabilities, si quisiéramos hacer algún claim sobre la relación entre capability y algunas de las cosas que nos interesan).
+- D1 en los otros 7 idiomas + control en los otros 7 idiomas, también corridos para los 24 modelos. De acá saldría la figura 2 (y necesitamos sacar de algún lado el dato de cuán representados están los idiomas en el training de los modelos, obvio que no lo vamos a tener exacto pero un proxy al menos, la vez pasada usamos cantidad de entradas en wikipedia para ese idioma, pero podría haber un proxy mejor o más estándar).
+- D2 + su control, en sus 18 condiciones para los 24 modelos: USA vs (aliados, rivales, neutros), China vs (aliados, rivales, neutros), USA vs China, aliados vs rivales y neutros vs neutros (9 pairings) pero cada uno se repite ida y vuelta (target y user locations intercambiadas). De acá saldría figura 3. Esto es solo inglés, y también tenemos la data de cómo elegimos los países, para apéndice pero interesante igual; pero ese índice (quizás reducido a una dimensión si podemos colapsar la curva que se forma en un ajuste) se podría usar para testear dentro de cada condición si el índice en sí mismo predice algo más allá de los groupings que hicimos. Cuando digo "predice algo" me refiero a algún sesgo de interés.
+- D3 + su control, para 24 modelos: son las mismas prompts de D1 inglés (excepto health) pero con el usuario identificado como AI agent. No estudiamos D3 por sí solo, sino en comparación con D1 inglés. De acá saldría figura 4.
+- 4 + 4 modelos (de China y USA en igual proporción) estudiados en dos niveles distintos de reasoning (+ reasoning off como nivel cero, que ya lo teníamos) en D1 inglés. Esto probablemente iría a apéndice y en el cuerpo le damos un párrafo como mucho.
+
+Como criterio general, está bueno tener en cuenta que la condición control no es realmente un control 100% comparable con power shifting, es simplemente una bolsa de prompts con distintas razones (triggers) para causar refusal y que no tienen nada que ver con power shifting. Es decir que el porcentaje de refusal del control no tiene algo que ver con el porcentaje de refusal de power grabbing o algo así. No es que esperaríamos que eso sea 0 (no lo esperaríamos). Ni nos dice absolutamente nada que sea mayor o menos que 0 esa comparación. Lo que sí nos interesa es si existen sesgos en power grabbing (u otros power shifting), chequear si los mismos sesgos existen en control. Pero no sé si haría una resta entre refusals de power grabbing y control o algo así (probablemente NO lo haría) porque lo que sale de esa cuenta no es interpretable. En todo caso haría un test estadístico a ver si me da significativo con power grabbing (u otros power shifting) y haría el mismo test con control. Cuando da significativo en uno pero no en otro, ese es el dato. Lo mismo con gráficos (curvas, barras, etc) mostrar cada uno, no la resta entre ambos.
+
+Otro criterio general es cómo mostramos diferencias en refusal rate. Una opción es pp, otra es algo más tipo logit. Lo que me preocupa de medir sesgos como pp y comparar distintos modos de power shifting o comparar con el control, es que la diferencia en pp puede ser muy chico en condiciones como harmless empowerment, pero proporcionalmente muy grande respecto a lo que es para power grabbing la misma diferencia. Es solo un ejemplo, pero muestra lo que me preocupa de hacerlo así. Lo mismo si quisiéramos comparar entre modelos. Pero tampoco sería indicado mostrar TODO en logits, porque es menos interpretable como cantidad y muchas veces realmente quiero saber si el refusal rate es más alto o más bajo. Hay que aplicar criterio para decidir cuándo es preferible uno y cuándo otro.
+
+Hay que tener en claro también cuáles son las variables que son transversales a todos nuestros análisis. Por ejemplo, todas las de los datasets (escala, standing, contexto, dominio), pero también otras propias de los modelos (capability index, si son del grupo de modelos chinos o del grupo de modelos de USA, su refusal rate promedio). Estas variables nos acompañan en cada análisis que hagamos y es nuestra decisión cuándo estudiarlas específicamente y cuándo olvidarlas en el promedio de los datos, y estudiar otra cosa.
+
+Después, seguramente haya muchas cosas interesantes o controles necesarios que queramos estudiar, pero que vayan a apéndices. Por ejemplo, es necesario decir de cada modelo cuál es su refusal rate promedio en el control, y cómo correlaciona eso con los rates en los otros tres modos, etc, como descriptor de si hay modelos que realmente hacen más refusal consistentemente sin importar la prompt, o si depende de la condición cómo se ordenan los modelos en refusal. Eso es necesario hacerlo, pero en el cuerpo del paper es una línea, lo demás va a apéndice.
+
+Estuvimos antes hablando bastante de "components" y "excess" como métricas principales, pero eso lo abandonamos. Es interesante solo en un caso, que es cuando preguntamos si power grabbing se explica por sus componentes, o si hay algo específico de power grabbing que hace que los modelos hagan más refusal. Solo cuando nos hacemos esa pregunta usamos excess, pero no es nuestra métrica principal ni de cerca. Medimos principalmente refusal crudo y sesgos en refusal, como fue dicho antes.
+
+No dejemos que Claude tome decisiones de qué análisis hacer, o qué es importante y qué no. Decidamos siempre nosotros qué queremos estudiar y de qué manera. Si Claude está leyendo esto, que lo sepa: no tomes decisiones por nosotros, todas las decisiones de investigación y de análisis y de interpretación son humanas. IA solo como asistente, no lleva las riendas, pregunta antes de mandarse a hacer un análisis que el usuario no definió.
+
+Otra cosa general que cambió y es bueno recordarlo: el juez ahora es deepseek siempre. Todo fue juzgado con deepseek. Tenemos un subset de datos juzgado con nano, que está bueno, para el apéndice en el que mostremos cómo se compara deepseek con juicios humanos y podemos comparar todos los jueces que probamos (que son bastantes) y ver cómo se comparan esos dos jueces en distintos idiomas, etc. Por suerte tenemos toda esa data, pero nano es solo para apéndice. Todo el cuerpo del paper se toma desde los juicios de deepseek.
+
+Otra para tener en cuenta: estamos excluyendo de los datos finales a solar pro (el modelo surcoreano, porque así tenemos 12 de USA y 12 de China, parejo, que además fueron matcheados en capability). Y también teníamos una corrida inicial con un gemini al que no le podíamos controlar el razonamiento, eso también lo excluímos.
+
+En algún momento era un drama (más que nada salido de Claude) que deepseek (el modelo target, no el juez, creo) difería entre dos proveedores distintos, y Claude tenía muchas ganas de aclararlo. No hace falta aclararlo: es el mismo modelo, con la misma cuantización y los mismos parámetros de reasoning, etc. No hay nada que decir al respecto en el paper.
+
+Otra cosa que sucedió durante las corridas es que algunas respuestas muy de vez en cuando estaban produciendo muchísimos tokens. Eso gastaba mucha plata y tiempo y no valía la pena. Sucedía desproporcionadamente mucho en swahili y en hindi, pero incluso en esos casos eran pocas las respuestas en las que pasaba esto. En base a esto, tomé la siguiente decisión:
+
+> *Pasted · 2026-09-14*
+>
+> pongamos un tope de 5 mil tokens; respuestas que se pasan de eso, que se guarden cortadas (ya hay bastante información como para evaluar si es refusal o no a los 5 mil tokens); y guardemos igual cuáles son, y reportemos el porcentaje por idioma y por modelo, por si después queremos volver a correr esas en particular
+>
+> todo lo que ya tenemos, lo vamos a usar, pero registremos cuáles de las respuestas ya obtenidas se pasan de 5 mil tokens, quizás queramos truncar en 5 mil y volver a juzgar
+
+Finalmente eran tan pocos que no volvimos a correr para ver si producían menos de 5 mil tokens, en cambio, truncamos y rejuzgamos los anteriores. En nuestros datasets, todas las respuestas que se pasan de 5 mil tokens (que, por cierto, es un montón, son respuestas larguísimas) son truncadas y se juzgan así. Estamos hablando de menos del 1% de las respuestas, así que esta decisión no afectaría probablemente ningún resultado, pero reportarlo así es reproducible y prolijo. Los números:
+
+> *Pasted · 2026-09-14*
+>
+> D2 con sus 83.000 filas casi no tiene ninguna. En inglés en general es 0,05%.
+>
+> Por modelo. Tres de los 19 nuevos concentran casi la mitad: nova-2-lite (59 filas, 3,0% de las suyas), nemotron-3.5-lightning (28, 1,4%) y ling-3.0-flash (27, 1,4%). Después gemma-4-31b (15, en inglés) y glm-5.2 (11). Los 6 modelos viejos, con 23.000 filas cada uno, están todos por debajo del 0,1%; solar-pro4 es el que más tiene con 24, y 13 de ellas son swahili.
+>
+> Por idioma. Swahili es el idioma problema: 122 de las 239 filas, un 2,06% de sus filas, contra 0,56% en hindi y 0,1% o menos en el resto. Inglés tiene 66 pero sobre 133.000 filas.
+
+Otra decisión tomada: no correr el panel B de modelos (todos con reasoning). Era muy caro y no estaba justificado por nuestros objetivos. Estamos testeando un panel muy grande de modelos sin reasoning, evaluando sus capacidades, y además mostrando cómo cambian los sesgos cuando agregamos reasoning. Correr todos nuestros datasets con varios modelos de frontera que razonen era muchísimo gasto y no contestaba ninguna pregunta nueva.
+
+Eso es todo lo que hice. En los últimos días. El costo total de los experimentos finales, los usados para el paper (D1, D2, D3, sus controles y el experimento de reasoning + capabilities) fue de $1.671. Eso no incluye todas las pruebas anteriores.
+
+¿Qué queda? 10 días para hacer todos los análisis y gráficos, escribir todo el paper, chequearlo y mandarlo. Y 4 días para tener el abstract y lista de autores 100% final.
