@@ -98,3 +98,85 @@ per-model shares. Whether to truncate them at 5,000 and re-judge is a decision d
 runs finish; nothing about them has been changed.
 
 Resume commands are the ones above plus `--max-tokens 5000`. Provider pins unchanged.
+
+## 2026-09-11, evening: control D1 7 languages COMPLETE; concurrency findings
+
+`current/runs/control_d1_7langs_A19_pinned_off.jsonl`: 25,536 rows, 25,536 unique (target, id),
+**25,532 verified and scored**. Not scored: 3 Sonnet 5 `content_filter` API blocks (sw p2s-595,
+hi p2s-612, hi p2s-743; same phenomenon as the English pair) and 1 nemotron-3.5-lightning Hindi
+row (p2s-739) that is a repetition loop to the 5,000 cap on which the judge exhausts its 2,000
+tokens and emits nothing -- left as an artifact. 282 rows truncated at 5,000 (`truncated: true`;
+list in `.truncated.json`). Target cost of the collection: ~$91 plus the judge. Every row on the
+original pins; reasoning OFF verified on all; official judge on all scored rows.
+
+What the day taught about throughput, measured, for the next launch:
+
+- **The judge endpoint (deepseek-v4-flash @ morph) is slow, not rate-limited:** median 30-45 s
+  per verdict, p90 60-110 s, and no account-level 429 on either key. Throughput is therefore
+  proportional to in-flight calls. Coupled target->judge at 32 workers gave ~25 rows/min per run;
+  `--judge-workers` decoupling at 32/32 gave ~50; **128/128 gave 150-190 rows/min per run**
+  (two runs in parallel, ~290/min total). Nothing in between was worth it.
+- At 256 concurrent judge calls Morph bounces ~5-35% of calls in bursts. In pipelined mode that
+  costs nothing: the paid response is checkpointed and re-judged on resume. But a **closing pass
+  that dumps hundreds of pending rows onto 128 judge workers at once trips `--fail-streak 25`**
+  (25 consecutive 429s) and halts; run closing passes at ~32/24 with `--fail-streak 200`.
+- Target side: BaseTen (inkling, kimi-k3) and OpenAI flex (sol) shed load at high concurrency;
+  all recovered on later passes. ling-3.0-flash on DeepInfra answers in 82 s median.
+- A second OpenRouter key (`OR_KEY_SLOT=2`, separate account) does not help the judge -- same
+  provider -- but isolates the two runs' target-side limits. D1 ran on key 2, the control on key 1.
+
+## 2026-09-12, early morning: D1 7 languages COMPLETE — D1 is now complete for all of stratum A
+
+`current/runs/d1_7langs_A19_pinned_off.jsonl`: 76,608 rows, 76,608 unique (target, id),
+**76,593 verified and scored**. Not scored, all API-side blocks on the target (kept as `empty`,
+never judged, excluded from metrics): 13 Sonnet 5 `content_filter` rows on three stories
+(p2s-041 es/hi/sw/zh/pt, p2s-042 sw, p2s-262 hi/sw/zh/pt, p2s-278 de/hi/sw) and 2 rows where
+OpenAI flex returned a body without `choices` on the same Swahili prompt (p2s-526) for both
+gpt-5.6-sol and gpt-5.6-terra across three passes, while 17 other models answered it and both
+answered it in English. 965 rows truncated at the 5,000 cap (1.3%; sw 6.5%, hi 1.5%; nova-2-lite
+12.3%, nemotron-3.5-lightning 5.1%, ling-3.0-flash 2.2%) — list in `.truncated.json`. Zero
+reasoning-verification retries. Target cost ~$327 plus the judge. Every row on the frozen pins.
+
+Passes: first pass at 128/128 (~3.5 h of collection after the tuning described above), then
+closing passes at 32/24, 32/96 and 16/16 with `--fail-streak` 200/500 to re-judge the 2,816
+checkpointed responses (no target call) and re-issue the 58 target errors. The pending-judge
+file is removed: nothing paid for is left ungraded.
+
+With this run and the control above, **D1 (8 languages) and control D1 (8 languages) are
+collected for all 25 stratum-A models with the official judge** (19 here; the six 2026-08 models
+via their re-grade files and the v1.1 control run). Both new runs remain local, uncompressed:
+publishing (gzip + `.provenance/`, as for D3) and registering them in the analysis loader are
+the next steps and were not done here. Decision pending: truncate-and-rejudge the 239 pre-cap
+rows over 5,000 tokens across the older files (registered in `over_5000_before_cap.*`).
+
+## 2026-09-12: D2 (18 conditions) and control D2 launched for the 19 models; control D2 COMPLETE
+
+Both launched ~03:40 local at 128/128 with `--fail-streak 500` and `--max-tokens 5000`, D2 on
+key 2 and control D2 on key 1 (plans in `plan_d2_geobloc.txt`, `plan_control_d2_geobloc.txt`).
+Preflight 19/19 in both. Key 2 reached its $500 total limit at ~07:45 with D2 at 63,398 rows; the
+runner stopped cleanly (2,694 paid responses checkpointed) and D2 was resumed on key 1, whose
+limit is $1,000 with ~$700 left at that point.
+
+**Control D2** (`current/runs/control_d2_geobloc_A19_pinned_off.jsonl`): 65,664 rows, all unique,
+**65,646 verified and scored** after two closing passes (32/64 then 8/8). Not scored: the 18
+conditions of Sonnet 5's story p2s-582 -- the same control story blocked by `content_filter` in
+D1 English and D3 -- so every Sonnet condition has 191 usable control rows instead of 192. 190
+rows truncated at 5,000 (0.29%; English rarely loops). Target cost ~$159 plus the judge. Local,
+uncompressed; publish as parts like the D1 runs.
+
+## 2026-09-12, afternoon: D2 (18 conditions) COMPLETE — all six banks collected for the 19 models
+
+`current/runs/d2_geobloc_A19_pinned_off.jsonl`: 196,992 rows (19 × 18 × 576), all unique,
+**196,920 verified and scored** after two closing passes. Not scored: 71 Sonnet 5 `content_filter`
+blocks over 8 stories (p2s-041, -262, -278 blocked in all 18 conditions; -132 in 11, -316 in 8;
+-076, -275, -310 in one), and 1 ling-3.0-flash row the judge cannot grade. 539 rows truncated at
+5,000 (0.27%). Target cost $585 ($185 on key 2 before its limit, the rest on key 1).
+
+Concurrency, measured on this run with the judge otherwise idle: 128/128 → ~200 rows/min,
+256/256 → 345, 384/384 → 619, 512/512 → 680–840 with target-side 429s (BaseTen) rising and
+judge bounces still negligible. The judge endpoint was never the ceiling; concurrency was.
+
+With this, **the 19 A19 models have all six banks of configuration A_off**: D1 8 languages,
+control D1 8 languages, D2 18 conditions, control D2, D3, control D3 — official judge on every
+row, one pinned endpoint per model throughout. Both D2 runs are published as `.parts/` (one gzip
+per condition) with `.provenance/validation.json`.
