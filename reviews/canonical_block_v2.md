@@ -1,5 +1,7 @@
 # Canonical meta-prompt blocks v2 — single propagation source
 
+> Superseded by `canonical_block_v3.md` (14/07/2026).
+
 Status: final, insert-ready. Every fenced block below is copy-paste-exact (including line breaks);
 propagate mechanically and verify with the block-hash gate. Sections 1–5 are the canonical shared
 text; section 6 is the per-file delta table; section 7 lists the residual wording flags.

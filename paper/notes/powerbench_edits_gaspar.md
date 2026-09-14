@@ -1,5 +1,8 @@
 # PowerBench — ediciones de Gaspar para integrar al draft
 
+> Ediciones de Gaspar sobre el draft de la hackathon (julio 2026), ya integradas; histórico. No
+> aplicar sobre un manuscrito nuevo.
+
 > **Para Claude (instancia que integra los cambios al paper):**
 >
 > Estás actualizando el paper LaTeX `powerbench.tex`. Abajo hay una lista de ediciones

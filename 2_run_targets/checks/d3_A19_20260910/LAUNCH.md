@@ -7,7 +7,8 @@ objects were checked again against the completed D1 metadata and match exactly.
 Provider resolution was not run.
 
 The default live preflight is enabled (12 calls per model). This launch note records
-startup, not a claim that the preflight or collection has completed. The runner only
+startup. (The collection did complete on 2026-09-10: 9,576/9,576 valid rows; see
+`../../../current/runs/d3_en_A19_pinned_off.provenance/README.md`.) The runner only
 collects models that pass its preflight; excluded models require investigation with
 the original pins retained.
 
@@ -20,4 +21,4 @@ monitor tests and JavaScript syntax validation passed.
 The supervisor prevents idle sleep while the runner is alive. This remains a local
 Mac process and does not provide operation while the machine is asleep or shut down.
 Validate all 9,576 rows after collection; recover target or judge failures with the
-same pins and preserve provenance before publishing results.
+same pins and preserve provenance before publishing results — done, see the provenance folder.

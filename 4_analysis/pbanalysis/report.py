@@ -13,11 +13,11 @@ strings and assembles the file; the analysis script only has to state what it di
 
     from pbanalysis import report
     res = report.Result("01_baseline_d1_en", title="...", question="...")
-    res.data("D1 English, 6 models, 576 prompts each; rows with valid=False excluded (n=...).")
+    res.data("D1 English, 24 models, 576 prompts each; rows with valid=False excluded (n=...).")
     res.method("Per model. Bootstrap over prompts, stratified by mode, 3000 draws, seed 0. ...")
     res.table("by_model", df, "Rates in pp with 95% percentile intervals.")
     res.figure("stacked", fig, "How to read: ...")
-    res.stat("pooled_excess_pp", 2.3, lo=-2.1, hi=6.4, p=0.31, note="6 models, 8 languages")
+    res.stat("pooled_pg_pp", 23.6, lo=21.0, hi=26.3, p=0.0, note="24 models, English")
     res.conclusion("...")
     res.write()                        # -> results/01_baseline_d1_en/
     report.rebuild_index()             # -> results/README.md

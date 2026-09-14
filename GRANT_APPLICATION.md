@@ -1,5 +1,8 @@
 # Blue Dot — Rapid Grant Application (PowerBench)
 
+> ⚠️ **Historical.** The Blue Dot application of July 2026 (AAAI-27 target, $9,000 ask, 10-model
+> panel, three judges, three prompts per cell). None of that is the current plan; see `notebooks/PowerBench.md` (entries 2026-09-08 and 2026-09-14) and the notice at the top of `CLAUDE.md`.
+
 *Ready-to-paste answers, field by field. Name / email / LinkedIn are left for the applicant to fill. Questions are mailed to joshua@bluedot.org.*
 
 ---

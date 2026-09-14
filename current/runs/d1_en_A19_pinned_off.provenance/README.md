@@ -47,9 +47,9 @@ it omits judge calls, preflight and discarded attempts, so no total-spend claim 
 
 ## Limits and next steps
 
-This is the D1 English power-mode collection only. The 192-prompt control, other languages,
-D2, D3 and expanded-panel analyses are separate pending work. The global panel status is not
-changed to imply all those banks are complete. `pbanalysis.load_all()` still names the historical
+This is the D1 English power-mode collection only. The control, the other seven languages, D2
+and D3 were collected separately and are complete (2026-09-11/12; see their own `.provenance/`
+folders). The panel status was set to `run` for these models on 2026-09-14. `pbanalysis.load_all()` still names the historical
 six-model runs with legacy inline judgments; do not silently pool them with this official-judge
 collection. Join the official re-grades and register the expanded models explicitly first.
 

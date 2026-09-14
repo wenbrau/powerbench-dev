@@ -42,7 +42,7 @@ irrealidad es de diseño).
   numeración posicional, siempre trabajar con (banco, id).
 - **D2/D3 v6 derivan del pilot** (transformación mínima {NAT} / recast IA, pareados por
   `pair_id`), no del full. Los specs `dataset2_full.v6.md`/`dataset3_full.v6.md` son los specs
-  para la corrida full, todavía no aplicada. Cuando se generen D2/D3 full, **partir de
+  para la corrida full (resuelto después: los D2/D3 actuales, en `current/banks/`, derivan del banco full v6r2). Cuando se generen D2/D3 full, **partir de
   `dataset1_full_576.v6r.jsonl`** para heredar las correcciones.
 
 ## Archivos (todos en `1_create_dataset/build/`)

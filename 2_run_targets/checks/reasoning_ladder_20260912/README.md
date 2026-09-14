@@ -52,5 +52,7 @@ Total target cost **$59.06** (estimate beforehand ~$125; models reasoned less th
 - Anthropic's adaptive thinking means a "reasoning ON at effort X" arm is not a controlled
   condition on their models: the model decides per prompt whether to think.
 
-Analysis not done here. Suggested: per model, R(he/de/pg) and control at OFF / rung 1 / rung 2,
-paired by prompt; then the same against delivered reasoning tokens.
+Analysis: block 18 (`4_analysis/results/18_reasoning_ladder/`), per model, R(he/de/pg) and —
+separately, never subtracted — the control, at OFF / rung 1 / rung 2, paired by prompt. Appendix
+material (2026-09-14); anything further is for the researchers to define, not for an assistant to
+pick.

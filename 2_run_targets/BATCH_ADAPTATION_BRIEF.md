@@ -1,5 +1,13 @@
 # Brief: add an OpenRouter batch path for the Anthropic targets
 
+> ⚠️ **SUPERSEDED — do not execute (marked 2026-09-14).** Batch transport was switched off on
+> 2026-09-09 (the account cannot create batches) and no row of the study went through it; stratum B
+> was cancelled on 2026-09-14; the ON-arm / "bridge" question was answered by the reasoning ladder
+> of 2026-09-12 (8 stratum-A models, two effort rungs, D1 English + control); D2 ran at 18
+> conditions for all 24 models. Everything below is the 2026-09-08 work order, kept as provenance
+> of `batch_client.py` and `run_scope.py`. Its open questions (§9) are closed. §7 (rules for an
+> agent) still applies to any future work.
+
 *Written 2026-09-08. Hand this whole file to the instance doing the work. Everything below was
 measured against the live API on that date; re-check anything you are about to rely on, because
 provider line-ups and prices move.*

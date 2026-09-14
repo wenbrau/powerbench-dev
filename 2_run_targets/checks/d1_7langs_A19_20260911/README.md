@@ -1,11 +1,12 @@
 # D1 in the 7 non-English languages + control D1 in the same 7 — A19 pre-run (2026-09-11)
 
-Prepared, not launched. Both plans below were printed by the real runner and aborted at
+Pre-run record, written before launch. Both runs were then launched and completed (see the dated
+entries below). At the time, both plans were printed by the real runner and aborted at
 `Continue? [y/N]`; nothing was spent and no run file or `.meta.json` was created.
 
 ## What this completes
 
-After these two runs, **D1 is complete for the whole stratum A (25 models)**: D1 in 8 languages and
+After these two runs, **D1 is complete for the whole stratum A (25 models collected; 24 in the final panel, solar-pro4 excluded)**: D1 in 8 languages and
 control D1 in 8 languages, every verdict from the official judge. Coverage before launch, counted
 from the `.meta.json` / rows on disk:
 
@@ -91,11 +92,10 @@ and marked `truncated`; each row records its `max_tokens`; the meta records the 
 truncated share by language and model and writes the list to `<out>.truncated.json`, so those
 rows can be re-run or re-judged later if wanted.
 
-**Rows already collected that exceed 5,000 tokens are kept and used.** They are listed in
+**Rows already collected that exceed 5,000 tokens were kept and later (2026-09-12) truncated at 5,000 and re-judged** — use the `*.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl` verdicts beside each run. They are listed in
 `over_5000_before_cap.{json,csv}` (164 rows across the six A19 files; 52 in D1-7langs = 1.10%,
 76 in control-7langs = 1.79%, 36 in the four English files ≈ 0.1%), with per-language and
-per-model shares. Whether to truncate them at 5,000 and re-judge is a decision deferred until the
-runs finish; nothing about them has been changed.
+per-model shares. (The deferred decision was taken on 2026-09-12: truncate and re-judge; under 1% of rows.)
 
 Resume commands are the ones above plus `--max-tokens 5000`. Provider pins unchanged.
 
@@ -143,11 +143,11 @@ checkpointed responses (no target call) and re-issue the 58 target errors. The p
 file is removed: nothing paid for is left ungraded.
 
 With this run and the control above, **D1 (8 languages) and control D1 (8 languages) are
-collected for all 25 stratum-A models with the official judge** (19 here; the six 2026-08 models
-via their re-grade files and the v1.1 control run). Both new runs remain local, uncompressed:
-publishing (gzip + `.provenance/`, as for D3) and registering them in the analysis loader are
-the next steps and were not done here. Decision pending: truncate-and-rejudge the 239 pre-cap
-rows over 5,000 tokens across the older files (registered in `over_5000_before_cap.*`).
+collected for all 25 stratum-A models with the official judge (24 in the final panel)** (19 here; the six 2026-08 models
+via their re-grade files and the v1.1 control run). Both runs were subsequently published as `.parts/*.jsonl.gz` with `.provenance/` (2026-09-12),
+and the 239 pre-cap rows over 5,000 tokens across the older files (registered in
+`over_5000_before_cap.*`) were truncated and re-judged (`*.rejudge_trunc5000_*`). The block-14+
+analysis scripts read these files directly; `load_all()` was not extended.
 
 ## 2026-09-12: D2 (18 conditions) and control D2 launched for the 19 models; control D2 COMPLETE
 
@@ -161,8 +161,8 @@ limit is $1,000 with ~$700 left at that point.
 **65,646 verified and scored** after two closing passes (32/64 then 8/8). Not scored: the 18
 conditions of Sonnet 5's story p2s-582 -- the same control story blocked by `content_filter` in
 D1 English and D3 -- so every Sonnet condition has 191 usable control rows instead of 192. 190
-rows truncated at 5,000 (0.29%; English rarely loops). Target cost ~$159 plus the judge. Local,
-uncompressed; publish as parts like the D1 runs.
+rows truncated at 5,000 (0.29%; English rarely loops). Target cost ~$159 plus the judge. Published
+as parts with `.provenance/`, like the D1 runs (2026-09-12).
 
 ## 2026-09-12, afternoon: D2 (18 conditions) COMPLETE — all six banks collected for the 19 models
 

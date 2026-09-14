@@ -1,5 +1,10 @@
 # PowerBench v2 — consolidated TODO (literature audit + reviewer feedback)
 
+> ⚠️ **Superseded (marked 2026-09-14).** This list belongs to the June–July 2026 plan (3 replicas
+> per cell, 10-model panel, 3-way judge, 4,000-token cap, AAAI-27). All experiments are complete
+> (24-model panel, one binary judge, 1 prompt per cell, 5,000-token cap) and nothing here is
+> pending. Kept as provenance; see `notebooks/PowerBench.md` (entries 2026-09-08 and 2026-09-14) and the notice at the top of `CLAUDE.md`.
+
 Companion to [`PLAN.md`](PLAN.md). Sources: two-pass literature audit (2026-07-13) and
 hackathon reviewer feedback. Each item cites its rationale; ✓✓ = adversarially verified
 claim, ⚠ = quote-checked but unverified (pass-2 verification aborted on rate limits).

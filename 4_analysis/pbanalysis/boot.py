@@ -29,7 +29,7 @@ matrix-vector product per mode -- thousands of draws over 100k rows in well unde
     bs = Boot(df, B=3000, seed=0)
     m  = bs.mask(model="minimax-m3", dataset="D1", lang="zh")
     S  = bs.summary(m)                 # dict of arrays, index 0 = point estimate, 1.. = draws
-    ci(S["excess"])                    # (est, lo, hi, p)
+    ci(S["pg"])                        # (est, lo, hi, p)
     d  = bs.summary(m_zh)["pg"] - bs.summary(m_en)["pg"]   # paired contrast, same draws
 """
 from __future__ import annotations
