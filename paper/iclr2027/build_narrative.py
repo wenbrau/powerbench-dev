@@ -166,7 +166,8 @@ def main():
         pattern = rf"(<!-- BEGIN {name} -->).*?(<!-- END {name} -->)"
         assert len(re.findall(pattern, text, flags=re.S)) == 1
         text = re.sub(pattern, lambda match: match[1]+"\n\n"+table+"\n\n"+match[2], text, flags=re.S)
-    text = text.replace("{{ROOT}}", str(ROOT))
+    # Keep repository links portable when this document is rebuilt elsewhere.
+    text = text.replace("{{ROOT}}", Path(os.path.relpath(ROOT, HERE)).as_posix())
     DOC.write_text(text)
     (FIGURES / "provenance.json").write_text(json.dumps(dict(
         source_sha256=SOURCES, builder_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
