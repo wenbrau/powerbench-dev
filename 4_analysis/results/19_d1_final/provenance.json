@@ -1,0 +1,31 @@
+{
+  "bootstrap_draws": 5000,
+  "seed": 20260915,
+  "rows": 18432,
+  "valid": 18430,
+  "versions": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.5",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2"
+  },
+  "sha256": {
+    "current/runs/d1_en_A19_pinned_off.jsonl": "1127212ecdb86028e01ff607e09ca93651f88869a6c612e27dc698f22da84444",
+    "current/runs/d1_en_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "c0aed32eb50360c3eee824f4527002a75dd241bb4cfc2123507a19a2a24975bb",
+    "current/runs/d1_v6r2_7models_pinned_off_en.jsonl": "6f13ca1d17402eb5f98263e12e7f508ba8038f215324581f29af67fd32644adc",
+    "current/runs/d1_v6r2_7models_pinned_off_en.rejudge_deepseek-v4-flash-0731.jsonl": "17cd3da1f6717246c980657090cdd72c9875ab2c3c6b80ebd34dac9391054968",
+    "current/runs/d1_v6r2_7models_pinned_off_en.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "b07506bc2e1b9b9341d03117cca279b0c6f029155b36797f127d1e8ef90d65bb",
+    "current/runs/control_d1_en_A19_pinned_off.jsonl": "d5841c73ead0ce7aa4026a8c6b62edeaae8555700d6214115a84eb859ca3b0e2",
+    "current/runs/control_d1_en_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "fb47a2026e02d15cfe047a63116098879db02c27197b081a54c237356ee8bdac",
+    "current/runs/control192_v1.1_multilang_6models_pinned_off.jsonl": "723a57da21a21a4aa1159ac0fa5ba997872f76474d8337bf256c85c3dcadf255",
+    "current/runs/control192_v1.1_multilang_6models_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "aea51a59d468de29739c63e14a230adcba345664319e3fc42020c2d1aea3983b",
+    "current/banks/dataset1_full_576.v6r2.multilang.verified.jsonl": "e471720517e8f236b938e6cb06cff03d3c98609ed0c6cab436666ea1362a201b",
+    "current/banks/dataset1_control_192.v1.1.jsonl": "bbc2182a891708df3e2d82179fb6b846543b3153baf2a1753762205f5376b7e1",
+    "common/models_panel.py": "62813c5118c09671e3a38d9202af3322530950bb5561c4aff742f4efd5883852",
+    "4_analysis/analysis_19_d1_final.py": "26961261b69417325d874daa07c5f3edc92b866387166be2ce5054d16d39733c",
+    "4_analysis/pbanalysis/final_panel.py": "f4507dd44452cc2459f37c60d66b4d2e01b3a78f388625b5ae005a07611ce1a9",
+    "4_analysis/pbanalysis/boot.py": "b39b7d4fd488444412ba5fd35ef3a3c84765d965b973f1494d4d5c6a7913d061",
+    "4_analysis/analysis_08_capability.py": "48f8fbe747baf4813cd6a1d5dbb351fad6a0ff6a9e7d94b1f8a001f372063771",
+    "current/runs/capability_probe_off.jsonl": "486d79086525b7def71fff863e74dc03221a92caafed14de59e4ab20ef119acc"
+  }
+}

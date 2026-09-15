@@ -1,0 +1,13 @@
+{
+  "figures": 32,
+  "sections": 4,
+  "sha256": {
+    "4_analysis/results/19_d1_final/report.html": "31e15ab2d5b08d0acfaffc73360d32679d968b714dfde118326791a4fede531b",
+    "4_analysis/results/20_d1_languages_final/report.html": "9b8a02ba4aa00921a83d01a98e00062de0fa926787ba747dccdfb58ca53b88e4",
+    "4_analysis/results/21_d2_nationality_final/report.html": "5d40b284739e43ef446eca38088dfee55022dfbb8397d6b6a114878b36787ce3",
+    "4_analysis/results/22_d3_ai_final/report.html": "5f104d3db7737f91a358ebd5b74ba8454fb5f912ec66e531c7d4d606b3fd04df",
+    "4_analysis/results/22_d3_ai_final/audit.html": "d1ef85c8f5b705bd6263f92d715bed6087aa83dfa524af5fb51cf5d16f83792e",
+    "4_analysis/results/22_d3_ai_final/html_reconciliation.csv": "14e44a6fbc760ef72362bc7ebd2566333aec85ed52640fc03bb52a4689c166da",
+    "4_analysis/build_final_analysis_html.py": "2cfeabe5c43a7c32eae7ccd524e70b8115233064a0002e9109246be9a8a3b919"
+  }
+}

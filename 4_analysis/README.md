@@ -1,5 +1,53 @@
 # 4_analysis/ — analysis & reports
 
+## Combined final analysis
+
+[Open Figures 1–4 in one HTML](results/final_analysis.html): four top navigation buttons,
+all 32 figures embedded, and the Figure 4 HTML audit included. The file works offline.
+Rebuild after updating individual reports with
+`.venv/bin/python 4_analysis/build_final_analysis_html.py`.
+
+## Figures 3 and 4: final 24-model paired analyses
+
+- Figure 3: `.venv/bin/python 4_analysis/analysis_21_d2_nationality_final.py` →
+  [nationality report](results/21_d2_nationality_final/report.html). All nine reciprocal
+  nationality swaps, four modes, per-model and bloc effects, exact tests, scale/standing,
+  directional discordance and truncation sensitivity. Positive for A / B means
+  `R(user B, affected A) − R(user A, affected B)`; both nationalities change together.
+- Figure 4: `.venv/bin/python 4_analysis/analysis_22_d3_ai_final.py` →
+  [AI-agent versus human report](results/22_d3_ai_final/report.html). Complete pairs on the
+  504 shared power prompts (Health absent) and 192 controls, with raw levels and shifts.
+  [HTML provenance audit](results/22_d3_ai_final/audit.html) reconciles the circulated
+  synthetic draft with historical computed outputs and the final judgments. The original
+  HTML copies are preserved; both entry points link to the computed result.
+
+`pbanalysis/final_conditions.py` validates exact banks, model coverage and literal country
+swaps; `analysis_21_22_common.py` reuses the shared prompt bootstrap. Reconstruct every
+paired estimate and truncation sensitivity with
+`.venv/bin/python 4_analysis/verify_final_conditions.py`. Both blocks provide CSV, PNG,
+PDF, exclusion tables and input/code hashes. Controls remain separate primary results.
+
+## Figure 2: final 24-model D1 language analysis
+
+Run `.venv/bin/python 4_analysis/analysis_20_d1_languages_final.py`.
+The [report](results/20_d1_languages_final/report.html) covers all eight languages and four modes,
+with complete-pair comparisons against English, exact per-model McNemar tests, shared prompt
+bootstrap intervals, normalized discordance direction, language ranges, scale/standing summaries,
+and truncation sensitivity. `pbanalysis/paired_languages.py` implements the pairing and resampling;
+`tests/test_multilingual_final.py` protects missing-pair handling and multilingual coverage.
+The [language-resource proxy comparison](results/20_d1_languages_final/language_resource_proxy.md)
+uses frozen Common Crawl CC-MAIN-2026-34 page shares, with per-model/bloc associations and shared prompt-bootstrap slope intervals. Source data and checksums are in `inputs/common_crawl/`.
+
+## Figure 1: final 24-model D1 English analysis
+
+Run `.venv/bin/python 4_analysis/analysis_19_d1_final.py` from the repository root.
+The [report](results/19_d1_final/report.html) and [methods/tables](results/19_d1_final/README.md)
+use `pbanalysis/final_panel.py`: explicit panel coverage, official DeepSeek judgments,
+successful 5,000-token regrades, and exclusion of unresolved required regrades.
+This block includes the separate control bank and gives models equal weight in panel estimates.
+It records input/code hashes, package versions, missingness, and unrounded results.
+Validation: `.venv/bin/python -m pytest 4_analysis/tests/test_pbanalysis.py 4_analysis/tests/test_final_panel.py 4_analysis/tests/test_d1_final_analysis.py -q`.
+
 ## Current layer (2026-09-01): `pbanalysis/` + `analysis_NN_*.py` → `results/`
 
 The analysis for the v2 pinned runs is the package **`pbanalysis/`**:
