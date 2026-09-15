@@ -1,0 +1,42 @@
+{
+  "bootstrap_draws": 5000,
+  "seed": 20260915,
+  "alphas": {
+    "a025": 0.25,
+    "a05": 0.5,
+    "a1": 1.0
+  },
+  "data_audit": [
+    {
+      "block": "language",
+      "rows": 147456,
+      "valid": 147428,
+      "contrasts": 7
+    },
+    {
+      "block": "nationality",
+      "rows": 331776,
+      "valid": 331676,
+      "contrasts": 9
+    },
+    {
+      "block": "ai",
+      "rows": 33408,
+      "valid": 33405,
+      "contrasts": 1
+    }
+  ],
+  "source_sha256": {
+    "4_analysis/results/20_d1_languages_final/analysis_rows.csv": "b9ad1ae071bc4fbbb2731b23f659d0f41723cd9d56fdd1a5b270bc63192896c4",
+    "4_analysis/results/20_d1_languages_final/language_vs_english_per_model.csv": "ef742a85804c4e10b616a2f5fbe58ec77cc89fdeac6b08345afa16da2f33e3d8",
+    "4_analysis/results/21_d2_nationality_final/analysis_rows.csv.gz": "b04c172c3a846abe029545541c8ff2f49fd8eae1fadbed087a5eb7a4e567cb03",
+    "4_analysis/results/21_d2_nationality_final/paired_per_model.csv": "efa86e4ec606739e12b46b141ba55a6eef0ba21f478fdcd06c49f9dac1a518d3",
+    "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz": "241532ef9e3a10c7dfe7ce906bb5cd98ddd0b7817dd046147d36cf76a8c49795",
+    "4_analysis/results/22_d3_ai_final/paired_per_model.csv": "eb773d24e80656d185dbabcd05f6adc1a032065fcc1f9d18b33c222f23129f79",
+    "4_analysis/analysis_24_effect_scales.py": "8df670ae1a02954d6ac55371a462536071bf1fe2d6580f30f4325c6208678265",
+    "4_analysis/analysis_24_scale_report.py": "fa3eebf4fb36ee4137cc09e61fd994dccba6080c201113e5a5b4754c3e3b40ca",
+    "4_analysis/pbanalysis/paired_languages.py": "5f876c004889a5b520c6ea19d67198cf84d21ea1a753de2996c384557d6e89e4",
+    "4_analysis/pbanalysis/final_conditions.py": "4fd5c2580373ede38951ce63d9fa52aee82dd49fc897325bd0bdf3dc9d628962"
+  },
+  "assertions": "All full-sample per-model counts, PP point estimates and percentile intervals match blocks 20\u201322"
+}

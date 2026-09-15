@@ -1,0 +1,34 @@
+{
+ "ai_he_mean_logit": {
+  "est": 0.4496984738026497,
+  "lo": 0.2349010575791208,
+  "hi": 0.7654461355762697,
+  "p": null,
+  "unit": "natural log odds",
+  "note": "alpha=0.5; fixed 24-model equal mean"
+ },
+ "ai_de_mean_logit": {
+  "est": 0.5474078066012267,
+  "lo": 0.41455195888713214,
+  "hi": 0.6956677632081991,
+  "p": null,
+  "unit": "natural log odds",
+  "note": "alpha=0.5; fixed 24-model equal mean"
+ },
+ "ai_pg_mean_logit": {
+  "est": 0.3295892003036823,
+  "lo": 0.22574682521507078,
+  "hi": 0.47296603483206184,
+  "p": null,
+  "unit": "natural log odds",
+  "note": "alpha=0.5; fixed 24-model equal mean"
+ },
+ "ai_control_mean_logit": {
+  "est": 0.14883989729581468,
+  "lo": 0.036871873612246774,
+  "hi": 0.264378032211223,
+  "p": null,
+  "unit": "natural log odds",
+  "note": "alpha=0.5; fixed 24-model equal mean"
+ }
+}
