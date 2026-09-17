@@ -1,0 +1,66 @@
+{
+ "range_pp_he": {
+  "est": 6.055710078534031,
+  "lo": 5.663548370237057,
+  "hi": 7.943793402777777,
+  "p": 0.0,
+  "unit": "pp",
+  "note": "shuffle 2.89 [2.54, 3.23]; p = P(shuffle ≥ observado)"
+ },
+ "range_or_he": {
+  "est": 4.294989429883457,
+  "lo": 4.030560597000718,
+  "hi": 11.308430291237086,
+  "p": 0.0,
+  "unit": "or",
+  "note": "shuffle 2.49 [2.22, 2.83]; p = P(shuffle ≥ observado)"
+ },
+ "range_pp_de": {
+  "est": 15.441844822571262,
+  "lo": 14.33102412974381,
+  "hi": 18.12509277956699,
+  "p": 0.0,
+  "unit": "pp",
+  "note": "shuffle 5.36 [4.70, 6.04]; p = P(shuffle ≥ observado)"
+ },
+ "range_or_de": {
+  "est": 4.027671929740862,
+  "lo": 3.858559260861711,
+  "hi": 5.885553583742821,
+  "p": 0.0,
+  "unit": "or",
+  "note": "shuffle 1.73 [1.60, 1.86]; p = P(shuffle ≥ observado)"
+ },
+ "range_pp_pg": {
+  "est": 17.5882371655032,
+  "lo": 16.814662427244624,
+  "hi": 20.865581663002125,
+  "p": 0.0,
+  "unit": "pp",
+  "note": "shuffle 6.03 [5.32, 6.82]; p = P(shuffle ≥ observado)"
+ },
+ "range_or_pg": {
+  "est": 2.8242137018467517,
+  "lo": 2.7777146951460137,
+  "hi": 3.7666079368948817,
+  "p": 0.0,
+  "unit": "or",
+  "note": "shuffle 1.48 [1.41, 1.56]; p = P(shuffle ≥ observado)"
+ },
+ "range_pp_control": {
+  "est": 14.355639179755672,
+  "lo": 13.602643861849758,
+  "hi": 17.45850232789106,
+  "p": 0.0,
+  "unit": "pp",
+  "note": "shuffle 5.50 [4.98, 6.11]; p = P(shuffle ≥ observado)"
+ },
+ "range_or_control": {
+  "est": 2.83761686331125,
+  "lo": 2.6979445867300162,
+  "hi": 3.8033976546792894,
+  "p": 0.0,
+  "unit": "or",
+  "note": "shuffle 1.51 [1.43, 1.59]; p = P(shuffle ≥ observado)"
+ }
+}

@@ -1,0 +1,16 @@
+{
+ "source_tables": {
+  "4_analysis/results/26_fig2_notelab/delta_vs_english_per_model.csv": "a2feefe8936e42834c2e1f073ef808f3d463826865509a2a67cff90c1c9f10c3",
+  "4_analysis/results/26_fig2_notelab/delta_vs_english_pooled.csv": "277e5095a199e64c5dee903e8a546ec7cf5d62be4ccb9ddc76dbb22801e898df",
+  "4_analysis/results/26_fig2_notelab/delta_vs_english_by_factor.csv": "6777e3be487e71884d5afc7d9dc66d58b1790a97ee4b2615d3733ba67df6a1fa",
+  "4_analysis/results/26_fig2_notelab/language_summary.csv": "d6e7a6893da4ce73f76c45040ec6d64f16f4806e4f6466a453febc9c63e8c613",
+  "4_analysis/results/26_fig2_notelab/language_pair_matrix.csv": "1651ca95c80528e4cfce50818ed276a43d36e95f6119579d934ec4dea0a81081",
+  "4_analysis/results/26_fig2_notelab/range_per_model.csv": "5b2e5c68714f811c8ad7de7e18340705759309778d4df4189b72181cfe9ca25c",
+  "4_analysis/results/26_fig2_notelab/resource_shares.csv": "0434f8d09cf1382c5bd90da2934a3c3b4e22fc57be89628d11fa60140dfab5b6",
+  "4_analysis/results/26_fig2_notelab/resource_correlation_pooled.csv": "578fe5ee2b5282db6a1013eb58a913047676c0d947faafd051b0e59c27317e9b",
+  "4_analysis/results/26_fig2_notelab/provenance.json": "4888450e14e3b96544d9ad153ccf8a1b1172d9641c8653657e93a8fd007302d8"
+ },
+ "code": {
+  "4_analysis\\analysis_28_fig2_questions.py": "2a2b972bfe188da1973872fecf5171c26c6415eeeef747883b4b20b2c2fbd2ff"
+ }
+}
