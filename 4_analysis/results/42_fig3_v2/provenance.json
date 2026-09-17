@@ -1,0 +1,10 @@
+{
+  "inputs": {
+    "4_analysis/results/27_fig3_notelab/levels_pooled.csv": "8b3da2cfcf7574ddf9f6dde8e2df0f2e83608693500af78a6f685a0c78eab6c9",
+    "4_analysis/results/27_fig3_notelab/bias_pooled.csv": "2834dad5abdad8a3a67ef36667a2e57639343a7dfe07103da41017764368b747",
+    "4_analysis/results/27_fig3_notelab/bias_per_model.csv": "5162a61e40507fcbfe74404728ffebff7d8cd353806fdbeddf71d8d059aa844a"
+  },
+  "code": {
+    "4_analysis\\analysis_42_fig3_v2.py": "be3ae087ec1930bb0ff8beadd3bdd1d82bc56afcc9f7ad12568d1dc384881617"
+  }
+}
