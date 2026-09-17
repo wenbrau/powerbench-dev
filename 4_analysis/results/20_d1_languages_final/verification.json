@@ -1,0 +1,43 @@
+{
+  "tests": {
+    "command": ".venv/bin/python -m pytest 4_analysis/tests/test_pbanalysis.py 4_analysis/tests/test_final_panel.py 4_analysis/tests/test_d1_final_analysis.py 4_analysis/tests/test_multilingual_final.py 4_analysis/tests/test_language_resource.py -q",
+    "passed": 36
+  },
+  "independent_source_recount": {
+    "command": ".venv/bin/python 4_analysis/results/20_d1_languages_final/verify_source_counts.py",
+    "raw_rows": 147456,
+    "invalid": 28,
+    "rate_cells_matched": 768,
+    "paired_contrasts_matched": 672
+  },
+  "independent_review": {
+    "findings": 0,
+    "paired_comparisons_verified": 672,
+    "language_ranges_verified": 96,
+    "english_cells_matched": 96
+  },
+  "truncation_flag_audit": {
+    "finish_length_rows": 1383,
+    "unflagged_length_rows": 0
+  },
+  "visual_review": {
+    "figures_inspected": 12,
+    "png_pdf_pairs_verified": 12,
+    "embedded_figures_verified": 12
+  },
+  "all_input_and_code_hashes_verified": true,
+  "resource_proxy": {
+    "snapshot": "CC-MAIN-2026-34",
+    "source_categories": 162,
+    "total_pages": 2139617681,
+    "independently_verified_associations": 216,
+    "review_findings": 0,
+    "source_checksum_verified": true
+  },
+  "current_refresh": {
+    "focused_suite_passed": 42,
+    "input_and_code_hashes_verified": true,
+    "png_pdf_embedded_image_sets": 12,
+    "reason": "Shared bootstrap tail-count fix treats numerical zero residuals as ties; regenerated report from original inputs."
+  }
+}

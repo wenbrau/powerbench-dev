@@ -1,0 +1,16 @@
+{
+  "source_sha256": {
+    "4_analysis/results/24_effect_scales/pooled.csv": "386d053734a7086cebc5d4f0a6667e45c7f91c31c44b06d0557c96a8fd749d83",
+    "4_analysis/results/19_d1_final/per_model_rates.csv": "2c9a61ef39f3031bd44033ce9ff1cfb456b41cc3f2fde281b1470ccbd9a7706a",
+    "4_analysis/results/19_d1_final/scale_levels.csv": "0c245ceb19b0ded7ea9cd6753309952b21f966343eed3cbdcdf8971369ac7f97"
+  },
+  "builder_sha256": "d5a58bf9cb7b05480d9ccb0bbe7dfe4df30ae9641183a69eaf242de990b43fc3",
+  "method": "Replot saved point estimates and intervals. No new fitting, resampling or significance tests.",
+  "figures": [
+    "figure1_baseline",
+    "figure2_languages",
+    "figure3_nationality",
+    "figure4_ai"
+  ],
+  "scale": "Figure 1 raw refusal percentages; Figures 2\u20134 geometric mean model ORs, alpha 0.5, pointwise intervals."
+}

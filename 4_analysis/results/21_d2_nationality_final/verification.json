@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "rows": 331776,
+  "valid": 331676,
+  "per_model_contrasts": 864,
+  "pooled_contrasts": 108,
+  "truncation_sensitivity_contrasts": 864,
+  "method": "Independent pandas pivot and discordant-count reconstruction from exported final analysis rows; loader separately validates raw-source/bank coverage and official-judgment precedence.",
+  "focused_suite_passed": 42,
+  "independent_review": "Complete-pair estimates, counts, exact tests, pooled intervals and BH independently checked. Plot clipping and floating-point zero-tail findings fixed; regenerated artifacts inspected.",
+  "figures_visually_inspected": 5,
+  "png_pdf_embedded_image_sets_verified": 5,
+  "provenance_hashes_verified": true,
+  "verification_script_sha256": "64ce0e5c0183a4ef61a7ec4e7bd9c5654014fc7943ebe4eecdfa29e770495886"
+}

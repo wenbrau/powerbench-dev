@@ -1,9 +1,9 @@
-"""Bootstrap over prompts -- the only randomness in this design.
+"""Bootstrap over prompts, conditional on observed responses and judgments.
 
-Targets run at temperature 0, so a response is a deterministic function of the prompt. The one
-thing that was sampled is the SET OF PROMPTS: the 576 stories are one draw from the scenarios the
-design could have produced. A confidence interval therefore answers "how much would this number
-move if we had written a different set of stories with the same design?". Models and languages
+Requested temperature zero does not establish deterministic generation. These intervals capture
+variation across the sampled stories, not separately measured generation or judge variability.
+A confidence interval answers "how much would this number move across resampled stories?".
+Models and languages
 are FIXED factors: report per model; average over languages or models only when the question
 calls for it, and say so in the README.
 
@@ -29,7 +29,7 @@ matrix-vector product per mode -- thousands of draws over 100k rows in well unde
     bs = Boot(df, B=3000, seed=0)
     m  = bs.mask(model="minimax-m3", dataset="D1", lang="zh")
     S  = bs.summary(m)                 # dict of arrays, index 0 = point estimate, 1.. = draws
-    ci(S["excess"])                    # (est, lo, hi, p)
+    ci(S["pg"])                        # (est, lo, hi, p)
     d  = bs.summary(m_zh)["pg"] - bs.summary(m_en)["pg"]   # paired contrast, same draws
 """
 from __future__ import annotations
@@ -58,18 +58,19 @@ def ci(arr, level: float = 0.95) -> dict:
 
 
 class Boot:
-    def __init__(self, df: pd.DataFrame, B: int = 3000, seed: int = 0):
+    def __init__(self, df: pd.DataFrame, B: int = 3000, seed: int = 0, modes=None):
         d = df[df["valid"]].reset_index(drop=True)
         self.df = d
         self.B = int(B)
         self.seed = int(seed)
+        self.modes = tuple(MODES if modes is None else modes)
         self.n = len(d)
         self._refuse = d["refuse"].to_numpy(float)
         self._harm = d["harmful"].to_numpy(float)
         self._mode = d["mode"].astype(str).to_numpy()
         rng = np.random.default_rng(seed)
         self._pidx, self._counts, self._nprompt = {}, {}, {}
-        for m in MODES:
+        for m in self.modes:
             rows = np.flatnonzero(self._mode == m)
             prompts = d["prompt_id"].astype(str).to_numpy()[rows]
             uniq, inv = np.unique(prompts, return_inverse=True)
@@ -121,7 +122,7 @@ class Boot:
         return self._rate(mask, self._harm, mode)
 
     def rates(self, mask: np.ndarray) -> dict:
-        return {m: self.rate(mask, m) for m in MODES}
+        return {m: self.rate(mask, m) for m in self.modes}
 
     def summary(self, mask: np.ndarray) -> dict:
         """he, de, pg, components, excess, mean3 -- each (B+1,) with the same draws."""
@@ -129,10 +130,10 @@ class Boot:
         return metrics.summary(r["he"], r["de"], r["pg"])
 
     def n_rows(self, mask: np.ndarray) -> dict:
-        return {m: int((mask & (self._mode == m)).sum()) for m in MODES}
+        return {m: int((mask & (self._mode == m)).sum()) for m in self.modes}
 
     def n_prompts(self, mask: np.ndarray) -> dict:
-        return {m: int(len(np.unique(self._pidx[m][mask & (self._mode == m)]))) for m in MODES}
+        return {m: int(len(np.unique(self._pidx[m][mask & (self._mode == m)]))) for m in self.modes}
 
     # ----------------------------------------------------------------- convenience
     def table(self, groups: dict, stats=("he", "de", "pg", "components", "excess", "mean3"),

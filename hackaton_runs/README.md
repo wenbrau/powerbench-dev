@@ -37,6 +37,11 @@ The 150-combo subset design is in
 
 ## The right way going forward (decoupled)
 
+> 2026-09: the current study does not use any of this. It runs `2_run_targets/run_targets_pinned.py`
+> (pinned providers, reasoning verified per row, the official judge `deepseek-v4-flash-0731` inline,
+> re-grades via `3_judge/rejudge_run.py`). The decoupled `old_judges/run_judge.py` path below is the
+> hackathon-era plan, kept as provenance.
+
 Don't add new all-in-one runners. Instead split the two stages so judging is cheap
 to repeat (this is what the multi-judge work needs):
 

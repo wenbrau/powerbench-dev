@@ -16,7 +16,8 @@ What is worth testing without spending anything, and is therefore all tested her
   * the ledger's crash behaviour: an intent survives a process that dies before the POST returns;
   * the bank-family classifier, over every bank in current/banks/;
   * the guard, in both directions -- it must refuse stratum B over D2 and must NOT refuse the
-    combinations the programme actually funds.
+    stratum-A combinations (stratum B itself was cancelled 2026-09-14; these are regression tests
+    of a dormant guard).
 """
 import json
 import os

@@ -1,7 +1,9 @@
 # current/ — the running version
 
-The v2 data layer: v6r2 banks in `banks/`, seven-model runs in `runs/`. What each file is, which
-are poolable, and where everything else lives: see `../VERSIONS.md`.
+The v2 data layer: v6r2 banks in `banks/`, the pinned runs of the 24-model panel in `runs/` (six
+models in the 2026-08/09 files, nineteen in `*_A19_*`, eight in the `*_ladder_*` reasoning runs;
+complete since 2026-09-12). What each file is, which are poolable, and where everything else
+lives: see `../VERSIONS.md`.
 
 Rules of the folder:
 

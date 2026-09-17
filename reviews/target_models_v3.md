@@ -1,5 +1,8 @@
 # Target models for the v3 pilot (#10)
 
+> ⚠️ **Superseded (marked 2026-09-14).** v3 pilot panel of July 2026. The final panel is 24 stratum-A
+> models, 12 US / 12 CN (`common/models_panel.py`); the judge is deepseek-v4-flash-0731.
+
 Decision context: reuse the hackathon models where they still make sense, swap the outdated ones,
 keep it cheap/fast for a pilot (Nico: "baratos, rápidos, en lo posible los de la hackatón"). Full
 run panel is a later call.

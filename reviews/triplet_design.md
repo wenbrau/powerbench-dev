@@ -1,3 +1,6 @@
+> ⚠️ **ABANDONED (marked 2026-09-14).** The final design has no matched-triplet slice: 1 prompt per
+> cell, mode contrasts unpaired (`notebooks/PowerBench.md` 2026-09-08). Kept as provenance.
+
 > **STATUS (18/07) — HYBRID: main bank UNMATCHED + this matched slice ON TOP.** The team locked the
 > **main dataset as independent / unmatched** (Nico, Gaspi): each mode-cell gets its own scenario,
 > only the dimension categories shared, no matching inside the generation metaprompt. Tomi's add:

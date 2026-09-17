@@ -1,0 +1,9 @@
+{
+  "source_url": "https://commoncrawl.github.io/cc-crawl-statistics/plots/languages.csv",
+  "methodology_url": "https://commoncrawl.github.io/cc-crawl-statistics/plots/languages",
+  "retrieved_utc": "2026-09-15T02:02:52.702042+00:00",
+  "selected_crawl": "CC-MAIN-2026-34",
+  "selection_rule": "Latest crawl listed on official statistics page at selection, before computing associations.",
+  "sha256": "7a0cdcdce2befe48d4bcbda2e680652c62c19f1454de737da2307950c8e06143",
+  "measure": "Share of primary-language-classified HTML documents in the crawl; denominator retains all languages and unknown."
+}

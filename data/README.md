@@ -1,5 +1,8 @@
 # `data/` — all datasets, by pipeline stage
 
+> ⚠️ `data/` is the **frozen hackathon study** (June 2026: 3-class judge, hackathon metrics, hackathon
+> panel). Current data lives in `current/` — see `VERSIONS.md` and the notice at the top of `CLAUDE.md`.
+
 Every dataset in the study lives here, organised by where it sits in the
 pipeline (`1_create_dataset → 2_run_targets → 3_judge → 4_analysis`). The code
 for each stage stays in its numbered folder and reads/writes into `data/`.

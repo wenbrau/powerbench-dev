@@ -1,5 +1,10 @@
 # Grader-comparison study: design + budget
 
+> ⚠️ **Superseded — hackathon-era grader-selection track** (judge gpt-5.4-nano, the 3-judge-panel
+> idea, the discrimination metric, a 4,000-token cap). Closed: the only judge since 2026-09-04 is
+> `deepseek/deepseek-v4-flash-0731` @ morph/bf16 (`common/judge_config.py`); nano is appendix
+> material; discrimination is not a metric of the project. See `notebooks/PowerBench.md` (entries 2026-09-08 and 2026-09-14) and the notice at the top of `CLAUDE.md`.
+
 ## Context
 
 The production judge is `openai/gpt-5.4-nano` @ `high` reasoning, `max_tokens=4000`,

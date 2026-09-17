@@ -8,8 +8,8 @@ import this; nothing here decides WHAT to run, only how a job is carried.
     from batch_client import (batch_model_id, check_batch_endpoint, custom_id, parse_custom_id,
                               pack, Ledger, submit, poll, wait_for, results_of)
 
-WHY A BATCH PATH EXISTS AT ALL
-    All four Anthropic models in the panel expose a `<model>:batch` variant at exactly half price,
+WHY A BATCH PATH WAS BUILT (2026-09-08, on the panel as it then stood; NEVER USED -- see STATUS)
+    All four Anthropic models then in the panel exposed a `<model>:batch` variant at exactly half price,
     served by the SAME first-party `anthropic` endpoint they are already pinned to (verified live
     2026-09-08: haiku 5.00 -> 2.50, sonnet 10.00 -> 5.00, opus 25.00 -> 12.50, fable 50.00 ->
     25.00 $/M out, one endpoint each). Normally a `:batch` id forces a serving-stack change,
@@ -30,9 +30,10 @@ STATUS 2026-09-09: NO CREATE IS ACCEPTED ON THIS ACCOUNT
     the catalog lists all 72 :batch variants with uptime null (never served). Not the model, not
     the endpoint shape, not the body: the account. Ruled out the same day: the data policy (ZDR
     is not active on the account), BYOK (optional per the docs), and the canonical dated slugs
-    (refused too). Still to check: the key's guardrails and spend limit, then OpenRouter support.
-    Until it is settled, nothing here can run; `--check-endpoints` cannot see it, because it
-    reads the catalog, not the create. See CLAUDE.md section 6d.
+    (refused too). CLOSED 2026-09-14: the investigation was not pursued -- the programme ran
+    synchronously and finished, no model carries `batch: True`, and no row of the study came
+    through this path. Kept as unused transport code. `--check-endpoints` cannot see the
+    account-level refusal, because it reads the catalog, not the create. See CLAUDE.md section 6d.
 
 WHAT MAKES IT DANGEROUS, AND WHAT IS DONE ABOUT IT
     A synchronous run can be interrupted: Ctrl+C stops the next call and everything already paid

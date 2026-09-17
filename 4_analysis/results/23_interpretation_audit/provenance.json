@@ -1,0 +1,17 @@
+{
+  "sources_sha256": {
+    "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz": "241532ef9e3a10c7dfe7ce906bb5cd98ddd0b7817dd046147d36cf76a8c49795",
+    "4_analysis/results/19_d1_final/scale_standing_per_model_tests.csv": "00a3aed68af31d28d5852d16ebe1c2565e6f86344fa2a146370578bd72b81183",
+    "4_analysis/results/20_d1_languages_final/language_vs_english_per_model.csv": "ef742a85804c4e10b616a2f5fbe58ec77cc89fdeac6b08345afa16da2f33e3d8",
+    "4_analysis/results/21_d2_nationality_final/paired_per_model.csv": "efa86e4ec606739e12b46b141ba55a6eef0ba21f478fdcd06c49f9dac1a518d3",
+    "4_analysis/results/22_d3_ai_final/paired_per_model.csv": "eb773d24e80656d185dbabcd05f6adc1a032065fcc1f9d18b33c222f23129f79",
+    "4_analysis/results/20_d1_languages_final/language_vs_english_panel.csv": "c8f9ca5d04eb93ba971066558c91e8acbc018ffa3f7a4bf04cd0fc338d5415d7",
+    "4_analysis/results/21_d2_nationality_final/paired_pooled.csv": "04f11b9b63547814379c5009e3590dcd3aa24dd9c2769130f714fd2d6dd0f8e5",
+    "4_analysis/results/22_d3_ai_final/paired_pooled.csv": "6019250e60f5be2b50b0773a3d23f9cccce08f93c7fe5417984868b3d0fcddc3",
+    "current/banks/dataset1_full_576.v6r2.multilang.verified.jsonl": "e471720517e8f236b938e6cb06cff03d3c98609ed0c6cab436666ea1362a201b",
+    "current/banks/dataset3_full_504.v6r2.jsonl": "68691f1a46e8726ffb4d9640b9df7fb32bc41217e8594f3c88a335495ec86a8c"
+  },
+  "script_sha256": "6e9435205e51c55210150cfa7ba55db47989a4e96edd2b01620bde180cdcb536",
+  "verification": "All saved pooled language/nationality/AI means reconstructed; paired counts conserve all outcomes; all 168 D3 PG prompts have 24 complete pairs.",
+  "new_inference": false
+}

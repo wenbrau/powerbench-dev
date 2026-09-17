@@ -1,0 +1,24 @@
+{
+  "tests": {
+    "command": ".venv/bin/python -m pytest 4_analysis/tests/test_pbanalysis.py 4_analysis/tests/test_final_panel.py 4_analysis/tests/test_d1_final_analysis.py -q",
+    "passed": 25
+  },
+  "independent_source_recount": {
+    "model_mode_cells_matched": 96,
+    "valid_rows": 18430,
+    "excluded_rows": 2
+  },
+  "visual_review": {
+    "figures_inspected": 9,
+    "png_and_pdf_exports_verified": 9,
+    "embedded_html_figures_verified": 9
+  },
+  "provenance_hashes_verified": true,
+  "independent_code_review": "No findings; read-only review of loader, bootstrap extension and analysis.",
+  "current_refresh": {
+    "focused_suite_passed": 42,
+    "input_and_code_hashes_verified": true,
+    "png_pdf_embedded_image_sets": 9,
+    "reason": "Shared bootstrap tail-count fix treats numerical zero residuals as ties; regenerated report from original inputs."
+  }
+}
