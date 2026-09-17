@@ -1,0 +1,28 @@
+{
+ "name": "34_fig2_v2",
+ "title": "Figura 2 (D1 multilingüe), capa visual v2 en el estilo aprobado para la Figura 1",
+ "question": "Un panel por pregunta del cuaderno (8/09 y 14/09) sobre D1 en 8 idiomas; cajas US/CN por condición, un punto por modelo. Sin métricas nuevas: todo sale de las tablas del bloque 26.",
+ "status": "capa visual; panel por panel con Nico",
+ "date": "2026-09-16",
+ "commit": "187d495",
+ "conclusion": "Capa visual de la Figura 2 en el estilo de la Figura 1; los números son los del bloque 26.",
+ "inputs": [
+  "4_analysis/results/26_fig2_notelab/delta_vs_english_per_model.csv",
+  "4_analysis/results/26_fig2_notelab/delta_vs_english_pooled.csv"
+ ],
+ "tables": [
+  "levels_excl_sw_outliers",
+  "p3_range_vs_capability",
+  "p3_range_capability_spearman",
+  "p1_pooled_reference"
+ ],
+ "figures": [
+  "p1_levels_by_language",
+  "p2_pg_by_language_origin_bars",
+  "pA_levels_by_language_bars_sorted",
+  "p1d_levels_vs_share",
+  "p2b_pg_by_origin_vs_share",
+  "p3_range_vs_capability",
+  "p1b_delta_vs_english"
+ ]
+}

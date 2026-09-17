@@ -1,0 +1,10 @@
+{
+  "inputs": {
+    "4_analysis/results/26_fig2_notelab/delta_vs_english_per_model.csv": "a2feefe8936e42834c2e1f073ef808f3d463826865509a2a67cff90c1c9f10c3",
+    "4_analysis/results/26_fig2_notelab/delta_vs_english_pooled.csv": "277e5095a199e64c5dee903e8a546ec7cf5d62be4ccb9ddc76dbb22801e898df"
+  },
+  "code": {
+    "4_analysis\\analysis_34_fig2_v2.py": "09d223f5cd63836e8cbeb0378f8940a845beab865e44f0e3cf55174b702bdfa8"
+  },
+  "seed": 34
+}

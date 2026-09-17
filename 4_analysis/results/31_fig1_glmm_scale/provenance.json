@@ -1,0 +1,30 @@
+{
+  "inputs": {
+    "current/runs/d1_en_A19_pinned_off.jsonl.gz": "79c6cab0b45e27c2936cabdb59128addd513ca4e622ae13a366e38d96cf480d6",
+    "current/runs/d1_en_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "479bcc5f6f28b5b1cd0bdbd4652edbe826754ba3dcd3ffb90a49d21f69db5aeb",
+    "current/runs/d1_v6r2_7models_pinned_off_en.jsonl": "b872ab1c6616c71c87da295b26a5e769e43c06c3c206de2ece10bfe60cf09b8e",
+    "current/runs/d1_v6r2_7models_pinned_off_en.rejudge_deepseek-v4-flash-0731.jsonl": "8ecd2556218c2cf7c200a1de635a1b5feaf6d84ebf8c49fe9bc8512a2f580e77",
+    "current/runs/d1_v6r2_7models_pinned_off_en.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "47ef17aa7a5877b9de1eae2d7d1d3e2a946321df68d5acf4268c9a73be3936a5",
+    "current/runs/control_d1_en_A19_pinned_off.jsonl.gz": "3f589caf5fe79fc3a89718b0dbd0bde947e05148b8c39afdc9cd4fdccaeaf96f",
+    "current/runs/control_d1_en_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "165e62002b716dc51268a089aa6a557ab5c16b01a567e37fc0777aa2f4efcb91",
+    "current/runs/control192_v1.1_multilang_6models_pinned_off.jsonl": "61d832f595fdbc1f39dbea93a8d09237bb41234a53916f65389891ad97ed6e34",
+    "current/runs/control192_v1.1_multilang_6models_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "a8d6c14d9feb8474b6b93d99387f6f795768528f048ffc23a107d86bb3671b50",
+    "current/banks/dataset1_full_576.v6r2.multilang.verified.jsonl": "ae8cd5d5e0bc382e319ce4498a947fdf96472b05842c00e73c61925e28d06d2a",
+    "current/banks/dataset1_control_192.v1.1.jsonl": "d1b711605266b85ee62e84ab158d8513f0dc3e09d81866796d3d0f5f57e3658d",
+    "common/models_panel.py": "e46b8e80a7bad2bd9fe4057bda4fe8a45cfc783462d00eb3bc0f11d22e526bcc"
+  },
+  "code": {
+    "4_analysis\\analysis_31_fig1_factor_glmm.py": "49ac69370a8ddaa67853c3312bc6a80c0852e2bcbf220dee2a7552e01b7dd5e3",
+    "4_analysis/r/glmm_factor.R": "f410b96ebb95d539ea9cbd7ef804d2e7fc09d4ada6c6c33e49f15360567ff85a",
+    "4_analysis/r/glmm_common.R": "bedd39339914ba0a3b12079fcee9f0adcfd3c5203cb0f884b3ceabe9bfce1d80",
+    "4_analysis/pbanalysis/final_panel.py": "ca6b49d58690a14b730a4831524e52378118b5c544c24cd14461d86ab2ba87ed"
+  },
+  "factor": "scale",
+  "levels": [
+    "individual",
+    "group",
+    "society"
+  ],
+  "estimator": "lme4::glmer 2.0.6, R version 4.6.1 (2026-06-24 ucrt)",
+  "rscript": "C:/Program Files/R\\R-4.6.1\\bin\\Rscript.exe"
+}

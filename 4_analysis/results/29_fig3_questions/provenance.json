@@ -1,0 +1,14 @@
+{
+ "source_tables": {
+  "4_analysis/results/27_fig3_notelab/bias_per_model.csv": "5162a61e40507fcbfe74404728ffebff7d8cd353806fdbeddf71d8d059aa844a",
+  "4_analysis/results/27_fig3_notelab/bias_pooled.csv": "2834dad5abdad8a3a67ef36667a2e57639343a7dfe07103da41017764368b747",
+  "4_analysis/results/27_fig3_notelab/bloc_difference.csv": "a14c8f18caa28fbfde5041b9c369c2afb09cfa63e0a58d07d8721967b47a722d",
+  "4_analysis/results/27_fig3_notelab/bias_by_factor_pooled.csv": "4945c1c6a3a50e2a3a89611a370fd51d53942b4dd4cff52dafb4f3ba99088e02",
+  "4_analysis/results/27_fig3_notelab/levels_pooled.csv": "8b3da2cfcf7574ddf9f6dde8e2df0f2e83608693500af78a6f685a0c78eab6c9",
+  "4_analysis/results/27_fig3_notelab/index_prompt_level.csv": "e6ed92fbe0e1243633032b755ec4c9e6a161efa39a12cae332eb7aa31c3a24f4",
+  "4_analysis/results/27_fig3_notelab/provenance.json": "7e7121a4c022b6fbbc77c4ec4e2ba89155d3f604065fdaf0c01a8a0c5ec56c38"
+ },
+ "code": {
+  "4_analysis\\analysis_29_fig3_questions.py": "16c0396a0fe52477a8c8e249e6a7e789b998524db2587f11eed1dfcc4e0505c1"
+ }
+}

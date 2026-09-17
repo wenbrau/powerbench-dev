@@ -1,0 +1,32 @@
+{
+ "name": "28_fig2_questions",
+ "title": "Figura 2 · gráficos conducidos por las preguntas del cuaderno",
+ "question": "Un gráfico por pregunta de la narrativa (8/09 y 14/09) para D1 multilingüe. Sin métricas nuevas: todo sale de las tablas del bloque 26.",
+ "status": "capa visual; a decidir visualmente por el equipo",
+ "date": "2026-09-15",
+ "commit": "187d495",
+ "conclusion": "Capa visual de la figura 2, un gráfico por pregunta del cuaderno; los números son los del bloque 26.",
+ "inputs": [
+  "4_analysis/results/26_fig2_notelab/delta_vs_english_per_model.csv",
+  "4_analysis/results/26_fig2_notelab/delta_vs_english_pooled.csv",
+  "4_analysis/results/26_fig2_notelab/delta_vs_english_by_factor.csv",
+  "4_analysis/results/26_fig2_notelab/language_summary.csv",
+  "4_analysis/results/26_fig2_notelab/language_pair_matrix.csv",
+  "4_analysis/results/26_fig2_notelab/range_per_model.csv",
+  "4_analysis/results/26_fig2_notelab/resource_shares.csv",
+  "4_analysis/results/26_fig2_notelab/resource_correlation_pooled.csv",
+  "4_analysis/results/26_fig2_notelab/provenance.json"
+ ],
+ "tables": [],
+ "figures": [
+  "q1_delta_vs_english",
+  "q1b_delta_vs_english_he_de",
+  "q2_delta_by_origin",
+  "q3_min_max_language_counts",
+  "q5_language_matrix_pg",
+  "q6_range_per_model",
+  "q7a_delta_by_scale",
+  "q7b_delta_by_standing",
+  "q8_resource_proxy"
+ ]
+}

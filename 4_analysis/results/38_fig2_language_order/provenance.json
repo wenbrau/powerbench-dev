@@ -1,0 +1,49 @@
+{
+  "inputs": {
+    "common/models_panel.py": "e46b8e80a7bad2bd9fe4057bda4fe8a45cfc783462d00eb3bc0f11d22e526bcc",
+    "current/banks/dataset1_control_192.v1.1.jsonl": "d1b711605266b85ee62e84ab158d8513f0dc3e09d81866796d3d0f5f57e3658d",
+    "current/banks/dataset1_control_192.v1.1.multilang.verified.jsonl": "9ac113fd7482709aec2f901635e31d0cc54445815a6262602fccfbf916692427",
+    "current/banks/dataset1_full_576.v6r2.multilang.verified.jsonl": "ae8cd5d5e0bc382e319ce4498a947fdf96472b05842c00e73c61925e28d06d2a",
+    "current/runs/control192_v1.1_multilang_6models_pinned_off.jsonl": "61d832f595fdbc1f39dbea93a8d09237bb41234a53916f65389891ad97ed6e34",
+    "current/runs/control192_v1.1_multilang_6models_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "a8d6c14d9feb8474b6b93d99387f6f795768528f048ffc23a107d86bb3671b50",
+    "current/runs/control_d1_7langs_A19_pinned_off.parts/de.jsonl.gz": "580901888b2184d6375e295aa9891e36e63deae0a916298d772030f78246ba05",
+    "current/runs/control_d1_7langs_A19_pinned_off.parts/es.jsonl.gz": "02f9b636cee3541f3fd9cd318a0a796f3986c62df635f290c71b5b6aeca9814b",
+    "current/runs/control_d1_7langs_A19_pinned_off.parts/fr.jsonl.gz": "b20acdbbce91a224320bba901ea31a0591224bd1b2dcec8da5a95383ccaf60b2",
+    "current/runs/control_d1_7langs_A19_pinned_off.parts/hi.jsonl.gz": "3262ad87f0e0b8e8322a94f277ca584e695dcf8650b79bb72632b7d3b21d41c7",
+    "current/runs/control_d1_7langs_A19_pinned_off.parts/MANIFEST.json": "95904079914a85eaa9325a96fc16f40309e6a7a65693a83522a45731880b37ec",
+    "current/runs/control_d1_7langs_A19_pinned_off.parts/pt.jsonl.gz": "f8f566a7705b29765f7532ecffa79c0cf477fc1b55bfc5b1ae99024d2a10887c",
+    "current/runs/control_d1_7langs_A19_pinned_off.parts/sw.jsonl.gz": "4bf968436988612fc0ec407628e0989e57b9c4af2605c1a5506a0cdbdfcf80a5",
+    "current/runs/control_d1_7langs_A19_pinned_off.parts/zh.jsonl.gz": "705da84ef014f7ff8e5d5505d1ba5b8511eee3f9801f04b6502a52977ee920fb",
+    "current/runs/control_d1_7langs_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "6797add89d8bb8720998d293db9c945ce17c703864bb82a90c98f36cf05e85e0",
+    "current/runs/control_d1_en_A19_pinned_off.jsonl.gz": "3f589caf5fe79fc3a89718b0dbd0bde947e05148b8c39afdc9cd4fdccaeaf96f",
+    "current/runs/control_d1_en_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "165e62002b716dc51268a089aa6a557ab5c16b01a567e37fc0777aa2f4efcb91",
+    "current/runs/d1_7langs_A19_pinned_off.parts/de.jsonl.gz": "799d1c18a760bab6175b66bf9c1999bac380274acfb77363e25904c83f93498d",
+    "current/runs/d1_7langs_A19_pinned_off.parts/es.jsonl.gz": "39154d58ce19dedd03dd790a828e4fca5daa77a204d347857a632e7947e31314",
+    "current/runs/d1_7langs_A19_pinned_off.parts/fr.jsonl.gz": "943331ad5b0efdc17b83584b12b06bc5f52d61bfa2f53acc4d52aec3766cefb0",
+    "current/runs/d1_7langs_A19_pinned_off.parts/hi.jsonl.gz": "d3d9e4d07cbb4e6ca80bfe3d39dc5b1db41c6c628611009c9d85fe8f0a5c7276",
+    "current/runs/d1_7langs_A19_pinned_off.parts/MANIFEST.json": "081c24a4038c15ad8131f1678dc96869ed7e9607a2c27b13940761de300a4dc4",
+    "current/runs/d1_7langs_A19_pinned_off.parts/pt.jsonl.gz": "e6aa65bd55dd0cf4263ac6ae94da9288205519453c9cec81df27bfd88d788ec3",
+    "current/runs/d1_7langs_A19_pinned_off.parts/sw.jsonl.gz": "6acd1a9f59ace730129d2b70b27de91272834a19e987d5a33b37e7e043858571",
+    "current/runs/d1_7langs_A19_pinned_off.parts/zh.jsonl.gz": "7f9ede22132941018e639eca85de1c7cfe657c4ca94a8beb1ba6a71bda7a51bf",
+    "current/runs/d1_7langs_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "c2ce4fdf675885e44e84f6b6635daa687f43209a04ca893f098a69ef29cce75b",
+    "current/runs/d1_en_A19_pinned_off.jsonl.gz": "79c6cab0b45e27c2936cabdb59128addd513ca4e622ae13a366e38d96cf480d6",
+    "current/runs/d1_en_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "479bcc5f6f28b5b1cd0bdbd4652edbe826754ba3dcd3ffb90a49d21f69db5aeb",
+    "current/runs/d1_v6r2_6models_pinned_off_7langs.jsonl": "7134aa5b08d46452e7eaee58bb87fbf807b94e75ac6fa3eb7dc0bbb8fce121a4",
+    "current/runs/d1_v6r2_6models_pinned_off_7langs.rejudge_deepseek-v4-flash-0731.jsonl": "b5bd5a719bb511cb23865cb05c55799ababa074891a9d6654a26abf99fcbd62d",
+    "current/runs/d1_v6r2_6models_pinned_off_7langs.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "ac18bcb794fa6d336c3a26dd628c5eaa57295761cce74a43ad63980d78f252ca",
+    "current/runs/d1_v6r2_7models_pinned_off_en.jsonl": "b872ab1c6616c71c87da295b26a5e769e43c06c3c206de2ece10bfe60cf09b8e",
+    "current/runs/d1_v6r2_7models_pinned_off_en.rejudge_deepseek-v4-flash-0731.jsonl": "8ecd2556218c2cf7c200a1de635a1b5feaf6d84ebf8c49fe9bc8512a2f580e77",
+    "current/runs/d1_v6r2_7models_pinned_off_en.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "47ef17aa7a5877b9de1eae2d7d1d3e2a946321df68d5acf4268c9a73be3936a5",
+    "4_analysis/results/30_fig1_glmm/capability_index.csv": "1343e6f2b010925df4bc5bc80d774c35fd68046ebca8ac86b8f56534fd3ca76b"
+  },
+  "code": {
+    "4_analysis\\analysis_38_fig2_language_order.py": "260a9b766ed83f35964edfa72f2ed787039089c6b83410263440f082f19407ce",
+    "4_analysis/pbanalysis/final_panel.py": "ca6b49d58690a14b730a4831524e52378118b5c544c24cd14461d86ab2ba87ed"
+  },
+  "B": 1000,
+  "seed": 38,
+  "excluded_sw": [
+    "nemotron-3.5-lightning",
+    "nova-2-lite"
+  ]
+}
