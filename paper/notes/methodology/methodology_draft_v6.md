@@ -964,7 +964,7 @@ released; the current repository commits them. Confirm the release policy.
 | dataset3_full_504.v6r2.jsonl | 504 | 504 | 793bcfba5b999066 |
 | dataset3_control_192.v1.1.jsonl | 192 | 192 | a979d09fd6272c07 |
 
-Full hashes and the structural checks (row counts, unique ids, language coverage, 18 conditions, D1 to D3 coordinate pairing) are in `paper/notes/methodology_v5_bank_audit.json`, produced offline by `audit_methodology_v5.py`.
+Full hashes and the structural checks (row counts, unique ids, language coverage, 18 conditions, D1 to D3 coordinate pairing) are in `paper/notes/methodology/methodology_v5_bank_audit.json`, produced offline by `audit_methodology_v5.py`.
 
 **Table H.2. Row fields and safe use.**
 
