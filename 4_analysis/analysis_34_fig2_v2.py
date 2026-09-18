@@ -218,6 +218,46 @@ def main():
                "el refusal medio de los tres modos (ascendente). Swahili (*) sin nemotron-3.5-lightning ni nova-2-lite "
                "(truncado masivo a 5.000 tokens). Valores en levels_excl_sw_outliers.csv.")
 
+    # ---------------------------------------------------------------- Panel A con la barra de error pareada (Nico, 17/09)
+    # "lo de figura 2 panel A, podemos hacerlo de nuevo entonces con eso corregido?" Las barras de arriba son el IC del NIVEL de
+    # cada idioma (domina la diferencia entre prompts); como los idiomas comparten prompts, lo que importa para comparar es el IC de
+    # la DIFERENCIA pareada contra inglés: mismos draws, mismos modelos (22 en swahili), media con peso igual por modelo.
+    drows = []
+    for l in LANGS8:
+        if l == "en":
+            continue
+        for mode in ("he", "de", "pg"):
+            for bl, ms in blocs.items():
+                inc = [t for t in ms if (l, mode, t) in drw]
+                c = ci(np.mean([drw[(l, mode, t)] - drw[("en", mode, t)] for t in inc], axis=0))
+                drows.append(dict(bloc=bl, lang=l, mode=mode, n_models=len(inc), delta_pp=100 * c["est"], lo=100 * c["lo"],
+                                  hi=100 * c["hi"], p=c["p"]))
+    dx = pd.DataFrame(drows)
+    res.table("delta_vs_english_excl_sw_outliers", dx,
+              "Diferencia pareada R(idioma) − R(inglés) en pp, mismos prompts y mismos modelos, media con peso igual por modelo, "
+              f"intervalo bootstrap 95 % sobre prompts (B = {B}) y p bilateral; swahili sin {sorted(EXCL_SW)}.", show=False)
+    fig, ax = plt.subplots(figsize=(11, 4.6), layout="constrained")
+    for k, mode in enumerate(("he", "de", "pg")):
+        r = lx[(lx.bloc == "all") & (lx["mode"] == mode)].set_index("lang").loc[order_langs]
+        xk = xo + (k - 1) * w
+        ax.bar(xk, r.rate, width=w, color=MODE_COLORS[mode], alpha=.85, label=LABELS[mode], zorder=2)
+        ax.axhline(r.rate["en"], color=MODE_COLORS[mode], lw=1, ls="--", alpha=.9, zorder=1)
+        dd = dx[(dx.bloc == "all") & (dx["mode"] == mode)].set_index("lang").reindex(order_langs)
+        ok = dd.delta_pp.notna().to_numpy()
+        ax.errorbar(xk[ok], r.rate.to_numpy()[ok], yerr=[(dd.delta_pp - dd.lo).to_numpy()[ok], (dd.hi - dd.delta_pp).to_numpy()[ok]],
+                    fmt="none", ecolor="#222", elinewidth=1, capsize=2.5, zorder=3)
+    ax.set_xticks(xo, [NAME8[l] + ("*" if l == "sw" else "") + ("\n(referencia)" if l == "en" else "") for l in order_langs])
+    ax.set_ylabel("Refusal (%) · media de 24 modelos"); ax.set_ylim(0, 36); ax.grid(axis="y", alpha=.15)
+    ax.legend(frameon=False, fontsize=9, loc="upper center", ncol=3)
+    ax.set_title("F2 · A · Refusal por idioma y modo · barra de error = IC 95 % de la diferencia pareada contra inglés (mismos prompts) · "
+                 "línea punteada = nivel de inglés", fontsize=9.5)
+    res.figure("pA_levels_by_language_bars_sorted_paired_ci", fig,
+               "Variante del panel A pedida por Nico el 17/09: mismas barras (media con peso igual por modelo; idiomas ordenados por "
+               "refusal medio; swahili* sin los dos outliers), pero la barra de error es el intervalo bootstrap 95 % de la DIFERENCIA "
+               "pareada contra inglés (mismos prompts, mismos modelos), dibujado alrededor de cada barra; la línea punteada marca el nivel "
+               "de inglés en cada modo: una barra de error que no la cruza indica un idioma distinguible de inglés. Inglés no lleva barra "
+               "(es la referencia). Valores en delta_vs_english_excl_sw_outliers.csv.")
+
     def scatter_share(ax, series, title, ylabel):
         """series: lista de (df_filtrado, color, label). x = log10 share; barras de error = IC bootstrap."""
         for d, color, label in series:

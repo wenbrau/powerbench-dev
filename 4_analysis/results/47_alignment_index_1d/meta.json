@@ -1,0 +1,21 @@
+{
+ "name": "47_alignment_index_1d",
+ "title": "Índice geopolítico en 1D: curva principal sobre los dos ejes de alineamiento",
+ "question": "¿Se puede reemplazar el índice de dos ejes (compromiso con USA, compromiso con China; correlación −0,70) por una posición sobre una curva 1D que siga la tendencia de los datos, reescalada a [−1, +1] entre los extremos?",
+ "status": "computado a pedido de Nico (18/09); método y parámetros a revisar",
+ "date": "2026-09-18",
+ "commit": "a4ba7c3",
+ "conclusion": "Índice 1D calculado; método y parámetros pendientes de decisión de Nico.",
+ "inputs": [
+  "1_create_dataset/nationality/geopolitics/alignment_axes.csv",
+  "4_analysis/results/27_fig3_notelab/country_pools.csv",
+  "4_analysis/r/principal_curve.R"
+ ],
+ "tables": [
+  "alignment_index_1d"
+ ],
+ "figures": [
+  "p1_principal_curve_on_scatter",
+  "p2_diagnostics"
+ ]
+}

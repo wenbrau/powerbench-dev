@@ -173,7 +173,11 @@ def main():
             his = [r.obs_hi - r.observed, r.shuffle_hi - r.shuffle, c.obs_hi - c.observed]
             cols = [MODE_COLORS[mode], "#BBBBBB", MODE_COLORS["control"]]
             ax.bar(range(3), vals, color=cols, alpha=.9, zorder=2)
-            ax.errorbar(range(3), vals, yerr=[los, his], fmt="none", ecolor="#222", elinewidth=1, capsize=3, zorder=3)
+            # Criterio del 17/09 (Nico: "si vamos a tomar un criterio, que sea igual en los dos", Figura 2 B y Figura 3): las barras de
+            # OBSERVADO no llevan barra de error. El rango max - min (como el |sesgo|) es un estadistico que el remuestreo de prompts
+            # infla: su intervalo bootstrap queda corrido hacia arriba, con el valor observado pegado al borde inferior. La barra de
+            # error queda solo en el nulo (idiomas barajados), que es la incertidumbre del test. obs_lo / obs_hi siguen en la tabla.
+            ax.errorbar([1], [vals[1]], yerr=[[los[1]], [his[1]]], fmt="none", ecolor="#222", elinewidth=1, capsize=3, zorder=3)
             ax.set_xticks(range(3), ["observado", "shuffle\n(idiomas barajados)", "control\n(observado)"], fontsize=9)
             ax.set_title(f"{LABELS[mode]} · p(shuffle ≥ obs) = {r.p_perm:.3f}", fontsize=10)
             ax.grid(axis="y", alpha=.15)
@@ -183,14 +187,18 @@ def main():
         fig.suptitle(f"F2 · p4 ({metric}) · Sesgo total por idioma: rango max − min por modelo, media de 24 · observado vs azar vs control",
                      fontsize=11)
         res.figure(f"p4_range_vs_null_{metric}", fig,
-                   f"Tres barras por modo: rango entre idiomas por modelo promediado sobre los 24 (intervalo bootstrap sobre "
-                   f"prompts); el mismo promedio con los idiomas barajados dentro de cada prompt (mediana e intervalo de {NPERM} "
+                   f"Tres barras por modo: rango entre idiomas por modelo promediado sobre los 24 (sin barra de error: ver nota); "
+                   f"el mismo promedio con los idiomas barajados dentro de cada prompt (mediana e intervalo de {NPERM} "
                    "permutaciones: lo que daría el rango sin ninguna estructura por idioma); y el rango observado del control. "
                    f"Métrica: {'pp' if metric == 'pp' else 'OR = odds del idioma máximo / odds del idioma mínimo, media geométrica'}. "
                    "Swahili excluido para nemotron-3.5-lightning y nova-2-lite. El control tiene su propio shuffle en range_summary.csv.")
 
     res.note("Fuente de verdad: notebooks/PowerBench.md. Pedido de Nico del 16/09 al revisar la Figura 2; registro en "
              "4_analysis/results/26_fig2_notelab/NARRATIVA_F2.md.")
+    res.note("Criterio del 17/09: los observados (modo y control) no llevan barra de error. El bootstrap sobre prompts de un rango max − min "
+             "queda corrido hacia arriba (el remuestreo agrega ruido y el rango lo convierte en sesgo positivo), así que ese intervalo no "
+             "describe la incertidumbre del observado; obs_lo y obs_hi quedan en range_summary.csv como constancia. La barra de error del "
+             "gráfico es la del nulo. Mismo criterio que en la Figura 3 (bloques 43 y 45). Decisión de Claude aceptada por Nico a revisar.")
     res.note("El shuffle dentro del prompt es la hipótesis nula 'el idioma no importa': conserva cuántas veces se rechazó "
              "cada prompt (en cuántos idiomas) y solo reparte al azar en cuáles. El rango bajo el azar no es 0 porque max − "
              "min de 8 tasas ruidosas siempre es positivo; por eso la barra de referencia.")
