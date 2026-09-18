@@ -1,0 +1,20 @@
+{
+ "name": "50_fig3_own_country",
+ "title": "Figura 3, pregunta (c): ¿los modelos ayudan a su propio país más que a sus aliados o más que a sus rivales?",
+ "question": "Para cada díada con USA y con China, el efecto de la dirección (el país como usuario contra como afectado) en los modelos US y en los modelos CN, lado a lado. Sin cálculos nuevos: tabla por díada del bloque 46.",
+ "status": "solo gráficos (regla de Nico, 18/09); test a acordar",
+ "date": "2026-09-18",
+ "commit": "a4ba7c3",
+ "conclusion": "Solo gráficos; interpretación y test pendientes de Nico.",
+ "inputs": [
+  "4_analysis/results/46_fig3_direction_glmm/direction_glmm_by_dyad.csv"
+ ],
+ "tables": [
+  "own_country_by_origin"
+ ],
+ "figures": [
+  "pE_own_country_pg",
+  "pE_own_country_control",
+  "pE_own_country_de"
+ ]
+}

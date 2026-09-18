@@ -1,0 +1,8 @@
+{
+  "inputs": {
+    "4_analysis/results/46_fig3_direction_glmm/direction_glmm_by_dyad.csv": "ec4f74f6929aa1bc70b14b3817202c8d031c0ca222cb431a31f213e10aef0ff0"
+  },
+  "code": {
+    "4_analysis\\analysis_50_fig3_own_country.py": "1af3e3009d5d54c081b4c3376c3d17c8dbaa0f7b0b31bc03b6762d9eb8a9a8fb"
+  }
+}

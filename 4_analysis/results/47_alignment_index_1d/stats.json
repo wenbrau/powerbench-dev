@@ -1,0 +1,66 @@
+{
+ "pearson_index1d_df4_vs_net_lean": {
+  "est": 0.9938417481175768,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "r",
+  "note": ""
+ },
+ "pearson_index1d_df5_vs_net_lean": {
+  "est": 0.9925494148988079,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "r",
+  "note": ""
+ },
+ "pearson_index1d_df6_vs_net_lean": {
+  "est": 0.989810252615808,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "r",
+  "note": ""
+ },
+ "spearman_index1d_df4_vs_net_lean": {
+  "est": 0.997610127169451,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "rho",
+  "note": ""
+ },
+ "spearman_index1d_df5_vs_net_lean": {
+  "est": 0.9975830793281739,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "rho",
+  "note": ""
+ },
+ "spearman_index1d_df6_vs_net_lean": {
+  "est": 0.9961018671279119,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "rho",
+  "note": ""
+ },
+ "pearson_df4_vs_df5": {
+  "est": 0.9986351806746043,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "r",
+  "note": ""
+ },
+ "pearson_df6_vs_df5": {
+  "est": 0.9989381019446119,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "r",
+  "note": ""
+ }
+}

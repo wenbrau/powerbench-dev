@@ -1,0 +1,82 @@
+{
+ "A_usa_user_pg_pendiente": {
+  "est": -0.449503773005917,
+  "lo": -0.5990905624961534,
+  "hi": -0.2999169835156805,
+  "p": 3.868021604294951e-09,
+  "unit": "log-odds por unidad",
+  "note": ""
+ },
+ "A_usa_user_control_pendiente": {
+  "est": -0.365573085238567,
+  "lo": -0.604897318154085,
+  "hi": -0.12624885232304905,
+  "p": 0.0027539687880285,
+  "unit": "log-odds por unidad",
+  "note": ""
+ },
+ "B_china_user_pg_pendiente": {
+  "est": -0.507841698079654,
+  "lo": -0.6506958003279767,
+  "hi": -0.3649875958313312,
+  "p": 3.22080964324424e-12,
+  "unit": "log-odds por unidad",
+  "note": ""
+ },
+ "B_china_user_control_pendiente": {
+  "est": -0.400099457173641,
+  "lo": -0.5784687962402293,
+  "hi": -0.22173011810705265,
+  "p": 1.10027013976144e-05,
+  "unit": "log-odds por unidad",
+  "note": ""
+ },
+ "C_usa_target_pg_pendiente": {
+  "est": -0.533073295311213,
+  "lo": -0.7024831104132426,
+  "hi": -0.36366348020918327,
+  "p": 6.940757168925021e-10,
+  "unit": "log-odds por unidad",
+  "note": ""
+ },
+ "C_usa_target_control_pendiente": {
+  "est": -0.533489000769467,
+  "lo": -0.7667342601193108,
+  "hi": -0.3002437414196233,
+  "p": 7.36010124551712e-06,
+  "unit": "log-odds por unidad",
+  "note": ""
+ },
+ "D_china_target_pg_pendiente": {
+  "est": -0.239774655525681,
+  "lo": -0.42186966106608775,
+  "hi": -0.05767964998527425,
+  "p": 0.0098559856493574,
+  "unit": "log-odds por unidad",
+  "note": ""
+ },
+ "D_china_target_control_pendiente": {
+  "est": -0.46109525519708,
+  "lo": -0.6794699896218749,
+  "hi": -0.2427205207722851,
+  "p": 3.49563909054465e-05,
+  "unit": "log-odds por unidad",
+  "note": ""
+ },
+ "E_allies_pg_pendiente": {
+  "est": 0.0431402904954595,
+  "lo": -0.05649545460401186,
+  "hi": 0.14277603559493085,
+  "p": 0.396081135694667,
+  "unit": "log-odds por unidad",
+  "note": ""
+ },
+ "E_allies_control_pendiente": {
+  "est": -0.0730501736512894,
+  "lo": -0.15514581927217447,
+  "hi": 0.009045471969595681,
+  "p": 0.0811515829934595,
+  "unit": "log-odds por unidad",
+  "note": ""
+ }
+}
