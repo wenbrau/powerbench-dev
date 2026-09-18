@@ -1,0 +1,10 @@
+{
+  "inputs": {
+    "1_create_dataset/nationality/geopolitics/alignment_axes.csv": "7ccc12aa4143c657104e5c08cc11af319bdbdf729dc4b707fad88fa4945888ec",
+    "4_analysis/results/27_fig3_notelab/country_pools.csv": "dae24332547df5497384e723ba0d3a3a66489046b55dfc125a7cad371ba2b92e",
+    "4_analysis/r/principal_curve.R": "077e62b4aec02c36e8affd261458192fbb765239a724ae01439714e1d8e9778e"
+  },
+  "code": {
+    "4_analysis\\analysis_47_alignment_index_1d.py": "a4bd3c8e5cfcec6e0c7eb31fcb6a0c922660c983cabdec8c684b5d40d3879917"
+  }
+}

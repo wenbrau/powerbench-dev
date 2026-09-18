@@ -104,11 +104,12 @@ def main():
         los = [r.observed - r.obs_lo, r.shuffle - r.shuffle_lo, c.observed - c.obs_lo]
         his = [r.obs_hi - r.observed, r.shuffle_hi - r.shuffle, c.obs_hi - c.observed]
         axb.bar(range(3), np.array(vals) - 1, bottom=1, color=[MODE_COLORS[mode], "#BBBBBB", MODE_COLORS["control"]], alpha=.9, zorder=2)
-        axb.errorbar(range(3), vals, yerr=[los, his], fmt="none", ecolor="#222", elinewidth=1, capsize=3, zorder=3)
+        # criterio del 17/09: barra de error solo en el nulo (idiomas barajados); los observados no llevan (ver bloque 35)
+        axb.errorbar([1], [vals[1]], yerr=[[los[1]], [his[1]]], fmt="none", ecolor="#222", elinewidth=1, capsize=3, zorder=3)
         axb.axhline(1, color="black", lw=.8)
         axb.set_xticks(range(3), ["observado", "idiomas\nbarajados", "control"], fontsize=9, rotation=90, multialignment="right")
         axb.set_title(LABELS[mode], fontsize=9, loc="center"); axb.grid(axis="y", alpha=.15)
-        log_or_axis(axb, [1, 2, 3, 5, 10]); axb.set_ylim(.9, max(12, float(t.obs_hi.max()) * 1.05))
+        log_or_axis(axb, [1, 2, 3, 5]); axb.set_ylim(.9, float(max(t.observed.max(), t.shuffle_hi.max())) * 1.25)
         if axb is not axesB[0]:
             axb.tick_params(labelleft=False)
     axesB[0].set_ylabel("rango entre idiomas por modelo, OR\n(idioma máx / mín) · media de 24")

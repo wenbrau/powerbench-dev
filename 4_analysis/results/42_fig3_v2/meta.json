@@ -1,0 +1,21 @@
+{
+ "name": "42_fig3_v2",
+ "title": "Figura 3 (D2, díadas): gráficos panel por panel",
+ "question": "Capa visual de la Figura 3, revisada panel por panel con Nico. Sin cálculos nuevos: tablas del bloque 27.",
+ "status": "capa visual; panel por panel con Nico",
+ "date": "2026-09-17",
+ "commit": "074e4f8",
+ "conclusion": "Capa visual; interpretación pendiente del equipo.",
+ "inputs": [
+  "4_analysis/results/27_fig3_notelab/levels_pooled.csv",
+  "4_analysis/results/27_fig3_notelab/bias_pooled.csv",
+  "4_analysis/results/27_fig3_notelab/bias_per_model.csv"
+ ],
+ "tables": [
+  "bias_two_dyads_by_origin"
+ ],
+ "figures": [
+  "p1_levels_by_pairing_direction",
+  "p2_bias_two_dyads_by_origin"
+ ]
+}
