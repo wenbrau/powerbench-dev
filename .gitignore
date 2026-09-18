@@ -115,3 +115,32 @@ current/runs/*.status
 current/runs/d2_geobloc_A19_pinned_off.jsonl
 current/runs/control_d2_geobloc_A19_pinned_off.jsonl
 current/runs/*_ladder_*_pinned_on.jsonl
+
+# 2026-09-18: LaTeX build artifacts. pdflatex/bibtex/latexmk rewrite these on every
+# compile of paper/iclr2027/ and paper/powerbench.tex; only the .tex sources are worth
+# tracking. Scoped to paper/ on purpose: *.log and *.out are generic enough that a
+# repo-wide rule would swallow runner logs elsewhere.
+# NOT ignored, deliberately: *.pdf -- paper/powerbench.pdf and the 46 tracked figure
+# PDFs (paper/iclr2027/figures/, 4_analysis/results/) are committed artifacts.
+paper/**/*.aux
+paper/**/*.log
+paper/**/*.out
+paper/**/*.toc
+paper/**/*.lof
+paper/**/*.lot
+paper/**/*.bbl
+paper/**/*.blg
+paper/**/*.brf
+paper/**/*.idx
+paper/**/*.ilg
+paper/**/*.ind
+paper/**/*.synctex.gz
+paper/**/*.synctex(busy)
+paper/**/*.fdb_latexmk
+paper/**/*.fls
+paper/**/*.dvi
+paper/**/*.ps
+paper/**/*.xdv
+# biber, if the bibliography ever moves off bibtex
+paper/**/*.bcf
+paper/**/*.run.xml
