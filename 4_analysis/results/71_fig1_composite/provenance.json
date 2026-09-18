@@ -1,0 +1,10 @@
+{
+  "inputs": {
+    "4_analysis\\results\\25_fig1_notelab\\rates_per_model.csv": "a15414aac942d621407a1d211b83f3edb625546cbb9d820ae608ae005a44e5e7",
+    "4_analysis\\results\\70_fig1_model_mean_refusal\\model_mean_refusal.csv": "bda2c9720a1066508f97a1777fb320627f169b8be6ce819d735c97b8faf2b128",
+    "4_analysis\\results\\25_fig1_notelab\\scale_standing_levels_pooled.csv": "44421efabf21e3b4165b2e7f033b9cd3d175481e31879557b28bc247bcd1cf99"
+  },
+  "code": {
+    "4_analysis\\analysis_71_fig1_composite.py": "fc68b0ccfd380bfa8cd2feb5647f834500256ef6b516628bc32e9873121b0ec7"
+  }
+}
