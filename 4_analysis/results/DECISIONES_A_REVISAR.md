@@ -192,3 +192,15 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     Los números anotados (razón de OR por SD, p) son los del GLMM en escala condicional. Alternativas: dibujar la recta
     condicional tal cual (queda por encima de los puntos); anclar la pendiente en la media de los puntos; puntos = BLUP
     por modelo (no sirve en ajustes singulares, colapsan sobre la recta).
+28. **GLMM del reasoning ladder (bloque 68):** un solo ajuste con r1 y r2 (indicadoras de los dos niveles, OFF = referencia),
+    modo y origen con contrastes suma-cero (los efectos de nivel son promedios sobre modos y orígenes), interacciones nivel ×
+    modo y nivel × origen (sin la triple), intercepto aleatorio de prompt (aparea las tres ramas) y pendientes aleatorias de
+    r1 y r2 por modelo (||). Los niveles se tratan como "primer nivel" y "segundo nivel" de cada proveedor aunque no sean
+    comparables entre modelos. Familias BH: 8 efectos por modo (2 niveles × 4), 4 por origen, 6 contrastes modo − control,
+    2 principales. Alternativas: nivel como ON / OFF (un solo término); nivel ordinal 0 / 1 / 2; tokens de razonamiento
+    como covariable continua; ajustes separados por modo.
+29. **Guard para las celdas con pocos modelos (bloque 69, sesgo de razonamiento por factor):** una celda se testea (t contra 0)
+    solo si tiene al menos 4 modelos con discordantes y su SD entre modelos no es 0; si todos los sesgos son idénticos (por
+    ejemplo −1 en 2 modelos) la t es infinita y daría p = 0 sin información. Las celdas no testeables se muestran sin
+    asterisco. En los heatmaps de la Figura 4 (bloque 59) no había celdas con SD = 0 y las de menos de 4 modelos no
+    salieron significativas, así que no cambian; el guard no está aplicado ahí (a unificar).
