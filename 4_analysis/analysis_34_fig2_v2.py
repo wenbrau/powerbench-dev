@@ -258,6 +258,61 @@ def main():
                "de inglés en cada modo: una barra de error que no la cruza indica un idioma distinguible de inglés. Inglés no lleva barra "
                "(es la referencia). Valores en delta_vs_english_excl_sw_outliers.csv.")
 
+    # ---------------------------------------------------------------- Panel A, contraste dentro del prompt contra la media de los idiomas (Nico, 18/09)
+    # Nico (18/09): "hay estructura entre los 8 idiomas, no solo de cada uno contra inglés"; aceptó esta opción a condición de
+    # que use la estructura compartida (mismos prompts en los 8) para bajar el error. Lo hace: por modelo, la referencia es la
+    # media de sus idiomas disponibles (8; 7 en los dos modelos excluidos en swahili), calculada en los MISMOS draws del
+    # bootstrap sobre prompts; desviación = R(idioma) − esa media; media con peso igual por modelo; IC 95 % percentil. Es el IC
+    # within-subject de Loftus–Masson (1994) / Morey (2008) con el prompt como unidad. Las desviaciones de un modelo suman cero.
+    ref = {}
+    for mode in ("he", "de", "pg"):
+        for t in targets:
+            ls_t = [l for l in LANGS8 if (l, mode, t) in drw]
+            ref[(mode, t)] = np.mean([drw[(l, mode, t)] for l in ls_t], axis=0)
+    mrows = []
+    for l in LANGS8:
+        for mode in ("he", "de", "pg"):
+            for bl, ms in blocs.items():
+                inc = [t for t in ms if (l, mode, t) in drw]
+                c = ci(np.mean([drw[(l, mode, t)] - ref[(mode, t)] for t in inc], axis=0))
+                cm = ci(np.mean([ref[(mode, t)] for t in ms], axis=0))
+                mrows.append(dict(bloc=bl, lang=l, mode=mode, n_models=len(inc), delta_pp=100 * c["est"], lo=100 * c["lo"],
+                                  hi=100 * c["hi"], p=c["p"], mean_langs=100 * cm["est"]))
+    dm = pd.DataFrame(mrows)
+    # q = BH por bloque sobre las 24 desviaciones (8 idiomas × 3 modos); familia elegida por Claude, anotada en DECISIONES_A_REVISAR.md
+    from statsmodels.stats.multitest import multipletests  # noqa: E402
+    dm["q_bh"] = np.nan
+    for bl in dm.bloc.unique():
+        idx = dm.bloc == bl
+        dm.loc[idx, "q_bh"] = multipletests(dm.loc[idx, "p"].to_numpy(), method="fdr_bh")[1]
+    res.table("delta_vs_mean_langs_excl_sw_outliers", dm,
+              "Desviación de R(idioma) respecto de la media de los idiomas del mismo modelo (8; 7 en los dos excluidos en swahili), "
+              "dentro del prompt, en pp: media con peso igual por modelo, intervalo bootstrap 95 % sobre prompts (mismos draws, "
+              f"B = {B}), p bilateral y q = BH por bloque sobre las 24 desviaciones; mean_langs = media de los idiomas (todos los "
+              "modelos del bloque). Las desviaciones de cada modelo suman cero, así que no son independientes entre idiomas.",
+              show=False)
+    fig, ax = plt.subplots(figsize=(11, 4.6), layout="constrained")
+    for k, mode in enumerate(("he", "de", "pg")):
+        r = lx[(lx.bloc == "all") & (lx["mode"] == mode)].set_index("lang").loc[order_langs]
+        dd = dm[(dm.bloc == "all") & (dm["mode"] == mode)].set_index("lang").loc[order_langs]
+        xk = xo + (k - 1) * w
+        ax.bar(xk, r.rate, width=w, color=MODE_COLORS[mode], alpha=.85, label=LABELS[mode], zorder=2)
+        ax.axhline(dd.mean_langs.iloc[0], color=MODE_COLORS[mode], lw=1, ls="--", alpha=.9, zorder=1)
+        ax.errorbar(xk, r.rate, yerr=[(dd.delta_pp - dd.lo).to_numpy(), (dd.hi - dd.delta_pp).to_numpy()],
+                    fmt="none", ecolor="#222", elinewidth=1, capsize=2.5, zorder=3)
+    ax.set_xticks(xo, [NAME8[l] + ("*" if l == "sw" else "") for l in order_langs])
+    ax.set_ylabel("Refusal (%) · media de 24 modelos"); ax.set_ylim(0, 36); ax.grid(axis="y", alpha=.15)
+    ax.legend(frameon=False, fontsize=9, loc="upper center", ncol=3)
+    ax.set_title("F2 · A · Refusal por idioma y modo · barra de error = IC 95 % de la desviación de cada idioma respecto de la media de los "
+                 "8, dentro del prompt · línea punteada = media de los 8 idiomas", fontsize=9.5)
+    res.figure("pA_levels_by_language_bars_sorted_within_ci", fig,
+               "Panel A con el contraste simétrico pedido por Nico el 18/09: mismas barras (media con peso igual por modelo; idiomas "
+               "ordenados por refusal medio; swahili* sin los dos outliers); la barra de error es el IC 95 % de la desviación de ese "
+               "idioma respecto de la media de los idiomas del mismo modelo, calculada dentro del prompt (mismos prompts, mismos "
+               "modelos; IC within-subject de Loftus–Masson); la línea punteada es la media de los 8 idiomas en cada modo. Una barra "
+               "de error que no cruza la línea = idioma distinguible del idioma típico. Ningún idioma es referencia. Valores en "
+               "delta_vs_mean_langs_excl_sw_outliers.csv.")
+
     def scatter_share(ax, series, title, ylabel):
         """series: lista de (df_filtrado, color, label). x = log10 share; barras de error = IC bootstrap."""
         for d, color, label in series:

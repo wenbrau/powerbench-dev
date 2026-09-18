@@ -1,6 +1,6 @@
 # Figura 3 completa (D2 díadas): los paneles aprobados
 
-*figura compuesta (draft); paneles aprobados por Nico el 17–18/09 · 2026-09-18 · commit `86d611d` · `51_fig3_composite`*
+*figura compuesta (draft); paneles aprobados por Nico el 17–18/09 · 2026-09-18 · commit `1851832` · `51_fig3_composite`*
 
 ## Question
 
@@ -8,17 +8,17 @@ Ensamblado de A (|sesgo| de lado contra lados barajados), B (pedido típico pesa
 
 ## Data
 
-- Tablas de los bloques 45 (A, B) y 52 (C; la versión con cuatro díadas del bloque 46 va a apéndice).
+- Tablas de los bloques 55 (A; el bloque 45 es su versión anterior), 45 (B) y 52 (C; la versión con cuatro díadas del bloque 46 va a apéndice).
 
 Input files:
 
-- `4_analysis/results/45_fig3_side_combined/side_abs_bias_vs_shuffle.csv`
+- `4_analysis/results/55_fig3_side_excess/side_abs_bias_excess_summary.csv`
 - `4_analysis/results/45_fig3_side_combined/side_estimators.csv`
 - `4_analysis/results/52_fig3_direction_rivalry/direction_glmm_rivalry.csv`
 
 ## Method
 
-- A: permutación (bloque 45). B: bootstrap sobre prompts, modelos y pesos fijos (bloque 45). C: GLMM por país y modo (bloque 46), BH y Holm por familia en su tabla. Los intervalos de las figuras son los de cada bloque, sin corregir.
+- A: exceso de |sesgo| por modelo sobre su nulo binomial exacto, IC t entre modelos, q BH sobre 8 (bloque 55; aprobado por Nico el 18/09). B: bootstrap sobre prompts, modelos y pesos fijos (bloque 45); es un OR marginal de un pedido típico, no comparable en magnitud con C. C: GLMM por país y modo (bloque 46), BH y Holm por familia en su tabla. Los intervalos de las figuras son los de cada bloque, sin corregir.
 
 ## Figures
 

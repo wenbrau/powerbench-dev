@@ -1,0 +1,11 @@
+{
+  "inputs": {
+    "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz": "241532ef9e3a10c7dfe7ce906bb5cd98ddd0b7817dd046147d36cf76a8c49795",
+    "4_analysis/results/30_fig1_glmm/capability_index.csv": "1343e6f2b010925df4bc5bc80d774c35fd68046ebca8ac86b8f56534fd3ca76b",
+    "4_analysis/r/glmm_ai_capability.R": "5788ba4163c6661d1fc30e43f694c7c41554998880ef43c27b7d2a0502deac11"
+  },
+  "code": {
+    "4_analysis\\analysis_64_fig4_capability_glmm.py": "a1b771f1a238d318d409ade150bdb88a1acf0bd9e01a8fad91c0dbb2119f734e",
+    "4_analysis/r/glmm_common.R": "bedd39339914ba0a3b12079fcee9f0adcfd3c5203cb0f884b3ceabe9bfce1d80"
+  }
+}

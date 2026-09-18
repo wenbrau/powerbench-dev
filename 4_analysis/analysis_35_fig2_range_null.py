@@ -48,6 +48,9 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
+from scipy import stats  # noqa: E402
+from statsmodels.stats.multitest import multipletests  # noqa: E402
+
 from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import load_d1_multilingual, MODES, file_digest  # noqa: E402
 
@@ -104,7 +107,7 @@ def main():
     def mean_over_models(mode, fn, mats_):
         return float(np.mean([fn(mats_[(mode, m)]) for m in models]))
 
-    rows, per_model = [], []
+    rows, per_model, exc_rows = [], [], []
     for mode in MODES:
         for metric, fn, lab in (("pp", range_pp, "pp"), ("or", range_logodds, "log-odds")):
             obs_models = {m: fn(mats[(mode, m)]) for m in models}
@@ -117,6 +120,7 @@ def main():
             boots = np.asarray(boots)
             # shuffle dentro de cada prompt
             perms = []
+            perm_models = {m: [] for m in models}   # rango de cada modelo en cada permutación (para el exceso por modelo)
             for _ in range(NPERM):
                 vals = []
                 for m in models:
@@ -124,7 +128,7 @@ def main():
                     Ms = M.copy()
                     for i in range(Ms.shape[0]):
                         Ms[i] = rng.permutation(Ms[i])
-                    vals.append(fn(Ms))
+                    v = fn(Ms); vals.append(v); perm_models[m].append(v)
                 perms.append(np.mean(vals))
             perms = np.asarray(perms)
             pval = float(np.mean(perms >= obs))
@@ -133,9 +137,20 @@ def main():
                              obs_hi=conv(np.percentile(boots, 97.5)), shuffle=conv(np.median(perms)),
                              shuffle_lo=conv(np.percentile(perms, 2.5)), shuffle_hi=conv(np.percentile(perms, 97.5)),
                              p_perm=pval, n_models=len(models), n_perm=NPERM, B=B))
+            # Exceso sobre el azar POR MODELO (Nico, 18/09): rango observado − media de sus NPERM rangos barajados (en log-odds para
+            # OR → cociente; en pp → diferencia). Media sobre los 24 modelos, IC 95 % t (23 gl) y t de una muestra contra 0.
+            null_mean = {m: float(np.mean(perm_models[m])) for m in models}
+            exc = np.array([obs_models[m] - null_mean[m] for m in models])
             for m, v in obs_models.items():
                 per_model.append(dict(mode=mode, metric=metric, model=m, origin=meta[m], range=conv(v),
+                                      null_mean=conv(null_mean[m]), excess=conv(v - null_mean[m]),
                                       n_langs=mats[(mode, m)].shape[1]))
+            tt = stats.ttest_1samp(exc, 0.0)
+            half = stats.t.ppf(.975, len(exc) - 1) * exc.std(ddof=1) / np.sqrt(len(exc))
+            exc_rows.append(dict(mode=mode, metric=metric, n_models=len(exc), excess=conv(exc.mean()), lo=conv(exc.mean() - half),
+                                 hi=conv(exc.mean() + half), sd_models=float(exc.std(ddof=1)), t=float(tt.statistic), p_t=float(tt.pvalue),
+                                 observed=conv(obs), null=conv(float(np.mean(list(null_mean.values())))),
+                                 n_excess_positive=int((exc > 0).sum())))
             print(f"{mode:8s} {metric}: observado {conv(obs):.2f} [{conv(np.percentile(boots, 2.5)):.2f}, {conv(np.percentile(boots, 97.5)):.2f}]"
                   f"  shuffle {conv(np.median(perms)):.2f} [{conv(np.percentile(perms, 2.5)):.2f}, {conv(np.percentile(perms, 97.5)):.2f}]  p = {pval:.3f}", flush=True)
     tab = pd.DataFrame(rows)
@@ -156,7 +171,47 @@ def main():
                "192 prompts. No se resta nada: se muestran las tres cantidades.")
     res.table("range_summary", tab, "Media sobre modelos del rango entre idiomas: observado (intervalo bootstrap sobre "
               "prompts), shuffle (mediana e intervalo de permutación, p) por modo y métrica.")
-    res.table("range_per_model", pd.DataFrame(per_model), "Rango observado por modelo, modo y métrica.", show=False)
+    res.table("range_per_model", pd.DataFrame(per_model), "Rango observado por modelo, modo y métrica; null_mean = media de sus "
+              f"{NPERM} rangos con los idiomas barajados; excess = observado − null_mean (cociente en OR).", show=False)
+
+    # ---------------------------------------------------------------- exceso sobre el azar por modelo (Nico, 18/09)
+    # Nico (18/09): "serían solo 4 barras entonces, una por modo? y todas tienen barra de error, que supongo que se compara contra 0?
+    # cada una es el promedio en el exceso del rango vs azar, entre 24 modelos? si es así, me gusta". Estadístico corregido por azar
+    # por unidad (modelo) e intervalo entre unidades: t de una muestra (23 gl); q = BH y Holm sobre los 4 modos, por métrica.
+    exc = pd.DataFrame(exc_rows)
+    exc["q_bh"] = np.nan; exc["p_holm"] = np.nan
+    for metric in ("pp", "or"):
+        idx = exc.metric == metric
+        exc.loc[idx, "q_bh"] = multipletests(exc.loc[idx, "p_t"].to_numpy(), method="fdr_bh")[1]
+        exc.loc[idx, "p_holm"] = multipletests(exc.loc[idx, "p_t"].to_numpy(), method="holm")[1]
+    res.table("range_excess_summary", exc,
+              "Exceso del rango entre idiomas sobre el azar, por modo y métrica: por modelo, rango observado − media de sus rangos con "
+              "los idiomas barajados (en OR: cociente de rangos); excess = media sobre los 24 modelos (geométrica en OR), lo / hi = IC "
+              "95 % t entre modelos (23 gl), p_t = t de una muestra contra 0 (contra 1 en OR), q_bh y p_holm sobre los 4 modos; "
+              "n_excess_positive = modelos con exceso > 0.")
+    for _, r in exc.iterrows():
+        res.stat(f"range_excess_{r['metric']}_{r['mode']}", r.excess, r.lo, r.hi, r.p_t, unit=r["metric"],
+                 note=f"observado {r.observed:.2f}, azar {r.null:.2f}; q_bh = {r.q_bh:.3f}; {r.n_excess_positive}/24 modelos > 0")
+    for metric, ylabel, ref in (("pp", "exceso del rango entre idiomas sobre el azar, pp\n(observado − barajado) · media de 24 modelos", 0.0),
+                                ("or", "exceso del rango entre idiomas sobre el azar, OR\n(rango observado / rango barajado) · media de 24", 1.0)):
+        t = exc[exc.metric == metric].set_index("mode").loc[list(MODES)]
+        fig, ax = plt.subplots(figsize=(6.2, 4.4), layout="constrained")
+        x = np.arange(len(MODES))
+        ax.bar(x, t.excess - ref, bottom=ref, color=[MODE_COLORS[m] for m in MODES], alpha=.9, zorder=2)
+        ax.errorbar(x, t.excess, yerr=[t.excess - t.lo, t.hi - t.excess], fmt="none", ecolor="#222", elinewidth=1.2, capsize=4, zorder=3)
+        ax.axhline(ref, color="black", lw=.9, ls="--", zorder=1)
+        ax.set_xticks(x, [LABELS[m] for m in MODES], fontsize=9.5)
+        ax.set_ylabel(ylabel, fontsize=9.5); ax.grid(axis="y", alpha=.15)
+        if metric == "or":
+            ax.set_yscale("log"); ax.set_yticks([1, 1.5, 2, 3]); ax.get_yaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
+            ax.yaxis.set_minor_formatter(matplotlib.ticker.NullFormatter()); ax.set_ylim(.9, float(t.hi.max()) * 1.2)
+        ax.set_title(f"F2 · p5 ({metric}) · Sesgo por idioma más allá del azar: exceso del rango por modelo, media de 24",
+                     fontsize=10)
+        res.figure(f"p5_range_excess_{metric}", fig,
+                   "Una barra por modo (incluido el control): exceso del rango entre idiomas de cada modelo sobre el rango que dan sus "
+                   "propios idiomas barajados dentro del prompt, promediado sobre los 24 modelos; barra de error = IC 95 % t entre "
+                   f"modelos; línea punteada = azar ({'0' if metric == 'pp' else '1'}). Pedido de Nico del 18/09: el azar como "
+                   "referencia y el error en lo observado. Valores y tests en range_excess_summary.csv.")
     for _, r in tab.iterrows():
         res.stat(f"range_{r['metric']}_{r['mode']}", r.observed, r.obs_lo, r.obs_hi, r.p_perm, unit=r["metric"],
                  note=f"shuffle {r.shuffle:.2f} [{r.shuffle_lo:.2f}, {r.shuffle_hi:.2f}]; p = P(shuffle ≥ observado)")

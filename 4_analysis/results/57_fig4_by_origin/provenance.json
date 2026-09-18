@@ -1,0 +1,9 @@
+{
+  "inputs": {
+    "4_analysis/results/56_fig4_bias_direction/bias_direction_per_model.csv": "32f264c798aa9c96a76d919c0c05120d41234e4d61829ba9f458d86fbed54602",
+    "4_analysis/results/22_d3_ai_final/paired_per_model.csv": "7f23e234173bab7bc30ed13f687c4057a2c4e6908cedf619971c3bb5047b70ce"
+  },
+  "code": {
+    "4_analysis\\analysis_57_fig4_by_origin.py": "658d6341f54d07370e5a34d5a86fed4ed76066113785b38da98f9e7b68b579f5"
+  }
+}

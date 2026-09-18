@@ -1,0 +1,20 @@
+{
+ "name": "55_fig3_side_excess",
+ "title": "Figura 3, panel A en formato 'exceso de |sesgo| sobre el azar por modelo'",
+ "question": "Versión del panel A de la Figura 3 con el mismo criterio que el nuevo panel B de la Figura 2 (bloque 35, p5): por modelo, |sesgo| observado menos su valor esperado exacto bajo el nulo binomial; media sobre los 24 modelos, IC 95 % t entre modelos, el azar como línea en 0. Para que Nico compare con la versión del bloque 45.",
+ "status": "propuesta para comparar con el bloque 45; decisión de Nico pendiente",
+ "date": "2026-09-18",
+ "commit": "1851832",
+ "conclusion": "Propuesta de formato; decisión de Nico pendiente.",
+ "inputs": [
+  "4_analysis/results/45_fig3_side_combined/side_per_model.csv",
+  "4_analysis/results/45_fig3_side_combined/side_abs_bias_vs_shuffle.csv"
+ ],
+ "tables": [
+  "side_abs_bias_excess_per_model",
+  "side_abs_bias_excess_summary"
+ ],
+ "figures": [
+  "pA_side_abs_bias_excess"
+ ]
+}

@@ -1,10 +1,10 @@
 {
   "inputs": {
-    "4_analysis/results/45_fig3_side_combined/side_abs_bias_vs_shuffle.csv": "c09a266744ab4b9fef6818218110aaa9bb97ac4f5df5c6906a5394909341e71a",
+    "4_analysis/results/55_fig3_side_excess/side_abs_bias_excess_summary.csv": "40af53bd058d00081ba54dd89e322d40adb0afd0eda35155634ea70b8eed9edb",
     "4_analysis/results/45_fig3_side_combined/side_estimators.csv": "ae66d681e42dac784d816b8833f1277d2dd9f56a04dfd1f00d4a171479c7b64c",
     "4_analysis/results/52_fig3_direction_rivalry/direction_glmm_rivalry.csv": "bcc00e7a911aa8d03dad89b6272f6b966ae5ef68b9ad3b5ee5565ce7747c79c7"
   },
   "code": {
-    "4_analysis\\analysis_51_fig3_composite.py": "1885e17d67588f4547bdf41e386c542db923bcf37f097826a3579367c53eb918"
+    "4_analysis\\analysis_51_fig3_composite.py": "3e9a18c6291a0eb8383e7bbe750e1001268f8927c98404d1240ee4dfd1f50790"
   }
 }

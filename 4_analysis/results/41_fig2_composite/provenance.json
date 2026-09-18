@@ -1,13 +1,15 @@
 {
   "inputs": {
     "4_analysis/results/34_fig2_v2/levels_excl_sw_outliers.csv": "e4f36ec33bce162eeef8fa4f66e10435fb321a9fd61d951b4e2f6ccc20aac17b",
+    "4_analysis/results/34_fig2_v2/delta_vs_mean_langs_excl_sw_outliers.csv": "cfc8df8a14f7d2afcb587db213b5fbede4eb5720fb99702452a4c09a74fa5779",
     "4_analysis/results/35_fig2_range_null/range_summary.csv": "600e942e81ac8443ed1702ac151c64bd350c79d15c813761b2ea60860b073754",
+    "4_analysis/results/35_fig2_range_null/range_excess_summary.csv": "92c14efd607d05024dc87b90c3125fb3234ff0309e4a9e3f6ada2013db7df15e",
     "4_analysis/results/38_fig2_language_order/rank_agreement_pairs.csv": "16c9f8cff73ef7a0c3f4301d65c291dd9f2437f8e63bb64c4ef94dbc384e455e",
     "4_analysis/results/38_fig2_language_order/rank_agreement_means.csv": "0267d7e5fb117f8afad15c480b877485c37fb2fc3af15df5641def68dab692e7",
     "4_analysis/results/40_fig2_usage_weighted/usage_weighted_pooled_or_summary.csv": "eb6ceb6eba650c201fde3c973c06c23e6bba520d174a89077e8f01f6d0374fbd",
     "4_analysis/results/30_fig1_glmm/capability_index.csv": "1343e6f2b010925df4bc5bc80d774c35fd68046ebca8ac86b8f56534fd3ca76b"
   },
   "code": {
-    "4_analysis\\analysis_41_fig2_composite.py": "d6746e1874ae5423ba25544db5e1b46c130dfec59018aac18546471743cdf8a2"
+    "4_analysis\\analysis_41_fig2_composite.py": "ce0e3246b444eb926c78a595498b399a050fae895d3dcf0ccb9fd856c430a171"
   }
 }

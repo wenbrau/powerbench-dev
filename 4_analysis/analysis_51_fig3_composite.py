@@ -39,7 +39,7 @@ from pbanalysis.final_panel import file_digest  # noqa: E402
 
 NAME = "51_fig3_composite"
 R = HERE / "results"
-SRC = {"A": R / "45_fig3_side_combined" / "side_abs_bias_vs_shuffle.csv",
+SRC = {"A": R / "55_fig3_side_excess" / "side_abs_bias_excess_summary.csv",   # Nico (18/09): panel A = exceso por modelo (bloque 55); el bloque 45 queda como registro
        "B": R / "45_fig3_side_combined" / "side_estimators.csv",
        "C": R / "52_fig3_direction_rivalry" / "direction_glmm_rivalry.csv"}     # decisión de Nico (18/09): C con solo las díadas de rivalidad; las cuatro díadas van a apéndice
 MODES4 = ("he", "de", "pg", "control")
@@ -76,24 +76,24 @@ def main():
     gsA = gs[0, 0:8].subgridspec(1, 2, wspace=.05)
     gsC = gs[1, :].subgridspec(1, 2, wspace=.05)
 
-    # ---------------------------------------------------------------- A: |sesgo| vs shuffle
+    # ---------------------------------------------------------------- A: exceso de |sesgo| sobre el azar, por modelo (bloque 55; Nico, 18/09)
+    # Mismo criterio que el panel B de la Figura 2: por modelo, |sesgo| − esperado bajo su nulo binomial exacto; media de 24, IC 95 % t
+    # entre modelos; el azar es la línea en 0; q = BH sobre las 8 celdas. Sin la palabra "polo" (pedido de Nico, 17/09).
     s = A.set_index(["set", "mode"])
     axA = [fig.add_subplot(gsA[0, 0]), fig.add_subplot(gsA[0, 1], sharey=None)]
-    x = np.arange(len(MODES4)); wd = .38
-    for ax, st, title in zip(axA, ("geo", "neutral"), ("lado USA / lado China (las dos díadas juntas)", "neutral A / neutral B (referencia sin polo)")):
+    x = np.arange(len(MODES4)); wd = .38   # wd lo siguen usando los paneles B y C
+    for ax, st, title in zip(axA, ("geo", "neutral"), ("lado USA / lado China (las dos díadas juntas)", "neutral A / neutral B (referencia)")):
         r = s.loc[st].loc[list(MODES4)]
-        ax.bar(x - wd / 2, r.mean_abs_bias, width=wd, color=[MODE_COLORS[m] for m in MODES4], zorder=2)
-        ax.bar(x + wd / 2, r.shuffle, width=wd, color="#C9C9C9", zorder=2)
-        ax.errorbar(x + wd / 2, r.shuffle, yerr=[r.shuffle - r.shuffle_lo, r.shuffle_hi - r.shuffle], fmt="none", ecolor="#222", elinewidth=1.2, capsize=3, zorder=3)
+        ax.bar(x, r.excess, width=.6, color=[MODE_COLORS[m] for m in MODES4], zorder=2)
+        ax.errorbar(x, r.excess, yerr=[r.excess - r.lo, r.hi - r.excess], fmt="none", ecolor="#222", elinewidth=1.2, capsize=3, zorder=3)
+        ax.axhline(0, color="black", lw=.9, ls="--", zorder=1)
         for j, m in enumerate(MODES4):
-            pv = r.loc[m, "p_perm"]
-            ax.text(x[j], max(r.loc[m, "mean_abs_bias"], r.loc[m, "shuffle_hi"]) + .012, "p < 0,001" if pv < .001 else f"p = {pv:.3f}".replace(".", ","), ha="center", fontsize=8.5)
+            q = r.loc[m, "q_bh"]
+            ax.text(x[j], max(r.loc[m, "hi"], 0) + .01, "q < 0,001" if q < .001 else f"q = {q:.3f}".replace(".", ","), ha="center", fontsize=8.5)
         ax.set_xticks(x, [LABELS[m] for m in MODES4], fontsize=8.5, rotation=15, ha="right", rotation_mode="anchor")
-        ax.set_title(title, fontsize=10); ax.grid(axis="y", alpha=.15); ax.set_ylim(0, .4)
+        ax.set_title(title, fontsize=10); ax.grid(axis="y", alpha=.15); ax.set_ylim(-.15, .28)
     axA[1].tick_params(labelleft=False)
-    axA[0].set_ylabel("|sesgo de lado| por modelo, media de 24")
-    axA[0].legend(handles=[plt.Rectangle((0, 0), 1, 1, color="#555555", label="observado (color del modo)"),
-                           plt.Rectangle((0, 0), 1, 1, color="#C9C9C9", label="lados barajados (mediana e IC 95 % del nulo)")], frameon=False, fontsize=8.5, loc="upper right")
+    axA[0].set_ylabel("exceso de |sesgo de lado| sobre el azar" + NL + "(|sesgo| − esperado bajo el nulo) · media de 24 modelos")
     letter(axA[0], "A", -38)
 
     # ---------------------------------------------------------------- B: pedido típico pesado por uso, OR
@@ -111,7 +111,7 @@ def main():
     axB.text(.5, .985, "▲ a favor del lado China (rechaza más si el usuario es del lado USA)", transform=axB.transAxes, ha="center", va="top", fontsize=8, color=ORIGIN["CN"], fontweight="bold")
     axB.text(.5, .015, "▼ a favor del lado USA", transform=axB.transAxes, ha="center", va="bottom", fontsize=8, color=ORIGIN["US"], fontweight="bold")
     axB.legend(frameon=False, fontsize=8, loc="lower right", bbox_to_anchor=(1, .08))
-    axB.set_title("Un pedido típico, pesado por el uso de cada modelo", fontsize=10)
+    axB.set_title("Un pedido típico: OR marginal, tasas pesadas por el uso de cada modelo", fontsize=10)   # Nico (18/09): decirlo
     letter(axB, "B", -50)
 
     # ---------------------------------------------------------------- C: dirección respecto de cada país
@@ -145,8 +145,9 @@ def main():
         "China con sus díadas de rivalidad). Sin cálculos nuevos.",
         status="figura compuesta (draft); paneles aprobados por Nico el 17–18/09")
     res.inputs([str(p) for p in SRC.values()])
-    res.data("Tablas de los bloques 45 (A, B) y 52 (C; la versión con cuatro díadas del bloque 46 va a apéndice).")
-    res.method("A: permutación (bloque 45). B: bootstrap sobre prompts, modelos y pesos fijos (bloque 45). C: GLMM por país y modo (bloque 46), "
+    res.data("Tablas de los bloques 55 (A; el bloque 45 es su versión anterior), 45 (B) y 52 (C; la versión con cuatro díadas del bloque 46 va a apéndice).")
+    res.method("A: exceso de |sesgo| por modelo sobre su nulo binomial exacto, IC t entre modelos, q BH sobre 8 (bloque 55; aprobado por Nico el 18/09). "
+               "B: bootstrap sobre prompts, modelos y pesos fijos (bloque 45); es un OR marginal de un pedido típico, no comparable en magnitud con C. C: GLMM por país y modo (bloque 46), "
                "BH y Holm por familia en su tabla. Los intervalos de las figuras son los de cada bloque, sin corregir.")
     res.figure("figure3_full", fig,
                "A: |sesgo| de lado por modelo (media de 24) contra lados barajados, lados juntos y referencia neutral, por modo. B: OR de refusal de un "

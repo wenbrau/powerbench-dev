@@ -1,0 +1,11 @@
+{
+  "inputs": {
+    "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz": "241532ef9e3a10c7dfe7ce906bb5cd98ddd0b7817dd046147d36cf76a8c49795",
+    "4_analysis/inputs/openrouter_usage/usage_30d_2026-08-18_2026-09-16.csv": "e01e6d082f8f33bd7001a57cc5c0a5a62d0e01a2fe43b623657a72130fb51778"
+  },
+  "code": {
+    "4_analysis\\analysis_63_fig4_usage_weighted.py": "267f0f2ab0c5db06738988ebcf6bf450ac536631c94b76de91c2d46fd6dc091f"
+  },
+  "B": 1000,
+  "seed": 63
+}

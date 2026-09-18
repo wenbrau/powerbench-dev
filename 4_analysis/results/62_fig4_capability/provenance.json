@@ -1,0 +1,9 @@
+{
+  "inputs": {
+    "4_analysis/results/56_fig4_bias_direction/bias_direction_per_model.csv": "32f264c798aa9c96a76d919c0c05120d41234e4d61829ba9f458d86fbed54602",
+    "4_analysis/results/30_fig1_glmm/capability_index.csv": "1343e6f2b010925df4bc5bc80d774c35fd68046ebca8ac86b8f56534fd3ca76b"
+  },
+  "code": {
+    "4_analysis\\analysis_62_fig4_capability.py": "7281a185f5fb73ea451f1034ab23676a58596320769b23d273028dfaab8c0644"
+  }
+}

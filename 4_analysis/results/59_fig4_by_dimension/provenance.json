@@ -1,0 +1,8 @@
+{
+  "inputs": {
+    "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz": "241532ef9e3a10c7dfe7ce906bb5cd98ddd0b7817dd046147d36cf76a8c49795"
+  },
+  "code": {
+    "4_analysis\\analysis_59_fig4_by_dimension.py": "3b598ff6b48de448006347257a78e5285a6f378298b41c9b09cc6943a7894d6c"
+  }
+}

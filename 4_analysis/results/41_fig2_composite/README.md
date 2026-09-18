@@ -1,6 +1,6 @@
 # Figura 2 completa (D1 multilingüe): los cuatro paneles aprobados
 
-*figura compuesta; paneles aprobados por Nico el 16–17/09 · 2026-09-17 · commit `a4ba7c3` · `41_fig2_composite`*
+*figura compuesta; paneles aprobados por Nico el 16–17/09 · 2026-09-18 · commit `1851832` · `41_fig2_composite`*
 
 ## Question
 
@@ -13,7 +13,9 @@ Ensamblado de los paneles A (niveles por idioma y modo), B (rango por modelo con
 Input files:
 
 - `4_analysis/results/34_fig2_v2/levels_excl_sw_outliers.csv`
+- `4_analysis/results/34_fig2_v2/delta_vs_mean_langs_excl_sw_outliers.csv`
 - `4_analysis/results/35_fig2_range_null/range_summary.csv`
+- `4_analysis/results/35_fig2_range_null/range_excess_summary.csv`
 - `4_analysis/results/38_fig2_language_order/rank_agreement_pairs.csv`
 - `4_analysis/results/38_fig2_language_order/rank_agreement_means.csv`
 - `4_analysis/results/40_fig2_usage_weighted/usage_weighted_pooled_or_summary.csv`

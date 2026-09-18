@@ -1,0 +1,10 @@
+{
+  "inputs": {
+    "4_analysis/results/22_d3_ai_final/per_model_rates.csv": "fa24d14172db19e7095c707580eb7920f01d7f7ead4e0856ad2e4ed7d6fb810c",
+    "4_analysis/results/22_d3_ai_final/paired_refusal_levels.csv": "7ccd22266733623b7612b5972ca3b36cd2a05468de7fc7233ec3992178453e30",
+    "4_analysis/results/22_d3_ai_final/paired_pooled.csv": "375946ff101d8ad097bc57e444696aeaaa5087d5adafb25d5444518fff69f93d"
+  },
+  "code": {
+    "4_analysis\\analysis_54_fig4_levels_box.py": "d18c480699a28b8058bec7082e3884de43e7c5291a66a8ea30fe7f0037893386"
+  }
+}

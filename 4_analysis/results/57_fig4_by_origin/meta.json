@@ -1,0 +1,21 @@
+{
+ "name": "57_fig4_by_origin",
+ "title": "Figura 4, panel 3: ¿el sesgo hacia el agente IA depende del origen del modelo?",
+ "question": "Los estadísticos por modelo de los paneles 1 (Δ pareado IA − humano, pp) y 2 (dirección de los desacuerdos) con los 12 modelos US y los 12 CN por separado: media, IC 95 % t entre modelos. Sin test entre orígenes: capa visual.",
+ "status": "capa visual; panel por panel con Nico",
+ "date": "2026-09-18",
+ "commit": "1851832",
+ "conclusion": "Capa visual; lectura pendiente de Nico.",
+ "inputs": [
+  "4_analysis/results/56_fig4_bias_direction/bias_direction_per_model.csv",
+  "4_analysis/results/22_d3_ai_final/paired_per_model.csv"
+ ],
+ "tables": [
+  "bias_direction_by_origin",
+  "delta_pp_by_origin"
+ ],
+ "figures": [
+  "p3a_bias_direction_by_origin",
+  "p3b_delta_pp_by_origin"
+ ]
+}

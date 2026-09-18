@@ -1,0 +1,130 @@
+{
+ "glmm_he_IA × origen (CN / US)": {
+  "est": 0.8690937987502834,
+  "lo": 0.5050547411039076,
+  "hi": 1.4955290378529509,
+  "p": 0.612407349919032,
+  "unit": "OR",
+  "note": "q_bh = 0.882; sd pendiente por modelo 0.00"
+ },
+ "glmm_he_IA vs humano, modelos CN": {
+  "est": 1.8492957225580784,
+  "lo": 1.285932627354714,
+  "hi": 2.6594664422712837,
+  "p": 0.0009109455644218,
+  "unit": "OR",
+  "note": "q_bh = 0.001; sd pendiente por modelo 0.00"
+ },
+ "glmm_he_IA vs humano, modelos US": {
+  "est": 2.1278436156639753,
+  "lo": 1.4186805908026279,
+  "hi": 3.1914995398367663,
+  "p": 0.0002613094825657,
+  "unit": "OR",
+  "note": "q_bh = 0.000; sd pendiente por modelo 0.00"
+ },
+ "glmm_he_IA vs humano (24 modelos)": {
+  "est": 1.9691301442075653,
+  "lo": 1.501260128472965,
+  "hi": 2.582812566114676,
+  "p": 9.80664880749631e-07,
+  "unit": "OR",
+  "note": "q_bh = 0.000; sd pendiente por modelo 0.00"
+ },
+ "glmm_de_IA × origen (CN / US)": {
+  "est": 0.9020127255019035,
+  "lo": 0.6107326192529697,
+  "hi": 1.3322146735220675,
+  "p": 0.604236257708142,
+  "unit": "OR",
+  "note": "q_bh = 0.882; sd pendiente por modelo 0.26"
+ },
+ "glmm_de_IA vs humano, modelos CN": {
+  "est": 2.100645213540684,
+  "lo": 1.634308086416779,
+  "hi": 2.7000480202274795,
+  "p": 6.814409340954271e-09,
+  "unit": "OR",
+  "note": "q_bh = 0.000; sd pendiente por modelo 0.26"
+ },
+ "glmm_de_IA vs humano, modelos US": {
+  "est": 2.328842016065155,
+  "lo": 1.7242024148402615,
+  "hi": 3.1455153345744935,
+  "p": 3.54886279352769e-08,
+  "unit": "OR",
+  "note": "q_bh = 0.000; sd pendiente por modelo 0.26"
+ },
+ "glmm_de_IA vs humano (24 modelos)": {
+  "est": 2.191861943978135,
+  "lo": 1.8034615146516,
+  "hi": 2.6639097881651863,
+  "p": 3.12031132646941e-15,
+  "unit": "OR",
+  "note": "q_bh = 0.000; sd pendiente por modelo 0.27"
+ },
+ "glmm_pg_IA × origen (CN / US)": {
+  "est": 1.0251250024741592,
+  "lo": 0.7393125426956548,
+  "hi": 1.4214303288646495,
+  "p": 0.881708089590482,
+  "unit": "OR",
+  "note": "q_bh = 0.882; sd pendiente por modelo 0.22"
+ },
+ "glmm_pg_IA vs humano, modelos CN": {
+  "est": 2.1114289939464195,
+  "lo": 1.6903100833152904,
+  "hi": 2.637464238356568,
+  "p": 4.5512622610237796e-11,
+  "unit": "OR",
+  "note": "q_bh = 0.000; sd pendiente por modelo 0.22"
+ },
+ "glmm_pg_IA vs humano, modelos US": {
+  "est": 2.0596795574137614,
+  "lo": 1.6174967583992788,
+  "hi": 2.622743975960997,
+  "p": 4.6276714728255805e-09,
+  "unit": "OR",
+  "note": "q_bh = 0.000; sd pendiente por modelo 0.22"
+ },
+ "glmm_pg_IA vs humano (24 modelos)": {
+  "est": 2.0877916453228247,
+  "lo": 1.7717102634929018,
+  "hi": 2.4602634212246026,
+  "p": 1.51276813277609e-18,
+  "unit": "OR",
+  "note": "q_bh = 0.000; sd pendiente por modelo 0.22"
+ },
+ "glmm_control_IA × origen (CN / US)": {
+  "est": 1.0382878075792035,
+  "lo": 0.7883337891068685,
+  "hi": 1.3674938030868635,
+  "p": 0.789162985024559,
+  "unit": "OR",
+  "note": "q_bh = 0.882; sd pendiente por modelo 0.00"
+ },
+ "glmm_control_IA vs humano, modelos CN": {
+  "est": 1.4400957711706843,
+  "lo": 1.1892637065032727,
+  "hi": 1.7438317664981067,
+  "p": 0.0001875424356412,
+  "unit": "OR",
+  "note": "q_bh = 0.000; sd pendiente por modelo 0.00"
+ },
+ "glmm_control_IA vs humano, modelos US": {
+  "est": 1.386990930083838,
+  "lo": 1.137110374435153,
+  "hi": 1.6917828588895147,
+  "p": 0.0012475239652025,
+  "unit": "OR",
+  "note": "q_bh = 0.001; sd pendiente por modelo 0.00"
+ },
+ "glmm_control_IA vs humano (24 modelos)": {
+  "est": 1.4142965008046464,
+  "lo": 1.2319515309309905,
+  "hi": 1.6236309156389312,
+  "p": 8.56573301970461e-07,
+  "unit": "OR",
+  "note": "q_bh = 0.000; sd pendiente por modelo 0.00"
+ }
+}
