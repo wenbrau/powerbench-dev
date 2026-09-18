@@ -5,20 +5,25 @@ control has scale/standing/context but NO domain -> for domain use the model's O
 shift (broadcast). Bloc mean over 12 models, Student-t CI (11 df; model is the shared unit since
 pg and control are different prompts). REAL data (block 22).
 """
+import sys
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from scipy import stats
 
+MODE = sys.argv[1] if len(sys.argv) > 1 else "pg"
+MLAB = {"pg": "power-grabbing", "de": "disempowerment", "he": "self-empowerment"}[MODE]
+
 R = "/Users/wbrau/GitHub/powerbench-dev/4_analysis/results/22_d3_ai_final"
-OUT = "/Users/wbrau/GitHub/powerbench-dev/4_analysis/results/fig4_working/fig4_did_by_dimension.png"
+_sfx = "" if MODE == "pg" else f"_{MODE}"
+OUT = f"/Users/wbrau/GitHub/powerbench-dev/4_analysis/results/fig4_working/fig4_did_by_dimension{_sfx}.png"
 COL = {"US": "#3B6EA5", "CN": "#B24747"}
 TCRIT = stats.t.ppf(0.975, 11)
 
 rows = pd.read_csv(f"{R}/analysis_rows.csv.gz", low_memory=False)
 rows = rows[rows["valid"] == True].copy()
-pg = rows[rows["mode"] == "pg"]
+pg = rows[rows["mode"] == MODE]
 ctrl = rows[rows["mode"] == "control"]
 
 # per-model overall control shift (for domain broadcast)
@@ -66,13 +71,13 @@ for ax, (dim, matched, order) in zip(axes.flat, DIMS):
     ax.set_ylim(0.4, len(levels)+0.6)
     tag = "" if matched else "  (control = shift global, sin domain)"
     ax.set_title(f"por {dim}{tag}", fontsize=11.5, fontweight="bold")
-    ax.set_xlabel("DiD = shift pg − shift control  (pp)", fontsize=9.5)
+    ax.set_xlabel(f"DiD = shift {MODE} − shift control  (pp)", fontsize=9.5)
     ax.grid(axis="x", ls=":", alpha=0.4)
     for s in ("top", "right", "left"):
         ax.spines[s].set_visible(False)
     ax.tick_params(axis="y", length=0)
 
-fig.suptitle("Figura 4 · ¿Dónde se concentra el sesgo ESPECÍFICO de power-grabbing? — DiD (pg − control) por nivel", fontsize=13, y=0.98)
+fig.suptitle(f"Figura 4 · ¿Dónde se concentra el sesgo ESPECÍFICO de {MLAB}? — DiD ({MODE} − control) por nivel", fontsize=13, y=0.98)
 fig.legend(handles=[Line2D([0], [0], marker="o", color=COL["US"], ls="", ms=8, label="US"),
                     Line2D([0], [0], marker="o", color=COL["CN"], ls="", ms=8, label="CN")],
            loc="center", bbox_to_anchor=(0.5, 0.94), ncol=2, fontsize=10, frameon=False)
