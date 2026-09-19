@@ -16,10 +16,10 @@
     "4_analysis/results/30_fig1_glmm/glmm_interaction_ps_vs_control.csv": "030c937e27383eb26be830fcb69b8175100b0279cfa586f0077552237a30b338",
     "4_analysis/results/77_bh_fig1_fig2c/bh_families.csv": "243ca433a598e9ab8b9058366a6a0544c4e681d62586c311dd2dbfb21acb1676",
     "4_analysis/results/70_fig1_model_mean_refusal/model_mean_refusal.csv": "bda2c9720a1066508f97a1777fb320627f169b8be6ce819d735c97b8faf2b128",
-    "4_analysis/r/glmm_fig1_v3.R": "cd70880f8c1620e3f033ed37a1407c0274acd4edc6adc4fb181fd0a9c450865d",
+    "4_analysis/r/glmm_fig1_v3.R": "74242ddc42de5c3a83e89cbbe67b78f79e6385d4365f6e03a75c4df3ce1a733e",
     "4_analysis/r/glmm_common.R": "bedd39339914ba0a3b12079fcee9f0adcfd3c5203cb0f884b3ceabe9bfce1d80"
   },
   "code": {
-    "4_analysis\\analysis_78_fig1_v3.py": "488d83a4c2868853b7b4604d4e839a25340365a23adbf1203b6f414eef7bc634"
+    "4_analysis\\analysis_78_fig1_v3.py": "a97fbec1004e1b481b3e19acac786b9483fd8f1e40fd68406171b36a300566e1"
   }
 }

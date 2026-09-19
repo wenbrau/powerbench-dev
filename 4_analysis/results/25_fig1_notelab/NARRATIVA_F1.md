@@ -891,3 +891,7 @@ siendo candidata; la 71 es la compuesta vigente.
 Tercera vuelta (Nico, 19/09): "C puede ser menos ancha [...] C seguro que tiene que ser aprox 2/3 de su ancho actual; menos espacio
 entre F y G y quizás ambas menos anchas también". Hecho: fila 1 con anchos 1 / 1,2 / 1,6 (C pasa de 2,4 a 1,6 unidades); fila 2 con
 D y E de 1,15 y F y G de 0,85, separación menor. Sigue como candidata en el bloque 78.
+
+**Aprobada (Nico, 19/09): "está aprobada esta eh, no es candidata".** El bloque 78 es la Figura 1 del paper desde el 19/09 y
+reemplaza a la compuesta del bloque 71, que queda como registro. Cuarta vuelta de armado antes de aprobarla: barras de F y G más
+anchas, separación entre columnas de 0,05 / 0,06 y etiquetas de eje sin repetir, para cerrar los huecos entre paneles.
