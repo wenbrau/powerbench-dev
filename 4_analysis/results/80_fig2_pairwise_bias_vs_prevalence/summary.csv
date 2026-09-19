@@ -1,0 +1,3 @@
+kind,slope,intercept,r,p_ols,n_pairs,note,mean,lo,hi,p_t,n_models,n_negative,mean_US,mean_CN
+ols_28_pairs,-0.004720603019408389,0.06467972365977454,-0.10719749631489724,0.5871690811156108,28.0,p de la recta sobre 28 pares NO independientes: solo descriptivo,,,,,,,,
+mean_slope_models,,,,,,,-0.01957275882017826,-0.09366654278672498,0.05452102514636845,0.590011782789313,24.0,11.0,-0.10422411628293886,0.06507859864258231

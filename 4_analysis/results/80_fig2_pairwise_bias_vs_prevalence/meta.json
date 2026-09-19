@@ -1,0 +1,24 @@
+{
+ "name": "80_fig2_pairwise_bias_vs_prevalence",
+ "title": "Figura de idioma: sesgo idioma contra idioma en power shifting, contra la diferencia de prevalencia de los dos idiomas",
+ "question": "Para cada par de idiomas, ¿el sesgo de power shifting (hacia qué idioma del par van los desacuerdos) sigue la diferencia de prevalencia entre los dos idiomas (log10 de la participación en Common Crawl)? Por par (media de modelos) y por modelo (una pendiente cada uno).",
+ "status": "pedido de Nico (19/09) para trabajar con Wendy; descriptivo, 'empecemos por ahí'",
+ "date": "2026-09-19",
+ "commit": "649f041",
+ "conclusion": "Descriptivo; lectura de Nico y Wendy pendiente.",
+ "inputs": [
+  "4_analysis/results/79_fig2_language_pairwise_bias/pairwise_bias_per_model.csv",
+  "4_analysis/inputs/common_crawl/languages.csv",
+  "4_analysis/results/70_fig1_model_mean_refusal/model_mean_refusal.csv"
+ ],
+ "tables": [
+  "pairs",
+  "slopes_per_model",
+  "summary",
+  "lmm_crossed"
+ ],
+ "figures": [
+  "pairs_scatter",
+  "slopes_per_model"
+ ]
+}

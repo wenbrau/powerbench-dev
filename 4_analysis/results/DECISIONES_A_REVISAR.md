@@ -321,3 +321,32 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     en modelos aleatorios del panel A de idioma (alternativa: bootstrap pareado dentro de modelo; o incluir el control en contexto);
     (f) en D y E solo curvas con banda; los tests siguen siendo los de los bloques 31 y 77; (g) C sin barras de error (media de
     cuatro tasas, como el bloque 70). Todo con nAGQ = 0.
+
+39. **Bloque 79 (19/09): sesgo idioma contra idioma (heatmap triangular).** Pedido de Nico para la figura de idioma con Wendy.
+    Decisiones de Claude: (a) sesgo por modelo y par = (solo A − solo B) / discordantes, sobre los prompts válidos en los dos
+    idiomas; NaN si el modelo no tiene discordantes en ese par; (b) test = media entre modelos, IC t, t contra 0 (marco de modelos
+    aleatorios, como los bloques 55, 56 y 76); (c) familia BH = los 28 pares de un mismo modo (alternativa: los 7 contrastes contra
+    inglés, que sería el análogo del panel A; o una familia de 112 con los cuatro modos); (d) triángulo inferior con la fila contra la
+    columna e idiomas en el orden del panel A (refusal medio creciente); (e) power_shifting pooled con los discordantes sumados por
+    modelo, secundario; (f) swahili sin nemotron-3.5-lightning ni nova-2-lite (regla del 16/09), así los pares con swahili tienen 22
+    modelos. Nota: en self-empowerment la mediana de discordantes por modelo es 5 a 8, así que los sesgos de ±0,3 a ±0,4 salen de
+    pocos prompts; en pg son 26 a 42.
+    **Actualización (Nico, 19/09): "quizás es intentar hacer demasiados tests y no es la mejor manera... y además es mucha información;
+    creo que dejaría solo el de power-shifting, sin tests estadísticos, solo como descriptivo".** El bloque quedó con un solo panel,
+    power shifting pooled, sin IC, p ni q; los puntos (b) y (c) ya no aplican. El heatmap de los cuatro modos con tests se borró de
+    la carpeta; sus números están en la entrada del 19/09 de NARRATIVA_F2.md como registro.
+
+40. **Bloque 80 (19/09): sesgo por par de idiomas contra la diferencia de prevalencia.** Pedido de Nico ("scatter y regresión entre
+    esas dos cosas, no sé si será justo pero empecemos por ahí"). Decisiones de Claude: (a) prevalencia = participación de páginas
+    en Common Crawl CC-MAIN-2026-34, el único proxy congelado en el repo (Wikipedia, mencionado en el cuaderno, nunca se bajó);
+    (b) x = log10(share_A) − log10(share_B) con A la fila del heatmap del bloque 79, así una pendiente negativa = el idioma menos
+    representado se rechaza más; (c) dos lecturas: recta de mínimos cuadrados sobre los 28 pares con el sesgo medio (su p es solo
+    descriptiva porque los pares comparten idiomas) y pendiente por modelo con media e IC t entre modelos; (d) sin ponderar los
+    pares por cantidad de discordantes (mediana 48 a 77 por modelo y par, alternativa: pesos 1/varianza). Advertencia de fondo:
+    los 28 pares no son observaciones independientes; una regresión con efectos aleatorios cruzados por idioma A e idioma B sería
+    lo formal, no construida.
+    **Agregado (Nico, 19/09): la regresión formal quedó hecha** (`r/lmm_pair_prevalence.R`): LMM gaussiano sobre el sesgo por modelo
+    y par, pendiente fija de dlog_share, pendiente e intercepto aleatorios por modelo (||), interceptos por idioma en el rol A y en
+    el rol B; Wald z. Elecciones: gaussiano sobre un cociente acotado (alternativa: GLMM binomial sobre los conteos a y b); los dos
+    roles del idioma como interceptos separados en vez de un efecto de idioma con signo ±1 (que lme4 no expresa directamente);
+    sin la interacción con el origen del modelo (no pedida). Resultado: −0,013 [−0,075; 0,050], p = 0,70.
