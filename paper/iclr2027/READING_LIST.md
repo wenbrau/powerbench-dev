@@ -7,7 +7,7 @@ también en otra, se indica con "→".
 **Cómo leer esta lista.** Dos filtros:
 
 - **Dónde se usa**: sección del paper y, en la intro, párrafo del esqueleto de
-  [INTRODUCTION_DRAFT.md](INTRODUCTION_DRAFT.md).
+  [INTRODUCTION_AUX.md](INTRODUCTION_AUX.md).
 - **Cuánto leer**:
   - 📖 **leer**: la parte indicada, con atención.
   - 📄 **abstract**: alcanza con el abstract, y a veces una figura.
@@ -23,10 +23,26 @@ priorización para empezar, no un juicio sobre cuáles son importantes: eso lo d
 
 ## 1. Introducción
 
-**Total: 14 fuentes (más 2 opcionales). 6 para leer una parte, 8 solo el abstract o saber que existen.**
+**Total: 15 fuentes (más 3 opcionales). 7 para leer una parte, 8 solo el abstract o saber que existen.**
+
+Los párrafos P2–P4 de abajo son los del esqueleto del 16-09. En el esqueleto v2 (18-09), P2 (la cadena y el testimonio) pasó a ser P1 y P4 (el gap) pasó a ser P3.
 
 **Orden sugerido: empezar por P4.** Esos papers pueden cambiar lo que la intro puede afirmar. Los de
 P2 solo cambian cómo se dice.
+
+### P1 (esqueleto v2) · Uso real de los asistentes
+
+Agregado el 18-09 para la primera oración de P1 ("one of the main uses of LLMs is…"). Ficha completa en la Parte 3.4 del scan.
+
+| | Fuente | Qué leer | Qué pregunta te responde |
+|---|---|---|---|
+| 📖 | **Chatterji et al.**, *How People Use ChatGPT*, NBER Working Paper 34255, 2025 · [link](https://www.nber.org/papers/w34255) (3.4) | Abstract y la sección de temas de conversación (Practical Guidance, Asking/Doing/Expressing) | ¿Pedir consejo es uno de los usos principales? Sí: Practical Guidance ~29% del uso, *Asking* ~49%. ⚠️ Solo ChatGPT, autores de OpenAI, sin revisión por pares |
+
+**Opcional:**
+
+| | Fuente | Para qué |
+|---|---|---|
+| 📄 | **McCain et al.**, *How People Use Claude for Support, Advice, and Companionship*, Anthropic 2025 · [link](https://www.anthropic.com/news/how-people-use-claude-for-support-advice-and-companionship) (3.4) | Segundo proveedor; el consejo interpersonal incluye decidir el próximo paso de carrera, como en el ejemplo de la promoción. Solo 2,9% del uso: citar para qué se pide, no para cuánto |
 
 ### P4 · El gap: lo que existe y no responde nuestras preguntas
 
