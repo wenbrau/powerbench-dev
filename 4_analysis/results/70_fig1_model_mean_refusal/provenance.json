@@ -1,0 +1,8 @@
+{
+  "inputs": {
+    "4_analysis/results/25_fig1_notelab/rates_per_model.csv": "a15414aac942d621407a1d211b83f3edb625546cbb9d820ae608ae005a44e5e7"
+  },
+  "code": {
+    "4_analysis\\analysis_70_fig1_model_mean_refusal.py": "200bbaee0e748ced21b2ddd1afb36c5238b72508f02276b0bab055a0f6c5ed9e"
+  }
+}

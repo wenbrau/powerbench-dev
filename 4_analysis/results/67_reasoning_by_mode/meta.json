@@ -1,0 +1,18 @@
+{
+ "name": "67_reasoning_by_mode",
+ "title": "Reasoning ladder, panel 1: refusal por modo con reasoning apagado y encendido, por modelo",
+ "question": "Por modo, la tasa de refusal de cada uno de los 8 modelos en OFF y en sus dos primeros niveles de esfuerzo, con la media de los 8. Sin cálculos nuevos: tabla levels.csv del bloque 18.",
+ "status": "capa visual; panel por panel con Nico",
+ "date": "2026-09-18",
+ "commit": "913d67f",
+ "conclusion": "Capa visual; lectura pendiente de Nico.",
+ "inputs": [
+  "4_analysis/results/18_reasoning_ladder/levels.csv"
+ ],
+ "tables": [
+  "levels_used"
+ ],
+ "figures": [
+  "p1_reasoning_by_mode"
+ ]
+}

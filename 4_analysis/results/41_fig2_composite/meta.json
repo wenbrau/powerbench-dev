@@ -4,7 +4,7 @@
  "question": "Ensamblado de los paneles A (niveles por idioma y modo), B (rango por modelo contra el azar y el control, OR), C (acuerdo entre rankings de idiomas, matriz y medias por tipo de par) y D (OR de un pedido típico pesado por uso, pg y control). Sin cálculos nuevos.",
  "status": "figura compuesta; paneles aprobados por Nico el 16–17/09",
  "date": "2026-09-18",
- "commit": "1851832",
+ "commit": "df148bd",
  "conclusion": "Figura 2 compuesta con los paneles aprobados; interpretación del equipo en la narrativa.",
  "inputs": [
   "4_analysis/results/34_fig2_v2/levels_excl_sw_outliers.csv",

@@ -1,0 +1,8 @@
+{
+  "inputs": {
+    "4_analysis/results/18_reasoning_ladder/levels.csv": "dd3137f0dde33b12a63229a90260ab44ad89647d9c999867bf538d0b80a561e4"
+  },
+  "code": {
+    "4_analysis\\analysis_67_reasoning_by_mode.py": "39503a7edee359ebb3915165514a44ff8edb0e24bf0ce360ca892fb152eabc8c"
+  }
+}
