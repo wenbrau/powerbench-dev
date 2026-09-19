@@ -1,0 +1,18 @@
+{
+ "changed_30_de vs control": {
+  "est": 0.894033089842689,
+  "lo": null,
+  "hi": null,
+  "p": 0.017526739097962,
+  "unit": "log-odds o Spearman",
+  "note": "q = 0.053 (interacción CN × (modo vs control) por modo (3))"
+ },
+ "changed_31_de": {
+  "est": 0.439723113940942,
+  "lo": null,
+  "hi": null,
+  "p": 0.039654618300205,
+  "unit": "log-odds o Spearman",
+  "note": "q = 0.079 (pendiente de scale por modo (4))"
+ }
+}

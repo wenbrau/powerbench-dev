@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "4_analysis/results/30_fig1_glmm/glmm_mode_contrasts.csv": "85973d807084cb54d9aef78be866327ff82cd8e4a02b3a899dedf2977ce52b30",
+    "4_analysis/results/30_fig1_glmm/glmm_origin.csv": "313e398feb14a9dbb97e8537f289427f198791be945f85d3bbd22a456193fa79",
+    "4_analysis/results/30_fig1_glmm/glmm_interaction_ps_vs_control.csv": "030c937e27383eb26be830fcb69b8175100b0279cfa586f0077552237a30b338",
+    "4_analysis/results/31_fig1_glmm_scale/glmm_scale_trend.csv": "3c8991692547a618328b03941a6675e6c6a82f32ae0b56fde5880bfe98bf9967",
+    "4_analysis/results/31_fig1_glmm_scale/glmm_scale_interaction_ps_vs_control.csv": "a201e3c7347ee5281e91d78ea388a01d991a4ea2fa671c416256e605d5f42bfb",
+    "4_analysis/results/31_fig1_glmm_standing/glmm_standing_trend.csv": "1e0b2e7f66e30bbd97fb632523686c83bdc91e20e0961770f09de852ff5f2f01",
+    "4_analysis/results/31_fig1_glmm_standing/glmm_standing_interaction_ps_vs_control.csv": "455eb5c36ead0423b2f8851e728c91117142926aa37e26e9aa77047540dbfe51",
+    "4_analysis/results/39_fig2_order_stats/order_agreement_tests.csv": "4ed69a2784e1bddb21432ec4e6d18356cb9a720b898d9518f408aa4f2529644c"
+  },
+  "code": {
+    "4_analysis\\analysis_77_bh_fig1_fig2c.py": "596111c9fe89e5c04a8b431cf8043c580ea32d2cc85b6d5fa2c0a9d32238ecd5"
+  }
+}

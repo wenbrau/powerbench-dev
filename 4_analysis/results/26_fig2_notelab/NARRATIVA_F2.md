@@ -898,3 +898,12 @@ descripción del dataset base (fig 1); después la 3 debería ser AI agent, y el
 4; reordenemos así". Numeración desde el 19/09: Figura 1 D1 inglés (bloque 71), Figura 2 díadas (bloque 51), Figura 3 agente
 de IA (bloque 65), Figura 4 idioma (bloque 41). Este archivo y los bloques 26, 34–41, 72 conservan "F2" en el nombre por
 historia; el título de la compuesta del bloque 41 dice "Figura 4".
+
+## 19/09 — BH por familia para el panel C (bloque 77)
+
+Nico pidió BH con familias por pregunta para los bloques que no la tenían; el bloque 39 era uno. Familias (DECISIONES punto 37):
+"dentro − mixto" por modo (4), "CN–CN − mixto" y "US–US − mixto" por modo (8), "todos los pares" por modo (4), cada tipo de par
+contra idiomas barajados por modo (12); p_right unilateral como en el bloque 39. Nada cambia de estado: mismo origen − mixto da en
+pg (q = 0,018) y control (q < 0,001), no en he ni de (q = 0,073); CN–CN − mixto da en pg (q = 0,012) y control (q = 0,002), US–US −
+mixto solo en control (q = 0,018); el orden compartido ("todos los pares") solo en he (q < 0,001); contra idiomas barajados, CN–CN
+da en he, pg y control, US–US solo en he, mixto solo en he.

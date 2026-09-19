@@ -1,0 +1,58 @@
+figure,block,panel,family,test,estimate,p,singular,n_family,q_bh,sig_p05,sig_q05
+Figura 1,30,Figura 1 · A modos,contrastes de modo (2),de − he,1.89024552238361,2.1802585334654e-09,False,2,4.3605170669308e-09,True,True
+Figura 1,30,Figura 1 · A modos,contrastes de modo (2),pg − de,0.851134534608313,0.0016495153302043,False,2,0.0016495153302043,True,True
+Figura 1,30,Figura 1 · origen,efecto CN − US por modo (4),he,0.597011412710885,0.224896761752057,False,4,0.29986234900274267,False,False
+Figura 1,30,Figura 1 · origen,efecto CN − US por modo (4),de,1.02812800510675,0.0587196428735861,False,4,0.2348785714943444,False,False
+Figura 1,30,Figura 1 · origen,efecto CN − US por modo (4),pg,0.631784143792927,0.185611806633599,False,4,0.29986234900274267,False,False
+Figura 1,30,Figura 1 · origen,efecto CN − US por modo (4),control,0.1914232920352,0.663387071481522,False,4,0.663387071481522,False,False
+Figura 1,30,Figura 1 · origen,"efecto CN − US, pooled (1)",power shifting (pooled),0.811150387685653,0.093513318775149,False,1,0.093513318775149,False,False
+Figura 1,30,Figura 1 · origen,interacción CN × (modo vs control) por modo (3),he vs control,0.590048407178627,0.0910863444330556,False,3,0.11121316882824,False,False
+Figura 1,30,Figura 1 · origen,interacción CN × (modo vs control) por modo (3),de vs control,0.894033089842689,0.017526739097962,False,3,0.052580217293886,True,False
+Figura 1,30,Figura 1 · origen,interacción CN × (modo vs control) por modo (3),pg vs control,0.450724633788034,0.11121316882824,False,3,0.11121316882824,False,False
+Figura 1,30,Figura 1 · origen,"interacción CN × (power shifting vs control), pooled (1)",power shifting vs control (pooled),0.630572342667424,0.0232276138783147,False,1,0.0232276138783147,True,True
+Figura 1,31,Figura 1 · C escala,pendiente de scale por modo (4),he,0.308149823314413,0.242101424049596,False,4,0.3228018987327947,False,False
+Figura 1,31,Figura 1 · C escala,pendiente de scale por modo (4),de,0.439723113940942,0.039654618300205,False,4,0.07930923660041,True,False
+Figura 1,31,Figura 1 · C escala,pendiente de scale por modo (4),pg,1.2040167189324,5.05294429518345e-08,False,4,2.02117771807338e-07,True,True
+Figura 1,31,Figura 1 · C escala,pendiente de scale por modo (4),control,-0.107935000309759,0.678377984602366,True,4,0.678377984602366,False,False
+Figura 1,31,Figura 1 · C escala,"pendiente de scale, pooled (1)",power shifting (pooled),0.729428815235174,1.61378680848233e-07,False,1,1.61378680848233e-07,True,True
+Figura 1,31,Figura 1 · C escala,interacción scale × (modo vs control) por modo (3),he vs control,0.437389342579323,0.264729116119016,False,3,0.264729116119016,False,False
+Figura 1,31,Figura 1 · C escala,interacción scale × (modo vs control) por modo (3),de vs control,0.545875947480905,0.102357533490834,True,3,0.153536300236251,False,False
+Figura 1,31,Figura 1 · C escala,interacción scale × (modo vs control) por modo (3),pg vs control,1.33711715056744,6.8742281306428e-05,False,3,0.00020622684391928398,True,True
+Figura 1,31,Figura 1 · C escala,"interacción scale × (power shifting vs control), pooled (1)",power shifting vs control (pooled),0.842141707822072,0.0015336408995795,False,1,0.0015336408995795,True,True
+Figura 1,31,Figura 1 · D standing,pendiente de standing por modo (4),he,0.453486088263669,0.097416009490033,False,4,0.194832018980066,False,False
+Figura 1,31,Figura 1 · D standing,pendiente de standing por modo (4),de,-0.157958035581535,0.465695324054878,False,4,0.6209270987398373,False,False
+Figura 1,31,Figura 1 · D standing,pendiente de standing por modo (4),pg,0.432592102523533,0.0628542225942142,False,4,0.194832018980066,False,False
+Figura 1,31,Figura 1 · D standing,pendiente de standing por modo (4),control,0.0767657090830343,0.766009025684572,True,4,0.766009025684572,False,False
+Figura 1,31,Figura 1 · D standing,"pendiente de standing, pooled (1)",power shifting (pooled),0.248759460593715,0.0764768194788819,False,1,0.0764768194788819,False,False
+Figura 1,31,Figura 1 · D standing,interacción standing × (modo vs control) por modo (3),he vs control,0.398647145884164,0.321813188363169,True,3,0.463547068836027,False,False
+Figura 1,31,Figura 1 · D standing,interacción standing × (modo vs control) por modo (3),de vs control,-0.245920836127812,0.463547068836027,True,3,0.463547068836027,False,False
+Figura 1,31,Figura 1 · D standing,interacción standing × (modo vs control) por modo (3),pg vs control,0.371822193354903,0.279384966961668,False,3,0.463547068836027,False,False
+Figura 1,31,Figura 1 · D standing,"interacción standing × (power shifting vs control), pooled (1)",power shifting vs control (pooled),0.179066515418041,0.506943756412921,True,1,0.506943756412921,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"mismo origen − mixto, por modo (4)",dentro − mixto · he,0.0701668234040846,0.0565,,4,0.073,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"mismo origen − mixto, por modo (4)",dentro − mixto · de,0.0735104077867262,0.073,,4,0.073,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"mismo origen − mixto, por modo (4)",dentro − mixto · pg,0.1442385103759676,0.0088,,4,0.0176,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"mismo origen − mixto, por modo (4)",dentro − mixto · control,0.2685208094462677,0.0,,4,0.0,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada bloque − mixto, por modo (8)",CN–CN − mixto · he,0.0351685871612006,0.2958,,8,0.2958,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada bloque − mixto, por modo (8)",US–US − mixto · he,0.1062587545295588,0.0967,,8,0.12893333333333332,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada bloque − mixto, por modo (8)",CN–CN − mixto · de,0.0848598253776709,0.0773,,8,0.12893333333333332,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada bloque − mixto, por modo (8)",US–US − mixto · de,0.0621609901957816,0.1294,,8,0.14788571428571426,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada bloque − mixto, por modo (8)",CN–CN − mixto · pg,0.2010494891826019,0.0029,,8,0.0116,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada bloque − mixto, por modo (8)",US–US − mixto · pg,0.0874275315693333,0.0808,,8,0.12893333333333332,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada bloque − mixto, por modo (8)",CN–CN − mixto · control,0.3333333254667669,0.0002,,8,0.0016,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada bloque − mixto, por modo (8)",US–US − mixto · control,0.2037082934257686,0.0066,,8,0.0176,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"orden compartido, todos los pares, por modo (4)",todos los pares · he,0.1401982873918811,0.0,,4,0.0,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"orden compartido, todos los pares, por modo (4)",todos los pares · de,0.0096712295077528,0.2988,,4,0.3272,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"orden compartido, todos los pares, por modo (4)",todos los pares · pg,0.0074907850922148,0.3272,,4,0.3272,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"orden compartido, todos los pares, por modo (4)",todos los pares · control,0.0085047087955114,0.3042,,4,0.3272,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",CN–CN · he,0.1420760459307058,0.0088,,12,0.0264,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",US–US · he,0.213166213299064,0.001,,12,0.0048,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",mixto · he,0.1069074587695052,0.0012,,12,0.0048,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",CN–CN · de,0.0593739033352503,0.1132,,12,0.19405714285714287,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",US–US · de,0.036675068153361,0.1968,,12,0.2952,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",mixto · de,-0.0254859220424205,0.8154,,12,0.97848,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",CN–CN · pg,0.1395566388776148,0.011,,12,0.0264,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",US–US · pg,0.0259346812643463,0.2498,,12,0.3330666666666666,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",mixto · pg,-0.061492850304987,0.974,,12,0.9996,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",CN–CN · control,0.2134150384401503,0.0008,,12,0.0048,True,True
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",US–US · control,0.083790006399152,0.0534,,12,0.1068,False,False
+Figura de idioma (4 del paper),39,idioma · C acuerdo entre rankings,"cada tipo de par contra idiomas barajados, por modo (12)",mixto · control,-0.1199182870266166,0.9996,,12,0.9996,False,False
