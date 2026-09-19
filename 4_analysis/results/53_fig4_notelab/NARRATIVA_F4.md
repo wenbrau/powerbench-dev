@@ -882,3 +882,10 @@ control no se distingue de 1 (n_eff 3,0: luna pesa dos tercios del bloque US), e
 mostraba la tabla ponderada de Wen del 18/09 con otro estimador. Bootstrap y permutación coinciden en todas las celdas.
 La compuesta del cuerpo (bloque 65) no incluye el panel de pedido típico (es apéndice), así que no hay nada que regenerar ahí; la
 figura de apéndice es la de este bloque.
+
+## 19/09 — Renumeración (Nico): la figura del agente de IA pasa a ser la FIGURA 3 del paper
+
+Nico: "después la 3 debería ser AI agent, y el efecto del idioma (que es el más chico) a figura 4; reordenemos así". Numeración
+desde el 19/09: Figura 1 D1 inglés (bloque 71), Figura 2 díadas (bloque 51), Figura 3 agente de IA (bloque 65), Figura 4
+idioma (bloque 41). Este archivo y los bloques 53–65, 74 conservan "F4" en el nombre por historia; el título de la compuesta
+del bloque 65 dice "Figura 3".

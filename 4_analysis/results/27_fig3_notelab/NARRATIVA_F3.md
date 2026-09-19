@@ -1161,3 +1161,83 @@ Por díada (`side_or_requests.csv`, conjuntos us_cn y allies): USA / China pg 1,
 Pasar de tokens a pedidos no cambia ninguna lectura del panel; bootstrap y permutación coinciden en todas las celdas.
 Nico (19/09): "regenerá lo que hay que cambiar de ponderación por uso y pusheá". La compuesta (bloque 51) se regeneró con el panel B
 de este bloque en lugar del pC del bloque 45.
+
+## 19/09 — Figura 3 rearmada: A, B nueva (lado sin pesar), C (pedidos), D (cuatro díadas por potencia)
+
+Nico, al mirar la compuesta con el panel del bloque 73: "eso de sin pesar por uso creo que tendría que ser una figura B que
+falta, y la B pasaría a ser la C". Y sobre la dirección: A, B y C "miran díadas en los extremos del espectro medido (extremo
+USA, o sus aliados, vs extremo China, o sus aliados)", mientras que el corte de rivalidad "mira cada potencia vs sus rivales,
+que en algún sentido sigue siendo polos del espectro, eso es lo que hace un poco de ruido. Si nuevaD quiere cuantificar sesgo
+a favor o en contra de una potencia vs otros países, quizás debería mostrar todas las díadas que tienen a esa potencia y
+cuantificar el sesgo dentro de cada díada, y luego las 4 díadas con su sesgo conjunto". Eso es el bloque 46 (17/09), anterior
+al corte de rivalidad del bloque 52 (18/09). "me parece perfecto".
+
+Compuesta (bloque 51) desde el 19/09:
+- A: exceso de |sesgo de lado| sobre el azar (bloque 55), sin cambios.
+- B (nueva): OR del GLMM del lado, refuse ~ side + dyad + (1 + side || model) + (1 | prompt), geo y neutral (bloque 45,
+  `side_glmm.csv`, "lado (24 modelos)"); q = BH sobre los 4 modos de geo (familia elegida por Claude, DECISIONES punto 35).
+  geo: he 0,85 [0,73; 1,00] q=0,085; de 1,20 [1,06; 1,37] q=0,023; pg 1,13 [0,99; 1,29] q=0,099; control 0,93 q=0,16.
+  Neutral: 0,91 / 1,01 / 1,01 / 1,05, todos cruzan 1 (ajustes singulares).
+- C (antes B): pedido típico pesado por pedidos (bloque 73): de 1,19 q=0,001; pg 1,11 q=0,011; he y control n.s.
+- D (antes C): dirección por potencia con sus cuatro díadas juntas (bloque 46) en lugar del corte de rivalidad (52).
+  USA: he 0,87 q=0,029; de 1,26 q<0,001; pg 1,19 q<0,001; control 1,00. China: 1,05 / 1,06 / 1,08 / 1,00, nada.
+  Interacciones con el origen del modelo: ninguna. El desglose díada por díada (46, apéndice) muestra que el total de China
+  mezcla positivo contra aliados y neutrales con negativo contra rivales y USA.
+
+Lectura que sostiene la figura (a redactar por Nico): sobre el eje USA–China, de da claro sin pesar y pesado, pg queda en
+el borde sin pesar (q = 0,099) y da pesado por pedidos; los modelos rechazan más que USA le saque poder a otros países y
+favorecen que gane poder sin quitárselo a nadie; para China no hay sesgo neto. Todo con ajustes nAGQ = 0; si se pasa a
+nAGQ = 1, B y D se recalculan. El bloque 52 queda como registro y apéndice.
+
+## 19/09 — Vistas previas (bloque 75): USA / China y aliados por separado; D con 24 modelos y las díadas
+
+Nico, textual: "me pregunto cómo dan si mostramos solo China vs USA en vez de mezclar eso con Aliados China vs Aliados USA (y
+dejar esa otra comparación para apéndice); me mostrás cómo quedan A, B y C mirando esas dos por separado?"; "en D, creo que
+estamos bien, pero la interacción con el tipo de modelo (US vs CN) supongo que no da nada, no? entonces no mostraría las barras
+de 12 modelos US y 12 modelos CN, mostraría solo el de los 24 juntos - y entonces con el espacio extra, podemos mostrar los
+resultados de las díadas individuales directo en la figura principal"; "mostrame paneles separados por ahora, no lo pongas en
+la figura compuesta". Bloque 75: A y B recalculados por díada (A con el protocolo del 55; B con `r/glmm_side_sets.R`, gemelo
+de `glmm_side.R` sin el término dyad); C tomado del bloque 73 (ya tenía us_cn y allies); D del bloque 46 (juntas y por díada,
+24 modelos). BH en A y B: familia = los 4 modos de cada díada.
+
+| panel | USA / China | aliado USA / aliado China | neutral |
+|---|---|---|---|
+| A, exceso de sesgo | de +0,16 q=0,005; pg +0,12 q=0,009; he y control nada | pg +0,08 q=0,093; de +0,08 q=0,15; nada pasa | nada (he −0,07 p=0,047, q=0,19) |
+| B, GLMM del lado | he 0,81 p=0,053; de 1,12 p=0,27; pg 1,13 p=0,14; nada pasa | de 1,27 q=0,001; pg 1,12 q=0,17; control 0,91 | todo en 1 (singulares) |
+| C, pedidos | de 1,11, pg 1,13, he 0,87: nada pasa con familia de 4 | de 1,26 q=0,009; pg 1,10 | todo en 1 |
+
+Lectura provisoria: al separar, la potencia se reparte y las dos díadas cuentan cosas parcialmente distintas. En USA / China
+el sesgo se ve como cantidad de modelos con sesgo (A: 19 de 24 con exceso positivo en de y pg) pero el efecto medio del lado
+(B, C) no llega; en aliados el efecto medio en de es claro (B, C) pero el exceso por modelo no pasa BH. Juntas (bloques 45 y
+73, la compuesta actual) se sostienen de en los tres paneles y pg en A y C. Interacción con el origen del modelo en D (bloque
+46): ninguna, p 0,15 a 0,90. Decisión de Nico pendiente: si la compuesta pasa a las díadas separadas y a la D de 24 modelos.
+
+## 19/09 — Decisiones de Nico sobre la figura de díadas, su narrativa, y renumeración: pasa a ser la FIGURA 2
+
+Sobre juntar las díadas (pregunta de Nico: "mezclar díadas produce pseudorreplicación por prompts iguales duplicadas?"):
+en B y D el prompt es intercepto aleatorio común a las díadas del mismo prompt y la díada efecto fijo; en C el bootstrap
+remuestrea prompts con sus díadas y la permutación actúa dentro de cada par; en A el esperado bajo el nulo supone los pares
+de un mismo prompt como monedas independientes (la t entre modelos no se toca; por separado los excesos dan +0,16 / +0,08 en
+de y +0,12 / +0,08 en pg, y juntas +0,14 / +0,12, en el medio). Nico: "entonces mezclar las dos está ok".
+
+Decisiones, textual:
+- "en la figura queda mezclada entre las dos díadas, y la versión de ambas separadas va a apéndice" (bloque 75, paneles A, B, C).
+- "el panel D va exactamente como lo diste": solo los 24 modelos (la interacción con el origen no da en ningún modo), las
+  cuatro díadas juntas y cada díada al lado (bloque 46; vista previa en el bloque 75, pD_joint_and_dyads_24).
+- Narrativa del panel D, de Nico: "modelos como estos están sesgados en contra de que USA le saque poder a otro, pero,
+  mientras que no le saque poder a nadie, están sesgados a favor de que gane poder. Podría verse casi como political
+  correctness - que USA no gane poder a costa de nadie, pero si no es a costa de nadie, que gane poder más que otros. Pero
+  eso es solo interpretación. Sin embargo, 'que gane poder más que otro' se evidencia específicamente contra rivales (o
+  contra China, que es rival), es decir, se especifica: Que USA no gane poder a costa de otros, pero si no es a costa de
+  nadie, que gane poder más que sus rivales. Ese sesgo es interesante. Y en términos de sesgos en díadas de China, no se
+  evidencia sesgo en función de China vs rivales (o USA, que es rival), pero sí vs aliados o neutrales - Interpretación,
+  algo así como: los modelos están sesgados en contra de que China le saque poder a países con los que no tiene rivalidad."
+- Números que sostienen esa narrativa (bloque 46, 24 modelos): USA juntas de 1,26 y pg 1,19 (q < 0,001), he 0,87 (q = 0,029);
+  por díada, de y pg contra aliado, rival y neutral (USA / China no da); he contra rival 0,71 (q = 0,008) y China 0,80
+  (q = 0,085). China juntas nada; por díada, aliado de 1,23 (q = 0,036) y pg 1,27 (q = 0,003), neutral pg 1,25 (q = 0,015);
+  rival y USA nada.
+- "me parece que esta tendría que ser la figura 2, porque es el efecto principal después de descripción del dataset base
+  (fig 1); después la 3 debería ser AI agent, y el efecto del idioma (que es el más chico) a figura 4; reordenemos así".
+  Numeración del paper desde el 19/09: Figura 1 D1 inglés (bloque 71), Figura 2 díadas de nacionalidad (bloque 51),
+  Figura 3 agente de IA (bloque 65), Figura 4 idioma (bloque 41). Los nombres de bloque y de estos archivos conservan la
+  numeración vieja (F2 = idioma, F3 = nacionalidad, F4 = IA); los títulos de las compuestas llevan la nueva.

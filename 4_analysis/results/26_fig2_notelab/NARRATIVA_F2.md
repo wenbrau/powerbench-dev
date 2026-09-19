@@ -890,3 +890,11 @@ Con tokens (bloque 40) pg hindi 1,27 y francés 1,22; pasar a pedidos sube un po
 del cuerpo. Bootstrap y permutación dan lo mismo salvo en los bordes, donde la permutación es más conservadora en las
 celdas de conteos ralos (he alemán, he swahili, he hindi) y más liberal en el pooled swahili. Decisión de Nico (19/09, más tarde): pesos por pedidos quedan; bootstrap para la barra, permutación para el test. La compuesta
 (bloque 41) se regeneró con el panel D del bloque 72 y se pusheó.
+
+## 19/09 — Renumeración (Nico): la figura de idioma pasa a ser la FIGURA 4 del paper
+
+Nico: "me parece que esta tendría que ser la figura 2 [la de díadas de nacionalidad], porque es el efecto principal después de
+descripción del dataset base (fig 1); después la 3 debería ser AI agent, y el efecto del idioma (que es el más chico) a figura
+4; reordenemos así". Numeración desde el 19/09: Figura 1 D1 inglés (bloque 71), Figura 2 díadas (bloque 51), Figura 3 agente
+de IA (bloque 65), Figura 4 idioma (bloque 41). Este archivo y los bloques 26, 34–41, 72 conservan "F2" en el nombre por
+historia; el título de la compuesta del bloque 41 dice "Figura 4".

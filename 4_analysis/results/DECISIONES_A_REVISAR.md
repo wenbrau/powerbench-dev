@@ -287,3 +287,9 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     que usa una regresión pesada con errores agrupados por prompt y lee los pesos por tokens del bloque 40; ese script no se
     tocó (rutas de la máquina de Wen). Sin test de US contra CN ni de modo contra control (no pedidos). Estado: los bloques 44,
     45 y 63 quedan como registro; la compuesta 51 se regeneró con el 73 (Nico, 19/09); la 65 no incluye el panel de pedido típico.
+
+35. **Panel B nuevo de la Figura 3 (19/09):** Nico pidió un panel con el efecto del lado sin pesar por uso. Claude eligió dibujar el
+    OR del GLMM del lado del bloque 45 (`side_glmm.csv`, "lado (24 modelos)") con IC de Wald, igual que el panel D, para que B y D
+    sean el mismo tipo de número (OR condicional de modelos aleatorios); alternativa: el OR con peso igual por modelo e IC bootstrap
+    (`side_estimators.csv`, logOR_igual), que es descriptivo. Familia BH = los 4 modos del conjunto geo; neutral sin q (referencia;
+    sus cuatro ajustes son singulares). Consecuencia: pg queda en q = 0,099 en B, mientras que en C (pesado por pedidos) da q = 0,011.

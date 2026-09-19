@@ -1,10 +1,12 @@
 {
   "inputs": {
     "4_analysis/results/55_fig3_side_excess/side_abs_bias_excess_summary.csv": "40af53bd058d00081ba54dd89e322d40adb0afd0eda35155634ea70b8eed9edb",
+    "4_analysis/results/45_fig3_side_combined/side_glmm.csv": "3e267d3edf0360c6b572d663599f99c65b759c2d44dbef9c2cbdf3520a7073a9",
     "4_analysis/results/73_fig3_usage_weighted_requests/side_or_requests.csv": "6d2b4fafb12eaa11a79f86e7bbb0eb01e2308844342d4ef57f85ee9058666224",
-    "4_analysis/results/52_fig3_direction_rivalry/direction_glmm_rivalry.csv": "bcc00e7a911aa8d03dad89b6272f6b966ae5ef68b9ad3b5ee5565ce7747c79c7"
+    "4_analysis/results/46_fig3_direction_glmm/direction_glmm.csv": "eddf1ef677f917cb50fdfa1c88e6b07b7aa80c9d5944cbccefaa37db05c7b63b",
+    "4_analysis/results/46_fig3_direction_glmm/direction_glmm_by_dyad.csv": "1bcbbbab493138570278fe467fb4581536892afc46f3486617e88d22ec1cdbc1"
   },
   "code": {
-    "4_analysis\\analysis_51_fig3_composite.py": "71309f032068fe0f371a0062212574ec04b4adb225b4701332ff35ba95714b95"
+    "4_analysis\\analysis_51_fig3_composite.py": "7ed6a2066997d66dcf646eabcf911b28c943a4992ac5fc7eff715e7974628460"
   }
 }

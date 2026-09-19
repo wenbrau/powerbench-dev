@@ -1,6 +1,6 @@
 # Figura 2 completa (D1 multilingüe): los cuatro paneles aprobados
 
-*figura compuesta; paneles aprobados por Nico el 16–17/09; panel D regenerado el 19/09 con el bloque 72 (pesos por pedidos, permutación como test) · 2026-09-19 · commit `c4c32f4` · `41_fig2_composite`*
+*figura compuesta; paneles aprobados por Nico el 16–17/09; panel D regenerado el 19/09 con el bloque 72 (pesos por pedidos, permutación como test) · 2026-09-19 · commit `8cf347b` · `41_fig2_composite`*
 
 ## Question
 

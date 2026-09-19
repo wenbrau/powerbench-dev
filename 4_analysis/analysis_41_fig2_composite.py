@@ -183,7 +183,7 @@ def main():
     axd.set_title("Un pedido típico: OR marginal de refusal contra inglés,\ntasas pesadas por los pedidos de cada modelo", fontsize=10.5)
     letter(axd, "D", -58)
 
-    fig.suptitle("Figura 2 · D1 en 8 idiomas · 24 modelos (12 US, 12 CN) · veredictos deepseek-v4-flash-0731", fontsize=12.5)
+    fig.suptitle("Figura 4 · D1 en 8 idiomas · 24 modelos (12 US, 12 CN) · veredictos deepseek-v4-flash-0731", fontsize=12.5)   # Figura 4 desde el 19/09 (antes 2; Nico)
 
     res = report.Result(
         NAME, "Figura 2 completa (D1 multilingüe): los cuatro paneles aprobados",

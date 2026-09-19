@@ -1,6 +1,6 @@
 # Figura 4 completa (compuesta)
 
-*figura compuesta; aprobada panel por panel por Nico (18/09) · 2026-09-18 · commit `1851832` · `65_fig4_composite`*
+*figura compuesta; aprobada panel por panel por Nico (18/09) · 2026-09-19 · commit `8cf347b` · `65_fig4_composite`*
 
 ## Question
 

@@ -1,15 +1,17 @@
 {
  "name": "51_fig3_composite",
- "title": "Figura 3 completa (D2 díadas): los paneles aprobados",
- "question": "Ensamblado de A (|sesgo| de lado contra lados barajados), B (pedido típico pesado por uso, OR) y C (dirección respecto de USA y de China con sus díadas de rivalidad). Sin cálculos nuevos.",
- "status": "figura compuesta (draft); paneles aprobados por Nico el 17–18/09; panel B regenerado el 19/09 con el bloque 73 (pesos por pedidos, permutación como test)",
+ "title": "Figura 2 del paper (antes 3) completa (D2 díadas): los paneles aprobados",
+ "question": "Ensamblado de A (|sesgo| de lado contra lados barajados), B (efecto del lado sin pesar por uso, GLMM), C (pedido típico pesado por pedidos, OR) y D (dirección respecto de USA y de China, 24 modelos, sus cuatro díadas juntas y cada díada). Sin cálculos nuevos.",
+ "status": "figura compuesta (draft); paneles aprobados por Nico el 17–19/09: el 19/09 se agregó B (lado sin pesar, bloque 45), la C pasó a pesos por pedidos (bloque 73) y la D volvió a las cuatro díadas por potencia (bloque 46) en lugar del corte de rivalidad (52), solo 24 modelos y con cada díada al lado; numeración del paper: Figura 2 desde el 19/09",
  "date": "2026-09-19",
- "commit": "c4c32f4",
+ "commit": "8cf347b",
  "conclusion": "Figura 3 compuesta con los paneles aprobados; interpretación del equipo en la narrativa.",
  "inputs": [
   "4_analysis/results/55_fig3_side_excess/side_abs_bias_excess_summary.csv",
+  "4_analysis/results/45_fig3_side_combined/side_glmm.csv",
   "4_analysis/results/73_fig3_usage_weighted_requests/side_or_requests.csv",
-  "4_analysis/results/52_fig3_direction_rivalry/direction_glmm_rivalry.csv"
+  "4_analysis/results/46_fig3_direction_glmm/direction_glmm.csv",
+  "4_analysis/results/46_fig3_direction_glmm/direction_glmm_by_dyad.csv"
  ],
  "tables": [],
  "figures": [

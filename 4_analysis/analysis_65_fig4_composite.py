@@ -194,7 +194,7 @@ def main():
     for a in (axF1, axF2):
         a.set_ylabel("log-OR de refusal IA vs humano por modelo (IC 95 %)", fontsize=8.5)
     letter(axF1, "F", -48)
-    fig.suptitle("Figura 4 · D3, usuario agente de IA vs D1, usuario humano · 24 modelos (12 US, 12 CN) · veredictos deepseek-v4-flash-0731", fontsize=12.5, y=.985)
+    fig.suptitle("Figura 3 · D3, usuario agente de IA vs D1, usuario humano · 24 modelos (12 US, 12 CN) · veredictos deepseek-v4-flash-0731", fontsize=12.5, y=.985)   # Figura 3 desde el 19/09 (antes 4; Nico)
 
     res = report.Result(
         NAME, "Figura 4 completa (compuesta)",
