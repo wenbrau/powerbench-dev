@@ -1241,3 +1241,13 @@ Decisiones, textual:
   Numeración del paper desde el 19/09: Figura 1 D1 inglés (bloque 71), Figura 2 díadas de nacionalidad (bloque 51),
   Figura 3 agente de IA (bloque 65), Figura 4 idioma (bloque 41). Los nombres de bloque y de estos archivos conservan la
   numeración vieja (F2 = idioma, F3 = nacionalidad, F4 = IA); los títulos de las compuestas llevan la nueva.
+
+## 19/09 — Versión oficial de la Figura 2: la de Wendy
+
+Nico (19/09): "esta de wendy pasa a ser la versión oficial". Es `4_analysis/review_fig_countries/figure_full_split.png`
+(script `figure_full_split.py`, commit 4f48476 de Wendy Brau): lee las mismas tablas que el bloque 51 (55, 45, 73 y 46) y no
+calcula nada nuevo; A y D iguales al bloque 51; B y C rediseñados con geo (lado USA / lado China, juntas) y neutral (referencia)
+en subpaneles separados y una barra por modo con el color del modo. Sus chequeos de robustez están en la misma carpeta: panel A
+pesado por discordantes por modelo (no cambia), USA / China y aliados por separado, logit de efectos fijos con errores
+agrupados contra el GLMM aprobado en B (misma conclusión), forests por modelo y por subgrupo. La compuesta del bloque 51 queda
+como registro de la versión anterior.
