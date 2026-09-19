@@ -6,10 +6,10 @@
     "4_analysis/results/35_fig2_range_null/range_excess_summary.csv": "92c14efd607d05024dc87b90c3125fb3234ff0309e4a9e3f6ada2013db7df15e",
     "4_analysis/results/38_fig2_language_order/rank_agreement_pairs.csv": "16c9f8cff73ef7a0c3f4301d65c291dd9f2437f8e63bb64c4ef94dbc384e455e",
     "4_analysis/results/38_fig2_language_order/rank_agreement_means.csv": "0267d7e5fb117f8afad15c480b877485c37fb2fc3af15df5641def68dab692e7",
-    "4_analysis/results/40_fig2_usage_weighted/usage_weighted_pooled_or_summary.csv": "eb6ceb6eba650c201fde3c973c06c23e6bba520d174a89077e8f01f6d0374fbd",
+    "4_analysis/results/72_fig2_usage_weighted_requests/usage_weighted_or_requests.csv": "9b2e42d3167bfd462454f34b4b66d5ab67b8f634c43898e605f0f957ec54499e",
     "4_analysis/results/30_fig1_glmm/capability_index.csv": "1343e6f2b010925df4bc5bc80d774c35fd68046ebca8ac86b8f56534fd3ca76b"
   },
   "code": {
-    "4_analysis\\analysis_41_fig2_composite.py": "03fcb5f0d1d0c3c38f944cff92eecc17ea9f9831190cbbd590dc10d16cba6c28"
+    "4_analysis\\analysis_41_fig2_composite.py": "55dcba48b831a57d9d17f50c2739b0c7871e74ccf33b4a0f3d4111a565dd4b41"
   }
 }

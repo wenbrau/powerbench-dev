@@ -2,13 +2,13 @@
  "name": "51_fig3_composite",
  "title": "Figura 3 completa (D2 díadas): los paneles aprobados",
  "question": "Ensamblado de A (|sesgo| de lado contra lados barajados), B (pedido típico pesado por uso, OR) y C (dirección respecto de USA y de China con sus díadas de rivalidad). Sin cálculos nuevos.",
- "status": "figura compuesta (draft); paneles aprobados por Nico el 17–18/09",
- "date": "2026-09-18",
- "commit": "1851832",
+ "status": "figura compuesta (draft); paneles aprobados por Nico el 17–18/09; panel B regenerado el 19/09 con el bloque 73 (pesos por pedidos, permutación como test)",
+ "date": "2026-09-19",
+ "commit": "c4c32f4",
  "conclusion": "Figura 3 compuesta con los paneles aprobados; interpretación del equipo en la narrativa.",
  "inputs": [
   "4_analysis/results/55_fig3_side_excess/side_abs_bias_excess_summary.csv",
-  "4_analysis/results/45_fig3_side_combined/side_estimators.csv",
+  "4_analysis/results/73_fig3_usage_weighted_requests/side_or_requests.csv",
   "4_analysis/results/52_fig3_direction_rivalry/direction_glmm_rivalry.csv"
  ],
  "tables": [],

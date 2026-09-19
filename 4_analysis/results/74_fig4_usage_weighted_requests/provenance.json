@@ -1,0 +1,21 @@
+{
+  "inputs": {
+    "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz": "241532ef9e3a10c7dfe7ce906bb5cd98ddd0b7817dd046147d36cf76a8c49795",
+    "4_analysis/inputs/openrouter_usage/usage_30d_2026-08-18_2026-09-16.csv": "e01e6d082f8f33bd7001a57cc5c0a5a62d0e01a2fe43b623657a72130fb51778"
+  },
+  "code": {
+    "4_analysis\\analysis_74_fig4_usage_weighted_requests.py": "145ff2f182d6c73d959b4bf0dd299dfee673b7bb1c4e811cec5074a938c71df3"
+  },
+  "B_boot": 1000,
+  "seed_boot": 63,
+  "B_perm": 5000,
+  "seed_perm": 174,
+  "n_eff": {
+    "requests_all": 5.284820032793016,
+    "requests_US": 3.0289292005255453,
+    "requests_CN": 6.538954807272917,
+    "tokens_all": 6.259585827591021,
+    "tokens_US": 3.0721045708936328,
+    "tokens_CN": 4.12942019182108
+  }
+}

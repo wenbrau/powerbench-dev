@@ -255,3 +255,35 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     Fligner-Killeen y una permutación de etiquetas de origen sobre la razón de SD como chequeos. Resultado: no significativo
     (p = 0,15; 0,27; 0,054). Alternativas: comparar rangos intercuartiles con bootstrap sobre modelos; test sobre cada modo por
     separado (ninguno da); GLMM con varianza del intercepto de modelo distinta por origen y test de razón de verosimilitud.
+
+33. **Bloque 72 (19/09): panel D de la Figura 2 con pesos por PEDIDOS, power shifting pooled y permutación al lado del
+    bootstrap.** Pedido de Nico, textual: "pesar por pedidos me parece mejor"; "pooled de power shifting como análisis
+    secundario me parece bien hacerlo también"; "test de permutación, no reemplaces lo otro por ahora pero hacelo así
+    comparamos". Decisiones de Claude al implementarlo: (a) power_shifting = los 576 prompts he + de + pg con igual peso por
+    prompt (equivale a la media de las tres tasas porque los modos están balanceados; alternativa: pesar los modos por su
+    frecuencia en el tráfico, que no se conoce); (b) bootstrap estratificado por modo en el pooled, mismos índices para los
+    24 modelos y para los dos juegos de pesos, misma semilla que el bloque 40 (los IC por tokens coinciden con los de ese
+    bloque); (c) nulo de permutación = barajar los veredictos entre los idiomas presentes dentro de cada (modelo, prompt),
+    independiente entre modelos, como en el bloque 35 (alternativa más conservadora: la misma permutación para los 24
+    modelos de un prompt, que conserva la correlación entre modelos); (d) p bilateral de permutación
+    (1 + #{|T*| ≥ |T|}) / (B + 1) con B = 5.000; p bilateral del bootstrap 2 · min(cola) como en el punto 5; (e) familia BH
+    = los 7 idiomas de un mismo grupo (modo o pooled), aplicada por separado a cada p (alternativa: una familia de 35 con
+    los cinco grupos); (f) los tokens quedan en una tabla de comparación, no en la figura. Sin test de power grabbing contra
+    control (no pedido). Estado: RESUELTO por Nico (19/09): pesos por pedidos quedan; bootstrap para la barra, permutación para el test; la
+    compuesta 41 se regeneró con el bloque 72.
+
+34. **Bloques 73 y 74 (19/09): los otros dos paneles de "pedido típico" (Figura 3 B, Figura 4 panel 6) con pesos por PEDIDOS,
+    power shifting pooled y permutación como test.** Decisión de Nico, textual: "la ponderación por pedido me parece mejor, queda
+    eso"; "bootstrap para barra, permutación para test; hacé los tres que faltan". Decisiones de Claude al implementarlo:
+    (a) mismo estimador que los bloques 44 / 45 y 63 (tasa pesada por uso en cada condición, un log-OR marginal); (b) nulos de
+    permutación análogos al del bloque 72: en Figura 3, intercambio al azar de los dos veredictos de cada (modelo, prompt, díada),
+    el nulo de los bloques 43 / 45 / 55; en Figura 4, intercambio del veredicto humano y el IA de cada (modelo, prompt); B = 5.000
+    en los dos; (c) bootstrap sobre prompts con cada prompt arrastrando sus díadas (F3) o sus dos condiciones (F4), estratificado
+    por modo en el pooled; en el 74 con la semilla y el orden de sorteos del bloque 63, así los IC por tokens de los 4 modos
+    coinciden con ese bloque; (d) el pooled power_shifting se agregó también en F3 y F4 por simetría con el 72 (Nico lo aprobó
+    para la Figura 2; acá es secundario y va sin corregir); (e) familias BH = los 4 modos de un mismo conjunto (F3: geo, neutral,
+    USA / China, aliados; F4: 24 modelos, US, CN); (f) en el 74, el estimador por origen con los pesos renormalizados dentro de
+    cada bloque, en OR y en pp, reemplaza con el estimador del paper la tabla "ponderando por uso" de fig4_working (Wen, 18/09),
+    que usa una regresión pesada con errores agrupados por prompt y lee los pesos por tokens del bloque 40; ese script no se
+    tocó (rutas de la máquina de Wen). Sin test de US contra CN ni de modo contra control (no pedidos). Estado: los bloques 44,
+    45 y 63 quedan como registro; la compuesta 51 se regeneró con el 73 (Nico, 19/09); la 65 no incluye el panel de pedido típico.

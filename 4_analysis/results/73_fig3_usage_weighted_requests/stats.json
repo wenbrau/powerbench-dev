@@ -1,0 +1,26 @@
+{
+ "geo_de_requests_or": {
+  "est": 1.1852491741229192,
+  "lo": 1.071480751800239,
+  "hi": 1.3182906096994138,
+  "p": 0.0001999600079984003,
+  "unit": "OR",
+  "note": "pesos por pedidos; boot_p 0.001, perm_q 0.001"
+ },
+ "geo_pg_requests_or": {
+  "est": 1.1139430594766142,
+  "lo": 1.0352367038840369,
+  "hi": 1.2064996521890776,
+  "p": 0.005598880223955209,
+  "unit": "OR",
+  "note": "pesos por pedidos; boot_p 0.004, perm_q 0.011"
+ },
+ "geo_power_shifting_requests_or": {
+  "est": 1.1065361349353917,
+  "lo": 1.0501916563877534,
+  "hi": 1.1716269308054588,
+  "p": 0.0003999200159968006,
+  "unit": "OR",
+  "note": "pesos por pedidos; boot_p 0.000, perm_q 0.000"
+ }
+}
