@@ -1,10 +1,10 @@
 # Figura 4 completa (compuesta)
 
-*figura compuesta; aprobada panel por panel por Nico (18/09) · 2026-09-19 · commit `8cf347b` · `65_fig4_composite`*
+*figura compuesta; aprobada panel por panel por Nico (18/09) · 2026-09-19 · commit `8e2ad92` · `65_fig4_composite`*
 
 ## Question
 
-Ensamblado de A (niveles humano / IA con el IC del Δ pareado), B (dirección de los desacuerdos), C (escala: individual vs sociedad), D y E (heatmaps de contexto y dominio) y F (capacidad, power-shifting vs control, recta del GLMM). Sin cálculos nuevos.
+Ensamblado de A (niveles humano / IA con el IC del Δ pareado), B (dirección de los desacuerdos), C (escala: individual vs sociedad), B con la quinta barra de power shifting pooled y el test power shifting − control (bloque 76, pedido de Nico el 19/09), D y E (heatmaps de contexto y dominio, con el conteo de celdas significativas por modo al lado, pedido de Nico el 19/09) y F (capacidad, power-shifting vs control, recta del GLMM). Sin cálculos nuevos.
 
 ## Data
 
@@ -15,6 +15,8 @@ Input files:
 - `4_analysis/results/54_fig4_levels_box/levels_pooled.csv`
 - `4_analysis/results/54_fig4_levels_box/delta_paired_pooled.csv`
 - `4_analysis/results/56_fig4_bias_direction/bias_direction_summary.csv`
+- `4_analysis/results/76_fig4_direction_ps_vs_control/levels.csv`
+- `4_analysis/results/76_fig4_direction_ps_vs_control/ps_vs_control_summary.csv`
 - `4_analysis/results/60_fig4_ai_level_glmm/scale_4x2_cells.csv`
 - `4_analysis/results/60_fig4_ai_level_glmm/bias_direction_paired_t.csv`
 - `4_analysis/results/59_fig4_by_dimension/bias_direction_by_level.csv`

@@ -293,3 +293,10 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     sean el mismo tipo de número (OR condicional de modelos aleatorios); alternativa: el OR con peso igual por modelo e IC bootstrap
     (`side_estimators.csv`, logOR_igual), que es descriptivo. Familia BH = los 4 modos del conjunto geo; neutral sin q (referencia;
     sus cuatro ajustes son singulares). Consecuencia: pg queda en q = 0,099 en B, mientras que en C (pesado por pedidos) da q = 0,011.
+
+36. **Bloque 76 (19/09): test "power shifting tiene más sesgo de dirección hacia la IA que el control" (panel B de la figura del
+    agente de IA).** Pedido de Nico. Decisiones de Claude: (a) el sesgo pooled de power shifting suma los discordantes de he, de y pg
+    por modelo antes del cociente (cada prompt discordante pesa igual; alternativa: media de los tres sesgos por modo, que pesa igual
+    a los modos); (b) test = t pareada entre los 24 modelos de sesgo(ps) − sesgo(control), Wilcoxon como chequeo (alternativa: GLMM
+    ai × (ps vs control) con pendientes por modelo, no construido); (c) el test principal va sin corregir y los tres por modo forman
+    una familia BH aparte. Resultado: +0,28 [0,18; 0,38], p < 0,001.

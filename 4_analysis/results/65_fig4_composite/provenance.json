@@ -3,6 +3,8 @@
     "4_analysis\\results\\54_fig4_levels_box\\levels_pooled.csv": "2c31e2110874199b18b9a4a149cb829a63770a1c081992ce8d10e4d08cfa3a85",
     "4_analysis\\results\\54_fig4_levels_box\\delta_paired_pooled.csv": "035e22db6da9a2e4a08eb20fc383dee3d085fde97e85cd5d799b3cd27105e326",
     "4_analysis\\results\\56_fig4_bias_direction\\bias_direction_summary.csv": "b92823a103b2eadf2f9b09e12abd2b60ec309e03769dd6d917c26ebe89aec820",
+    "4_analysis\\results\\76_fig4_direction_ps_vs_control\\levels.csv": "35482329d43d08cc522d24da19b5282b25da5cad22c857d3371954c38aca95c6",
+    "4_analysis\\results\\76_fig4_direction_ps_vs_control\\ps_vs_control_summary.csv": "77f2ad546b4d54d91448f46d861b2413543abb50acdadbc1621f9bab25d92d88",
     "4_analysis\\results\\60_fig4_ai_level_glmm\\scale_4x2_cells.csv": "8cddec1662df43635671a3d11ae89da5aa31fc30e60f362b120a807d1774a340",
     "4_analysis\\results\\60_fig4_ai_level_glmm\\bias_direction_paired_t.csv": "0496e10f162f334251a105f2f4b1fa4e355dba4a6bf9294a70f4ca6f71234144",
     "4_analysis\\results\\59_fig4_by_dimension\\bias_direction_by_level.csv": "24f0f50f2d6c60ecce39e9d1a638e5ed229a96e9f09c37970078fed850ed4632",
@@ -11,6 +13,6 @@
     "4_analysis\\results\\30_fig1_glmm\\capability_index.csv": "1343e6f2b010925df4bc5bc80d774c35fd68046ebca8ac86b8f56534fd3ca76b"
   },
   "code": {
-    "4_analysis\\analysis_65_fig4_composite.py": "9f1158ed2b9b723ecb836bbcfee7068c657805d36544653da62d9b90058b8d40"
+    "4_analysis\\analysis_65_fig4_composite.py": "0211ed77c3190ef6a6b8ecfbf71fb820c5f422e953abc40e53f60fefe7911c65"
   }
 }

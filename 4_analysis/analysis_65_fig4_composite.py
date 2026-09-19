@@ -43,6 +43,8 @@ NAME = "65_fig4_composite"
 R = HERE / "results"
 SRC = {"A_levels": R / "54_fig4_levels_box" / "levels_pooled.csv", "A_delta": R / "54_fig4_levels_box" / "delta_paired_pooled.csv",
        "B": R / "56_fig4_bias_direction" / "bias_direction_summary.csv",
+       "B_ps": R / "76_fig4_direction_ps_vs_control" / "levels.csv",                 # 19/09: quinta barra, power shifting pooled (Nico)
+       "B_test": R / "76_fig4_direction_ps_vs_control" / "ps_vs_control_summary.csv",  # 19/09: test power shifting − control (Nico)
        "C_cells": R / "60_fig4_ai_level_glmm" / "scale_4x2_cells.csv", "C_t": R / "60_fig4_ai_level_glmm" / "bias_direction_paired_t.csv",
        "DE": R / "59_fig4_by_dimension" / "bias_direction_by_level.csv",
        "F_pm": R / "64_fig4_capability_glmm" / "capability_per_model_log_or.csv", "F_glmm": R / "64_fig4_capability_glmm" / "capability_glmm.csv",
@@ -88,15 +90,28 @@ def panel_A(ax, lv, dl):
     ax.set_title("Refusal humano vs IA · IC 95 % del Δ pareado", fontsize=9.5)
 
 
-def panel_B(ax, s):
+def panel_B(ax, s, ps, test):
+    # Nico (19/09): "agregar esa barra pooled de power shifting a la actual B [...] ya que vamos a reportar el test de power shifting vs control"
     s = s.set_index("mode").loc[MODES]; x = np.arange(len(MODES))
     ax.bar(x, s.bias, width=.6, color=[MODE_COLORS[m] for m in MODES], zorder=2)
     ax.errorbar(x, s.bias, yerr=[s.bias - s.lo, s.hi - s.bias], fmt="none", ecolor="#222", elinewidth=1.2, capsize=3, zorder=3)
-    ax.axhline(0, color="black", lw=.9, ls="--", zorder=1)
     for xi, (_, r) in zip(x, s.iterrows()):
         ax.text(xi, r.hi + .02, "q < 0,001" if r.q_bh < .001 else f"q = {fmt(r.q_bh)}", ha="center", va="bottom", fontsize=8)
         ax.text(xi, -.06, f"{int(r.n_positive)}/{int(r.n_models)} > 0", ha="center", va="top", fontsize=7, color="#555555")
-    ax.set_xticks(x, [SHORT[m] for m in MODES], fontsize=9); ax.set_ylim(-.3, 1.0); ax.set_yticks([-.25, 0, .25, .5, .75, 1])
+    # quinta barra: power shifting pooled (discordantes de he + de + pg sumados por modelo; bloque 76), separada por una línea punteada
+    q = ps.set_index("set").loc["power_shifting"]; xq = len(MODES) + .35
+    ax.bar(xq, q.bias, width=.6, color="#5B3F8C", zorder=2)
+    ax.errorbar(xq, q.bias, yerr=[[q.bias - q.lo], [q.hi - q.bias]], fmt="none", ecolor="#222", elinewidth=1.2, capsize=3, zorder=3)
+    ax.text(xq, q.hi + .02, "p < 0,001" if q.p_t < .001 else f"p = {fmt(q.p_t)}", ha="center", va="bottom", fontsize=8)
+    ax.text(xq, -.06, f"{int(q.n_positive)}/{int(q.n_models)} > 0", ha="center", va="top", fontsize=7, color="#555555")
+    ax.axvline(len(MODES) - .35, color="#999", lw=.8, ls=":")
+    ax.axhline(0, color="black", lw=.9, ls="--", zorder=1)
+    t = test[test.contrast == "power_shifting - control"].iloc[0]
+    ax.text(.01, .905, ("power shifting − control: " + f"{t.mean_diff:+.2f} [{t.lo:+.2f}; {t.hi:+.2f}], " + ("p < 0,001" if t.p_t < .001 else f"p = {t.p_t:.3f}")
+                        + f" · t pareada, {int(t.n_models)} modelos").replace(".", ","),
+            transform=ax.transAxes, ha="left", va="top", fontsize=7.5, bbox=dict(boxstyle="round,pad=.25", fc="white", ec="#CCCCCC"))
+    ax.set_xticks(list(x) + [xq], [SHORT[m] for m in MODES] + ["Power shift." + chr(10) + "(he+de+pg)"], fontsize=9)
+    ax.set_ylim(-.3, 1.0); ax.set_yticks([-.25, 0, .25, .5, .75, 1])
     ax.set_ylabel("sesgo hacia la IA · media de 24 modelos", fontsize=9); ax.grid(axis="y", alpha=.15)
     ax.text(.01, .985, "▲ los desacuerdos van hacia rechazar a la IA", transform=ax.transAxes, ha="left", va="top", fontsize=8, fontweight="bold")
     ax.set_title("Dirección de los desacuerdos · IC 95 % t entre modelos", fontsize=9.5)
@@ -143,6 +158,23 @@ def heat(ax, fig, s, levels, modes, title, cbar=True, cax=None):
     return im
 
 
+def count_bars(ax, s, levels, modes, title):
+    """Nico (19/09): "unas barras al lado de los heatmaps, que crezcan hacia la derecha (siguiendo cada fila) que sea, para cada modo,
+    cuántas celdas son significativas por sí solas". Cuenta, por modo, las celdas con q < 0,05 (BH sobre las celdas del heatmap)."""
+    piv = lambda col: s.pivot(index="mode", columns="level", values=col).reindex(index=modes, columns=levels)  # noqa: E731
+    M, Q = piv("bias"), piv("q_bh")
+    k = ((Q < .05) & np.isfinite(M)).sum(axis=1).to_numpy()
+    y = np.arange(len(modes))
+    ax.barh(y, k, height=.62, color=[MODE_COLORS[m] for m in modes], zorder=2)
+    for yi, kk in zip(y, k):
+        ax.text(kk + .15, yi, f"{kk}/{len(levels)}", va="center", ha="left", fontsize=9)
+    ax.set_xlim(0, len(levels) + 1.6); ax.set_ylim(len(modes) - .5, -.5)
+    ax.set_xticks([0, len(levels)]); ax.tick_params(axis="x", labelsize=8); ax.set_yticks([])
+    for sp in ("top", "right", "left"):
+        ax.spines[sp].set_visible(False)
+    ax.grid(axis="x", alpha=.15); ax.set_title(title, fontsize=8.5)
+
+
 def panel_F(ax, pm, fr, cap, title, show_legend):
     for org in ("US", "CN"):
         s = pm[pm.origin == org]
@@ -166,6 +198,7 @@ def main():
     style()
     lv = pd.read_csv(SRC["A_levels"]); dl = pd.read_csv(SRC["A_delta"]); B = pd.read_csv(SRC["B"])
     cells = pd.read_csv(SRC["C_cells"]); tp = pd.read_csv(SRC["C_t"]); DE = pd.read_csv(SRC["DE"])
+    Bps = pd.read_csv(SRC["B_ps"]); Btest = pd.read_csv(SRC["B_test"])
     pm = pd.read_csv(SRC["F_pm"]); gl = pd.read_csv(SRC["F_glmm"]); cap = pd.read_csv(SRC["cap"])
     # Nico (18/09): "D y E tienen que tener el mismo ancho [...] que F sea más alta"; después: "prefiero mismo ancho [total]; y sus
     # números intracelda casi no se ven, pueden ser todos más grandes". D y E ocupan las mismas 12 columnas (misma anchura total;
@@ -174,18 +207,22 @@ def main():
     fig = plt.figure(figsize=(18, 16))
     gs = fig.add_gridspec(3, 20, height_ratios=[1.0, .8, .8], left=.05, right=.99, top=.95, bottom=.05, hspace=.4, wspace=1.3)
     axA = fig.add_subplot(gs[0, 0:7]); axB = fig.add_subplot(gs[0, 7:13]); axC = fig.add_subplot(gs[0, 13:20])
-    panel_A(axA, lv, dl); panel_B(axB, B); panel_C(axC, cells, tp)
+    panel_A(axA, lv, dl); panel_B(axB, B, Bps, Btest); panel_C(axC, cells, tp)
     letter(axA, "A", -40); letter(axB, "B", -44); letter(axC, "C", -40)
-    axD = fig.add_subplot(gs[1, 0:12]); axE = fig.add_subplot(gs[2, 0:12])
+    axD = fig.add_subplot(gs[1, 0:11]); axE = fig.add_subplot(gs[2, 0:11])
     heat(axD, fig, DE[DE.dim == "context"], CONTEXTS, MODES, "Sesgo hacia la IA por contexto y modo · * y borde = distinto de cero (q < 0,05, BH sobre las celdas)", cbar=False)
     letter(axD, "D", -95)
     imE = heat(axE, fig, DE[DE.dim == "domain"], DOMAINS, ["he", "de", "pg"], "Sesgo hacia la IA por dominio y modo (el control no tiene dominio) · misma escala que D", cbar=False)
     letter(axE, "E", -95)
+    # Nico (19/09): barras a la derecha de cada heatmap con cuántas celdas de cada fila son significativas por sí solas
+    axDk = fig.add_subplot(gs[1, 11:13]); axEk = fig.add_subplot(gs[2, 11:13])
+    count_bars(axDk, DE[DE.dim == "context"], CONTEXTS, MODES, "celdas con q < 0,05")
+    count_bars(axEk, DE[DE.dim == "domain"], DOMAINS, ["he", "de", "pg"], "celdas con q < 0,05")
     # una sola barra de color, horizontal, en un eje inset debajo de E (los insets no entran en el layout: no cambia el ancho de D ni E)
     cax = axE.inset_axes([.3, -.34, .4, .05])
     cb = fig.colorbar(imE, cax=cax, orientation="horizontal")
     cb.set_label("sesgo hacia la IA (+ = hacia rechazar a la IA)", fontsize=8.5); cb.ax.tick_params(labelsize=8)
-    gsF = gs[1:3, 13:20].subgridspec(2, 1, hspace=.2)
+    gsF = gs[1:3, 14:20].subgridspec(2, 1, hspace=.2)
     axF1 = fig.add_subplot(gsF[0, 0]); axF2 = fig.add_subplot(gsF[1, 0], sharex=axF1, sharey=axF1)
     pool = gl[(gl.run == "pooled")]
     panel_F(axF1, pm[pm.set == "power_shifting_mean_of_modes"], pool[pool.set == "power_shifting"].set_index("quantity"), cap, "Capacidad · power-shifting (he + de + pg)", True)
@@ -199,7 +236,7 @@ def main():
     res = report.Result(
         NAME, "Figura 4 completa (compuesta)",
         "Ensamblado de A (niveles humano / IA con el IC del Δ pareado), B (dirección de los desacuerdos), C (escala: individual vs sociedad), "
-        "D y E (heatmaps de contexto y dominio) y F (capacidad, power-shifting vs control, recta del GLMM). Sin cálculos nuevos.",
+        "B con la quinta barra de power shifting pooled y el test power shifting − control (bloque 76, pedido de Nico el 19/09), D y E (heatmaps de contexto y dominio, con el conteo de celdas significativas por modo al lado, pedido de Nico el 19/09) y F (capacidad, power-shifting vs control, recta del GLMM). Sin cálculos nuevos.",
         status="figura compuesta; aprobada panel por panel por Nico (18/09)")
     res.inputs([str(p.relative_to(ROOT)) for p in SRC.values()])
     res.data("Tablas de los bloques 54, 56, 59, 60 y 64 (todos sobre las filas del bloque 22); índice de capacidad del bloque 30.")
