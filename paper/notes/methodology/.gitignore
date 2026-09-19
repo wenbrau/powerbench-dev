@@ -1,0 +1,11 @@
+# LaTeX build artifacts of the standalone methodology drafts
+*.pdf
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.toc
+*.bbl
+*.blg

@@ -1,0 +1,34 @@
+# latexmk configuration for the standalone methodology draft.
+#
+# methodology.tex uses the ICLR style files in paper/iclr2027/Formato Latex Oficial/
+# and deliberately keeps no copies here (see the header of methodology.tex). Setting
+# TEXINPUTS by hand works from a terminal, but an editor that simply runs
+# "latexmk methodology.tex" -- VS Code / LaTeX Workshop, Overleaf-style tooling --
+# never sees it and fails with "File `iclr2027_conference.sty' not found".
+#
+# latexmk reads this file automatically whenever it runs with this folder as the
+# working directory, so the style path is set for every caller without any
+# per-machine configuration.
+
+use Cwd qw(abs_path);
+use File::Spec;
+
+# latexmk only picks up ./latexmkrc, so the current directory is this folder.
+my $styles = abs_path(
+    File::Spec->catdir(abs_path('.'), '..', '..', 'iclr2027', 'Formato Latex Oficial')
+);
+
+if (defined $styles && -d $styles) {
+    # ';' on Windows, ':' elsewhere. Leaving the list ending in a separator makes
+    # TeX append its own default search path rather than replacing it.
+    my $sep = ($^O =~ /MSWin/i) ? ';' : ':';
+    $ENV{TEXINPUTS} = $styles . $sep . ($ENV{TEXINPUTS} // '');
+    $ENV{BIBINPUTS} = $styles . $sep . ($ENV{BIBINPUTS} // '');
+    $ENV{BSTINPUTS} = $styles . $sep . ($ENV{BSTINPUTS} // '');
+}
+else {
+    warn "latexmkrc: ICLR style folder not found (looked in "
+        . (defined $styles ? $styles : '<unresolved>') . ")\n";
+}
+
+1;
