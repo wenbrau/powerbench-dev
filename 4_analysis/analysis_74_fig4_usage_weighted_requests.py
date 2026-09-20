@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Bloque 74 — Figura 4, pedido típico revisado: OR marginal de refusal IA vs humano con pesos por PEDIDOS, power shifting
-pooled, por origen del modelo, y permutación como test con el bootstrap como barra.
+pooled, por origen del modelo; IC y q del MISMO bootstrap sobre prompts (regla del 20/09).
 
 Decisión de Nico (19/09): "la ponderación por pedido me parece mejor, queda eso"; "bootstrap para barra, permutación para
 test; hacé los tres que faltan". Gemelo de los bloques 72 (Figura 2 D) y 73 (Figura 3 B) para la Figura 4.
+Revisión 20/09 (Wendy): para todo lo pesado por uso, IC y q salen del MISMO bootstrap sobre prompts (p por inversión del IC,
+BH dentro de la familia); la permutación queda calculada en las tablas como referencia pero ya no da las estrellas ni las q
+de las figuras (`boot_q` en vez de `perm_q`). Mismo cambio que en el panel B de idiomas y el panel C de países.
 
 Mismo estimador que el bloque 63: por grupo, tasa de refusal de cada condición (humano = D1 inglés, IA = D3) por modelo,
 media pesada por uso, UN log-OR = logit(tasa IA) − logit(tasa humano). Es un OR MARGINAL (sección F de DECISIONES), no
@@ -166,11 +169,11 @@ def main():
     wt = wt.sort_values("share_requests", ascending=False)
 
     res = report.Result(
-        NAME, "Figura 4, pedido típico revisado: OR marginal IA vs humano, pesos por pedidos, power shifting pooled, por origen, bootstrap y permutación",
+        NAME, "Figura 4, pedido típico revisado: OR marginal IA vs humano, pesos por pedidos, power shifting pooled, por origen; IC y q del mismo bootstrap",
         "Para un pedido típico (tasas pesadas por la participación de cada modelo en los PEDIDOS de OpenRouter), ¿cuánto más se rechaza cuando "
         "el usuario es un agente de IA que cuando es humano? Por modo, para power shifting junto, y por origen del modelo; IC bootstrap sobre "
-        "prompts como barra, permutación humano / IA como test.",
-        status="decisión de Nico (19/09): pesos por pedidos quedan; bootstrap para la barra, permutación para el test; reemplaza al bloque 63 y a la tabla ponderada de fig4_working")
+        "prompts como barra y, del mismo bootstrap, el p (inversión del IC) y la q de BH.",
+        status="20/09 (Wendy): IC y q del mismo bootstrap (regla para todo lo pesado por uso); antes (Nico, 19/09) bootstrap para la barra y permutación para el test. Reemplaza al bloque 63 y a la tabla ponderada de fig4_working")
     res.inputs([str(SRC.relative_to(ROOT)), str(USAGE.relative_to(ROOT))])
     res.data(f"Filas válidas del bloque 22 (24 modelos, {len(d):,} filas; pares humano / IA por prompt y modelo). Pesos: pedidos y tokens por modelo en "
              f"OpenRouter del 2026-08-18 al 2026-09-16, foto del 2026-09-17; n_eff por pedidos {neff[('requests', 'all')]:.1f} (US "
@@ -180,8 +183,8 @@ def main():
                "el mismo estimador con los pesos renormalizados dentro de US y dentro de CN.")
     res.method(f"Bootstrap sobre prompts: B = {B_BOOT}, semilla {SEED_BOOT} y orden de sorteos del bloque 63 (los IC por tokens de los 4 modos coinciden "
                "con ese bloque), mismos índices para los 24 modelos y para todos los juegos de pesos, estratificado por modo en el pooled; modelos y "
-               "pesos fijos; IC percentil 95 % (la barra) y p bilateral 2 · min(cola) como referencia (boot_p).")
-    res.method(f"Permutación (el test): intercambio al azar del veredicto humano y el veredicto IA de cada (modelo, prompt), independiente; B = {B_PERM:,}, "
+               "pesos fijos; IC percentil 95 % (la barra) y p bilateral 2 · min(cola) por inversión del IC (boot_p): ES EL TEST; su q de BH (boot_q) es la que dibujan las figuras.")
+    res.method(f"Permutación (referencia, ya no da las estrellas; 20/09): intercambio al azar del veredicto humano y el veredicto IA de cada (modelo, prompt), independiente; B = {B_PERM:,}, "
                f"semilla {SEED_PERM}; p bilateral = (1 + #{{|T*| ≥ |T|}}) / (B + 1), para el log-OR (perm_p) y para la diferencia en pp (pp_perm_p).")
     res.method("BH dentro de cada familia = los 4 modos de un mismo conjunto de modelos (24, US, CN) y juego de pesos; el pooled es un test solo "
                "(q = p). Familia elegida por Claude; anotada en DECISIONES_A_REVISAR.md.")
@@ -192,8 +195,8 @@ def main():
               "paper la tabla 'ponderando por uso' de fig4_working (cuaderno, 18/09).")
     res.table("weights", wt, "Participación de cada modelo en tokens y en pedidos (30 días).", show=False)
     for _, r in req.iterrows():
-        res.stat(f"typical_request_or_{r.group}", r.odds_ratio, r.boot_lo, r.boot_hi, p=r.perm_p, unit="OR",
-                 note=f"pesos por pedidos; pp {r.pp:+.1f} [{r.pp_boot_lo:+.1f}, {r.pp_boot_hi:+.1f}]; perm_q {r.perm_q:.3f}")
+        res.stat(f"typical_request_or_{r.group}", r.odds_ratio, r.boot_lo, r.boot_hi, p=r.boot_p, unit="OR",
+                 note=f"pesos por pedidos; pp {r.pp:+.1f} [{r.pp_boot_lo:+.1f}, {r.pp_boot_hi:+.1f}]; boot_q {r.boot_q:.3f} (perm_q {r.perm_q:.3f})")
 
     # ------------------------------------------------------------------ figuras
     def fmt_q(q):
@@ -204,7 +207,7 @@ def main():
     ax.bar(x, t.odds_ratio - 1, bottom=1, width=.6, color=[MODE_COLORS[g] for g in GROUPS], alpha=.9, zorder=2)
     ax.errorbar(x, t.odds_ratio, yerr=[t.odds_ratio - t.boot_lo, t.boot_hi - t.odds_ratio], fmt="none", ecolor="#222", elinewidth=1.2, capsize=4, zorder=3)
     for xi, (_, r) in zip(x, t.iterrows()):
-        ax.text(xi, r.boot_hi * 1.03, fmt_q(r.perm_q), ha="center", va="bottom", fontsize=8.5)
+        ax.text(xi, r.boot_hi * 1.03, fmt_q(r.boot_q), ha="center", va="bottom", fontsize=8.5)
     ax.axhline(1, color="black", lw=.9, ls="--", zorder=1)
     ax.set_yscale("log"); ax.set_yticks([1, 1.25, 1.5, 2, 2.5]); ax.yaxis.set_major_formatter(mticker.ScalarFormatter())
     ax.yaxis.set_minor_formatter(mticker.NullFormatter()); ax.set_ylim(.92, float(t.boot_hi.max()) * 1.25)
@@ -212,9 +215,9 @@ def main():
     ax.set_ylabel("OR marginal de refusal, usuario IA vs humano\n(tasas pesadas por pedidos)")
     ax.set_title("Figura 4 · Un pedido típico (pesos por pedidos): OR marginal IA vs humano, por modo y power shifting pooled", fontsize=9.5)
     fig.text(.01, -.02, "Barra = OR de las tasas pesadas por pedidos en OpenRouter (30 días) · barra de error = IC 95 % bootstrap sobre prompts, modelos y "
-             "pesos fijos · q = BH sobre el p de permutación dentro de los 4 modos (pooled sin corregir)", fontsize=8.5, color="#555555", ha="left", va="top")
+             "pesos fijos · q = BH sobre el p del mismo bootstrap (inversión del IC) dentro de los 4 modos (pooled sin corregir)", fontsize=8.5, color="#555555", ha="left", va="top")
     res.figure("p6_requests_typical_or", fig, "El panel 6 de la Figura 4 (bloque 63) con pesos por pedidos y el pooled de power shifting; IC bootstrap "
-               "como barra, permutación como test. OR marginal: no comparable en magnitud con los OR por modelo del GLMM (bloque 58).")
+               "como barra y q del mismo bootstrap (BH). OR marginal: no comparable en magnitud con los OR por modelo del GLMM (bloque 58).")
 
     fig, ax = plt.subplots(figsize=(9.6, 4.8), layout="constrained")
     wd = .38
@@ -223,7 +226,7 @@ def main():
         ax.bar(xo, t.odds_ratio - 1, bottom=1, width=wd, color=ORIGIN[o], alpha=.85, zorder=2, label=f"modelos {o}")
         ax.errorbar(xo, t.odds_ratio, yerr=[t.odds_ratio - t.boot_lo, t.boot_hi - t.odds_ratio], fmt="none", ecolor="#222", elinewidth=1.2, capsize=3, zorder=3)
         for xi, (_, r) in zip(xo, t.iterrows()):
-            if r.perm_q < .05:
+            if r.boot_q < .05:
                 ax.text(xi, r.boot_hi * 1.03, "*", ha="center", va="bottom", fontsize=12)
     ax.axhline(1, color="black", lw=.9, ls="--", zorder=1)
     ax.set_yscale("log"); ax.set_yticks([.8, 1, 1.25, 1.5, 2, 2.5, 3]); ax.yaxis.set_major_formatter(mticker.ScalarFormatter())
@@ -232,13 +235,13 @@ def main():
     ax.set_ylabel("OR marginal IA vs humano\n(tasas pesadas por pedidos dentro del origen)")
     ax.set_title("Figura 4 · Un pedido típico por origen del modelo (pesos por pedidos renormalizados dentro de US y de CN)", fontsize=9.5)
     res.figure("p6_requests_by_origin_or", fig, "El mismo estimador dentro de cada bloque de 12 modelos, con sus pesos renormalizados. Asterisco = "
-               "q < 0,05 de BH sobre el p de permutación dentro de los 4 modos del origen (pooled sin corregir). La diferencia US − CN no se testea aquí.")
+               "q < 0,05 de BH sobre el p del mismo bootstrap dentro de los 4 modos del origen (pooled sin corregir). La diferencia US − CN no se testea aquí.")
 
     res.note("Fuente de verdad: notebooks/PowerBench.md. Registro en 4_analysis/results/53_fig4_notelab/NARRATIVA_F4.md.")
     res.note("El bloque 63 queda como está (registro). La tabla 'ponderando por uso' de fig4_working (Wen, 18/09) usa un estimador distinto "
              "(regresión pesada con errores agrupados por prompt) y lee los pesos por tokens del bloque 40; no se tocó.")
     res.conclusion("OR marginal IA vs humano de un pedido típico con pesos por pedidos, por modo, pooled y por origen, con IC bootstrap y p de "
-                   "permutación. Lectura de Nico pendiente.")
+                   "q del mismo bootstrap (BH); la permutación queda en las tablas como referencia y coincide. Regla del 20/09 para todo lo pesado por uso.")
     out = res.write()
     prov = {"inputs": {p: file_digest(ROOT / p) for p in res._inputs}, "code": {str(Path(__file__).relative_to(ROOT)): file_digest(__file__)},
             "B_boot": B_BOOT, "seed_boot": SEED_BOOT, "B_perm": B_PERM, "seed_perm": SEED_PERM, "n_eff": {f"{k}_{o}": v for (k, o), v in neff.items()}}
