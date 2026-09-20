@@ -2915,8 +2915,6 @@ creo que ayer  escribi en el Notelab de nico pero soy wen ja
 (ayer lo que quedo en el notelab de Nico en verdad lo escribi yo -por las dudas que algo no se entienda, me avisan)
 
 Los idiomas se ordenan igual en terminos de power shifting - pero no en terminos de control. Es decis,  el orden en pg correlaciona con el orden de idioma en ps y con el orden en self emp - no, refutado con un test
-<<<<<<< HEAD
-=======
 
 ---
 
@@ -3031,4 +3029,3 @@ q 0,002 **; pg +0,08 [+0,01, +0,15] q 0,054 n.s.; control −0,07 [−0,14, +0,0
 esencial (de y pg sobre el azar, he y control no), con un matiz nuevo: con peso igual y bootstrap, pg queda en q 0,054
 (en el cuerpo, con t, q 0,010); con peso por n, pg es el más claro. `panelA_weighted_corrected.*` y
 `three_weighting_options.*` quedan como historia. Entrada del apéndice del notebook actualizada.
->>>>>>> bb80e28 (Usage/precision-weighted analyses: CI and q from the same bootstrap (BH))
