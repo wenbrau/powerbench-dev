@@ -1,0 +1,18 @@
+{
+ "name": "83_bh_fig3f_fig2b",
+ "title": "BH por familia para la Figura 3 F (capacidad, bloque 64) y la Figura 2 B (lado del usuario, bloque 45)",
+ "question": "¿Qué q lleva cada test de esos dos paneles con familia = los tests que contestan la misma pregunta dentro del panel?",
+ "status": "pedido de Nico (20/09) tras la revisión de asteriscos: 'hagamos las tres cosas'",
+ "date": "2026-09-20",
+ "commit": "741ef7c",
+ "conclusion": "Ver changed_at_q05.",
+ "inputs": [
+  "4_analysis/results/64_fig4_capability_glmm/capability_glmm.csv",
+  "4_analysis/results/45_fig3_side_combined/side_glmm.csv"
+ ],
+ "tables": [
+  "bh_families",
+  "changed_at_q05"
+ ],
+ "figures": []
+}

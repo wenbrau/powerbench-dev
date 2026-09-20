@@ -25,7 +25,8 @@ SRC = {"A": RESULTS / "55_fig3_side_excess" / "side_abs_bias_excess_summary.csv"
        "B": RESULTS / "45_fig3_side_combined" / "side_glmm.csv",
        "C": RESULTS / "73_fig3_usage_weighted_requests" / "side_or_requests.csv",
        "D": RESULTS / "46_fig3_direction_glmm" / "direction_glmm.csv",
-       "D_dyad": RESULTS / "46_fig3_direction_glmm" / "direction_glmm_by_dyad.csv"}
+       "D_dyad": RESULTS / "46_fig3_direction_glmm" / "direction_glmm_by_dyad.csv",
+       "bh83": RESULTS / "83_bh_fig3f_fig2b" / "bh_families.csv"}   # q del GLMM del lado (bloque 45), familia = los 4 modos de cada set
 SETS = ("geo", "neutral")
 DY = {"usa": ["us_ally", "us_rival", "us_neutral", "us_cn"], "china": ["cn_ally", "cn_rival", "cn_neutral", "cn_us"]}
 
@@ -61,7 +62,7 @@ CAPTION = {
         "usuario del lado USA − solo con el usuario del lado China) / discordantes; se muestra |sesgo| menos el |sesgo| esperado bajo el "
         "azar (a ~ Binomial(n, ½)), media de los 24 modelos, IC 95 % t entre modelos; q: t contra 0, BH sobre las 8 celdas. "
         "**(B)** OR de refusal con el usuario del lado USA vs del lado China, GLMM refuse ~ lado + díada + (1 + lado || modelo) + (1|prompt), "
-        "IC 95 % de Wald; q: BH sobre los 4 modos de geo (neutral es la referencia, sin q). **(C)** El mismo OR marginal de un pedido "
+        "IC 95 % de Wald; q: BH sobre los 4 modos de cada set (bloque 83). **(C)** El mismo OR marginal de un pedido "
         "típico: tasas pesadas por la participación de cada modelo en los pedidos de OpenRouter; IC 95 % bootstrap sobre prompts; q: "
         "test de permutación de lados dentro de (modelo, prompt, díada), BH dentro de los 4 modos. **(D)** Dirección: OR de refusal "
         "cuando el país es el usuario vs cuando es el afectado, GLMM refuse ~ dirección × origen + díada + (1 + dirección || modelo) + "
@@ -76,7 +77,7 @@ CAPTION = {
         "on the US side − only with the user on the China side) / discordant; shown is |bias| minus the |bias| expected under chance "
         "(a ~ Binomial(n, ½)), mean of the 24 models, 95% t CI across models; q: t against 0, BH over the 8 cells. **(B)** Refusal OR "
         "with the user on the US side vs the China side, GLMM refuse ~ side + dyad + (1 + side || model) + (1|prompt), 95% Wald CI; q: BH "
-        "over the 4 geo modes (neutral is the reference, no q). **(C)** The same marginal OR for a typical request: rates weighted by "
+        "over the 4 modes of each set. **(C)** The same marginal OR for a typical request: rates weighted by "
         "each model's share of OpenRouter requests; 95% bootstrap CI over prompts; q: permutation test of sides within (model, prompt, "
         "dyad), BH within the 4 modes. **(D)** Direction: refusal OR when the country is the user vs when it is the affected party, GLMM "
         "refuse ~ direction × origin + dyad + (1 + direction || model) + (1|prompt), 95% Wald CI; leftmost, the power's four dyads pooled, "
@@ -98,6 +99,8 @@ def load():
     C = pd.read_csv(SRC["C"]).set_index(["set", "group"])
     D = pd.read_csv(SRC["D"]); D = D[D.quantity == "direccion (24 modelos)"]
     Dd = pd.read_csv(SRC["D_dyad"]); Dd = Dd[Dd.quantity == "direccion (24 modelos)"]
+    q83 = pd.read_csv(SRC["bh83"]); q83 = q83[q83.block == 45]
+    B["q_bh"] = [float(q83[(q83.family == f"lado del usuario, set {st} (4 modos)") & (q83.test == m)].q_bh.iloc[0]) for st, m in B.index]
     return A, B, C, D, Dd
 
 
@@ -179,7 +182,7 @@ def build(lang, data):
     axB = pair(fig, g1[0, 1], t, t["b_y"], t["b_title"], True)
     axC = pair(fig, g1[0, 2], t, t["c_y"], t["c_title"], True)
     panel_a(axA, A, t, lang)
-    panel_or(axB, B, ("OR", "OR_lo", "OR_hi"), lambda st, r: bh(r.p.values) if st == "geo" else None, lang)
+    panel_or(axB, B, ("OR", "OR_lo", "OR_hi"), lambda st, r: r.q_bh.values, lang)
     panel_or(axC, C, ("odds_ratio", "boot_lo", "boot_hi"), lambda st, r: r.perm_q.values, lang)
     axD1 = fig.add_subplot(gs[1]); axD2 = fig.add_subplot(gs[2])
     panel_d(axD1, D, Dd, "usa", t, lang, True); panel_d(axD2, D, Dd, "china", t, lang, False)

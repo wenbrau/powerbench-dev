@@ -201,7 +201,9 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     Welch; permutación de las etiquetas de origen; el GLMM con la díada de dominio. Nico pidió "test estadístico" sin
     especificar cuál.
 23. **Familias BH en la Figura 4:** 4 modos (bloques 56, 57-Welch, 58); en el bloque 59 (por dimensión) no hay corrección
-    porque no hay tests, solo descriptivo.
+    porque no hay tests, solo descriptivo. **DESACTUALIZADO (corregido el 20/09):** el bloque 59 sí testea cada celda (t entre
+    modelos contra 0) y trae q = BH sobre todas las celdas de la dimensión (32 en contexto, 24 en dominio); los heatmaps D y E de
+    la figura del agente IA marcan las celdas con q < 0,05 y el conteo de celdas significativas por modo sale de esa q.
 24. **Panel 4 por dimensión (bloque 59):** el nivel se define por el prompt (escala, standing, contexto, dominio); el sesgo
     se calcula dentro del nivel por modelo y se promedian los modelos con al menos un discordante en ese nivel (los demás
     quedan fuera de esa celda). Alternativa: sumar los conteos discordantes de todos los modelos (pooled) o un GLMM con
@@ -350,3 +352,47 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     el rol B; Wald z. Elecciones: gaussiano sobre un cociente acotado (alternativa: GLMM binomial sobre los conteos a y b); los dos
     roles del idioma como interceptos separados en vez de un efecto de idioma con signo ±1 (que lme4 no expresa directamente);
     sin la interacción con el origen del modelo (no pedida). Resultado: −0,013 [−0,075; 0,050], p = 0,70.
+
+41. **Bloque 81 (20/09): concordancia del orden de idiomas entre modos.** Nico pidió "una manera de testear mejor" que las seis
+    correlaciones. Decisiones de Claude: (a) W de Kendall por modelo con corrección por empates, rankings dentro de cada modo con
+    rangos promedio; (b) Q2 como Spearman del ranking del control contra el rango medio de los tres modos de poder (alternativa:
+    W de los 4 menos W de los 3, o W de los 4 solo); (c) nulo = idiomas barajados dentro de cada modo y modelo, independiente entre
+    modos, B = 5.000, el del bloque 39; (d) test principal = exceso W − E0 por modelo con t entre los 24 (marco de modelos
+    aleatorios); el p por modelo y el conteo de modelos con p < 0,05 son descriptivos; (e) dos preguntas, sin BH entre ellas;
+    (f) los dos modelos sin swahili rankean 7 idiomas y entran igual; (g) la versión sobre las 8 medias (la pregunta original) queda
+    como referencia con p de permutación (B = 20.000). Nada de esto está en la compuesta de Wendy.
+    **Agregado (20/09):** los paneles para la figura. Bump chart: altura = posición 1..8 del rango medio de los rankings hechos dentro de cada
+    modelo (Nico eligió la versión de posiciones sobre la de rango medio, que exagera diferencias chicas pero es la que quiere); barras B1/B2:
+    media de los 24 del estadístico observado y media de su esperado bajo el nulo por modelo, ambas con IC t; el test sigue siendo la t del exceso
+    por modelo. Los asteriscos por modelo del gráfico anterior eran descriptivos; con BH sobre 24, 14/18 en Q1 y 3/9 en Q2. Flag `--reuse`
+    para redibujar sin repetir las permutaciones.
+
+42. **Bloque 82 (20/09): GLMM de idioma sobre power shifting pooled.** Nico: "podría estar bueno, y dejar constancia". Decisiones de Claude:
+    mismo modelo que el bloque 36 con las filas de los tres modos juntas y `mode` como efecto fijo (referencia pg), intercepto por modelo × idioma
+    como perfil propio de cada modelo (variante mínima sin él si no converge; convergió la completa), BH sobre los 8 idiomas. Alternativas: pendiente
+    aleatoria de idioma por modelo (8 pendientes, muy lento, descartado el 16/09 en el bloque 36), o interacción idioma × modo (otra pregunta).
+    **Panel B1/B2 del bloque 81, tercera versión (20/09):** Nico objetó que el bigote del azar de un modelo se superpusiera con la media de 24 y el
+    test diera igual; tenía razón, eran dos escalas. Ahora el panel es exceso sobre el azar por modelo con IC t y línea en cero, el formato del panel
+    B de idioma y el A de países. La versión con dos barras (observado y azar) quedó descartada.
+    **Definitiva (20/09):** B1 = Spearman medio entre los tres pares de órdenes por modelo (no la reescala del W, que con empates difiere
+    hasta 0,05), t contra 0; B2 = rho contra el consenso, t contra 0; un solo panel en rho con línea en 0. El W de Kendall y su exceso quedan en
+    la tabla como el estadístico original de Q1 (misma conclusión: 0,35 [0,27; 0,43]).
+
+43. **Figura de idiomas, versión de página v2 (20/09): familias BH elegidas por Claude.** Nico pidió BH en todos los asteriscos.
+    Familias: A = los 8 idiomas de cada modo (q del bloque 36; alternativas: 4 modos por idioma, los 32, los 24 de power shifting;
+    ver NARRATIVA_F2, pendiente de Nico); D = los 4 modos dentro de cada ponderación (alternativa: los 8 tests del panel; no cambia
+    ninguna estrella); F = los 3 tipos de par (alternativa: una familia con el corchete, 4). Consecuencia: en A quedan solo
+    swahili-he y hindi-de; en F cae CN–CN (q 0,107). Tabla: `review_fig_languages/figure_paper_v2_bh_q_values.csv`.
+    Implementación: argumento opcional `q=` en tres funciones de `figure_paper.py` de Wendy, sin cambiar su salida por defecto.
+
+44. **Bloque 83 (20/09): BH para los dos tests del cuerpo que quedaban con p crudo.** Revisión de asteriscos pedida por Nico
+    ("podés repasar las otras tres figuras a ver si alguna más está mostrando estrellas que no debería por no haber corregido
+    por BH?"): las tres estaban corregidas salvo dos anotaciones. Familias elegidas por Claude: (a) Figura 3 (agente IA) F,
+    la interacción IA × capacidad de los dos ajustes pooled, power shifting y control, como una familia de 2 (antes, dos tests
+    únicos con p; power shifting pasa de p 0,006 a q 0,012, nada cambia de estado); la diferencia de pendientes del modelo
+    apilado sigue como test único. (b) Figura 2 (países) B, el GLMM del lado del usuario, los 4 modos de cada set, geo y
+    neutral, cada uno su familia; hasta hoy la BH de geo se calculaba dentro del script de la figura (misma q) y neutral no
+    llevaba q; ahora la q está registrada en el bloque 83 y neutral la muestra también, como ya hacía el panel C (bloque 73).
+    Alternativas: F como dos tests únicos (lo anterior); B con una sola familia de 8. Consumidores actualizados:
+    paper_figures/figure3_aiagent_paper.py, analysis_65_fig4_composite.py, paper_figures/figure2_countries_paper.py,
+    review_fig_countries/figure_full_split.py (+ SRC de analysis_51). Nico: "sí, hagamos las tres cosas".

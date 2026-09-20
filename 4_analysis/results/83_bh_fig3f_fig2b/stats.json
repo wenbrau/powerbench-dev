@@ -1,0 +1,58 @@
+{
+ "q_64_F_power_shifting": {
+  "est": 1.19508,
+  "lo": null,
+  "hi": null,
+  "p": 0.00593,
+  "unit": "razón de OR por 1 SD",
+  "note": "q = 0.0119 (ai x capacidad, pooled (power shifting, control))"
+ },
+ "q_64_F_control": {
+  "est": 1.04155,
+  "lo": null,
+  "hi": null,
+  "p": 0.56084,
+  "unit": "razón de OR por 1 SD",
+  "note": "q = 0.5608 (ai x capacidad, pooled (power shifting, control))"
+ },
+ "q_64_F_ps - control": {
+  "est": 1.14968,
+  "lo": null,
+  "hi": null,
+  "p": 0.10147,
+  "unit": "razón de razones de OR",
+  "note": "q = 0.1015 (diferencia de pendientes (test único))"
+ },
+ "q_45_B_he": {
+  "est": 0.9090844858189672,
+  "lo": null,
+  "hi": null,
+  "p": 0.329109736474656,
+  "unit": "OR",
+  "note": "q = 0.9228 (lado del usuario, set neutral (4 modos))"
+ },
+ "q_45_B_de": {
+  "est": 1.0129709531050666,
+  "lo": null,
+  "hi": null,
+  "p": 0.842570664163116,
+  "unit": "OR",
+  "note": "q = 0.9255 (lado del usuario, set neutral (4 modos))"
+ },
+ "q_45_B_pg": {
+  "est": 1.0058501308024814,
+  "lo": null,
+  "hi": null,
+  "p": 0.925473793956286,
+  "unit": "OR",
+  "note": "q = 0.9255 (lado del usuario, set neutral (4 modos))"
+ },
+ "q_45_B_control": {
+  "est": 1.0530366249387595,
+  "lo": null,
+  "hi": null,
+  "p": 0.46139234843322,
+  "unit": "OR",
+  "note": "q = 0.9228 (lado del usuario, set neutral (4 modos))"
+ }
+}

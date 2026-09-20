@@ -10,9 +10,10 @@
     "4_analysis\\results\\59_fig4_by_dimension\\bias_direction_by_level.csv": "24f0f50f2d6c60ecce39e9d1a638e5ed229a96e9f09c37970078fed850ed4632",
     "4_analysis\\results\\64_fig4_capability_glmm\\capability_per_model_log_or.csv": "dbdc967d530ae9ec671c93f486019644c74aa03f139b02dad844352d70b4197b",
     "4_analysis\\results\\64_fig4_capability_glmm\\capability_glmm.csv": "8e117671395edf201712734bb95c48a54bc0868ca78793c250770d8eac4ea0a7",
+    "4_analysis\\results\\83_bh_fig3f_fig2b\\bh_families.csv": "ae259a8a7fc9e0efb7f24b0dd842577fa5f2890666349a763a5814f1d047bd3f",
     "4_analysis\\results\\30_fig1_glmm\\capability_index.csv": "1343e6f2b010925df4bc5bc80d774c35fd68046ebca8ac86b8f56534fd3ca76b"
   },
   "code": {
-    "4_analysis\\analysis_65_fig4_composite.py": "0211ed77c3190ef6a6b8ecfbf71fb820c5f422e953abc40e53f60fefe7911c65"
+    "4_analysis\\analysis_65_fig4_composite.py": "d732c8ece48db68def10e871fc33e167340e4aac7800b41f9c5adc1c7aedf949"
   }
 }

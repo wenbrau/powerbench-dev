@@ -29,7 +29,8 @@ SRC = {"A_levels": RESULTS / "54_fig4_levels_box" / "levels_pooled.csv", "A_delt
        "C_cells": RESULTS / "60_fig4_ai_level_glmm" / "scale_4x2_cells.csv", "C_t": RESULTS / "60_fig4_ai_level_glmm" / "bias_direction_paired_t.csv",
        "DE": RESULTS / "59_fig4_by_dimension" / "bias_direction_by_level.csv",
        "F_pm": RESULTS / "64_fig4_capability_glmm" / "capability_per_model_log_or.csv", "F_glmm": RESULTS / "64_fig4_capability_glmm" / "capability_glmm.csv",
-       "cap": RESULTS / "30_fig1_glmm" / "capability_index.csv"}
+       "cap": RESULTS / "30_fig1_glmm" / "capability_index.csv",
+       "bh83": RESULTS / "83_bh_fig3f_fig2b" / "bh_families.csv"}   # q de la interacción IA × capacidad (familia = power shifting y control)
 CONTEXTS = ["Academia", "Diplomacy", "Fiction", "Government", "Interpersonal", "Markets", "Media", "Work"]
 DOMAINS = ["Attentional", "Epistemic", "Legal", "Physical", "Rank", "Status", "Wealth"]
 BAR = {"human": ("#CFCFCF", "#6E6E6E"), "ai": ("#7A7A7A", "#1F1F1F")}
@@ -42,7 +43,7 @@ TXT = {
                d_title="Sesgo hacia la IA por contexto y modo", e_title="Sesgo hacia la IA por dominio y modo",
                cnt="celdas\nq < 0,05", cb="sesgo hacia la IA (+ = hacia rechazar a la IA)",
                f1_title="Capacidad · power shift.", f2_title="Capacidad · control", f_y="log-OR de refusal IA vs humano",
-               f_x="índice de capacidad (%)", f_box="razón de OR por SD\n{r} [{lo}; {hi}], p = {p}", sing="ajuste singular",
+               f_x="índice de capacidad (%)", f_box="razón de OR por SD\n{r} [{lo}; {hi}], q = {p}", sing="ajuste singular",
                us="modelo US", cn="modelo CN", line="recta del GLMM"),
     "en": dict(a_title="Human vs AI refusal", a_y="Refusal (%) · mean of 24 models", human="human user (D1)", ai="AI user (D3)",
                b_title="Disagreement direction", b_y="bias toward the AI · mean of 24", b_up="▲ toward refusing the AI",
@@ -51,7 +52,7 @@ TXT = {
                d_title="Bias toward the AI by context and mode", e_title="Bias toward the AI by domain and mode",
                cnt="cells\nq < 0.05", cb="bias toward the AI (+ = toward refusing the AI)",
                f1_title="Capability · power shift.", f2_title="Capability · control", f_y="log-OR of refusal, AI vs human",
-               f_x="capability index (%)", f_box="OR ratio per SD\n{r} [{lo}; {hi}], p = {p}", sing="singular fit",
+               f_x="capability index (%)", f_box="OR ratio per SD\n{r} [{lo}; {hi}], q = {p}", sing="singular fit",
                us="US model", cn="CN model", line="GLMM line"),
 }
 
@@ -68,7 +69,7 @@ CAPTION = {
         "cero (q < 0,05, BH sobre las celdas del heatmap); barras a la derecha: celdas significativas por modo. **(F)** Por modelo, "
         "log-OR de refusal IA vs humano (media de los tres modos de power shifting; control aparte) con IC 95 % contra el índice de "
         "capacidad; recta: GLMM refuse ~ IA × capacidad + (1 + IA || modelo) + (1|prompt), marginalizada sobre prompts; recuadro: razón "
-        "de OR por SD de capacidad y su p."
+        "de OR por SD de capacidad y su q (BH sobre los dos ajustes, power shifting y control; bloque 83)."
     ),
     "en": (
         "**Bias toward an AI-agent user (D3 vs D1).** 24 models (12 US / 12 CN); D3 = the D1-English prompts recast with an AI-agent "
@@ -81,7 +82,7 @@ CAPTION = {
         "the 4 modes. **(D, E)** The bias by context and by domain; asterisk and border: different from zero (q < 0.05, BH over the "
         "heatmap cells); bars on the right: significant cells per mode. **(F)** Per model, log-OR of refusal AI vs human (mean of the "
         "three power-shifting modes; control apart) with 95% CI against the capability index; line: GLMM refuse ~ AI × capability + "
-        "(1 + AI || model) + (1|prompt), marginalised over prompts; box: OR ratio per SD of capability and its p."
+        "(1 + AI || model) + (1|prompt), marginalised over prompts; box: OR ratio per SD of capability and its q (BH over the two fits, power shifting and control)."
     ),
 }
 
@@ -185,7 +186,7 @@ def count_bars(ax, k, n_levels, modes, title):
     ax.grid(axis="x", alpha=.15); ax.set_title(title, fontsize=F_TINY, fontweight="normal")
 
 
-def panel_f(ax, pm, fr, cap, title, t, lang, show_legend):
+def panel_f(ax, pm, fr, cap, title, t, lang, show_legend, q):
     for org in ("US", "CN"):
         s = pm[pm.origin == org]
         ax.errorbar(s.capability, s.log_or, yerr=1.96 * s.se, fmt="o", color=ORIGIN[org], ecolor=ORIGIN[org], elinewidth=.5, alpha=.75, ms=2.2, capsize=1, zorder=3)
@@ -196,7 +197,7 @@ def panel_f(ax, pm, fr, cap, title, t, lang, show_legend):
     ax.plot(xs, (ai.estimate + it.estimate * zs) / att, color="#222222", lw=1.1, zorder=4)
     ax.axhline(0, color="black", lw=.5, ls=":", zorder=1); ax.grid(alpha=.15)
     ax.set_title(title)
-    ax.text(.03, .03, t["f_box"].format(r=num(it.OR_or_ratio, 2, lang), lo=num(it.lo, 2, lang), hi=num(it.hi, 2, lang), p=num(it.p, 3, lang)) + (f" · {t['sing']}" if bool(it.singular) else ""),
+    ax.text(.03, .03, t["f_box"].format(r=num(it.OR_or_ratio, 2, lang), lo=num(it.lo, 2, lang), hi=num(it.hi, 2, lang), p=num(q, 3, lang)) + (f" · {t['sing']}" if bool(it.singular) else ""),
             transform=ax.transAxes, ha="left", va="bottom", fontsize=F_TINY, bbox=dict(boxstyle="round,pad=.25", fc="white", ec="#CCCCCC", lw=.4))
     ax.set_ylabel(t["f_y"])
     if show_legend:
@@ -222,8 +223,9 @@ def build(lang, d):
     cb = fig.colorbar(imE, cax=cax, orientation="horizontal", ticks=[-1, -.5, 0, .5, 1])
     cb.set_label(t["cb"], fontsize=F_TINY, labelpad=1); cb.ax.tick_params(labelsize=F_TINY, width=.4, length=1.5, pad=1); cb.outline.set_linewidth(.4)
     gl = d["F_glmm"]; pool = gl[gl.run == "pooled"]; pm = d["F_pm"]
-    panel_f(axF1, pm[pm.set == "power_shifting_mean_of_modes"], pool[pool.set == "power_shifting"].set_index("quantity"), d["cap"], t["f1_title"], t, lang, True)
-    panel_f(axF2, pm[pm.set == "control"], pool[pool.set == "control"].set_index("quantity"), d["cap"], t["f2_title"], t, lang, False)
+    q83 = d["bh83"]; q83 = q83[(q83.block == 64) & (q83.n_family == 2)].set_index("test").q_bh
+    panel_f(axF1, pm[pm.set == "power_shifting_mean_of_modes"], pool[pool.set == "power_shifting"].set_index("quantity"), d["cap"], t["f1_title"], t, lang, True, float(q83["power_shifting"]))
+    panel_f(axF2, pm[pm.set == "control"], pool[pool.set == "control"].set_index("quantity"), d["cap"], t["f2_title"], t, lang, False, float(q83["control"]))
     axF2.set_xlabel(t["f_x"]); axF1.tick_params(labelbottom=False)
     ylo = min(axF1.get_ylim()[0], axF2.get_ylim()[0]); yhi = max(axF1.get_ylim()[1], axF2.get_ylim()[1])
     for a in (axF1, axF2):

@@ -1,6 +1,6 @@
 # Figura 4 completa (compuesta)
 
-*figura compuesta; aprobada panel por panel por Nico (18/09) · 2026-09-19 · commit `8e2ad92` · `65_fig4_composite`*
+*figura compuesta; aprobada panel por panel por Nico (18/09) · 2026-09-20 · commit `741ef7c` · `65_fig4_composite`*
 
 ## Question
 
@@ -22,6 +22,7 @@ Input files:
 - `4_analysis/results/59_fig4_by_dimension/bias_direction_by_level.csv`
 - `4_analysis/results/64_fig4_capability_glmm/capability_per_model_log_or.csv`
 - `4_analysis/results/64_fig4_capability_glmm/capability_glmm.csv`
+- `4_analysis/results/83_bh_fig3f_fig2b/bh_families.csv`
 - `4_analysis/results/30_fig1_glmm/capability_index.csv`
 
 ## Method

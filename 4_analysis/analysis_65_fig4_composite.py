@@ -48,6 +48,7 @@ SRC = {"A_levels": R / "54_fig4_levels_box" / "levels_pooled.csv", "A_delta": R 
        "C_cells": R / "60_fig4_ai_level_glmm" / "scale_4x2_cells.csv", "C_t": R / "60_fig4_ai_level_glmm" / "bias_direction_paired_t.csv",
        "DE": R / "59_fig4_by_dimension" / "bias_direction_by_level.csv",
        "F_pm": R / "64_fig4_capability_glmm" / "capability_per_model_log_or.csv", "F_glmm": R / "64_fig4_capability_glmm" / "capability_glmm.csv",
+       "bh83": R / "83_bh_fig3f_fig2b" / "bh_families.csv",
        "cap": R / "30_fig1_glmm" / "capability_index.csv"}
 MODES = ["he", "de", "pg", "control"]
 LABELS = {"he": "Self-empowerment", "de": "Disempowerment", "pg": "Power grabbing", "control": "Control"}
@@ -175,7 +176,7 @@ def count_bars(ax, s, levels, modes, title):
     ax.grid(axis="x", alpha=.15); ax.set_title(title, fontsize=8.5)
 
 
-def panel_F(ax, pm, fr, cap, title, show_legend):
+def panel_F(ax, pm, fr, cap, title, show_legend, q):
     for org in ("US", "CN"):
         s = pm[pm.origin == org]
         ax.errorbar(s.capability, s.log_or, yerr=1.96 * s.se, fmt="o", color=ORIGIN[org], ecolor=ORIGIN[org], elinewidth=.8, alpha=.75, ms=4.5, capsize=2, zorder=3)
@@ -186,7 +187,7 @@ def panel_F(ax, pm, fr, cap, title, show_legend):
     ax.plot(xs, (ai.estimate + it.estimate * zs) / att, color="#222222", lw=1.8, zorder=4)
     ax.axhline(0, color="black", lw=.8, ls=":", zorder=1); ax.grid(alpha=.15)
     ax.set_title(title, fontsize=9.5)
-    ax.text(.03, .03, (f"GLMM: razón de OR por SD {it.OR_or_ratio:.2f} [{it.lo:.2f}; {it.hi:.2f}]\np = {it.p:.3f}" + ("  ·  ajuste singular" if bool(it.singular) else "")).replace(".", ","),
+    ax.text(.03, .03, (f"GLMM: razón de OR por SD {it.OR_or_ratio:.2f} [{it.lo:.2f}; {it.hi:.2f}]\nq = {q:.3f}" + ("  ·  ajuste singular" if bool(it.singular) else "")).replace(".", ","),
             transform=ax.transAxes, ha="left", va="bottom", fontsize=7.5, bbox=dict(boxstyle="round,pad=.3", fc="white", ec="#CCCCCC"))
     ax.set_xlabel("índice de capacidad (GPQA-D + MMLU-Pro, %)", fontsize=8.5)
     if show_legend:
@@ -225,8 +226,9 @@ def main():
     gsF = gs[1:3, 14:20].subgridspec(2, 1, hspace=.2)
     axF1 = fig.add_subplot(gsF[0, 0]); axF2 = fig.add_subplot(gsF[1, 0], sharex=axF1, sharey=axF1)
     pool = gl[(gl.run == "pooled")]
-    panel_F(axF1, pm[pm.set == "power_shifting_mean_of_modes"], pool[pool.set == "power_shifting"].set_index("quantity"), cap, "Capacidad · power-shifting (he + de + pg)", True)
-    panel_F(axF2, pm[pm.set == "control"], pool[pool.set == "control"].set_index("quantity"), cap, "Capacidad · control", False)
+    q83 = pd.read_csv(SRC["bh83"]); q83 = q83[(q83.block == 64) & (q83.n_family == 2)].set_index("test").q_bh   # bloque 83: BH sobre power shifting y control
+    panel_F(axF1, pm[pm.set == "power_shifting_mean_of_modes"], pool[pool.set == "power_shifting"].set_index("quantity"), cap, "Capacidad · power-shifting (he + de + pg)", True, float(q83["power_shifting"]))
+    panel_F(axF2, pm[pm.set == "control"], pool[pool.set == "control"].set_index("quantity"), cap, "Capacidad · control", False, float(q83["control"]))
     axF1.tick_params(labelbottom=False); axF1.set_xlabel("")
     for a in (axF1, axF2):
         a.set_ylabel("log-OR de refusal IA vs humano por modelo (IC 95 %)", fontsize=8.5)

@@ -54,7 +54,7 @@ SRC = {"A": R / "55_fig3_side_excess" / "side_abs_bias_excess_summary.csv",   # 
        "B": R / "45_fig3_side_combined" / "side_glmm.csv",                    # 19/09: nueva B, el GLMM del lado sin pesar por uso
        "C": R / "73_fig3_usage_weighted_requests" / "side_or_requests.csv",   # 19/09: antes B; antes 45/side_estimators.csv (logOR_uso, tokens)
        "D": R / "46_fig3_direction_glmm" / "direction_glmm.csv",             # 19/09: antes C con el bloque 52 (solo díadas de rivalidad); ahora las 4 díadas por potencia
-       "D_dyad": R / "46_fig3_direction_glmm" / "direction_glmm_by_dyad.csv"}  # 19/09: cada díada al lado del conjunto (Nico)
+       "D_dyad": R / "46_fig3_direction_glmm" / "direction_glmm_by_dyad.csv", "bh83": R / "83_bh_fig3f_fig2b" / "bh_families.csv"}  # 19/09: cada díada al lado del conjunto (Nico)
 MODES4 = ("he", "de", "pg", "control")
 MODES3 = ("he", "de", "pg", "control")   # self-empowerment agregado a la dirección el 18/09 a pedido de Nico
 LABELS = {"he": "Self-empowerment", "de": "Disempowerment", "pg": "Power grabbing", "control": "Control"}

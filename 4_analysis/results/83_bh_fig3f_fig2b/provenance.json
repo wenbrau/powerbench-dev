@@ -1,0 +1,9 @@
+{
+  "inputs": {
+    "4_analysis/results/64_fig4_capability_glmm/capability_glmm.csv": "8e117671395edf201712734bb95c48a54bc0868ca78793c250770d8eac4ea0a7",
+    "4_analysis/results/45_fig3_side_combined/side_glmm.csv": "3e267d3edf0360c6b572d663599f99c65b759c2d44dbef9c2cbdf3520a7073a9"
+  },
+  "code": {
+    "4_analysis\\analysis_83_bh_fig3f_fig2b.py": "7a52a308880754485354603c48b080b36ac46f8134d9f1c17b673010d31f4fc6"
+  }
+}

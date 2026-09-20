@@ -1251,3 +1251,13 @@ en subpaneles separados y una barra por modo con el color del modo. Sus chequeos
 pesado por discordantes por modelo (no cambia), USA / China y aliados por separado, logit de efectos fijos con errores
 agrupados contra el GLMM aprobado en B (misma conclusión), forests por modelo y por subgrupo. La compuesta del bloque 51 queda
 como registro de la versión anterior.
+
+## 20/09 — panel B: la q queda registrada, y neutral también la muestra (bloque 83)
+
+Revisión de asteriscos de las cuatro figuras (Nico, 20/09). El panel B (GLMM del lado del usuario, bloque 45) anotaba q en el set
+geo, pero esa BH se calculaba dentro del script de la figura y no estaba en ninguna tabla; el set neutral no llevaba q. Ahora el
+bloque 83 registra la q con familia = los 4 modos de cada set (geo: he 0,085, de 0,023, pg 0,099, control 0,16; neutral: todas
+> 0,9) y las dos versiones de la figura (`review_fig_countries/figure_full_split.py`, la oficial, y
+`paper_figures/figure2_countries_paper.py`) la leen de ahí y la anotan en los dos sets, como ya hacía el panel C (bloque 73).
+Los números de geo son los mismos que se veían; lo único nuevo en la figura son las q de neutral. Caption actualizado. DECISIONES
+punto 44.

@@ -81,10 +81,12 @@ def main():
 
     # ---------------------------------------------------------------- B: GLMM del lado, geo | neutral
     sg = B[B.quantity == "lado (24 modelos)"].set_index(["set", "mode"])
+    q83 = pd.read_csv(SRC["bh83"]); q83 = q83[q83.block == 45]   # bloque 83: BH sobre los 4 modos de cada set (antes: BH de geo calculada acá, neutral sin q)
+    sg["q_bh"] = [float(q83[(q83.family == f"lado del usuario, set {st} (4 modos)") & (q83.test == m)].q_bh.iloc[0]) for st, m in sg.index]
     split_panel(fig, gs[0, 5:9], {st: sg.loc[st] for st, _, _ in SETS},
                 "OR de refusal, usuario lado USA vs lado China" + NL + "(GLMM, modelos aleatorios, IC 95 % de Wald)",
                 "Efecto del lado del usuario, sin pesar por uso", "B",
-                q_of=lambda st, r: bh(r.p.values) if st == "geo" else None, ci_cols=("OR", "OR_lo", "OR_hi"))
+                q_of=lambda st, r: r.q_bh.values, ci_cols=("OR", "OR_lo", "OR_hi"))
 
     # ---------------------------------------------------------------- C: pedido típico pesado por pedidos, geo | neutral
     so = C.set_index(["set", "group"])

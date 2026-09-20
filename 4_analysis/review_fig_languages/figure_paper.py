@@ -181,7 +181,8 @@ def letter(ax, s, dx=-14, dy=4):
 
 
 # ---------------------------------------------------------------- A1 (panelA/panelA_final_glmm.py)
-def panel_a1(ax, d, t):
+def panel_a1(ax, d, t, q=None):
+    """q: opcional, {(mode, lang): q de BH} para las estrellas (figure_paper_v2.py, Nico 20/09); sin q, p crudo como hasta ahora."""
     per_model = d.groupby(["mode", "lang", "model"]).refuse.mean().reset_index()
     rate = per_model.groupby(["mode", "lang"]).refuse.mean().mul(100)
     bl = pd.read_csv(GLMM36 / "glmm_language_by_language.csv")
@@ -204,7 +205,7 @@ def panel_a1(ax, d, t):
         xk = x + (k - 1.5) * w
         rr = np.array([rate[(mode, l)] for l in order])
         dv = np.array([G[(mode, l)]["dev"] for l in order]); lo = np.array([G[(mode, l)]["lo"] for l in order])
-        hi = np.array([G[(mode, l)]["hi"] for l in order]); pv = np.array([G[(mode, l)]["p"] for l in order])
+        hi = np.array([G[(mode, l)]["hi"] for l in order]); pv = np.array([q[(mode, l)] if q else G[(mode, l)]["p"] for l in order])
         ax.bar(xk, rr, width=w, color=MODE_COLORS[mode], alpha=.85, label=MODE_LABEL[mode], zorder=2)
         ax.axhline(np.mean([rate[(mode, l)] for l in LANGS8]), color=MODE_COLORS[mode], lw=.6, ls="--", alpha=.9, zorder=1)
         ax.errorbar(xk, rr, yerr=[np.clip(dv - lo, 0, None), np.clip(hi - dv, 0, None)], fmt="none", ecolor="#222",
@@ -246,7 +247,8 @@ def panel_a2(ax, fig, t):
 
 
 # ---------------------------------------------------------------- B (panelB/panelB_weighted_requests.py :: plot)
-def panel_b(ax, t):
+def panel_b(ax, t, q=None):
+    """q: opcional, {(mode, "eq"|"wt"): q de BH} para las estrellas (figure_paper_v2.py); sin q, p de permutación crudo."""
     tab = pd.read_csv(TB).set_index("mode").loc[list(MODES)]
     x = np.arange(len(MODES)); wb = .38
     eq, eqlo, eqhi = np.exp(tab.excess_eq), np.exp(tab.eq_lo), np.exp(tab.eq_hi)
@@ -259,8 +261,8 @@ def panel_b(ax, t):
     ax.axhline(1, color="k", lw=.6, ls="--", zorder=1)
     for xi, m in zip(x, MODES):
         r = tab.loc[m]
-        ax.text(xi - wb / 2, np.exp(r.eq_hi) * 1.03, stars(r.p_perm_eq), ha="center", va="bottom", fontsize=F_BASE)
-        ax.text(xi + wb / 2, np.exp(r.wt_hi_bc) * 1.03, stars(r.p_perm_wt), ha="center", va="bottom", fontsize=F_BASE)
+        ax.text(xi - wb / 2, np.exp(r.eq_hi) * 1.03, stars(q[(m, "eq")] if q else r.p_perm_eq), ha="center", va="bottom", fontsize=F_BASE)
+        ax.text(xi + wb / 2, np.exp(r.wt_hi_bc) * 1.03, stars(q[(m, "wt")] if q else r.p_perm_wt), ha="center", va="bottom", fontsize=F_BASE)
     ax.set_yscale("log"); ax.set_yticks([.5, .7, 1, 1.5, 2, 3, 4]); ax.yaxis.set_major_formatter(mticker.ScalarFormatter())
     ax.yaxis.set_minor_formatter(mticker.NullFormatter())
     top = max(eqhi.max(), wthi.max()); ax.set_ylim(min(.85, wtlo.min() * .92), top * 1.35)
@@ -281,7 +283,8 @@ def rank_corr(R):
     return K @ K.T
 
 
-def panel_c(ax, d, t):
+def panel_c(ax, d, t, q=None):
+    """q: opcional, {tipo de par: q de BH} para las estrellas del recuadro (figure_paper_v2.py); sin q, p de permutación crudo."""
     origin = d.drop_duplicates("model").set_index("model").origin
     cap = pd.read_csv(CAPS).set_index("model")["index"]
     models = sorted(origin.index, key=lambda m: (origin[m] != "CN", -cap[m]))
@@ -335,7 +338,7 @@ def panel_c(ax, d, t):
     hi = max(.5, max(S[k].null_hi for k in KINDS), max(obs) + .05)
     for i, k in enumerate(KINDS):
         y = obs[i]; va = "bottom" if y >= 0 else "top"; off = .012 if y >= 0 else -.012
-        axb.text(i, y + off, stars(S[k].p, "ns"), ha="center", va=va, fontsize=F_SMALL, fontweight="bold")
+        axb.text(i, y + off, stars(q[k] if q else S[k].p, "ns"), ha="center", va=va, fontsize=F_SMALL, fontweight="bold")
     span = hi - lo; yb = hi - .06 * span; tick = .018 * span
     axb.plot([0, 0, 1, 1], [yb - tick, yb, yb, yb - tick], color="#222", lw=.5)
     axb.plot([0.5, 0.5, 2, 2], [yb, yb + tick, yb + tick, yb - tick], color="#222", lw=.5)
