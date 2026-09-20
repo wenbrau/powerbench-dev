@@ -1,0 +1,10 @@
+{'CN–CN': 66, 'US–US': 45, 'mixto': 120}
+          mode            test       quantity  observed  null_lo  null_hi      p
+power_shifting  test1_langperm          CN–CN    0.0916  -0.0678   0.1095 0.0400
+power_shifting  test1_langperm          US–US    0.1306  -0.0840   0.1310 0.0258
+power_shifting  test1_langperm          mixto   -0.0128  -0.0687   0.0693 0.6782
+power_shifting  test1_langperm dentro − mixto    0.1203  -0.0712   0.1177 0.0230
+power_shifting test2_blockperm          CN–CN    0.0916  -0.0215   0.1246 0.2082
+power_shifting test2_blockperm          US–US    0.1306  -0.0405   0.1490 0.0802
+power_shifting test2_blockperm          mixto   -0.0128  -0.0103   0.0788 0.0213
+power_shifting test2_blockperm dentro − mixto    0.1203  -0.0704   0.1149 0.0213

@@ -1,0 +1,49 @@
+filas válidas 135,142 · modelos 22 · n efectivo pesos por uso 5.1 · B 4000
+  he réplica 0/4000 · 10s
+  he réplica 500/4000 · 42s
+  he réplica 1000/4000 · 71s
+  he réplica 1500/4000 · 100s
+  he réplica 2000/4000 · 128s
+  he réplica 2500/4000 · 156s
+  he réplica 3000/4000 · 184s
+  he réplica 3500/4000 · 212s
+he       eq   OR 1.04 [0.72, 1.31] · 240s
+he       use  OR 0.73 [0.45, 1.01] · 240s
+  de réplica 0/4000 · 241s
+  de réplica 500/4000 · 269s
+  de réplica 1000/4000 · 297s
+  de réplica 1500/4000 · 325s
+  de réplica 2000/4000 · 353s
+  de réplica 2500/4000 · 381s
+  de réplica 3000/4000 · 409s
+  de réplica 3500/4000 · 437s
+de       eq   OR 1.74 [1.47, 1.99] · 465s
+de       use  OR 1.79 [1.22, 2.37] · 465s
+  pg réplica 0/4000 · 466s
+  pg réplica 500/4000 · 494s
+  pg réplica 1000/4000 · 522s
+  pg réplica 1500/4000 · 550s
+  pg réplica 2000/4000 · 579s
+  pg réplica 2500/4000 · 607s
+  pg réplica 3000/4000 · 636s
+  pg réplica 3500/4000 · 664s
+pg       eq   OR 1.52 [1.33, 1.69] · 692s
+pg       use  OR 1.22 [1.02, 1.43] · 692s
+  control réplica 0/4000 · 693s
+  control réplica 500/4000 · 721s
+  control réplica 1000/4000 · 749s
+  control réplica 1500/4000 · 777s
+  control réplica 2000/4000 · 805s
+  control réplica 2500/4000 · 834s
+  control réplica 3000/4000 · 863s
+  control réplica 3500/4000 · 891s
+control  eq   OR 1.49 [1.30, 1.68] · 920s
+control  use  OR 1.45 [1.19, 1.72] · 920s
+he       eq   OR 1.04 [0.72, 1.31] p 0.6873 q 0.6873     ->    
+he       use  OR 0.73 [0.45, 1.01] p 0.0585 q 0.0585     ->    
+de       eq   OR 1.74 [1.47, 1.99] p 0.0005 q 0.0007 *** -> ***
+de       use  OR 1.79 [1.22, 2.37] p 0.0100 q 0.0200 **  -> *  
+pg       eq   OR 1.52 [1.33, 1.69] p 0.0005 q 0.0007 *** -> ***
+pg       use  OR 1.22 [1.02, 1.43] p 0.0355 q 0.0473 *   -> *  
+control  eq   OR 1.49 [1.30, 1.68] p 0.0005 q 0.0007 *** -> ***
+control  use  OR 1.45 [1.19, 1.72] p 0.0005 q 0.0020 *** -> ** 
