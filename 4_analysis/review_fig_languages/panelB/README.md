@@ -2,8 +2,9 @@
 
 ## RECETA FINAL (20/09, aprobada por Wendy con Nico): `panelB_bootstrap.py` → `panelB_bootstrap.{csv,png}`
 
-Es la que usa la figura de idiomas del cuerpo (`../figure_paper.py` → `figure_paper_ps_{es,en}.*` y
-`../figure_full.py --cd ps` → `figure_full_ps.png`). Reemplaza a `panelB_weighted_requests.*` (sección siguiente, que
+Es la que usa la figura de idiomas del cuerpo: **la combinada de Nico, `../figure_paper_v2.py` → `figure_paper_v2_ps_en.*` (su
+panel D; la versión vigente desde el 20/09 a la tarde)**, y también `../figure_paper.py` → `figure_paper_ps_{es,en}.*` y
+`../figure_full.py --cd ps` → `figure_full_ps.png` (la disposición anterior, actualizada pero ya no de referencia). Reemplaza a `panelB_weighted_requests.*` (sección siguiente, que
 queda como historia): allí la barra clara llevaba IC t entre modelos, la oscura IC bootstrap sobre prompts y las
 estrellas de las dos salían de un test de permutación, tres procedimientos distintos que no eran comparables entre
 barras (objeción de Wendy, 20/09: "las estrellas y la barra de error tienen que salir del mismo test").
@@ -25,17 +26,25 @@ participación en los requests de OpenRouter, 30 días, `results/72_.../weights.
    pivotal (2·obs − percentiles) porque el bootstrap de un rango queda corrido hacia arriba; punto = 2·obs − media
    bootstrap. El corrimiento (`shift`, log-odds) es +0,37 / +0,43 en self-empowerment (refusal ~3 %) y +0,10 a +0,18 en
    los otros modos. B = 4.000 para poder resolver las colas del 99,9 %.
-5. **Estrellas, del mismo bootstrap:** * si el IC 95 % excluye 1, ** si el 99 %, *** si el 99,9 % (test por inversión
-   del intervalo, Efron y Tibshirani cap. 16). Sin t, sin permutación como test.
+5. **p, del mismo bootstrap:** por inversión del IC, p = 2·min(P(boot ≥ 2·obs), P(boot ≤ 2·obs)), convención (1 + k)/(B + 1):
+   el menor nivel al que el IC pivotal excluye 1 (test por inversión del intervalo, Efron y Tibshirani cap. 16). Sin t, sin
+   permutación como test. Mínimo posible con B = 4.000: 0,0005.
+6. **Benjamini-Hochberg (Wendy, 20/09, para alinear con el criterio de Nico de BH en todos los paneles):** q dentro de cada
+   familia = los 4 modos de una misma ponderación (peso igual; peso por uso). **Estrellas = q:** * < .05, ** < .01, *** < .001.
+   El IC dibujado sigue siendo el 95 % sin ajustar (BH corrige la decisión, no el intervalo), así que una barra puede tener un
+   IC 95 % que excluye 1 y ninguna estrella. `stars_raw` en el csv es la versión sin BH.
 
-**Resultado (OR corregido [IC 95 %]):**
+**Resultado (OR corregido [IC 95 %]; p de inversión del IC → q de BH):**
 
 | modo | peso igual | peso por uso |
 |---|---|---|
-| Self-empowerment | 1,20 [0,82, 1,53] n.s. | 0,76 [0,47, 1,05] n.s. |
-| Disempowerment | 2,04 [1,69, 2,36] *** | 1,88 [1,26, 2,48] ** |
-| Power grabbing | 1,70 [1,49, 1,90] *** | 1,25 [1,04, 1,46] * |
-| Control | 1,71 [1,47, 1,93] *** | 1,50 [1,23, 1,78] *** |
+| Self-empowerment | 1,20 [0,82, 1,53] p .32 → q .32 n.s. | 0,76 [0,47, 1,05] p .12 → q .12 n.s. |
+| Disempowerment | 2,04 [1,69, 2,36] p .0005 → q .0007 *** | 1,88 [1,26, 2,48] p .009 → q .017 * |
+| Power grabbing | 1,70 [1,49, 1,90] p .0005 → q .0007 *** | 1,25 [1,04, 1,46] p .023 → q .031 * |
+| Control | 1,71 [1,47, 1,93] p .0005 → q .0007 *** | 1,50 [1,23, 1,78] p .0005 → q .002 ** |
+
+BH solo mueve estrellas en la ponderación por uso: disempowerment ** → *, control *** → **. Ninguna significancia cambia de
+signo. (`--rescore` recalcula p, q y estrellas desde las réplicas guardadas en segundos; no hace falta repetir el bootstrap.)
 
 Qué cambió respecto de la receta anterior: (i) **self-empowerment con peso igual pierde la significancia** (antes 1,73
 \*\*\* por permutación; ahora 1,20 y el IC incluye 1: la corrección de sesgo descuenta +0,37 log-odds porque con refusal
@@ -46,8 +55,8 @@ Lectura: sesgo por idioma más allá del azar en disempowerment, power grabbing 
 self-empowerment no hay evidencia con ninguna.
 
 Archivos: `panelB_bootstrap.py` (≈ 17 min, sin API; `--plot-only` rehace la figura), `panelB_bootstrap.csv` (por modo y
-pesos: observado, azar, exceso crudo y corregido, IC 95 / 99 / 99,9 pivotal, corrimiento, estrellas; columnas `_or` en
-OR), `panelB_bootstrap_per_model.csv` (rango, azar y exceso por modelo), `panelB_bootstrap_draws.npz` (las 4.000
+pesos: observado, azar, exceso crudo y corregido, IC 95 / 99 / 99,9 pivotal, corrimiento, `p_boot`, `q_bh`, `stars_raw`,
+`stars`; columnas `_or` en OR), `panelB_bootstrap_per_model.csv` (rango, azar y exceso por modelo), `panelB_bootstrap_draws.npz` (las 4.000
 réplicas por modo, columnas = [igual, uso]), `panelB_bootstrap.png` (título = qué muestra; metodología en la nota al pie).
 
 **Descartado en el camino (20/09):** `panelB_permutation.*` — la variante "solo permutación" (barra observado / azar,

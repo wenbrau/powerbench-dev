@@ -124,7 +124,8 @@ CAPTION = {
         "idiomas barajados dentro de cada prompt (2.000 permutaciones), por modo. Barra clara: media con peso igual de los 24 modelos; "
         "barra oscura: media pesada por la participación de cada modelo en los requests de OpenRouter (30 días). IC 95 % por bootstrap "
         "sobre prompts (4.000 réplicas, corrección pivotal; punto corregido por el sesgo del bootstrap), el mismo para las dos barras. "
-        "Estrellas: el IC excluye 1 (* al 95 %, ** al 99 %, *** al 99,9 %). "
+        "Estrellas: p por inversión de ese IC, corregido por Benjamini-Hochberg dentro de cada ponderación (familia = 4 modos); "
+        "* q < .05, ** q < .01, *** q < .001. "
         "**(C)** Correlación de Spearman entre los rankings de idiomas (R sobre los 576 prompts de power shifting) de cada par de "
         "modelos; etiquetas coloreadas por origen. Recuadro: acuerdo medio por tipo de par; banda gris: intervalo 95 % con los idiomas "
         "permutados dentro de cada modelo (5.000 permutaciones), estrella: el grupo acuerda más que ese azar; corchete: mismo origen vs "
@@ -148,8 +149,8 @@ CAPTION = {
         "**(B)** Range across languages of logit R (most vs least refused language) divided by the range expected with languages "
         "shuffled within each prompt (2,000 permutations), by mode. Light bar: equal-weight mean of the 24 models; dark bar: mean "
         "weighted by each model's share of OpenRouter requests (30 days). 95% CI by bootstrap over prompts (4,000 replicates, "
-        "pivotal correction; point bias-corrected), the same bootstrap for both bars. Stars: the CI excludes 1 (* at 95%, ** at 99%, "
-        "*** at 99.9%). "
+        "pivotal correction; point bias-corrected), the same bootstrap for both bars. Stars: p by inversion of that CI, "
+        "Benjamini-Hochberg corrected within each weighting (family = 4 modes); * q < .05, ** q < .01, *** q < .001. "
         "**(C)** Spearman correlation between the language rankings (R over the 576 power-shifting prompts) of each pair of models; "
         "labels coloured by origin. Inset: mean agreement by pair type; grey band: 95% interval with languages permuted within each "
         "model (5,000 permutations), star: the group agrees more than that chance; bracket: same origin vs mixed with the CN/US labels "
@@ -254,9 +255,9 @@ def panel_a2(ax, fig, t):
 # ---------------------------------------------------------------- B (panelB/panelB_bootstrap.py :: plot) — receta final 20/09
 def panel_b(ax, t, q=None):
     """Panel B con la receta final del 20/09 (Wendy con Nico): IC y estrellas de las dos barras del MISMO bootstrap sobre prompts
-    (panelB_bootstrap.csv; estrellas = el IC excluye 1 al 95 / 99 / 99,9 %). `q` se acepta por compatibilidad con figure_paper_v2.py
-    y se IGNORA: no hay p-valores que corregir por BH, las estrellas vienen del intervalo. La receta anterior (permutación + t /
-    bootstrap, con p corregibles por BH) sigue en panel_b_perm() para figure_paper_v2.py."""
+    (panelB_bootstrap.csv; p por inversión del IC, BH dentro de cada ponderación con familia = 4 modos; la columna `stars` ya
+    es la de BH). `q` se acepta por compatibilidad con figure_paper_v2.py y se IGNORA: la q ya viene calculada en la tabla.
+    La receta anterior (permutación + t / bootstrap) sigue en panel_b_perm() para figure_paper_v2.py."""
     tab = pd.read_csv(TB).set_index(["mode", "weights"])
     eqt, wtt = tab.xs("eq", level="weights").loc[list(MODES)], tab.xs("use", level="weights").loc[list(MODES)]
     x = np.arange(len(MODES)); wb = .38
@@ -278,7 +279,7 @@ def panel_b(ax, t, q=None):
     ax.set_ylabel(t["b_y"])
     ax.set_xticks(x, [MODE_LABEL2[m] for m in MODES], fontsize=F_SMALL)
     ax.grid(axis="y", alpha=.15)
-    ax.legend(frameon=False, loc="upper right", handlelength=1.2, borderaxespad=.2)
+    ax.legend(frameon=False, loc="lower right", handlelength=1.2, borderaxespad=.2)   # abajo a la derecha: bajo el 1 solo hay barras en he
     ax.set_title(t["b_title"])
 
 

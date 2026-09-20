@@ -8,9 +8,15 @@ Por modo (he, de, pg, control) y juego de pesos (igual = 1/24; uso = share_reque
 2. Bootstrap sobre prompts, B réplicas: en cada una se sortean 192 prompts con reposición (mismos índices para los 24 modelos),
    se recalcula por modelo rango y azar (NPERM_BOOT permutaciones) y el estadístico Σ w·exceso_m con los pesos fijos.
 3. IC pivotal (2·obs − percentiles), porque el bootstrap de un rango queda corrido hacia arriba; punto = 2·obs − media bootstrap.
-   Se calcula al 95, 99 y 99.9 %. Estrellas: * si el IC 95 % excluye 1, ** si el 99 %, *** si el 99.9 % (test por inversión del IC).
-   B = 4000 para poder resolver las colas del 99.9 %.
+   Se calcula al 95, 99 y 99.9 %. B = 4000 para poder resolver las colas del 99.9 %.
+4. p por inversión del IC (mismo bootstrap): p = 2·min(P(boot ≥ 2·obs), P(boot ≤ 2·obs)) con la convención (1 + k) / (B + 1); es el
+   menor nivel al que el IC pivotal excluye 0 (log-odds), o sea 1 en OR. `stars_raw` = ese p (equivale a "el IC excluye 1").
+5. Benjamini-Hochberg (Wendy, 20/09) dentro de cada familia = los 4 modos de una misma ponderación (peso igual; peso por uso):
+   `q_bh`; `stars` = * q < .05  ** q < .01  *** q < .001. Es lo que dibuja la figura y lo que lee figure_paper.py. El IC dibujado
+   sigue siendo el 95 % sin ajustar (BH corrige la decisión, no el intervalo), así que una barra puede tener IC 95 % que excluye
+   1 y ninguna estrella.
 Sin API. Ejecutar desde la raíz del repo:  python 4_analysis/review_fig_languages/panelB/panelB_bootstrap.py   (≈ 15–20 min)
+  ... --rescore     recalcula p, q de BH y estrellas desde las réplicas guardadas (panelB_bootstrap_draws.npz) y rehace la figura; segundos
   ... --plot-only   rehace la figura desde el csv
 """
 from __future__ import annotations
@@ -45,12 +51,44 @@ OUT_BOOT = HERE / "panelB_bootstrap_draws.npz"
 OUT_PNG = HERE / "panelB_bootstrap.png"
 
 
-def stars_from_ci(row):
-    """*** si el IC 99.9 % pivotal excluye 0 (log-odds), ** si el 99 %, * si el 95 %."""
-    for lvl, s in (("999", "***"), ("99", "**"), ("95", "*")):
-        if row[f"lo{lvl}"] > 0 or row[f"hi{lvl}"] < 0:
-            return s
-    return ""
+def stars_from_p(p):
+    return "***" if p < .001 else "**" if p < .01 else "*" if p < .05 else ""
+
+
+def bh(p):
+    """q de Benjamini-Hochberg (step-up, monótona) de un vector de p."""
+    p = np.asarray(p, float); n = len(p); order = np.argsort(p)
+    q = np.empty(n); prev = 1.0
+    for rank, i in zip(range(n, 0, -1), order[::-1]):
+        prev = min(prev, p[i] * n / rank); q[i] = prev
+    return q
+
+
+def p_from_boot(obs, boot):
+    """p por inversión del IC pivotal: menor α tal que el IC (1 − α) excluye 0. Dos colas, convención (1 + k) / (B + 1)."""
+    n = len(boot); ge = (1 + int(np.sum(boot >= 2 * obs))) / (n + 1); le = (1 + int(np.sum(boot <= 2 * obs))) / (n + 1)
+    return float(min(1.0, 2 * min(ge, le)))
+
+
+def score(tab, draws):
+    """Agrega p_boot (inversión del IC), q_bh (BH dentro de cada ponderación, familia = 4 modos), stars_raw y stars."""
+    tab = tab.copy()
+    tab["p_boot"] = [p_from_boot(r.excess_raw, draws[r["mode"]][:, 0 if r.weights == "eq" else 1]) for _, r in tab.iterrows()]
+    tab["bh_family"] = tab.weights.map({"eq": "4 modos, peso igual", "use": "4 modos, peso por uso"})
+    tab["q_bh"] = tab.groupby("weights").p_boot.transform(bh)
+    tab["stars_raw"] = tab.p_boot.map(stars_from_p)
+    tab["stars"] = tab.q_bh.map(stars_from_p)
+    return tab
+
+
+def rescore():
+    z = np.load(OUT_BOOT); draws = {m: z[m] for m in MODES}
+    tab = pd.read_csv(OUT_CSV).drop(columns=[c for c in ("p_boot", "bh_family", "q_bh", "stars_raw", "stars") if c in pd.read_csv(OUT_CSV).columns])
+    tab = score(tab, draws); tab.to_csv(OUT_CSV, index=False)
+    for _, r in tab.iterrows():
+        print(f"{r['mode']:8s} {r.weights:4s} OR {r.excess_bc_or:.2f} [{r.lo95_or:.2f}, {r.hi95_or:.2f}] p {r.p_boot:.4f} q {r.q_bh:.4f} "
+              f"{r.stars_raw:3s} -> {r.stars:3s}")
+    plot()
 
 
 def main():
@@ -99,17 +137,16 @@ def main():
             for lvl, a in LEVELS.items():
                 lo, hi = np.percentile(bt, [100 * a / 2, 100 * (1 - a / 2)])
                 r[f"lo{lvl}"], r[f"hi{lvl}"] = 2 * o - hi, 2 * o - lo
-            r["stars"] = stars_from_ci(r)
             for c in ("excess_raw", "excess_bc", "lo95", "hi95", "lo99", "hi99", "lo999", "hi999"):
                 r[c + "_or"] = np.exp(r[c])
             rows.append(r)
             print(f"{mode:8s} {wname:4s} OR {r['excess_bc_or']:.2f} [{r['lo95_or']:.2f}, {r['hi95_or']:.2f}] 99.9 % [{r['lo999_or']:.2f}, {r['hi999_or']:.2f}] "
-                  f"{r['stars']:3s} · crudo {r['excess_raw_or']:.2f} corrimiento {r['shift']:+.3f} · {time.time() - t0:.0f}s", flush=True)
+                  f"· crudo {r['excess_raw_or']:.2f} corrimiento {r['shift']:+.3f} · {time.time() - t0:.0f}s", flush=True)
 
     pd.DataFrame(rows).to_csv(OUT_CSV, index=False)
     pd.DataFrame(per_model).to_csv(HERE / "panelB_bootstrap_per_model.csv", index=False)
     np.savez_compressed(OUT_BOOT, **{m: draws[m] for m in MODES}, weights=list(weights))
-    plot()
+    rescore()
 
 
 def plot():
@@ -143,11 +180,12 @@ def plot():
              f"({NPERM} permutaciones).\n"
              f"Barra clara: media con peso igual de los 24 modelos; barra oscura: media pesada por la participación de cada modelo en los requests de OpenRouter (30 días).\n"
              f"IC 95 % por bootstrap sobre prompts (B = {B}, corrección pivotal), el mismo para las dos barras; punto corregido por el sesgo del bootstrap.\n"
-             f"Estrellas: el IC excluye 1 · * al 95 %  ** al 99 %  *** al 99,9 %.",
+             f"Estrellas: p por inversión del IC (mismo bootstrap), corregido por Benjamini-Hochberg dentro de cada ponderación (familia = 4 modos) · "
+             f"* q < 0,05  ** q < 0,01  *** q < 0,001.",
              fontsize=7.6, color="#333", ha="left", va="bottom", linespacing=1.4)
     fig.savefig(OUT_PNG, dpi=170)
     print("wrote", OUT_PNG)
 
 
 if __name__ == "__main__":
-    plot() if "--plot-only" in sys.argv[1:] else main()
+    plot() if "--plot-only" in sys.argv[1:] else rescore() if "--rescore" in sys.argv[1:] else main()
