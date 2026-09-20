@@ -404,7 +404,9 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     chinos se parecen más entre sí" (F1 C), "los modelos chinos ordenan parecido los idiomas" (F4 F, CN–CN q 0,107), "más marcado en
     modelos USA" (F2 D). (d) El pedido típico por idioma (bloque 72) va al apéndice. (e) Figura 3 F: la media simple de los tres
     log-OR por modo se abandona ("no me gusta que SE pese un montón y sea solo ruido"); candidato preferido = combinación por
-    inversa de la varianza con el test del 64 sin cambios ("pareciera la mejor") → APROBADO ("ok, perfecto entonces aprobado"), bloque 84. Puntos 4, 23, 43 y 44
+    inversa de la varianza con el test del 64 sin cambios ("pareciera la mejor") → APROBADO ("ok, perfecto entonces aprobado"), bloque 84. Segunda vuelta el mismo día: "por qué no es equivalente a tener un solo modo con el triple de prompts y calcularlo
+    directamente" → "dale": el bloque 84 pasa al log-OR directo sobre las filas de he + de + pg juntas (difiere de la versión
+    estratificada solo por la no colapsabilidad del OR, centésimas acá); regla: power shifting = una sola condición en todo el paper. Puntos 4, 23, 43 y 44
     quedan complementados por este.
 
 46. **Regla de Wendy (20/09, con Nico) para todo lo pesado por uso: IC y estrellas del MISMO bootstrap sobre prompts, con BH.**

@@ -4,7 +4,7 @@
  "question": "Ensamblado de A (niveles humano / IA con el IC del Δ pareado), B (dirección de los desacuerdos), C (escala: individual vs sociedad), B con la quinta barra de power shifting pooled y el test power shifting − control (bloque 76, pedido de Nico el 19/09), D y E (heatmaps de contexto y dominio, con el conteo de celdas significativas por modo al lado, pedido de Nico el 19/09) y F (capacidad, power-shifting vs control, recta del GLMM). Sin cálculos nuevos.",
  "status": "figura compuesta; aprobada panel por panel por Nico (18/09)",
  "date": "2026-09-20",
- "commit": "9bee4b0",
+ "commit": "55e9821",
  "conclusion": "Solo ensamblado; números y tests en los bloques 54–64 y en NARRATIVA_F4.md.",
  "inputs": [
   "4_analysis/results/54_fig4_levels_box/levels_pooled.csv",

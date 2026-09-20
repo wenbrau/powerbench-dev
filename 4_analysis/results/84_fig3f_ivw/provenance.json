@@ -1,11 +1,12 @@
 {
   "inputs": {
+    "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz": "241532ef9e3a10c7dfe7ce906bb5cd98ddd0b7817dd046147d36cf76a8c49795",
     "4_analysis/results/64_fig4_capability_glmm/capability_per_model_log_or.csv": "dbdc967d530ae9ec671c93f486019644c74aa03f139b02dad844352d70b4197b",
     "4_analysis/results/64_fig4_capability_glmm/capability_glmm.csv": "8e117671395edf201712734bb95c48a54bc0868ca78793c250770d8eac4ea0a7",
     "4_analysis/results/30_fig1_glmm/capability_index.csv": "1343e6f2b010925df4bc5bc80d774c35fd68046ebca8ac86b8f56534fd3ca76b",
     "4_analysis/results/83_bh_fig3f_fig2b/bh_families.csv": "ae259a8a7fc9e0efb7f24b0dd842577fa5f2890666349a763a5814f1d047bd3f"
   },
   "code": {
-    "4_analysis\\analysis_84_fig3f_ivw.py": "d89786677c9ed6497c95794eb5f6f01ae19b515df6d3e6bae5f31c020924503f"
+    "4_analysis\\analysis_84_fig3f_ivw.py": "37da093a018a092a3aad8d2d2fc7726674ecd88d096b9849d0325c6b68a5eaa2"
   }
 }

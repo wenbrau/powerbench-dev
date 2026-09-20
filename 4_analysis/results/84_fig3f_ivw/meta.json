@@ -1,12 +1,13 @@
 {
  "name": "84_fig3f_ivw",
- "title": "Figura 3, panel F: log-OR IA vs humano por modelo, los tres modos de poder combinados por inversa de la varianza",
- "question": "¿Cómo queda el punto de 'power shifting' de cada modelo si los tres log-OR por modo se combinan por su información en vez de promediarlos con peso igual? Sin cambios en el GLMM ni en el test (bloques 64 y 83).",
- "status": "APROBADO por Nico (20/09): reemplaza a power_shifting_mean_of_modes del bloque 64 en la Figura 3 F",
+ "title": "Figura 3, panel F: log-OR IA vs humano por modelo sobre las filas de power shifting juntas (una sola condición, 504 prompts)",
+ "question": "¿Cómo queda el punto de 'power shifting' de cada modelo calculado directamente sobre los prompts de he + de + pg juntos, sin estratificar por modo? Sin cambios en el GLMM ni en el test (bloques 64 y 83).",
+ "status": "APROBADO por Nico (20/09, 'dale'): power shifting = una sola condición con los prompts de los tres modos; reemplaza a la media simple del 64 y a la versión por inversa de la varianza de este mismo bloque",
  "date": "2026-09-20",
- "commit": "9bee4b0",
- "conclusion": "Con pesos por información, self-empowerment pesa una décima parte del punto y la recta del GLMM queda dentro de la nube; nada cambia en el test.",
+ "commit": "55e9821",
+ "conclusion": "Calculado directo sobre las filas juntas, el punto de cada modelo es indistinguible de la versión estratificada (Spearman 0,996; diferencia de centésimas) y queda en la misma escala marginal que la recta.",
  "inputs": [
+  "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz",
   "4_analysis/results/64_fig4_capability_glmm/capability_per_model_log_or.csv",
   "4_analysis/results/64_fig4_capability_glmm/capability_glmm.csv",
   "4_analysis/results/30_fig1_glmm/capability_index.csv",
