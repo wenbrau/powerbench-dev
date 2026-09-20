@@ -76,6 +76,8 @@ sessions. The old body / appendix split is dropped: every item is written at ful
 dump. Old numbering in brackets where it changed.
 
 ## 1. Definitions of power shifting and related concepts (T, N)
+- Order in the `.tex` (user, 2026-09-20): 1a, 1b, 1d (modes), 1c (actor and affected party), 1f.
+  1b ends by announcing the modes, so they come next. Item letters unchanged.
 
 ### 1a. Power and power bases **[final]** (2026-09-19)
 - Source: SPEC string lines 35-39 (`<power_definition>`, first sentence) and 117-128 (DOMAIN list).
