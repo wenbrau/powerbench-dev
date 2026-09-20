@@ -406,3 +406,16 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     log-OR por modo se abandona ("no me gusta que SE pese un montón y sea solo ruido"); candidato preferido = combinación por
     inversa de la varianza con el test del 64 sin cambios ("pareciera la mejor") → APROBADO ("ok, perfecto entonces aprobado"), bloque 84. Puntos 4, 23, 43 y 44
     quedan complementados por este.
+
+46. **Regla de Wendy (20/09, con Nico) para todo lo pesado por uso: IC y estrellas del MISMO bootstrap sobre prompts, con BH.**
+    Registrada en el cuaderno (entradas del 20/09 de Wendy); reemplaza a la decisión de Nico del 19/09 (bootstrap para la barra,
+    permutación para el test). Aplicada por Wendy al panel D de idiomas (`panelB_bootstrap.py`: las dos barras con el mismo bootstrap,
+    B 4.000, IC pivotal, p por inversión del IC, BH dentro de cada ponderación), al panel C de países (bloque 73, `boot_q` en vez de
+    `perm_q`; nada cambia) y al bloque 74 (apéndice de IA; nada cambia); y por Claude al bloque 72 (apéndice de idiomas, confirmado
+    por Nico el 20/09), que Wendy había dejado "sin consumidores". Consecuencias: (a) en F4 D self-empowerment con peso igual deja
+    de ser significativo (1,20 [0,82; 1,53]) por la corrección de sesgo del rango; con el t del bloque 35 daba q 0,007: la barra de
+    peso igual usa ahora un bootstrap con modelos fijos, excepción documentada (nota al pie de Wendy) al marco de modelos aleatorios
+    del 18/09; (b) la lectura de Nico del 20/09 para ese panel ("significativa para todos los modos") pasa a "en de, pg y control";
+    redacción pendiente. Alternativa registrada por Wendy y descartada: solo permutación, con banda del azar en vez de IC ("si no es
+    un IC, no lo grafiques"). Punto 45 (b): Nico decidió el 20/09 que el GLMM ai × contexto / dominio para los heatmaps de la Figura 3
+    "no hace falta".

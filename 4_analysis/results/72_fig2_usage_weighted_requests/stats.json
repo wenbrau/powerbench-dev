@@ -5,7 +5,7 @@
   "hi": 1.5387639714060448,
   "p": 0.0005998800239952009,
   "unit": "OR",
-  "note": "pesos por pedidos; boot_p 0.002, perm_q 0.003"
+  "note": "pesos por pedidos; boot_q 0.007 (perm_q 0.003)"
  },
  "ps_hi_requests_or": {
   "est": 1.4016001397496254,
@@ -13,7 +13,7 @@
   "hi": 1.571442818367024,
   "p": 0.0001999600079984003,
   "unit": "OR",
-  "note": "power shifting pooled, pesos por pedidos; boot_p 0.000, perm_q 0.001"
+  "note": "power shifting pooled, pesos por pedidos; boot_q 0.000 (perm_q 0.001)"
  },
  "pg_fr_requests_or": {
   "est": 1.2897566657503479,
@@ -21,7 +21,7 @@
   "hi": 1.4848395801277634,
   "p": 0.0007998400319936012,
   "unit": "OR",
-  "note": "pesos por pedidos; boot_p 0.000, perm_q 0.003"
+  "note": "pesos por pedidos; boot_q 0.000 (perm_q 0.003)"
  },
  "ps_fr_requests_or": {
   "est": 1.1623352751673919,
@@ -29,6 +29,6 @@
   "hi": 1.279453378168488,
   "p": 0.005198960207958408,
   "unit": "OR",
-  "note": "power shifting pooled, pesos por pedidos; boot_p 0.004, perm_q 0.018"
+  "note": "power shifting pooled, pesos por pedidos; boot_q 0.014 (perm_q 0.018)"
  }
 }

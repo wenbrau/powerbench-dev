@@ -1271,3 +1271,10 @@ oficial (`figure_full_split.png`) y versión de página regeneradas.
 Nico (20/09) sobre las frases que los tests no sostienen: "no deberíamos decirlos y listo". Para esta figura: **no se dice "en los
 de USA es más marcado"** (interacción dirección × origen q ≥ 0,61). Queda "misma dirección en los dos orígenes; sin favoritismo por
 el país propio".
+
+## 20/09 (tarde) — panel C: q del mismo bootstrap (Wendy)
+
+Wendy (cuaderno, 20/09): el panel C dibuja `boot_q` (p por inversión del IC bootstrap sobre prompts, BH dentro de los 4 modos de cada
+set) en vez de `perm_q`; el bloque 73 no se recalculó, solo cambia la columna leída. geo: he q 0,43, **de 0,003, pg 0,007**, control
+0,76; neutral ≥ 0,80. Ninguna estrella cambia. Versión de página y `figure_full_split.png` regeneradas con esto y con la familia por
+set del panel A (bloque 55).
