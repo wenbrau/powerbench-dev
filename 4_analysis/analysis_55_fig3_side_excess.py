@@ -9,8 +9,8 @@ Figura 3 (bloque 45: |sesgo| de lado observado, media de 24, contra lados baraja
 Definición: por modelo, set (lado USA / lado China con las dos díadas geopolíticas juntas; neutral A / neutral B) y modo,
 |sesgo| = |a − b| / (a + b) sobre los prompts discordantes (a = rechaza solo con el lado A de usuario). Nulo exacto por
 modelo: a ~ Binomial(n, 1/2) → E0 = E|2a − n| / n, calculado con la pmf binomial. Exceso = |sesgo| − E0. Barra = media del
-exceso sobre los modelos con n > 0; IC 95 % t entre modelos; t de una muestra contra 0; q = BH y Holm sobre las 8 celdas
-(2 sets × 4 modos), familia elegida por Claude (anotada en DECISIONES_A_REVISAR.md).
+exceso sobre los modelos con n > 0; IC 95 % t entre modelos; t de una muestra contra 0; q = BH y Holm sobre los 4 modos de cada set
+(geo y neutral por separado; decisión de Nico, 20/09; antes las 8 celdas juntas (anotada en DECISIONES_A_REVISAR.md).
 
 Lee la tabla por modelo del bloque 45 (45_fig3_side_combined/side_per_model.csv). Sin llamadas a ninguna API.
 Ejecutar desde la raíz del repo:  python 4_analysis/analysis_55_fig3_side_excess.py
@@ -81,8 +81,9 @@ def main():
                              excess=float(e.mean()), lo=float(e.mean() - half), hi=float(e.mean() + half), sd_models=float(e.std(ddof=1)),
                              t=float(tt.statistic), p_t=float(tt.pvalue), n_excess_positive=int((e > 0).sum())))
     summ = pd.DataFrame(rows)
-    summ["q_bh"] = multipletests(summ.p_t, method="fdr_bh")[1]
-    summ["p_holm"] = multipletests(summ.p_t, method="holm")[1]
+    # familia = los 4 modos de cada set, geo y neutral por separado (Nico, 20/09), el mismo criterio que B (bloque 83) y C (bloque 73); antes: las 8 celdas juntas
+    summ["q_bh"] = summ.groupby("set").p_t.transform(lambda p: multipletests(p, method="fdr_bh")[1])
+    summ["p_holm"] = summ.groupby("set").p_t.transform(lambda p: multipletests(p, method="holm")[1])
     old = pd.read_csv(SRC_OLD).set_index(["set", "mode"])
 
     res = report.Result(
@@ -95,13 +96,13 @@ def main():
     res.data("Tabla por modelo del bloque 45: conteos discordantes a / b por modelo, set (geo = USA / China + aliado de USA / aliado "
              "de China; neutral = neutral A / neutral B) y modo; 24 modelos (23 en neutral · de: uno sin discordantes).")
     res.method("|sesgo| = |a − b| / (a + b). Nulo exacto por modelo: a ~ Binomial(n, 1/2), E0 = E|2a − n| / n (pmf binomial). "
-               "Exceso = |sesgo| − E0. Media sobre modelos, IC 95 % t (n − 1 gl), t de una muestra contra 0; q = BH y Holm sobre las "
-               "8 celdas. Mismo estimador que el bloque 35 (p5) con el nulo binomial exacto en lugar de permutaciones.")
+               "Exceso = |sesgo| − E0. Media sobre modelos, IC 95 % t (n − 1 gl), t de una muestra contra 0; q = BH y Holm sobre los "
+               "4 modos de cada set. Mismo estimador que el bloque 35 (p5) con el nulo binomial exacto en lugar de permutaciones.")
     res.table("side_abs_bias_excess_per_model", pm[["set", "mode", "model", "origin", "n_discordant", "bias", "abs_bias", "null_expected", "excess"]],
               "Por modelo: |sesgo| observado, valor esperado bajo el nulo binomial y exceso.", show=False)
     res.table("side_abs_bias_excess_summary", summ,
               "Por set y modo: media de |sesgo|, media del nulo esperado, exceso medio con IC 95 % t entre modelos, t, p, q (BH) y "
-              "p (Holm) sobre las 8 celdas, y cuántos modelos tienen exceso > 0.", show=True)
+              "p (Holm) sobre los 4 modos de cada set, y cuántos modelos tienen exceso > 0.", show=True)
     for _, r in summ.iterrows():
         res.stat(f"side_excess_{r['set']}_{r['mode']}", r.excess, r.lo, r.hi, r.p_t, unit="|sesgo| − E0",
                  note=f"q_bh = {r.q_bh:.3f}; {r.n_excess_positive}/{r.n_models} modelos > 0; bloque 45: p_perm = {old.loc[(r['set'], r['mode']), 'p_perm']:.3f}")
@@ -123,7 +124,7 @@ def main():
     res.figure("pA_side_abs_bias_excess", fig,
                "Versión propuesta del panel A: una barra por modo y set = media sobre los 24 modelos del exceso de |sesgo| de cada modelo "
                "sobre lo que esperaría el azar con sus propios prompts discordantes (nulo binomial exacto); barra de error = IC 95 % t "
-               "entre modelos; línea punteada = azar. q = BH sobre las 8 celdas. Sesgo sin signo: no dice hacia qué lado.")
+               "entre modelos; línea punteada = azar. q = BH sobre los 4 modos de cada set. Sesgo sin signo: no dice hacia qué lado.")
     res.note("Registro: 4_analysis/results/27_fig3_notelab/NARRATIVA_F3.md (18/09) y DECISIONES_A_REVISAR.md, punto 1.")
     res.conclusion("Propuesta de formato; decisión de Nico pendiente.")
     out = res.write()

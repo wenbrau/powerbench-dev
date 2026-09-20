@@ -3,8 +3,8 @@
  "title": "Figura 4, panel 4: dirección de los desacuerdos humano / IA por escala, standing, contexto y dominio",
  "question": "La métrica del panel 2 dentro de cada nivel de cada dimensión: por modelo, modo y nivel, (solo IA − solo humano) / discordantes; media sobre los modelos con discordantes en ese nivel, IC 95 % t entre modelos, azar = 0. Capa visual, sin tests entre niveles.",
  "status": "capa visual; panel por panel con Nico",
- "date": "2026-09-18",
- "commit": "1851832",
+ "date": "2026-09-20",
+ "commit": "9bee4b0",
  "conclusion": "Capa visual; lectura pendiente de Nico.",
  "inputs": [
   "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz"

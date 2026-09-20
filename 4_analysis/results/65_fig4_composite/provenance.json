@@ -7,13 +7,13 @@
     "4_analysis\\results\\76_fig4_direction_ps_vs_control\\ps_vs_control_summary.csv": "77f2ad546b4d54d91448f46d861b2413543abb50acdadbc1621f9bab25d92d88",
     "4_analysis\\results\\60_fig4_ai_level_glmm\\scale_4x2_cells.csv": "8cddec1662df43635671a3d11ae89da5aa31fc30e60f362b120a807d1774a340",
     "4_analysis\\results\\60_fig4_ai_level_glmm\\bias_direction_paired_t.csv": "0496e10f162f334251a105f2f4b1fa4e355dba4a6bf9294a70f4ca6f71234144",
-    "4_analysis\\results\\59_fig4_by_dimension\\bias_direction_by_level.csv": "24f0f50f2d6c60ecce39e9d1a638e5ed229a96e9f09c37970078fed850ed4632",
-    "4_analysis\\results\\64_fig4_capability_glmm\\capability_per_model_log_or.csv": "dbdc967d530ae9ec671c93f486019644c74aa03f139b02dad844352d70b4197b",
+    "4_analysis\\results\\59_fig4_by_dimension\\bias_direction_by_level.csv": "393c07155106e070152456899dbede262aba36d057caf10fa387692e5f53ea18",
+    "4_analysis\\results\\84_fig3f_ivw\\capability_per_model_log_or_ivw.csv": "fa213a349c0d76eec4b2109cb26629a20acc9ad72ca274705774a9fadfdfed0d",
     "4_analysis\\results\\64_fig4_capability_glmm\\capability_glmm.csv": "8e117671395edf201712734bb95c48a54bc0868ca78793c250770d8eac4ea0a7",
     "4_analysis\\results\\83_bh_fig3f_fig2b\\bh_families.csv": "ae259a8a7fc9e0efb7f24b0dd842577fa5f2890666349a763a5814f1d047bd3f",
     "4_analysis\\results\\30_fig1_glmm\\capability_index.csv": "1343e6f2b010925df4bc5bc80d774c35fd68046ebca8ac86b8f56534fd3ca76b"
   },
   "code": {
-    "4_analysis\\analysis_65_fig4_composite.py": "d732c8ece48db68def10e871fc33e167340e4aac7800b41f9c5adc1c7aedf949"
+    "4_analysis\\analysis_65_fig4_composite.py": "7021066107b5094e414d2e4deace3c1d6fd52de9a880ae1da03551deaf810422"
   }
 }

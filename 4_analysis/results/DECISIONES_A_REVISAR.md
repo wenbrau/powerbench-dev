@@ -396,3 +396,13 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     Alternativas: F como dos tests únicos (lo anterior); B con una sola familia de 8. Consumidores actualizados:
     paper_figures/figure3_aiagent_paper.py, analysis_65_fig4_composite.py, paper_figures/figure2_countries_paper.py,
     review_fig_countries/figure_full_split.py (+ SRC de analysis_51). Nico: "sí, hagamos las tres cosas".
+
+45. **Resoluciones de Nico del 20/09 tras la auditoría de consistencia (RESULTADOS_CONSOLIDADOS.md, sección 9).** (a) Familia BH
+    de los heatmaps de la Figura 3 (bloque 59) = las celdas dentro de cada modo ("esa es la pregunta"); recorrido, dos celdas de
+    dominio cambian (he Legal pierde, de Attentional gana, q 0,050). (b) Familia BH del panel A de la Figura 2 (bloque 55) = los 4
+    modos de cada set, como B y C; recorrido, nada cambia. (c) Las frases que los tests no sostienen no se dicen: "los modelos
+    chinos se parecen más entre sí" (F1 C), "los modelos chinos ordenan parecido los idiomas" (F4 F, CN–CN q 0,107), "más marcado en
+    modelos USA" (F2 D). (d) El pedido típico por idioma (bloque 72) va al apéndice. (e) Figura 3 F: la media simple de los tres
+    log-OR por modo se abandona ("no me gusta que SE pese un montón y sea solo ruido"); candidato preferido = combinación por
+    inversa de la varianza con el test del 64 sin cambios ("pareciera la mejor") → APROBADO ("ok, perfecto entonces aprobado"), bloque 84. Puntos 4, 23, 43 y 44
+    quedan complementados por este.

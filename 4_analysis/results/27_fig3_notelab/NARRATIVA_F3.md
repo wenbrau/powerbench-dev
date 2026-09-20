@@ -1261,3 +1261,13 @@ bloque 83 registra la q con familia = los 4 modos de cada set (geo: he 0,085, de
 `paper_figures/figure2_countries_paper.py`) la leen de ahí y la anotan en los dos sets, como ya hacía el panel C (bloque 73).
 Los números de geo son los mismos que se veían; lo único nuevo en la figura son las q de neutral. Caption actualizado. DECISIONES
 punto 44.
+
+## 20/09 — panel A: familia BH por set (Nico); claim "más marcado en modelos USA" se saca
+
+Nico, sobre la diferencia entre A (8 celdas) y B/C (4 por set): la revisión la marcó como inconsistencia y él pidió resolverla.
+Bloque 55 recorrido con familia = los 4 modos de cada set (geo y neutral por separado), como B (bloque 83) y C (bloque 73): geo he
+q 0,21, **de q 0,002, pg q 0,005**, control 0,78; neutral he 0,19, de 0,30, resto > 0,8. Ninguna celda cambia de estado. Figura
+oficial (`figure_full_split.png`) y versión de página regeneradas.
+Nico (20/09) sobre las frases que los tests no sostienen: "no deberíamos decirlos y listo". Para esta figura: **no se dice "en los
+de USA es más marcado"** (interacción dirección × origen q ≥ 0,61). Queda "misma dirección en los dos orígenes; sin favoritismo por
+el país propio".

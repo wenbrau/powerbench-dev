@@ -75,7 +75,7 @@ def summarise(g: pd.DataFrame, dim: str) -> pd.DataFrame:
                              p_t=float(stats.ttest_1samp(e, 0).pvalue), n_positive=int((e > 0).sum())))
     out = pd.DataFrame(rows)
     if len(out):
-        out["q_bh"] = multipletests(out.p_t, method="fdr_bh")[1]   # familia = las celdas de esta dimensión
+        out["q_bh"] = out.groupby("mode").p_t.transform(lambda p: multipletests(p, method="fdr_bh")[1])   # familia = las celdas de esta dimensión DENTRO DE CADA MODO (Nico, 20/09: "en figura 3 hay que corregir por modo, porque esa es la pregunta"); antes: todas las celdas de la dimensión
     return out
 
 
@@ -103,7 +103,7 @@ def draw_lines(summ: pd.DataFrame, dim: str):
 
 def draw_heat(summ: pd.DataFrame, dim: str, modes: list[str]):
     """Nico (18/09): heatmap nivel × modo, modo en filas; en cada celda el sesgo y un asterisco si ese sesgo es distinto de cero
-    (t contra 0 entre modelos, q = BH sobre las celdas del heatmap). Entre paréntesis si menos de 12 modelos tienen discordantes."""
+    (t contra 0 entre modelos, q = BH sobre las celdas del heatmap dentro de cada modo). Entre paréntesis si menos de 12 modelos tienen discordantes."""
     levels = DIMS[dim]
     piv = lambda col: summ.pivot(index="mode", columns="level", values=col).reindex(index=modes, columns=levels)  # noqa: E731
     M, Q, N = piv("bias"), piv("q_bh"), piv("n_models")
@@ -127,7 +127,7 @@ def draw_heat(summ: pd.DataFrame, dim: str, modes: list[str]):
     ax.tick_params(length=0)
     cb = fig.colorbar(im, ax=ax, fraction=.04, pad=.02); cb.set_label("sesgo (+ = hacia rechazar a la IA)", fontsize=8.5)
     ax.set_title(f"Figura 4 · Sesgo hacia la IA por {DIM_LABEL[dim]} y modo", fontsize=10)
-    fig.text(.01, -.03, "Celda = media de 24 modelos · * y borde negro = distinto de cero (q < 0,05, BH sobre las celdas)", fontsize=8.5,
+    fig.text(.01, -.03, "Celda = media de 24 modelos · * y borde negro = distinto de cero (q < 0,05, BH sobre las celdas del modo)", fontsize=8.5,
              color="#555555", ha="left", va="top")
     return fig
 
@@ -159,10 +159,10 @@ def main():
         else:
             res.figure(f"p4_{dim}", draw_heat(s, dim, modes),
                        f"Heatmap {DIM_LABEL[dim]} × modo (modo en filas): en cada celda el sesgo de dirección medio sobre los modelos con discordantes; "
-                       "asterisco y negrita = distinto de cero (t entre modelos, q < 0,05 con BH sobre todas las celdas del heatmap); entre paréntesis "
+                       "asterisco y negrita = distinto de cero (t entre modelos, q < 0,05 con BH sobre las celdas de cada modo); entre paréntesis "
                        "= menos de 12 modelos con discordantes (self-empowerment, sobre todo)." + (" El control no tiene dominio." if dim == "domain" else ""))
     res.table("bias_direction_by_level_per_model", pd.concat(allpm), "Por modelo, modo, dimensión y nivel: pares, conteos discordantes y sesgo.", show=False)
-    res.table("bias_direction_by_level", pd.concat(allsum), "Por dimensión, modo y nivel: sesgo medio, IC t entre modelos, p (t contra 0) y q = BH sobre las celdas de la dimensión, modelos con sesgo > 0.", show=True)
+    res.table("bias_direction_by_level", pd.concat(allsum), "Por dimensión, modo y nivel: sesgo medio, IC t entre modelos, p (t contra 0) y q = BH sobre las celdas de la dimensión dentro de cada modo, modelos con sesgo > 0.", show=True)
     res.note("Registro de decisiones: 4_analysis/results/53_fig4_notelab/NARRATIVA_F4.md.")
     res.conclusion("Capa visual; lectura pendiente de Nico.")
     out = res.write()

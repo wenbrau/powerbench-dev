@@ -1,0 +1,21 @@
+{
+ "name": "84_fig3f_ivw",
+ "title": "Figura 3, panel F: log-OR IA vs humano por modelo, los tres modos de poder combinados por inversa de la varianza",
+ "question": "¿Cómo queda el punto de 'power shifting' de cada modelo si los tres log-OR por modo se combinan por su información en vez de promediarlos con peso igual? Sin cambios en el GLMM ni en el test (bloques 64 y 83).",
+ "status": "APROBADO por Nico (20/09): reemplaza a power_shifting_mean_of_modes del bloque 64 en la Figura 3 F",
+ "date": "2026-09-20",
+ "commit": "9bee4b0",
+ "conclusion": "Con pesos por información, self-empowerment pesa una décima parte del punto y la recta del GLMM queda dentro de la nube; nada cambia en el test.",
+ "inputs": [
+  "4_analysis/results/64_fig4_capability_glmm/capability_per_model_log_or.csv",
+  "4_analysis/results/64_fig4_capability_glmm/capability_glmm.csv",
+  "4_analysis/results/30_fig1_glmm/capability_index.csv",
+  "4_analysis/results/83_bh_fig3f_fig2b/bh_families.csv"
+ ],
+ "tables": [
+  "capability_per_model_log_or_ivw"
+ ],
+ "figures": [
+  "pF_capability_ivw"
+ ]
+}

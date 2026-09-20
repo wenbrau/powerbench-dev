@@ -102,7 +102,7 @@ def main():
 
     # ---------------------------------------------------------------- A: exceso de |sesgo| sobre el azar, por modelo (bloque 55; Nico, 18/09)
     # Mismo criterio que el panel B de la Figura 2: por modelo, |sesgo| − esperado bajo su nulo binomial exacto; media de 24, IC 95 % t
-    # entre modelos; el azar es la línea en 0; q = BH sobre las 8 celdas. Sin la palabra "polo" (pedido de Nico, 17/09).
+    # entre modelos; el azar es la línea en 0; q = BH sobre los 4 modos de cada set (desde el 20/09). Sin la palabra "polo" (pedido de Nico, 17/09).
     s = A.set_index(["set", "mode"])
     axA = [fig.add_subplot(gsA[0, 0]), fig.add_subplot(gsA[0, 1], sharey=None)]
     x = np.arange(len(MODES4)); wd = .38   # wd lo siguen usando los paneles B y C

@@ -1,0 +1,18 @@
+{
+ "w_he_median": {
+  "est": 0.10288100101210754,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "peso de self-empowerment en el punto",
+  "note": "min 0.036, max 0.310; antes 1/3"
+ },
+ "se_median_ivw": {
+  "est": 0.1855344241600408,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "SE por punto",
+  "note": "media simple: 0.242"
+ }
+}

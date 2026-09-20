@@ -5,7 +5,7 @@
   "hi": 0.11543599938481813,
   "p": 0.1557437726682264,
   "unit": "|sesgo| − E0",
-  "note": "q_bh = 0.249; 16/24 modelos > 0; bloque 45: p_perm = 0.058"
+  "note": "q_bh = 0.208; 16/24 modelos > 0; bloque 45: p_perm = 0.058"
  },
  "side_excess_geo_de": {
   "est": 0.1441997596177006,
@@ -13,7 +13,7 @@
   "hi": 0.21772126996981878,
   "p": 0.0004878716213249849,
   "unit": "|sesgo| − E0",
-  "note": "q_bh = 0.004; 20/24 modelos > 0; bloque 45: p_perm = 0.000"
+  "note": "q_bh = 0.002; 20/24 modelos > 0; bloque 45: p_perm = 0.000"
  },
  "side_excess_geo_pg": {
   "est": 0.11579662238674619,
@@ -21,7 +21,7 @@
   "hi": 0.18669525684307026,
   "p": 0.0025888084961749906,
   "unit": "|sesgo| − E0",
-  "note": "q_bh = 0.010; 17/24 modelos > 0; bloque 45: p_perm = 0.000"
+  "note": "q_bh = 0.005; 17/24 modelos > 0; bloque 45: p_perm = 0.000"
  },
  "side_excess_geo_control": {
   "est": 0.009673591480137713,
@@ -29,7 +29,7 @@
   "hi": 0.08054786207115258,
   "p": 0.7802004278613717,
   "unit": "|sesgo| − E0",
-  "note": "q_bh = 0.830; 9/24 modelos > 0; bloque 45: p_perm = 0.331"
+  "note": "q_bh = 0.780; 9/24 modelos > 0; bloque 45: p_perm = 0.331"
  },
  "side_excess_neutral_he": {
   "est": -0.06649628482374297,
@@ -37,7 +37,7 @@
   "hi": -0.0011043639282499323,
   "p": 0.04655302154827743,
   "unit": "|sesgo| − E0",
-  "note": "q_bh = 0.124; 7/24 modelos > 0; bloque 45: p_perm = 0.960"
+  "note": "q_bh = 0.186; 7/24 modelos > 0; bloque 45: p_perm = 0.960"
  },
  "side_excess_neutral_de": {
   "est": 0.061090362137697245,
@@ -45,7 +45,7 @@
   "hi": 0.14605571411828877,
   "p": 0.15012983559277707,
   "unit": "|sesgo| − E0",
-  "note": "q_bh = 0.249; 15/23 modelos > 0; bloque 45: p_perm = 0.023"
+  "note": "q_bh = 0.300; 15/23 modelos > 0; bloque 45: p_perm = 0.023"
  },
  "side_excess_neutral_pg": {
   "est": -0.011634299641525493,

@@ -5,9 +5,9 @@ el 18/09 (registro: 53_fig4_notelab/NARRATIVA_F4.md); ningún cálculo nuevo.
   A  niveles de refusal humano / IA por modo, media de 24, IC del Δ pareado sobre la barra de IA        (bloque 54, p3)
   B  dirección de los desacuerdos humano / IA por modo, media de 24, IC t entre modelos                  (bloque 56)
   C  escala del afectado, individual vs sociedad, por modo, media de 24, IC t; Δ pareado y q             (bloque 60, p4x2)
-  D  heatmap contexto × modo del sesgo, * y borde = distinto de cero (q BH sobre las celdas)             (bloque 59)
+  D  heatmap contexto × modo del sesgo, * y borde = distinto de cero (q BH sobre las celdas del modo)             (bloque 59)
   E  heatmap dominio × modo (sin control: no tiene dominio)                                              (bloque 59)
-  F  capacidad: log-OR IA / humano por modelo con IC, power-shifting (media de los 3 modos) vs control,
+  F  capacidad: log-OR IA / humano por modelo con IC, power-shifting (los 3 modos combinados por inversa de la varianza, bloque 84) vs control,
      recta del GLMM marginalizada sobre prompts                                                          (bloque 64, pC)
 Tests del cuerpo: bloque 58 (efecto IA y origen), bloque 60 (escala), bloque 64 (capacidad).
 
@@ -47,7 +47,7 @@ SRC = {"A_levels": R / "54_fig4_levels_box" / "levels_pooled.csv", "A_delta": R 
        "B_test": R / "76_fig4_direction_ps_vs_control" / "ps_vs_control_summary.csv",  # 19/09: test power shifting − control (Nico)
        "C_cells": R / "60_fig4_ai_level_glmm" / "scale_4x2_cells.csv", "C_t": R / "60_fig4_ai_level_glmm" / "bias_direction_paired_t.csv",
        "DE": R / "59_fig4_by_dimension" / "bias_direction_by_level.csv",
-       "F_pm": R / "64_fig4_capability_glmm" / "capability_per_model_log_or.csv", "F_glmm": R / "64_fig4_capability_glmm" / "capability_glmm.csv",
+       "F_pm": R / "84_fig3f_ivw" / "capability_per_model_log_or_ivw.csv", "F_glmm": R / "64_fig4_capability_glmm" / "capability_glmm.csv",
        "bh83": R / "83_bh_fig3f_fig2b" / "bh_families.csv",
        "cap": R / "30_fig1_glmm" / "capability_index.csv"}
 MODES = ["he", "de", "pg", "control"]
@@ -161,7 +161,7 @@ def heat(ax, fig, s, levels, modes, title, cbar=True, cax=None):
 
 def count_bars(ax, s, levels, modes, title):
     """Nico (19/09): "unas barras al lado de los heatmaps, que crezcan hacia la derecha (siguiendo cada fila) que sea, para cada modo,
-    cuántas celdas son significativas por sí solas". Cuenta, por modo, las celdas con q < 0,05 (BH sobre las celdas del heatmap)."""
+    cuántas celdas son significativas por sí solas". Cuenta, por modo, las celdas con q < 0,05 (BH sobre las celdas de cada modo)."""
     piv = lambda col: s.pivot(index="mode", columns="level", values=col).reindex(index=modes, columns=levels)  # noqa: E731
     M, Q = piv("bias"), piv("q_bh")
     k = ((Q < .05) & np.isfinite(M)).sum(axis=1).to_numpy()
@@ -211,7 +211,7 @@ def main():
     panel_A(axA, lv, dl); panel_B(axB, B, Bps, Btest); panel_C(axC, cells, tp)
     letter(axA, "A", -40); letter(axB, "B", -44); letter(axC, "C", -40)
     axD = fig.add_subplot(gs[1, 0:11]); axE = fig.add_subplot(gs[2, 0:11])
-    heat(axD, fig, DE[DE.dim == "context"], CONTEXTS, MODES, "Sesgo hacia la IA por contexto y modo · * y borde = distinto de cero (q < 0,05, BH sobre las celdas)", cbar=False)
+    heat(axD, fig, DE[DE.dim == "context"], CONTEXTS, MODES, "Sesgo hacia la IA por contexto y modo · * y borde = distinto de cero (q < 0,05, BH sobre las celdas del modo)", cbar=False)
     letter(axD, "D", -95)
     imE = heat(axE, fig, DE[DE.dim == "domain"], DOMAINS, ["he", "de", "pg"], "Sesgo hacia la IA por dominio y modo (el control no tiene dominio) · misma escala que D", cbar=False)
     letter(axE, "E", -95)
@@ -227,7 +227,7 @@ def main():
     axF1 = fig.add_subplot(gsF[0, 0]); axF2 = fig.add_subplot(gsF[1, 0], sharex=axF1, sharey=axF1)
     pool = gl[(gl.run == "pooled")]
     q83 = pd.read_csv(SRC["bh83"]); q83 = q83[(q83.block == 64) & (q83.n_family == 2)].set_index("test").q_bh   # bloque 83: BH sobre power shifting y control
-    panel_F(axF1, pm[pm.set == "power_shifting_mean_of_modes"], pool[pool.set == "power_shifting"].set_index("quantity"), cap, "Capacidad · power-shifting (he + de + pg)", True, float(q83["power_shifting"]))
+    panel_F(axF1, pm[pm.set == "power_shifting_ivw"], pool[pool.set == "power_shifting"].set_index("quantity"), cap, "Capacidad · power-shifting (he + de + pg)", True, float(q83["power_shifting"]))
     panel_F(axF2, pm[pm.set == "control"], pool[pool.set == "control"].set_index("quantity"), cap, "Capacidad · control", False, float(q83["control"]))
     axF1.tick_params(labelbottom=False); axF1.set_xlabel("")
     for a in (axF1, axF2):
@@ -243,14 +243,14 @@ def main():
     res.inputs([str(p.relative_to(ROOT)) for p in SRC.values()])
     res.data("Tablas de los bloques 54, 56, 59, 60 y 64 (todos sobre las filas del bloque 22); índice de capacidad del bloque 30.")
     res.method("A: bootstrap sobre prompts del bloque 22 (Δ pareado). B, C, D, E: estadístico por modelo, media de 24, IC 95 % t entre modelos, q = BH "
-               "(4 modos en B; 4 modos en el Δ de C; celdas del heatmap en D y E). F: GLMM refuse ~ ai × cap_z + (1 + ai || modelo) + (1 | prompt) "
+               "(4 modos en B; 4 modos en el Δ de C; celdas de cada modo en D y E). F: GLMM refuse ~ ai × cap_z + (1 + ai || modelo) + (1 | prompt) "
                "(bloque 64), recta marginalizada sobre prompts (Zeger, Liang y Albert 1988). Tests del cuerpo: bloques 58 (IA y origen), 60 (escala), 64 (capacidad).")
     res.figure("figure4_full", fig,
                "A: refusal medio con usuario humano y con usuario IA por modo; barra de error = IC 95 % del Δ pareado IA − humano; línea punteada = nivel humano. "
                "B: entre los prompts con veredicto distinto, fracción neta que va hacia rechazar a la IA; media de 24 modelos, IC t; azar = 0. "
                "C: el mismo sesgo con afectado individual (claro) y sociedad (oscuro); Δ = diferencia pareada por modelo, q = BH sobre 4. "
-               "D, E: el sesgo por contexto y por dominio; * y borde = distinto de cero (q < 0,05, BH sobre las celdas). "
-               "F: log-OR IA / humano por modelo (media de los tres modos de poder; control aparte) con IC 95 % contra el índice de capacidad; "
+               "D, E: el sesgo por contexto y por dominio; * y borde = distinto de cero (q < 0,05, BH sobre las celdas del modo). "
+               "F: log-OR IA / humano por modelo (los tres modos de poder combinados por inversa de la varianza, bloque 84; control aparte) con IC 95 % contra el índice de capacidad; "
                "recta = GLMM marginalizado sobre prompts; razón de OR por SD y p del GLMM.")
     res.note("Registro panel por panel y decisiones: 4_analysis/results/53_fig4_notelab/NARRATIVA_F4.md. Apéndice: bloques 57 (origen), 59 (curva de "
              "escala, standing), 61 (niveles por escala), 63 (pedido típico), 64 pB (capacidad por modo) y 62 (correlaciones).")
