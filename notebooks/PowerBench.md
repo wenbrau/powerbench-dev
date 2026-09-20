@@ -2904,3 +2904,24 @@ carpetas `4_analysis/review_fig_countries/` y `4_analysis/review_fig_languages/`
   `figure_appendix_D_by_mode.png` (exceso sobre el azar por modelo, F6). Las arma `figure_appendix_CD_by_mode.py`;
   las tiles del D salen de `panelD/F6_exceso_pg.py --mode he|de|pg|control` (hoy el script tomó `--mode`; en he solo
   8 de 24 modelos con exceso significativo, en de 22, en pg 21, en control 17; detalle en `panelD/README.md`).
+
+---
+
+**Sunday, September 20, 2026 · Wendy** (registrado por el agente a pedido de Wendy)
+
+## Versiones de página de las cuatro figuras del cuerpo
+
+Pedido: "que todas las figuras sean legibles en una página tipo paper". Las figuras aprobadas (fig 1 bloque 78, fig 2
+`review_fig_countries/figure_full_split.png`, fig 3 bloque 65, fig 4 `review_fig_languages/figure_full_ps.png`) están
+armadas a 17–22 in de ancho y al ancho de texto de ICLR 2027 (5,5 in) sus textos quedan en 2–3 pt. Se redibujaron
+**los mismos paneles con los mismos números** (los scripts solo leen las tablas guardadas por los bloques; no corren
+ningún GLMM ni permutación) en 5,5 × 7,3–7,7 in, tipografía uniforme de 4,7–7,2 pt, letras de panel, notas metodológicas
+en el caption, en inglés y en español, PDF vectorial + PNG 300 dpi + caption `.md`:
+
+- Fig 4 idiomas: `4_analysis/review_fig_languages/figure_paper.py` → `figure_paper_ps_{en,es}.*` (hecha hoy a la mañana).
+- Figs 1, 2 y 3: `4_analysis/paper_figures/` (`figure1_paper.py`, `figure2_countries_paper.py`, `figure3_aiagent_paper.py`;
+  estilo compartido `_paperstyle.py`, tabla en el `README.md` de la carpeta).
+
+Cambios de forma, sin cambio de contenido: fig 1 en tres filas (A|B|C; D|E; F|G); fig 2 con D en dos filas (USA arriba,
+China abajo) y títulos cortos en A, B, C; fig 3 con los Δ y q rotados y F apilado a la derecha de los heatmaps. Las
+figuras aprobadas siguen siendo la referencia de contenido; estas son la versión para maquetar.
