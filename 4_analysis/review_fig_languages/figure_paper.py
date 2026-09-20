@@ -9,7 +9,9 @@ y en PDF vectorial + PNG 300 dpi. Mismos datos, mismos números, misma lógica d
 
   A1  refusal por idioma y modo, barra de error del GLMM (bloque 36)   panelA/panelA_final_glmm.py   (tasas: mismo groupby)
   A2  sesgo idioma contra idioma, power shifting (bloque 79)            results/79_.../pairwise_bias_summary.csv
-  B   exceso del rango sobre el azar, peso igual vs por requests        panelB/panelB_weighted_requests.csv
+  B   exceso del rango sobre el azar, peso igual vs por requests        panelB/panelB_bootstrap.csv  (20/09: IC y estrellas
+                                                                        del mismo bootstrap sobre prompts para las dos barras;
+                                                                        panelB_weighted_requests.csv es la receta anterior)
   C   acuerdo entre modelos en el ranking de idiomas, power shifting    panelC/panelC_test_stats_power_shifting.csv
                                                                         (la matriz de Spearman se recalcula con el mismo
                                                                         rank_corr / corr_matrix de panelC_with_tests.py:
@@ -70,7 +72,8 @@ N_PAIRS = {"CN–CN": 66, "US–US": 66, "mixto": 144}
 
 GLMM36 = ROOT / "4_analysis/results/36_fig2_language_glmm"
 T79 = ROOT / "4_analysis/results/79_fig2_language_pairwise_bias/pairwise_bias_summary.csv"
-TB = HERE / "panelB/panelB_weighted_requests.csv"
+TB = HERE / "panelB/panelB_bootstrap.csv"          # receta final 20/09: mismo bootstrap sobre prompts para las dos barras
+TB_PERM = HERE / "panelB/panelB_weighted_requests.csv"   # receta anterior (19/09); solo la lee panel_b_perm() para figure_paper_v2.py
 TC = HERE / "panelC/panelC_test_stats_power_shifting.csv"
 TD = HERE / "panelD/F6_exceso_ps.csv"
 CAPS = ROOT / "4_analysis/results/30_fig1_glmm/capability_index.csv"
@@ -82,7 +85,7 @@ TXT = {
     "es": dict(
         a1_title="Refusal por idioma y modo", a1_y="Refusal (%) · 24 modelos",
         a2_title="Sesgo idioma contra idioma\npower shifting (he + de + pg)", a2_cb="sesgo (fila − columna)",
-        b_title="Exceso del rango entre idiomas\nsobre el azar, por modo", b_y="rango observado / azar (OR)",
+        b_title="Sesgo por idioma más allá del azar\npor modo", b_y="rango observado / azar (OR)",
         b_eq="peso igual por modelo", b_wt="peso por uso (requests)",
         c_title="Acuerdo entre modelos en el ranking\nde idiomas · power shifting", c_cb="Spearman",
         c_inset="acuerdo medio por tipo de par", c_inset_y="Spearman medio", c_bracket="mismo origen > mixto",
@@ -94,7 +97,7 @@ TXT = {
     "en": dict(
         a1_title="Refusal by language and mode", a1_y="Refusal (%) · 24 models",
         a2_title="Language-vs-language bias\npower shifting (he + de + pg)", a2_cb="bias (row − column)",
-        b_title="Excess of the language range\nover chance, by mode", b_y="observed / chance range (OR)",
+        b_title="Language bias beyond chance\nby mode", b_y="observed / chance range (OR)",
         b_eq="equal weight per model", b_wt="weighted by usage (requests)",
         c_title="Between-model agreement on the\nlanguage ranking · power shifting", c_cb="Spearman",
         c_inset="mean agreement by pair type", c_inset_y="mean Spearman", c_bracket="same origin > mixed",
@@ -118,9 +121,10 @@ CAPTION = {
         "en un idioma y no en el otro, (rechaza solo en la fila − solo en la columna) / discordantes; media de los 24 modelos. "
         "Descriptivo, sin tests. "
         "**(B)** Rango entre idiomas del logit de R (idioma más rechazado vs menos rechazado) dividido por el rango esperado con los "
-        "idiomas barajados dentro de cada prompt (2.000 permutaciones), por modo. Barra clara: media con peso igual de los 24 modelos, "
-        "IC 95 % t entre modelos; barra oscura: media pesada por la participación de cada modelo en los requests de OpenRouter (30 días), "
-        "IC 95 % bootstrap sobre prompts (1.000 réplicas, pivotal). Estrellas: test de permutación de idiomas dentro del prompt. "
+        "idiomas barajados dentro de cada prompt (2.000 permutaciones), por modo. Barra clara: media con peso igual de los 24 modelos; "
+        "barra oscura: media pesada por la participación de cada modelo en los requests de OpenRouter (30 días). IC 95 % por bootstrap "
+        "sobre prompts (4.000 réplicas, corrección pivotal; punto corregido por el sesgo del bootstrap), el mismo para las dos barras. "
+        "Estrellas: el IC excluye 1 (* al 95 %, ** al 99 %, *** al 99,9 %). "
         "**(C)** Correlación de Spearman entre los rankings de idiomas (R sobre los 576 prompts de power shifting) de cada par de "
         "modelos; etiquetas coloreadas por origen. Recuadro: acuerdo medio por tipo de par; banda gris: intervalo 95 % con los idiomas "
         "permutados dentro de cada modelo (5.000 permutaciones), estrella: el grupo acuerda más que ese azar; corchete: mismo origen vs "
@@ -142,9 +146,10 @@ CAPTION = {
         "refused in one language and not in the other, (refused only in the row − only in the column) / discordant; mean of the 24 "
         "models. Descriptive, no tests. "
         "**(B)** Range across languages of logit R (most vs least refused language) divided by the range expected with languages "
-        "shuffled within each prompt (2,000 permutations), by mode. Light bar: equal-weight mean of the 24 models, 95% t CI across "
-        "models; dark bar: mean weighted by each model's share of OpenRouter requests (30 days), 95% bootstrap CI over prompts "
-        "(1,000 replicates, pivotal). Stars: permutation test of languages within prompt. "
+        "shuffled within each prompt (2,000 permutations), by mode. Light bar: equal-weight mean of the 24 models; dark bar: mean "
+        "weighted by each model's share of OpenRouter requests (30 days). 95% CI by bootstrap over prompts (4,000 replicates, "
+        "pivotal correction; point bias-corrected), the same bootstrap for both bars. Stars: the CI excludes 1 (* at 95%, ** at 99%, "
+        "*** at 99.9%). "
         "**(C)** Spearman correlation between the language rankings (R over the 576 power-shifting prompts) of each pair of models; "
         "labels coloured by origin. Inset: mean agreement by pair type; grey band: 95% interval with languages permuted within each "
         "model (5,000 permutations), star: the group agrees more than that chance; bracket: same origin vs mixed with the CN/US labels "
@@ -246,10 +251,43 @@ def panel_a2(ax, fig, t):
     cb.outline.set_linewidth(.4)
 
 
-# ---------------------------------------------------------------- B (panelB/panelB_weighted_requests.py :: plot)
+# ---------------------------------------------------------------- B (panelB/panelB_bootstrap.py :: plot) — receta final 20/09
 def panel_b(ax, t, q=None):
-    """q: opcional, {(mode, "eq"|"wt"): q de BH} para las estrellas (figure_paper_v2.py); sin q, p de permutación crudo."""
-    tab = pd.read_csv(TB).set_index("mode").loc[list(MODES)]
+    """Panel B con la receta final del 20/09 (Wendy con Nico): IC y estrellas de las dos barras del MISMO bootstrap sobre prompts
+    (panelB_bootstrap.csv; estrellas = el IC excluye 1 al 95 / 99 / 99,9 %). `q` se acepta por compatibilidad con figure_paper_v2.py
+    y se IGNORA: no hay p-valores que corregir por BH, las estrellas vienen del intervalo. La receta anterior (permutación + t /
+    bootstrap, con p corregibles por BH) sigue en panel_b_perm() para figure_paper_v2.py."""
+    tab = pd.read_csv(TB).set_index(["mode", "weights"])
+    eqt, wtt = tab.xs("eq", level="weights").loc[list(MODES)], tab.xs("use", level="weights").loc[list(MODES)]
+    x = np.arange(len(MODES)); wb = .38
+    eq, eqlo, eqhi = eqt.excess_bc_or, eqt.lo95_or, eqt.hi95_or
+    wt, wtlo, wthi = wtt.excess_bc_or, wtt.lo95_or, wtt.hi95_or
+    col = [MODE_COLORS[m] for m in MODES]
+    ax.bar(x - wb / 2, eq - 1, bottom=1, width=wb, color=col, alpha=.4, label=t["b_eq"], zorder=2)
+    ax.errorbar(x - wb / 2, eq, yerr=[eq - eqlo, eqhi - eq], fmt="none", ecolor="#222", elinewidth=.6, capsize=1.6, capthick=.6, zorder=3)
+    ax.bar(x + wb / 2, wt - 1, bottom=1, width=wb, color=col, label=t["b_wt"], zorder=2)
+    ax.errorbar(x + wb / 2, wt, yerr=[wt - wtlo, wthi - wt], fmt="none", ecolor="#222", elinewidth=.8, capsize=1.6, capthick=.8, zorder=3)
+    ax.axhline(1, color="k", lw=.6, ls="--", zorder=1)
+    for xi, m in zip(x, MODES):
+        for tt, off in ((eqt, -wb / 2), (wtt, wb / 2)):
+            s = tt.loc[m, "stars"]
+            ax.text(xi + off, tt.loc[m, "hi95_or"] * 1.03, s if isinstance(s, str) else "", ha="center", va="bottom", fontsize=F_BASE)
+    ax.set_yscale("log"); ax.set_yticks([.5, .7, 1, 1.5, 2, 3, 4]); ax.yaxis.set_major_formatter(mticker.ScalarFormatter())
+    ax.yaxis.set_minor_formatter(mticker.NullFormatter())
+    top = max(eqhi.max(), wthi.max()); ax.set_ylim(min(.85, min(eqlo.min(), wtlo.min()) * .92), top * 1.35)
+    ax.set_ylabel(t["b_y"])
+    ax.set_xticks(x, [MODE_LABEL2[m] for m in MODES], fontsize=F_SMALL)
+    ax.grid(axis="y", alpha=.15)
+    ax.legend(frameon=False, loc="upper right", handlelength=1.2, borderaxespad=.2)
+    ax.set_title(t["b_title"])
+
+
+# ---------------------------------------------------------------- B, receta ANTERIOR (panelB/panelB_weighted_requests.py :: plot)
+def panel_b_perm(ax, t, q=None):
+    """Receta del 19/09, conservada solo para figure_paper_v2.py (Nico): barra clara IC t entre modelos, barra oscura IC bootstrap
+    (1.000 réplicas, pivotal), estrellas del test de permutación (o su q de BH si se pasa `q`, {(mode, "eq"|"wt"): q}).
+    Lee TB_PERM. La figura de página oficial usa panel_b() (receta final del 20/09)."""
+    tab = pd.read_csv(TB_PERM).set_index("mode").loc[list(MODES)]
     x = np.arange(len(MODES)); wb = .38
     eq, eqlo, eqhi = np.exp(tab.excess_eq), np.exp(tab.eq_lo), np.exp(tab.eq_hi)
     wt, wtlo, wthi = np.exp(tab.excess_wt_bc), np.exp(tab.wt_lo_bc), np.exp(tab.wt_hi_bc)

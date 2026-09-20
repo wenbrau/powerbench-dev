@@ -172,7 +172,7 @@ def bh_q():
     s = pd.read_csv(R81 / "summary.csv")
     for lab, key in (("C B1", "Q1 en rho"), ("C B2", "Q2")):
         r = s[s.question.str.startswith(key)].iloc[0]; rows.append(dict(panel="C", family="test único", test=lab, p=float(r.p_t), q=float(r.p_t)))
-    tb = pd.read_csv(fp.TB).set_index("mode").loc[list(MODES)]
+    tb = pd.read_csv(fp.TB_PERM).set_index("mode").loc[list(MODES)]   # receta del 19/09 (p de permutación, corregibles por BH); la oficial es fp.TB / fp.panel_b (20/09)
     qd = {}
     for ser, col in (("eq", "p_perm_eq"), ("wt", "p_perm_wt")):
         qs = bh(tb[col])
@@ -201,7 +201,7 @@ def build(lang, d):
     axD = fig.add_axes([.155, .10, .27, .33])
     axE = fig.add_axes([.575, .43 - .2437, .35, .2437])
     qa, qd, qf, qtab = bh_q()
-    fp.panel_a1(axA1, d, t, q=qa); panel_a2_bump(axA2, t2); panel_b_bars(axB, t2); fp.panel_b(axC, t, q=qd); fp.panel_d(axD, t); fp.panel_c(axE, d, t, q=qf)
+    fp.panel_a1(axA1, d, t, q=qa); panel_a2_bump(axA2, t2); panel_b_bars(axB, t2); fp.panel_b_perm(axC, t, q=qd); fp.panel_d(axD, t); fp.panel_c(axE, d, t, q=qf)
     axC.legend(frameon=False, loc="upper right", handlelength=1.0, borderaxespad=0, fontsize=F_TINY)
     axC.set_title(t2["c_title"]); axC.set_ylim(top=6.0)
     axC.set_xticks(range(len(MODES)), [MODE_SHORT[md] for md in MODES], fontsize=F_SMALL, rotation=30, ha="right", rotation_mode="anchor")
