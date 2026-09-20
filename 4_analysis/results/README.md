@@ -6,7 +6,7 @@ One folder per analysis. Each README says what question it answers, which rows i
 
 Figura 1 (D1 inglés): el registro panel por panel, con los tests y las decisiones de Nico citadas, es [25_fig1_notelab/NARRATIVA_F1.md](25_fig1_notelab/NARRATIVA_F1.md); los tests viven en los bloques 30 y 31.
 
-> **Documento único (20/09): [RESULTADOS_CONSOLIDADOS.md](RESULTADOS_CONSOLIDADOS.md)** — las cuatro figuras panel por panel con sus tests, familias BH, lecturas de Nico y apéndices; narrativa global; auditoría de consistencia estadística; decisiones pendientes.
+> **Documento único (20/09): [../RESULTADOS_CONSOLIDADOS.md](../RESULTADOS_CONSOLIDADOS.md)** — las cuatro figuras panel por panel con sus tests, familias BH, lecturas de Nico y apéndices; narrativa global; auditoría de consistencia estadística; decisiones pendientes.
 
 Figura 4 (D3 agente IA vs D1): el registro es [53_fig4_notelab/NARRATIVA_F4.md](53_fig4_notelab/NARRATIVA_F4.md); los datos y primeros números son el bloque 22 (Tomás) y los gráficos candidatos están en `fig4_working/` (Wendy, 16–18/09).
 
