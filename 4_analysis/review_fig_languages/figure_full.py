@@ -7,7 +7,8 @@ pg, control) van a un apéndice: figure_appendix_CD_by_mode.py.
 
   A1  panel A final con IC del GLMM (modelos aleatorios)      panelA/panelA_final_glmm.py
   A2  sesgo idioma contra idioma, power shifting (bloque 79)   4_analysis/analysis_79_fig2_language_pairwise_bias.py
-  B   exceso del rango, peso igual vs peso por requests        panelB/panelB_weighted_requests.py
+  B   exceso del rango, peso igual vs peso por requests        panelB/panelB_bootstrap.py  (20/09: IC y estrellas del mismo
+                                                              bootstrap sobre prompts; antes panelB_weighted_requests.py)
   C   acuerdo entre modelos en el ranking de idiomas, pg       panelC/panelC_with_tests.py
   D   exceso sobre el azar por modelo, pg (F6)                 panelD/F6_exceso_pg.py
 
@@ -45,13 +46,13 @@ assert CD in ("pg", "ps"), CD
 SRC = {
     "A1": HERE / "panelA" / "panelA_final_glmm.png",
     "A2": ROOT / "4_analysis" / "results" / "79_fig2_language_pairwise_bias" / "pairwise_bias_power_shifting.png",
-    "B": HERE / "panelB" / "panelB_weighted_requests.png",
+    "B": HERE / "panelB" / "panelB_bootstrap.png",      # 20/09: receta final (mismo bootstrap para las dos barras)
     "C": HERE / "panelC" / ("panelC_final_pg.png" if CD == "pg" else "panelC_final_power_shifting.png"),
     "D": HERE / "panelD" / f"F6_exceso_{CD}.png",
 }
 RERENDER = {  # panel -> (script, argv) ; se re-renderizan a 300 dpi en HERE/_hires/
     "A1": (HERE / "panelA" / "panelA_final_glmm.py", []),
-    "B": (HERE / "panelB" / "panelB_weighted_requests.py", ["--plot-only"]),
+    "B": (HERE / "panelB" / "panelB_bootstrap.py", ["--plot-only"]),
 }
 HIRES_DPI = 300
 OUT = HERE / f"figure_full_{CD}.png"

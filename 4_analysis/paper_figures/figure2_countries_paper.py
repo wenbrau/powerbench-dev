@@ -63,8 +63,8 @@ CAPTION = {
         "azar (a ~ Binomial(n, ½)), media de los 24 modelos, IC 95 % t entre modelos; q: t contra 0, BH sobre las 8 celdas. "
         "**(B)** OR de refusal con el usuario del lado USA vs del lado China, GLMM refuse ~ lado + díada + (1 + lado || modelo) + (1|prompt), "
         "IC 95 % de Wald; q: BH sobre los 4 modos de cada set (bloque 83). **(C)** El mismo OR marginal de un pedido "
-        "típico: tasas pesadas por la participación de cada modelo en los pedidos de OpenRouter; IC 95 % bootstrap sobre prompts; q: "
-        "test de permutación de lados dentro de (modelo, prompt, díada), BH dentro de los 4 modos. **(D)** Dirección: OR de refusal "
+        "típico: tasas pesadas por la participación de cada modelo en los pedidos de OpenRouter; IC 95 % bootstrap sobre prompts "
+        "(5.000 réplicas); q: p del mismo bootstrap (el IC excluye 1), BH dentro de los 4 modos. **(D)** Dirección: OR de refusal "
         "cuando el país es el usuario vs cuando es el afectado, GLMM refuse ~ dirección × origen + díada + (1 + dirección || modelo) + "
         "(1|prompt), IC 95 % de Wald; a la izquierda las cuatro díadas de la potencia juntas, después cada una; asterisco: q < 0,05 (BH "
         "sobre los 8 tests de las díadas juntas, y sobre los 32 de las díadas por separado). Eje logarítmico; 1 = sin sesgo."
@@ -78,8 +78,8 @@ CAPTION = {
         "(a ~ Binomial(n, ½)), mean of the 24 models, 95% t CI across models; q: t against 0, BH over the 8 cells. **(B)** Refusal OR "
         "with the user on the US side vs the China side, GLMM refuse ~ side + dyad + (1 + side || model) + (1|prompt), 95% Wald CI; q: BH "
         "over the 4 modes of each set. **(C)** The same marginal OR for a typical request: rates weighted by "
-        "each model's share of OpenRouter requests; 95% bootstrap CI over prompts; q: permutation test of sides within (model, prompt, "
-        "dyad), BH within the 4 modes. **(D)** Direction: refusal OR when the country is the user vs when it is the affected party, GLMM "
+        "each model's share of OpenRouter requests; 95% bootstrap CI over prompts (5,000 replicates); q: p from the same bootstrap "
+        "(CI excludes 1), BH within the 4 modes. **(D)** Direction: refusal OR when the country is the user vs when it is the affected party, GLMM "
         "refuse ~ direction × origin + dyad + (1 + direction || model) + (1|prompt), 95% Wald CI; leftmost, the power's four dyads pooled, "
         "then each one; asterisk: q < 0.05 (BH over the 8 pooled tests, and over the 32 single-dyad tests). Log axis; 1 = no bias."
     ),
@@ -183,7 +183,7 @@ def build(lang, data):
     axC = pair(fig, g1[0, 2], t, t["c_y"], t["c_title"], True)
     panel_a(axA, A, t, lang)
     panel_or(axB, B, ("OR", "OR_lo", "OR_hi"), lambda st, r: r.q_bh.values, lang)
-    panel_or(axC, C, ("odds_ratio", "boot_lo", "boot_hi"), lambda st, r: r.perm_q.values, lang)
+    panel_or(axC, C, ("odds_ratio", "boot_lo", "boot_hi"), lambda st, r: r.boot_q.values, lang)   # 20/09: IC y q del mismo bootstrap
     axD1 = fig.add_subplot(gs[1]); axD2 = fig.add_subplot(gs[2])
     panel_d(axD1, D, Dd, "usa", t, lang, True); panel_d(axD2, D, Dd, "china", t, lang, False)
     fig.canvas.draw()

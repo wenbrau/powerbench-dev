@@ -34,19 +34,19 @@
 
 ### 2\. Biases by country of the user vs. country of the third party
 
-Robustness check - no cambia pesar por numero de pares discordantes dentro de cada modelo (que los que tienen poco aporten menos a la media y a la varianza)
+\-Robustness check - no cambia pesar por numero de pares discordantes dentro de cada modelo (que los que tienen poco aporten menos a la media y a la varianza)
 
 *Imported from: [wenbrau/powerbench-dev · 4_analysis/review_fig_countries/panelA/panelA_weighted_corrected.png](https://github.com/wenbrau/powerbench-dev/blob/6292c5850a4356662c46e702cdf8c4cf36d247a1/4_analysis/review_fig_countries/panelA/panelA_weighted_corrected.png)*
 
 ![panelA_weighted_corrected.png](../4_analysis/review_fig_countries/panelA/panelA_weighted_corrected.png)
 
-Robustness check - FE vs SE
+\-Robustness check - FE vs SE
 
 *Imported from: [wenbrau/powerbench-dev · 4_analysis/review_fig_countries/panelB/panelB_fe_cluster.png](https://github.com/wenbrau/powerbench-dev/blob/6292c5850a4356662c46e702cdf8c4cf36d247a1/4_analysis/review_fig_countries/panelB/panelB_fe_cluster.png)*
 
 ![panelB_fe_cluster.png](../4_analysis/review_fig_countries/panelB/panelB_fe_cluster.png)
 
-Heterogeneity - homogeneous by domain
+\-Heterogeneity - homogeneous by domain
 
 > *Pasted · 2026-09-19*
 >
@@ -56,13 +56,13 @@ Heterogeneity - homogeneous by domain
 
 ### 3\. Biases by AI 
 
-Pesar por poblacion no cambia las conclusiones
+- Pesar por poblacion no cambia las conclusiones
 
 ### 4\. Biases by language
 
-paneles C y D por modo (en vez de general para shifting)
+\-paneles C y D por modo (en vez de general para shifting)
 
-probar la misma figura sacando para todo los modelos para los cuales no confiamos en el swahili
+\-probar la misma figura sacando para todo los modelos para los cuales no confiamos en el swahili
 
 ---
 
