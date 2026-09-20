@@ -11,6 +11,7 @@ metodológicas en el caption. Salida por figura: `<stem>_{en,es}.pdf` (vectorial
 |---|---|---|---|
 | 1 · D1 inglés | `figure1_paper.py` → `figure1_paper_{en,es}.*` (5,5 × 7,3 in) | `results/78_fig1_v3/figure1_full.png` | bloques 78, 70, 77 |
 | 2 · países (D2) | `figure2_countries_paper.py` → `figure2_countries_paper_{en,es}.*` (5,5 × 7,4 in) | `review_fig_countries/figure_full_split.png` | bloques 55, 45, 73, 46 |
+|   | 20/09 (tarde): panel C con IC y q del mismo bootstrap sobre prompts (`boot_q` del bloque 73, BH en los 4 modos) en vez de q de permutación; ninguna estrella cambia. Misma regla que el panel B de idiomas. **Versión final vigente.** | | |
 | 3 · agente IA (D3 vs D1) | `figure3_aiagent_paper.py` → `figure3_aiagent_paper_{en,es}.*` (5,5 × 7,6 in) | `results/65_fig4_composite/figure4_full.png` | bloques 54, 56, 59, 60, 64, 76, 30 |
 | 4 · idiomas | **no está acá**: desde el 20/09 (tarde) la vigente es `review_fig_languages/figure_paper_v2.py` → `figure_paper_v2_ps_en.*` (5,5 × 7,9 in, paneles A–F, BH en todos, solo inglés; Nico) | preview `review_fig_languages/figure_full_v2_ps.png` | bloques 36, 81 + paneles B (bootstrap único + BH), C, D de esa carpeta. La disposición anterior (`figure_paper.py` → `figure_paper_ps_{en,es}.*`, `figure_full_ps.png`) sigue actualizada pero ya no es la referencia |
 

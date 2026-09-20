@@ -2972,3 +2972,30 @@ rehecho. La receta anterior queda disponible como `figure_paper.panel_b_perm` / 
 sobre el azar = el panel B de hoy; E exceso por modelo; F acuerdo entre modelos; BH en todos los paneles; solo inglés). Preview
 de tiles: `figure_full_v2_ps.png`. Reemplaza como "final por ahora" a `figure_full_ps.png` / `figure_paper_ps_{es,en}.*`
 (la disposición A1/A2/B/C/D de ayer), que quedan actualizadas con el mismo panel B pero ya no son la referencia.
+
+## Panel C de países (por uso): IC y q del mismo bootstrap; nueva versión final de la figura de países
+
+Misma regla que en el panel B de idiomas, aplicada a la figura de países (D2). El panel C ("pedido típico, por uso": OR de
+refusal con usuario del lado USA vs del lado China, tasas pesadas por la participación de cada modelo en los requests de
+OpenRouter) llevaba la barra de error del bootstrap sobre prompts y las estrellas del test de permutación de lados dentro
+de (modelo, prompt, díada), la decisión de Nico del 19/09 ("bootstrap para la barra, permutación para el test"). Dos
+procedimientos distintos para un mismo panel. **Decisión (Wendy, 20/09): IC y q salen del mismo bootstrap, con BH.**
+
+Por qué el panel C existe con otro método que el B: los dos hacen la misma pregunta, pero el B es un GLMM con el modelo
+como efecto aleatorio (cada modelo cuenta igual) y un efecto aleatorio no admite pesos por modelo; el C es el OR de tasas
+pesadas calculado a mano, y un estadístico a mano no trae IC ni p, hay que elegir de dónde salen. Ahora salen los dos del
+bootstrap: 5.000 réplicas sobre prompts (cada prompt con sus díadas y sus 24 modelos, pesos fijos), IC percentil 95 %
+**sin corrección de sesgo** (a diferencia del rango en idiomas, un OR de tasas remuestreadas queda centrado: el observado
+cae en el medio del intervalo en todas las filas; decidido con Wendy), p por inversión del IC (bilateral, 2·min(cola)) y q
+de Benjamini-Hochberg dentro de los 4 modos de cada set. Todo esto ya lo calculaba el bloque 73 (`boot_p`, `boot_q`); el
+cambio es solo qué columna dibujan las figuras: `boot_q` en vez de `perm_q`.
+
+Efecto en los números, set geo (q permutación → q bootstrap): self-empowerment 0,445 → 0,426; disempowerment < 0,001 →
+0,003; power grabbing 0,011 → 0,007; control 0,746 → 0,761. Neutral sigue sin nada (q ≥ 0,80). Ninguna estrella cambia:
+de y pg significativos en geo, nada en neutral.
+
+Archivos regenerados: **versión de página `4_analysis/paper_figures/figure2_countries_paper_{es,en}.{pdf,png}` + captions
+(la versión que va al paper)** y la figura grande `4_analysis/review_fig_countries/figure_full_split.png` (su script y
+etiqueta del panel C). **Esta es la nueva versión final de la figura de países.** El bloque 73 no se recalculó ni se tocó
+(su README sigue describiendo las dos columnas; la permutación queda ahí como referencia, sin consumidores en las figuras).
+Los paneles A (t entre modelos + BH), B y D (GLMM, Wald + BH) ya cumplían la regla y no cambian.

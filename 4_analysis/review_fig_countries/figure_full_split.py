@@ -91,9 +91,9 @@ def main():
     # ---------------------------------------------------------------- C: pedido típico pesado por pedidos, geo | neutral
     so = C.set_index(["set", "group"])
     split_panel(fig, gs[0, 10:14], {st: so.loc[st] for st, _, _ in SETS},
-                "OR de refusal, usuario lado USA vs lado China" + NL + "(pesado por pedidos; IC bootstrap; q: permutación + BH)",
+                "OR de refusal, usuario lado USA vs lado China" + NL + "(pesado por pedidos; IC y q del mismo bootstrap sobre prompts, BH)",
                 "Un pedido típico: OR marginal pesado por pedidos", "C",
-                q_of=lambda st, r: r.perm_q.values, ci_cols=("odds_ratio", "boot_lo", "boot_hi"))
+                q_of=lambda st, r: r.boot_q.values, ci_cols=("odds_ratio", "boot_lo", "boot_hi"))   # 20/09: IC y q del mismo bootstrap
 
     # ---------------------------------------------------------------- D: como en el bloque 51
     Dj = D[D.quantity == "direccion (24 modelos)"]; Dd = Dd_all[Dd_all.quantity == "direccion (24 modelos)"]
