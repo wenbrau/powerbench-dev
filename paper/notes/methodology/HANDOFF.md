@@ -138,7 +138,9 @@ Excluded models (solar-pro4, gemini-2.5-flash-lite, opus-5) are **not** mentione
 - Keep each item as short as it can be. Draft in the file, then paste the text into the chat so
   the user can review it without opening the file.
 - Do not compile-fix by changing the style files.
-- Commit after each item with a clear message and push, so the work survives the session.
+- **Never commit or push without the user's explicit authorization in that turn (2026-09-20).**
+  Teammates' agents read `origin/main`; unreviewed text contaminates their context. Edit locally,
+  then ask.
 
 ## Next step
 
