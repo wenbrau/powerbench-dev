@@ -2899,7 +2899,7 @@ Hoy revisamos los tests de las figuras pesadas por peso - IC y test con bootstra
 
 ## Cosas agregadas post juntada con Nico y Tomi
 
-Algunas ediciones más a las figuras en base a lo discutido, entre ellas una descriptiva de tasas de refusal para china y us. Sobre esto ultimo, dejo un comentario. Hay dos opciones en mi opcinion:
+Algunas ediciones más a todas las figuras (excepto la 1) en base a lo discutido, principalmente sobre la de nacionalidades. En esa figura ademas de cosas de formato agregamos un primer panel descriptivo de tasas de refusal para china y us, y unas barras para el power shifting general. Sobre esto ultimo, dejo un comentario. Hay dos opciones en mi opcinion:
 
 - poner IC que refleje varianza por modelo en el refusal rate
 - no poner IC
