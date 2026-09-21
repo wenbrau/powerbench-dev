@@ -2917,3 +2917,9 @@ creo que iria por la segunda, porque  al incluir IC da una falsa sensacion de qu
 En la de los idiomas, a demas de las cosas de 
 
 Revision general de la narrativa global en RESULTADOS\_CONSOLIDADOS.md, agregando un par de conclusiones discutidas que faltaba enfatizar o haciendo algunas correcciones
+
+---
+
+**Monday, September 21, 2026 · wen**
+
+Ayer no termine de escribir la nota sobre idiomas pero: ademas de los cambios de formato agregados, propongo poner la que es con 2 modelos en main (y la de 24 modelos en appendix)
