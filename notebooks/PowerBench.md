@@ -2916,4 +2916,4 @@ creo que iria por la segunda, porque  al incluir IC da una falsa sensacion de qu
 
 En la de los idiomas, a demas de las cosas de 
 
-Revision general de la narrativa en RESULTADOS\_CONSOLIDADOS.md, agregando un par de conclusiones discutidas que faltaba enfatizar o haciendo algunas correcciones
+Revision general de la narrativa global en RESULTADOS\_CONSOLIDADOS.md, agregando un par de conclusiones discutidas que faltaba enfatizar o haciendo algunas correcciones
