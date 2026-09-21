@@ -322,8 +322,10 @@ def rank_corr(R):
     return K @ K.T
 
 
-def panel_c(ax, d, t, q=None):
-    """q: opcional, {tipo de par: q de BH} para las estrellas del recuadro (figure_paper_v2.py); sin q, p de permutación crudo."""
+def panel_c(ax, d, t, q=None, inset=True):
+    """q: opcional, {tipo de par: q de BH} para las estrellas del recuadro (figure_paper_v2.py); sin q, p de permutación crudo.
+    inset=False (Wendy, 21/09): sin el recuadro de barras del acuerdo medio; el resultado del test va como nota, que escribe el
+    que llama con lo que esta función devuelve: (S por tipo de par, p del corchete, valor observado del corchete)."""
     origin = d.drop_duplicates("model").set_index("model").origin
     cap = pd.read_csv(CAPS).set_index("model")["index"]
     models = sorted(origin.index, key=lambda m: (origin[m] != "CN", -cap[m]))
@@ -339,7 +341,8 @@ def panel_c(ax, d, t, q=None):
 
     st = pd.read_csv(TC)
     S = {r.quantity: r for r in st[st.test == "test1_langperm"].itertuples()}
-    contrast_p = float(st[(st.test == "test2_blockperm") & (st.quantity == "dentro − mixto")].p.iloc[0])
+    c2 = st[(st.test == "test2_blockperm") & (st.quantity == "dentro − mixto")]
+    contrast_p, contrast_obs = float(c2.p.iloc[0]), float(c2.observed.iloc[0])
     # el acuerdo medio recalculado debe coincidir con el guardado por panelC_with_tests.py
     iu = np.triu_indices(n, 1); a, b = is_cn[iu[0]], is_cn[iu[1]]
     pk = np.where(a & b, "CN–CN", np.where(~a & ~b, "US–US", "mixto")); vals = C[iu]
@@ -360,10 +363,12 @@ def panel_c(ax, d, t, q=None):
         sp.set_visible(False)
     ax.set_title(t["c_title"], x=-.27)
     # colorbar horizontal dentro del triángulo vacío
-    cax = ax.inset_axes([.60, .445, .36, .025])
+    cax = ax.inset_axes([.60, .445, .36, .025] if inset else [.58, .70, .38, .03])
     cb = plt.colorbar(im, cax=cax, orientation="horizontal", ticks=[-1, -.5, 0, .5, 1])
     cb.ax.tick_params(labelsize=F_TINY, width=.4, length=1.5, pad=1); cb.outline.set_linewidth(.4)
     cb.set_label(t["c_cb"], fontsize=F_TINY, labelpad=1)
+    if not inset:
+        return S, contrast_p, contrast_obs
     # recuadro: acuerdo medio por tipo de par (test 1 = barras + banda + estrellas; test 2 = corchete)
     axb = ax.inset_axes([.50, .56, .47, .40])
     cols = [ORIGIN["CN"], ORIGIN["US"], "#8A7FA3"]
@@ -393,6 +398,7 @@ def panel_c(ax, d, t, q=None):
         axb.spines[sp].set_visible(False)
     for sp in ("left", "bottom"):
         axb.spines[sp].set_linewidth(.5)
+    return S, contrast_p, contrast_obs
 
 
 # ---------------------------------------------------------------- D (panelD/F6_exceso_pg.py --mode ps)

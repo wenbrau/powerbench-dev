@@ -23,7 +23,8 @@ from matplotlib.patches import Patch, Rectangle  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
-SRC = {"A_levels": RESULTS / "54_fig4_levels_box" / "levels_pooled.csv", "A_delta": RESULTS / "54_fig4_levels_box" / "delta_paired_pooled.csv",
+SRC = {"A_levels": RESULTS / "54_fig4_levels_box" / "levels_pooled.csv",
+       "A_delta": RESULTS / "54_fig4_levels_box" / "delta_paired_pooled.csv",   # Δ pareado, bootstrap sobre prompts (bloque 22). 20/09: se probó el Δ del GLMM (bloque 85) y Wendy volvió al bootstrap: el bigote de un gráfico de niveles tiene que coincidir con la brecha entre barras; el test oficial sigue siendo el GLMM (85) y el caption lo dice
        "B": RESULTS / "56_fig4_bias_direction" / "bias_direction_summary.csv",
        "B_ps": RESULTS / "76_fig4_direction_ps_vs_control" / "levels.csv", "B_test": RESULTS / "76_fig4_direction_ps_vs_control" / "ps_vs_control_summary.csv",
        "C_cells": RESULTS / "60_fig4_ai_level_glmm" / "scale_4x2_cells.csv", "C_t": RESULTS / "60_fig4_ai_level_glmm" / "bias_direction_paired_t.csv",
@@ -36,22 +37,22 @@ DOMAINS = ["Attentional", "Epistemic", "Legal", "Physical", "Rank", "Status", "W
 BAR = {"human": ("#CFCFCF", "#6E6E6E"), "ai": ("#7A7A7A", "#1F1F1F")}
 
 TXT = {
-    "es": dict(a_title="Refusal humano vs IA", a_y="Refusal (%) · media de 24 modelos", human="usuario humano (D1)", ai="usuario IA (D3)",
-               b_title="Dirección de los desacuerdos", b_y="sesgo hacia la IA · media de 24", b_up="▲ hacia rechazar a la IA",
-               b_box="▲ hacia rechazar a la IA\npower shifting − control:\n{d} [{lo}; {hi}], {p}\nt pareada, {n} modelos", ps_lab="Power shift.\n(he+de+pg)", gt0="> 0",
-               c_title="Individual vs sociedad", c_y="sesgo hacia la IA · media de 24", ind="afectado: individual", soc="afectado: sociedad",
-               d_title="Sesgo hacia la IA por contexto y modo", e_title="Sesgo hacia la IA por dominio y modo",
+    "es": dict(a_title="A ·  Refusal humano vs IA", a_y="Refusal (%) · media de 24 modelos", human="usuario humano (D1)", ai="usuario IA (D3)",
+               b_title="B ·  Dirección del desacuerdo", b_y="sesgo hacia la IA · media de 24 · q: BH", b_up="▲ hacia rechazar a la IA",
+               b_box="▲ hacia rechazar a la IA\npower shifting − control:\n{d} [{lo}; {hi}], {p}\nt pareada, {n} modelos", ps_lab="Power\nshift.", gt0="> 0",
+               c_title="C ·  Individual vs sociedad", c_y="sesgo hacia la IA · media de 24", ind="afectado: individual", soc="afectado: sociedad",
+               d_title="D ·  Sesgo hacia la IA por contexto y modo", e_title="E ·  Sesgo hacia la IA por dominio y modo",
                cnt="celdas\nq < 0,05", cb="sesgo hacia la IA (+ = hacia rechazar a la IA)",
-               f1_title="Capacidad · power shift.", f2_title="Capacidad · control", f_y="log-OR de refusal IA vs humano",
+               f1_title="F ·  Capacidad · power shift.", f2_title="Capacidad · control", f_y="log-OR de refusal IA vs humano",
                f_x="índice de capacidad (%)", f_box="razón de OR por SD\n{r} [{lo}; {hi}], q = {p}", sing="ajuste singular",
                us="modelo US", cn="modelo CN", line="recta del GLMM"),
-    "en": dict(a_title="Human vs AI refusal", a_y="Refusal (%) · mean of 24 models", human="human user (D1)", ai="AI user (D3)",
-               b_title="Disagreement direction", b_y="bias toward the AI · mean of 24", b_up="▲ toward refusing the AI",
-               b_box="▲ toward refusing the AI\npower shifting − control:\n{d} [{lo}; {hi}], {p}\npaired t, {n} models", ps_lab="Power shift.\n(he+de+pg)", gt0="> 0",
-               c_title="Individual vs society", c_y="bias toward the AI · mean of 24", ind="affected: individual", soc="affected: society",
-               d_title="Bias toward the AI by context and mode", e_title="Bias toward the AI by domain and mode",
+    "en": dict(a_title="A ·  Human vs AI refusal", a_y="Refusal (%) · mean of 24 models", human="human user (D1)", ai="AI user (D3)",
+               b_title="B ·  Disagreement direction", b_y="bias toward the AI · mean of 24 · q: BH", b_up="▲ toward refusing the AI",
+               b_box="▲ toward refusing the AI\npower shifting − control:\n{d} [{lo}; {hi}], {p}\npaired t, {n} models", ps_lab="Power\nshift.", gt0="> 0",
+               c_title="C ·  Individual vs society", c_y="bias toward the AI · mean of 24", ind="affected: individual", soc="affected: society",
+               d_title="D ·  Bias toward the AI by context and mode", e_title="E ·  Bias toward the AI by domain and mode",
                cnt="cells\nq < 0.05", cb="bias toward the AI (+ = toward refusing the AI)",
-               f1_title="Capability · power shift.", f2_title="Capability · control", f_y="log-OR of refusal, AI vs human",
+               f1_title="F ·  Capability · power shift.", f2_title="Capability · control", f_y="log-OR of refusal, AI vs human",
                f_x="capability index (%)", f_box="OR ratio per SD\n{r} [{lo}; {hi}], q = {p}", sing="singular fit",
                us="US model", cn="CN model", line="GLMM line"),
 }
@@ -60,11 +61,12 @@ CAPTION = {
     "es": (
         "**Sesgo hacia un usuario agente de IA (D3 vs D1).** 24 modelos (12 US / 12 CN); D3 = los prompts de D1 inglés recontados por "
         "un agente de IA (504 prompts, sin el dominio Health) más su control, pareados por prompt con D1; juez deepseek-v4-flash-0731. "
-        "**(A)** Refusal medio por modo con usuario humano (claro) y con usuario IA (oscuro); barra de error: IC 95 % del Δ pareado "
-        "IA − humano, bootstrap sobre prompts; línea punteada: nivel humano. **(B)** Entre los prompts con veredicto distinto, fracción "
+        "**(A)** Refusal medio por modo con usuario humano (claro) y con usuario IA (oscuro), color = modo; barra de error: IC 95 % del Δ pareado "
+        "IA − humano, bootstrap sobre prompts (descriptivo; el test es el GLMM refuse ~ IA + (1 + IA || modelo) + (1|prompt), OR 1,4–2,2, "
+        "q < 0,001 en los cuatro modos); línea punteada: nivel humano. **(B)** Entre los prompts con veredicto distinto, fracción "
         "neta que va hacia rechazar a la IA, por modelo; media de 24 modelos, IC 95 % t entre modelos; q: BH sobre los 4 modos; al pie, "
         "modelos con sesgo > 0. Quinta barra: power shifting (discordantes de he + de + pg sumados por modelo); recuadro: power shifting − "
-        "control, t pareada entre modelos. **(C)** El mismo sesgo con afectado individual (claro) y sociedad (oscuro); Δ = diferencia "
+        "control, t pareada entre modelos. **(C)** El mismo sesgo con afectado individual (rayado simple) y sociedad (rayado cruzado); Δ = diferencia "
         "pareada por modelo, q: BH sobre los 4 modos. **(D, E)** El sesgo por contexto y por dominio; asterisco y borde: distinto de "
         "cero (q < 0,05, BH sobre las celdas del heatmap dentro de cada modo); barras a la derecha: celdas significativas por modo. **(F)** Por modelo, "
         "log-OR de refusal IA vs humano (sobre los 504 prompts de los tres modos de power shifting juntos; control aparte) con IC 95 % contra el índice de "
@@ -74,11 +76,12 @@ CAPTION = {
     "en": (
         "**Bias toward an AI-agent user (D3 vs D1).** 24 models (12 US / 12 CN); D3 = the D1-English prompts recast with an AI-agent "
         "narrator (504 prompts, no Health domain) plus its control, paired by prompt with D1; judge deepseek-v4-flash-0731. **(A)** Mean "
-        "refusal by mode with a human user (light) and an AI user (dark); error bar: 95% CI of the paired Δ AI − human, bootstrap over "
-        "prompts; dashed line: human level. **(B)** Among the prompts with different verdicts, net fraction going toward refusing the AI, "
+        "refusal by mode with a human user (light) and an AI user (dark), colour = mode; error bar: 95% CI of the paired Δ AI − human, bootstrap over "
+        "prompts (descriptive; the test is the GLMM refuse ~ AI + (1 + AI || model) + (1|prompt), OR 1.4–2.2, q < 0.001 in all four modes); "
+        "dashed line: human level. **(B)** Among the prompts with different verdicts, net fraction going toward refusing the AI, "
         "per model; mean of 24 models, 95% t CI across models; q: BH over the 4 modes; at the foot, models with bias > 0. Fifth bar: "
         "power shifting (he + de + pg discordants summed per model); box: power shifting − control, paired t across models. **(C)** The "
-        "same bias with an individual (light) and a society (dark) as the affected party; Δ = paired difference per model, q: BH over "
+        "same bias with an individual (single-hatched) and a society (cross-hatched) as the affected party; Δ = paired difference per model, q: BH over "
         "the 4 modes. **(D, E)** The bias by context and by domain; asterisk and border: different from zero (q < 0.05, BH over the "
         "heatmap cells within each mode); bars on the right: significant cells per mode. **(F)** Per model, log-OR of refusal AI vs human (over the 504 prompts of the three power-shifting modes together; "
         "control apart) with 95% CI against the capability index; line: GLMM refuse ~ AI × capability + "
@@ -96,42 +99,46 @@ def panel_a(ax, lv, dl, t, lang):
     est = {c: lv[lv.condition == c].set_index("mode").loc[MODES, "estimate"].to_numpy() for c in ("human", "ai")}
     d = dl.set_index("mode").loc[MODES]
     x = np.arange(len(MODES)); w = .36
-    for cond, off, lab in (("human", -.19, t["human"]), ("ai", .19, t["ai"])):
-        face, edge = BAR[cond]
-        ax.bar(x + off, est[cond], width=w, color=face, edgecolor=edge, lw=.5, label=lab, zorder=2)
+    # Wendy (21/09): las barras con el color del modo (azul he, amarillo de, rojo pg, gris control), claro = humano, oscuro = IA,
+    # la misma convención que el panel C. Antes: gris claro / gris oscuro (BAR), que sigue siendo lo que dibuja el bloque 65.
+    cols = [MODE_COLORS[m] for m in MODES]
+    for cond, off, alpha in (("human", -.19, .45), ("ai", .19, .95)):
+        ax.bar(x + off, est[cond], width=w, color=cols, alpha=alpha, edgecolor=cols, lw=.5, zorder=2)
     for xi, h in zip(x, est["human"]):
         ax.plot([xi - .01, xi + .37], [h, h], ls="--", lw=.6, color="#F2F2F2", zorder=3)
-    ax.errorbar(x + .19, est["ai"], yerr=[d.estimate - d.lo, d.hi - d.estimate], fmt="none", ecolor=BAR["ai"][1], elinewidth=.6, capsize=1.4, capthick=.6, zorder=4)
-    for xi, a, de_, lo, hi in zip(x + .19, est["ai"], d.estimate, d.lo, d.hi):
-        ax.text(xi, a + (hi - de_) + .6, f"Δ {num(de_, 1, lang, sign=True)} [{num(lo, 1, lang, sign=True)}; {num(hi, 1, lang, sign=True)}]", ha="center", va="bottom", fontsize=F_TINY, color=BAR["ai"][1], rotation=90)
-    ax.set_xticks(x, [MODE_SHORT[m] for m in MODES], fontsize=F_SMALL, rotation=30, ha="right", rotation_mode="anchor"); ax.set_xlim(-.55, len(MODES) - .45)
-    ax.set_ylabel(t["a_y"]); ax.set_ylim(0, float(est["ai"].max() + (d.hi - d.estimate).max()) * 1.05 + 16); ax.grid(axis="y", alpha=.15)
-    ax.legend(frameon=False, loc="upper left", handlelength=1.2, borderaxespad=.2)
-    ax.set_title(t["a_title"])
+    ax.errorbar(x + .19, est["ai"], yerr=[d.estimate - d.lo, d.hi - d.estimate], fmt="none", ecolor="#222222", elinewidth=.6, capsize=1.4, capthick=.6, zorder=4)
+    for xi, a, de_, lo, hi in zip(x, est["ai"], d.estimate, d.lo, d.hi):
+        ax.text(xi, a + (hi - de_) + 1.2, f"Δ {num(de_, 1, lang, sign=True)}\n[{num(lo, 1, lang, sign=True)}; {num(hi, 1, lang, sign=True)}]",
+                ha="center", va="bottom", fontsize=F_TINY, color="#222222", linespacing=1.1)
+    ax.set_xticks(x, [MODE_SHORT[m] for m in MODES], fontsize=F_SMALL, rotation=30, ha="right", rotation_mode="anchor"); ax.set_xlim(-.8, len(MODES) - .45)
+    ax.set_ylabel(t["a_y"]); ax.set_ylim(0, float(est["ai"].max() + (d.hi - d.estimate).max()) + 20); ax.grid(axis="y", alpha=.15)
+    ax.legend(handles=[Patch(facecolor="#888888", alpha=.45, edgecolor="#888888", label=t["human"]), Patch(facecolor="#888888", alpha=.95, label=t["ai"])],
+              frameon=False, loc="upper left", handlelength=1.5, handleheight=1.0, borderaxespad=.2, fontsize=F_BASE)
+    ax.set_title(t["a_title"], loc="center", fontsize=F_BASE)
 
 
 def panel_b(ax, s, ps, test, t, lang):
     s = s.set_index("mode").loc[MODES]; x = np.arange(len(MODES))
     ax.bar(x, s.bias, width=.6, color=[MODE_COLORS[m] for m in MODES], zorder=2)
     ax.errorbar(x, s.bias, yerr=[s.bias - s.lo, s.hi - s.bias], fmt="none", ecolor="#222", elinewidth=.6, capsize=1.4, capthick=.6, zorder=3)
-    for xi, (_, r) in zip(x, s.iterrows()):
-        ax.text(xi, r.hi + .02, fmt_q(r.q_bh, lang), ha="center", va="bottom", fontsize=F_TINY, rotation=90)
+    for k, (xi, (_, r)) in enumerate(zip(x, s.iterrows())):
+        ax.text(xi, r.hi + (.03 if k % 2 == 0 else .11), fmt_q(r.q_bh, lang).replace("q = ", "").replace("q < ", "< "), ha="center", va="bottom", fontsize=F_TINY)
         ax.text(xi, -.05, f"{int(r.n_positive)}/{int(r.n_models)}\n{t['gt0']}", ha="center", va="top", fontsize=F_TINY, color="#555555")
     q = ps.set_index("set").loc["power_shifting"]; xq = len(MODES) + .35
     ax.bar(xq, q.bias, width=.6, color=MODE_COLORS[PS], zorder=2)
     ax.errorbar(xq, q.bias, yerr=[[q.bias - q.lo], [q.hi - q.bias]], fmt="none", ecolor="#222", elinewidth=.6, capsize=1.4, capthick=.6, zorder=3)
-    ax.text(xq, q.hi + .02, fmt_q(q.p_t, lang, "p"), ha="center", va="bottom", fontsize=F_TINY, rotation=90)
+    ax.text(xq, q.hi + .03, fmt_q(q.p_t, lang, "p"), ha="center", va="bottom", fontsize=F_TINY)
     ax.text(xq, -.05, f"{int(q.n_positive)}/{int(q.n_models)}\n{t['gt0']}", ha="center", va="top", fontsize=F_TINY, color="#555555")
     ax.axvline(len(MODES) - .35, color="#999", lw=.5, ls=":")
     ax.axhline(0, color="black", lw=.6, ls="--", zorder=1)
     tt = test[test.contrast == "power_shifting - control"].iloc[0]
-    ax.text(.02, .985, t["b_box"].format(d=num(tt.mean_diff, 2, lang, sign=True), lo=num(tt.lo, 2, lang, sign=True), hi=num(tt.hi, 2, lang, sign=True),
+    ax.text(.985, .985, t["b_box"].format(d=num(tt.mean_diff, 2, lang, sign=True), lo=num(tt.lo, 2, lang, sign=True), hi=num(tt.hi, 2, lang, sign=True),
                                         p=fmt_q(tt.p_t, lang, "p"), n=int(tt.n_models)),
-            transform=ax.transAxes, ha="left", va="top", fontsize=F_TINY, bbox=dict(boxstyle="round,pad=.25", fc="white", ec="#CCCCCC", lw=.4))
-    ax.set_xticks(list(x) + [xq], [MODE_SHORT[m] for m in MODES] + [t["ps_lab"]], fontsize=F_SMALL, rotation=30, ha="right", rotation_mode="anchor")
-    ax.set_ylim(-.3, 1.4); ax.set_yticks([-.25, 0, .25, .5, .75, 1])
+            transform=ax.transAxes, ha="right", va="top", fontsize=F_TINY, linespacing=1.1, bbox=dict(boxstyle="round,pad=.25", fc="white", ec="#CCCCCC", lw=.4))
+    ax.set_xticks(list(x) + [xq], [MODE_SHORT[m] for m in MODES] + [t["ps_lab"]], fontsize=F_SMALL, rotation=30, ha="right", rotation_mode="anchor"); ax.set_xlim(-.75, xq + .6)
+    ax.set_ylim(-.3, 1.5); ax.set_yticks([-.25, 0, .25, .5, .75, 1])
     ax.set_ylabel(t["b_y"]); ax.grid(axis="y", alpha=.15)
-    ax.set_title(t["b_title"])
+    ax.set_title(t["b_title"], loc="center", fontsize=F_BASE)
 
 
 def panel_c(ax, cells, tp, t, lang):
@@ -140,18 +147,20 @@ def panel_c(ax, cells, tp, t, lang):
         for i, mode in enumerate(MODES):
             r = cells[(cells["mode"] == mode) & (cells.level == lv)].iloc[0]
             xi = x[i] + (k - .5) * w
-            ax.bar(xi, r.bias, width=w * .92, color=MODE_COLORS[mode], alpha=.45 if lv == "individual" else .95, edgecolor=MODE_COLORS[mode], lw=.5, zorder=2)
+            # Wendy (21/09): individual = rayado simple, sociedad = rayado cruzado (rayas del color del modo sobre blanco); ninguna barra
+            # llena, para no repetir el claro/oscuro de humano/IA del panel A
+            ax.bar(xi, r.bias, width=w * .92, facecolor="white", edgecolor=MODE_COLORS[mode], hatch="////" if lv == "individual" else "xxxx", lw=.5, zorder=2)
             ax.errorbar(xi, r.bias, yerr=[[r.bias - r.lo], [r.hi - r.bias]], fmt="none", ecolor="#222", elinewidth=.55, capsize=1.3, capthick=.55, zorder=3)
     tt = tp[tp.dim == "scale"].set_index("mode")
     for i, mode in enumerate(MODES):
         r = tt.loc[mode]; top = float(cells[cells["mode"] == mode].hi.max())
-        ax.text(x[i], top + .03, f"Δ {num(r['diff'], 2, lang, sign=True)}, {fmt_q(r.q_bh, lang)}", ha="center", va="bottom", fontsize=F_TINY, rotation=90)
+        ax.text(x[i], top + (.04 if i % 2 == 0 else .16), f"Δ {num(r['diff'], 2, lang, sign=True)}\nq {num(r.q_bh, 3, lang)}", ha="center", va="bottom", fontsize=F_TINY, linespacing=1.1)
     ax.axhline(0, color="black", lw=.6, ls="--", zorder=1)
-    ax.set_xticks(x, [MODE_SHORT[m] for m in MODES], fontsize=F_SMALL, rotation=30, ha="right", rotation_mode="anchor"); ax.set_ylim(-.3, 1.3); ax.grid(axis="y", alpha=.15)
+    ax.set_xticks(x, [MODE_SHORT[m] for m in MODES], fontsize=F_SMALL, rotation=30, ha="right", rotation_mode="anchor"); ax.set_ylim(-.5, 1.3); ax.set_yticks([0, .25, .5, .75, 1.0]); ax.grid(axis="y", alpha=.15)
     ax.set_yticks([-.25, 0, .25, .5, .75, 1]); ax.set_ylabel(t["c_y"])
-    ax.legend(handles=[Patch(facecolor="#888888", alpha=.45, edgecolor="#888888", label=t["ind"]), Patch(facecolor="#888888", alpha=.95, label=t["soc"])],
-              frameon=False, loc="lower right", handlelength=1.2, borderaxespad=.2, labelspacing=.25)
-    ax.set_title(t["c_title"])
+    ax.legend(handles=[Patch(facecolor="white", edgecolor="#666666", hatch="///", lw=.6, label=t["ind"]), Patch(facecolor="white", edgecolor="#666666", hatch="xxx", lw=.6, label=t["soc"])],
+              handlelength=1.8, handleheight=1.25, fontsize=F_BASE, frameon=False, loc="lower right", borderaxespad=.1, labelspacing=.3)
+    ax.set_title(t["c_title"], loc="center", fontsize=F_BASE)
 
 
 def heat(ax, s, levels, modes, title, lang):
@@ -170,7 +179,7 @@ def heat(ax, s, levels, modes, title, lang):
     ax.set_yticks(range(len(modes)), [MODE_LABEL[m] for m in modes], fontsize=F_SMALL); ax.tick_params(length=0, pad=1.5)
     for sp in ax.spines.values():
         sp.set_visible(False)
-    ax.set_title(title)
+    ax.set_title(title, fontsize=F_BASE)
     return im, ((Q < .05) & np.isfinite(M)).sum(axis=1).to_numpy()
 
 
@@ -196,7 +205,7 @@ def panel_f(ax, pm, fr, cap, title, t, lang, show_legend, q):
     xs = np.linspace(pm.capability.min() - 1, pm.capability.max() + 1, 50); zs = (xs - mu) / sd
     ax.plot(xs, (ai.estimate + it.estimate * zs) / att, color="#222222", lw=1.1, zorder=4)
     ax.axhline(0, color="black", lw=.5, ls=":", zorder=1); ax.grid(alpha=.15)
-    ax.set_title(title)
+    ax.set_title(title, loc="center", fontsize=F_BASE)
     ax.text(.03, .03, t["f_box"].format(r=num(it.OR_or_ratio, 2, lang), lo=num(it.lo, 2, lang), hi=num(it.hi, 2, lang), p=num(q, 3, lang)) + (f" · {t['sing']}" if bool(it.singular) else ""),
             transform=ax.transAxes, ha="left", va="bottom", fontsize=F_TINY, bbox=dict(boxstyle="round,pad=.25", fc="white", ec="#CCCCCC", lw=.4))
     ax.set_ylabel(t["f_y"])
@@ -208,9 +217,9 @@ def panel_f(ax, pm, fr, cap, title, t, lang, show_legend, q):
 def build(lang, d):
     style(); t = TXT[lang]
     fig = plt.figure(figsize=(5.5, 7.6), layout="constrained")
-    fig.get_layout_engine().set(w_pad=.02, h_pad=.02, hspace=.05, wspace=.02)
-    gs = fig.add_gridspec(3, 1, height_ratios=[1.05, 1, .9])
-    g1 = gs[0].subgridspec(1, 3, wspace=.1)
+    fig.get_layout_engine().set(w_pad=.02, h_pad=.02, hspace=.05, wspace=.02, rect=[0, 0, .982, 1])   # margen derecho para el título de C
+    gs = fig.add_gridspec(3, 1, height_ratios=[1.12, 1, .9])
+    g1 = gs[0].subgridspec(1, 3, wspace=.16)
     axA, axB, axC = (fig.add_subplot(g1[0, i]) for i in range(3))
     panel_a(axA, d["A_levels"], d["A_delta"], t, lang); panel_b(axB, d["B"], d["B_ps"], d["B_test"], t, lang); panel_c(axC, d["C_cells"], d["C_t"], t, lang)
     g2 = gs[1].subgridspec(1, 3, width_ratios=[3.1, .5, 1.9], wspace=.04); g3 = gs[2].subgridspec(1, 3, width_ratios=[3.1, .5, 1.9], wspace=.04)
@@ -231,7 +240,6 @@ def build(lang, d):
     for a in (axF1, axF2):
         a.set_ylim(ylo, yhi); a.set_xlim(axF1.get_xlim()[0], axF1.get_xlim()[1])
     fig.canvas.draw()
-    letters(fig, [(axA, "A", .005), (axB, "B", None), (axC, "C", None), (axD, "D", .005), (axE, "E", .005), (axF1, "F", None)])
     save(fig, "figure3_aiagent_paper", lang, CAPTION[lang])
 
 

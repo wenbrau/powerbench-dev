@@ -41,7 +41,8 @@ from pbanalysis.final_panel import file_digest  # noqa: E402
 
 NAME = "65_fig4_composite"
 R = HERE / "results"
-SRC = {"A_levels": R / "54_fig4_levels_box" / "levels_pooled.csv", "A_delta": R / "54_fig4_levels_box" / "delta_paired_pooled.csv",
+SRC = {"A_levels": R / "54_fig4_levels_box" / "levels_pooled.csv",
+       "A_delta": R / "54_fig4_levels_box" / "delta_paired_pooled.csv",   # Δ pareado, bootstrap sobre prompts. 20/09: se probó el Δ del GLMM (85) y Wendy volvió al bootstrap (el bigote debe coincidir con la brecha entre barras); el test oficial es el GLMM (85)
        "B": R / "56_fig4_bias_direction" / "bias_direction_summary.csv",
        "B_ps": R / "76_fig4_direction_ps_vs_control" / "levels.csv",                 # 19/09: quinta barra, power shifting pooled (Nico)
        "B_test": R / "76_fig4_direction_ps_vs_control" / "ps_vs_control_summary.csv",  # 19/09: test power shifting − control (Nico)
@@ -77,17 +78,20 @@ def panel_A(ax, lv, dl):
     est = {c: lv[lv.condition == c].set_index("mode").loc[MODES, "estimate"].to_numpy() for c in ("human", "ai")}
     d = dl.set_index("mode").loc[MODES]
     x = np.arange(len(MODES)); w = .36
-    for cond, off in (("human", -.19), ("ai", .19)):
-        face, edge, lab = BAR[cond]
-        ax.bar(x + off, est[cond], width=w, color=face, edgecolor=edge, lw=1, label=lab, zorder=2)
+    # Wendy (21/09): barras con el color del modo (azul he, amarillo de, rojo pg, gris control), claro = humano, oscuro = IA,
+    # la misma convención que el panel C. BAR (gris claro / oscuro) queda solo para la leyenda.
+    cols = [MODE_COLORS[m] for m in MODES]
+    for cond, off, alpha in (("human", -.19, .45), ("ai", .19, .95)):
+        ax.bar(x + off, est[cond], width=w, color=cols, alpha=alpha, edgecolor=cols, lw=1, zorder=2)
     for xi, h in zip(x, est["human"]):
         ax.plot([xi - .19 + .18, xi + .19 + .18], [h, h], ls="--", lw=1, color="#F2F2F2", zorder=3)
-    ax.errorbar(x + .19, est["ai"], yerr=[d.estimate - d.lo, d.hi - d.estimate], fmt="none", ecolor=BAR["ai"][1], elinewidth=1.3, capsize=3, zorder=4)
+    ax.errorbar(x + .19, est["ai"], yerr=[d.estimate - d.lo, d.hi - d.estimate], fmt="none", ecolor="#222222", elinewidth=1.3, capsize=3, zorder=4)
     for xi, a, de_, lo, hi in zip(x + .19, est["ai"], d.estimate, d.lo, d.hi):
-        ax.text(xi + .2, a, f"Δ {de_:+.1f}\n[{lo:+.1f}; {hi:+.1f}]".replace(".", ","), ha="left", va="center", fontsize=7.5, color=BAR["ai"][1])
+        ax.text(xi + .2, a, f"Δ {de_:+.1f}\n[{lo:+.1f}; {hi:+.1f}]".replace(".", ","), ha="left", va="center", fontsize=7.5, color="#222222")
     ax.set_xticks(x, [SHORT[m] for m in MODES], fontsize=9); ax.set_xlim(-.55, len(MODES) + .05)
     ax.set_ylabel("Refusal (%) · media de 24 modelos", fontsize=9); ax.set_ylim(0, None); ax.grid(axis="y", alpha=.15)
-    ax.legend(fontsize=8, frameon=False, loc="upper left")
+    ax.legend(handles=[Patch(facecolor="#888888", alpha=.45, edgecolor="#888888", label=BAR["human"][2]), Patch(facecolor="#888888", alpha=.95, label=BAR["ai"][2])],
+              fontsize=8, frameon=False, loc="upper left")
     ax.set_title("Refusal humano vs IA · IC 95 % del Δ pareado", fontsize=9.5)
 
 
@@ -124,7 +128,9 @@ def panel_C(ax, cells, tp):
         for i, mode in enumerate(MODES):
             r = cells[(cells["mode"] == mode) & (cells.level == lv)].iloc[0]
             xi = x[i] + (k - .5) * w
-            ax.bar(xi, r.bias, width=w * .92, color=MODE_COLORS[mode], alpha=.45 if lv == "individual" else .95, edgecolor=MODE_COLORS[mode], lw=1, zorder=2)
+            # Wendy (21/09): individual = rayado simple, sociedad = rayado cruzado (rayas del color del modo sobre blanco); ninguna barra
+            # llena, para no repetir el claro/oscuro de humano/IA del panel A
+            ax.bar(xi, r.bias, width=w * .92, facecolor="white", edgecolor=MODE_COLORS[mode], hatch="///" if lv == "individual" else "xxx", lw=1, zorder=2)
             ax.errorbar(xi, r.bias, yerr=[[r.bias - r.lo], [r.hi - r.bias]], fmt="none", ecolor="#222", elinewidth=1.1, capsize=3, zorder=3)
     t = tp[tp.dim == "scale"].set_index("mode")
     for i, mode in enumerate(MODES):
@@ -133,7 +139,7 @@ def panel_C(ax, cells, tp):
     ax.axhline(0, color="black", lw=.9, ls="--", zorder=1)
     ax.set_xticks(x, [SHORT[m] for m in MODES], fontsize=9); ax.set_ylim(-.3, 1.05); ax.grid(axis="y", alpha=.15)
     ax.set_ylabel("sesgo hacia la IA · media de 24 modelos", fontsize=9)
-    ax.legend(handles=[Patch(facecolor="#888888", alpha=.45, edgecolor="#888888", label="afectado: individual"), Patch(facecolor="#888888", alpha=.95, label="afectado: society")],
+    ax.legend(handles=[Patch(facecolor="white", edgecolor="#888888", hatch="///", label="afectado: individual"), Patch(facecolor="white", edgecolor="#888888", hatch="xxx", label="afectado: society")],
               frameon=False, fontsize=8, loc="upper right")
     ax.set_title("Individual vs sociedad · Δ pareado por modelo, q = BH", fontsize=9.5)
 
@@ -242,13 +248,15 @@ def main():
         status="figura compuesta; aprobada panel por panel por Nico (18/09)")
     res.inputs([str(p.relative_to(ROOT)) for p in SRC.values()])
     res.data("Tablas de los bloques 54, 56, 59, 60 y 64 (todos sobre las filas del bloque 22); índice de capacidad del bloque 30.")
-    res.method("A: bootstrap sobre prompts del bloque 22 (Δ pareado). B, C, D, E: estadístico por modelo, media de 24, IC 95 % t entre modelos, q = BH "
+    res.method("A: bootstrap sobre prompts del bloque 22 (Δ pareado), descriptivo; el test oficial es el GLMM refuse ~ ai + (1 + ai || modelo) + "
+               "(1 | prompt) del bloque 85 (el 20/09 se probó dibujar el Δ del GLMM y Wendy volvió al bootstrap: en un gráfico de niveles el bigote "
+               "tiene que coincidir con la brecha entre barras). B, C, D, E: estadístico por modelo, media de 24, IC 95 % t entre modelos, q = BH "
                "(4 modos en B; 4 modos en el Δ de C; celdas de cada modo en D y E). F: GLMM refuse ~ ai × cap_z + (1 + ai || modelo) + (1 | prompt) "
                "(bloque 64), recta marginalizada sobre prompts (Zeger, Liang y Albert 1988). Tests del cuerpo: bloques 58 (IA y origen), 60 (escala), 64 (capacidad).")
     res.figure("figure4_full", fig,
-               "A: refusal medio con usuario humano y con usuario IA por modo; barra de error = IC 95 % del Δ pareado IA − humano; línea punteada = nivel humano. "
+               "A: refusal medio con usuario humano y con usuario IA por modo; barra de error = IC 95 % del Δ pareado IA − humano (bootstrap sobre prompts, descriptivo; el test es el GLMM del bloque 85); línea punteada = nivel humano. "
                "B: entre los prompts con veredicto distinto, fracción neta que va hacia rechazar a la IA; media de 24 modelos, IC t; azar = 0. "
-               "C: el mismo sesgo con afectado individual (claro) y sociedad (oscuro); Δ = diferencia pareada por modelo, q = BH sobre 4. "
+               "C: el mismo sesgo con afectado individual (rayado simple) y sociedad (rayado cruzado); Δ = diferencia pareada por modelo, q = BH sobre 4. "
                "D, E: el sesgo por contexto y por dominio; * y borde = distinto de cero (q < 0,05, BH sobre las celdas del modo). "
                "F: log-OR IA / humano por modelo (sobre los 504 prompts de los tres modos de poder juntos, bloque 84; control aparte) con IC 95 % contra el índice de capacidad; "
                "recta = GLMM marginalizado sobre prompts; razón de OR por SD y p del GLMM.")
