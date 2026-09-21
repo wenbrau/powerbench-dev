@@ -38,9 +38,12 @@ def or_panel(ax, OR, l, h, q, lo, hi):
     x = XS; OR, l, h = np.asarray(OR, float), np.asarray(l, float), np.asarray(h, float)
     ax.bar(x, OR - 1, bottom=1, width=.6, color=[MODE_COLORS[m] for m in MODES5], zorder=2)
     ax.errorbar(x, OR, yerr=[OR - l, h - OR], fmt="none", ecolor="#111", elinewidth=.55, capsize=1.3, capthick=.55, zorder=3)
-    for xi, hh, qi in zip(x, h, q):
+    for xi, o, ll, hh, qi in zip(x, OR, l, h, q):
         if qi < .05:
-            ax.text(xi, hh * 1.02, "*", ha="center", va="bottom", fontsize=FB + 1)
+            if o >= 1:
+                ax.text(xi, hh * 1.02, "*", ha="center", va="bottom", fontsize=FB + 1)
+            else:
+                ax.text(xi, ll / 1.03, "*", ha="center", va="top", fontsize=FB + 1)
     or_axis(ax, [.7, 1, 1.5], lo, hi); shade_dir(ax, lo, hi)
 
 
@@ -104,8 +107,11 @@ def build(data):
             ax.bar(xo, v.OR.values - 1, bottom=1, width=w4, color=MODE_COLORS[mode], alpha=.9, zorder=2)
             ax.errorbar(xo, v.OR.values, yerr=[v.OR.values - v.OR_lo.values, v.OR_hi.values - v.OR.values], fmt="none", ecolor="#111", elinewidth=.5, capsize=1.1, capthick=.5, zorder=3)
             for xi, (_, rr) in zip(xo, v.iterrows()):
-                if rr.q_bh < .05:
-                    ax.text(xi, rr.OR_hi * 1.02, "*", ha="center", va="bottom", fontsize=FB + 1)
+                if rr.q_bh < .05:   # above the interval when OR > 1, below it when OR < 1
+                    if rr.OR >= 1:
+                        ax.text(xi, rr.OR_hi * 1.02, "*", ha="center", va="bottom", fontsize=FB + 1)
+                    else:
+                        ax.text(xi, rr.OR_lo / 1.03, "*", ha="center", va="top", fontsize=FB + 1)
         or_axis(ax, [.5, .67, 1, 1.5, 2], ELO, EHI)
         ax.axvspan(-.5, .5, color="#000", alpha=.05, zorder=0); ax.axvline(.5, color="#666", lw=.6, ls="--")
         ax.axhspan(ELO, 1, color=ORIGIN["US" if pole == "usa" else "CN"], alpha=.07, zorder=0)

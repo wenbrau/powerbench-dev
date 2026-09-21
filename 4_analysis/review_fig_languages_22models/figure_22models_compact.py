@@ -64,13 +64,13 @@ def build(d):
     rate = per_model.groupby(["mode", "lang"]).refuse.mean().mul(100)
     order = rate.reset_index().query("mode in ['he','de','pg']").groupby("lang").refuse.mean().sort_values().index.tolist()
     fp.LANGS79 = order
-    fig = plt.figure(figsize=(5.5, 4.0))
-    axA = fig.add_axes([.075, .645, .50, .29])
-    axB = fig.add_axes([.64, .645, .14, .29])
-    axC = fig.add_axes([.87, .645, .12, .29])
-    axD = fig.add_axes([.075, .10, .17, .38])
-    axE = fig.add_axes([.40, .085, .18, .41])
-    axF = fig.add_axes([.72, .085, .27, .41])
+    fig = plt.figure(figsize=(5.5, 4.3))
+    axA = fig.add_axes([.075, .68, .46, .27])
+    axB = fig.add_axes([.615, .68, .19, .27])
+    axC = fig.add_axes([.89, .68, .10, .27])
+    axD = fig.add_axes([.075, .10, .17, .44])
+    axE = fig.add_axes([.40, .075, .18, .47])
+    axF = fig.add_axes([.72, .03, .27, .51])
     qa, qd, qf, qtab = fv2.bh_q()
     fp.panel_a1(axA, d, t, q=qa); fv2.panel_a2_bump(axB, t2); fv2.panel_b_bars(axC, t2); fp.panel_b(axD, t, q=qd); panel_e(axE)
     fp.panel_c(axF, d, t, q=qf, inset=False)
@@ -87,17 +87,28 @@ def build(d):
             for k, txt in enumerate(ts):
                 txt.set_position((x, y + (k - (len(ts) - 1) / 2) * .55))
     axB.set_title("Language order"); axB.set_ylabel("")
-    for txt in list(axC.texts):
-        txt.remove()
-    axC.set_title("Same order?"); axC.set_ylabel(""); axC.set_xticks([0, 1], ["power modes", "control"], fontsize=FT, rotation=35, ha="right", rotation_mode="anchor")
+    axB.set_xticks(axB.get_xticks(), [lab.get_text() for lab in axB.get_xticklabels()], rotation=45, ha="right", rotation_mode="anchor", fontsize=FT)
+    import re
+    for txt in list(axC.texts):   # the p labels of the two one-sample tests become stars (p < 0.05); the values go to the appendix table
+        m = re.search(r"p\s*([<=])\s*([0-9.]+)", txt.get_text())
+        if m and float(m.group(2)) < .05 or (m and m.group(1) == "<"):
+            txt.set_text("*"); txt.set_fontsize(FB + 1)
+        else:
+            txt.remove()
+    axC.set_title(""); axC.set_title("", loc="center"); axC.set_title("Same order?", loc="right"); axC.set_ylabel(""); axC.set_xticks([0, 1], ["power modes", "control"], fontsize=FT, rotation=35, ha="right", rotation_mode="anchor")
     axC.set_ylim(-.05, .8)
     axD.set_title("Range beyond chance"); axD.set_ylabel("observed / chance range")
-    h, l = axD.get_legend_handles_labels(); axD.legend(h, ["equal weight", "usage-weighted"], frameon=False, loc="lower right", handlelength=1.0, borderaxespad=.1, fontsize=FT)
+    h, l = axD.get_legend_handles_labels(); axD.legend(h, ["equal", "usage"], frameon=False, loc="lower right", handlelength=1.0, borderaxespad=.1, labelspacing=.2, fontsize=FT)
+    for ax_ in (axA, axD):   # one significance level in every body figure: * = q < 0.05
+        for txt in ax_.texts:
+            if txt.get_text().strip() and set(txt.get_text().strip()) == {"*"}:
+                txt.set_text("*")
     axD.set_xticks(range(len(MODES)), [fp.MODE_LABEL2[m] for m in MODES], fontsize=FT, rotation=35, ha="right", rotation_mode="anchor")
     axF.set_title("Model agreement", x=0); axF.tick_params(axis="x", labelsize=FT); axF.tick_params(axis="y", labelsize=FT)
     for cbax in axF.child_axes:
         cbax.set_xticks([-1, 0, 1])
-    for ax, s, xo in ((axA, "A", .008), (axB, "B", .575), (axC, "C", .81), (axD, "D", .008), (axE, "E", .295), (axF, "F", .615)):
+    axF.set_xticks([])   # rows and columns list the same models in the same order; the column labels do not fit
+    for ax, s, xo in ((axA, "A", .008), (axB, "B", .545), (axC, "C", .83), (axD, "D", .008), (axE, "E", .295), (axF, "F", .615)):
         x0, y0, w, h = ax.get_position().bounds
         fig.text(xo, y0 + h + .012, s, fontsize=FL, fontweight="bold", ha="left", va="bottom")
     for ext in ("pdf", "png"):

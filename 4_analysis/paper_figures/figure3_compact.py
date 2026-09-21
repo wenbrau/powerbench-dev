@@ -82,10 +82,10 @@ def panel_c(ax, cells, tp):
         if tt.loc[mode].q_bh < .05:
             ax.text(x[i], float(cells[cells["mode"] == mode].hi.max()) + .02, "*", ha="center", va="bottom", fontsize=FB + 1)
     ax.axhline(0, color="black", lw=.6, ls="--", zorder=1)
-    ax.set_xticks(x, [SHORT[m] for m in MODES], rotation=35, ha="right", rotation_mode="anchor"); ax.set_ylim(-.35, 1.0); ax.set_yticks([-.25, 0, .25, .5, .75, 1]); ax.grid(axis="y", alpha=.15)
+    ax.set_xticks(x, [SHORT[m] for m in MODES], rotation=35, ha="right", rotation_mode="anchor"); ax.set_ylim(-.5, 1.0); ax.set_yticks([-.25, 0, .25, .5, .75, 1]); ax.grid(axis="y", alpha=.15)
     ax.set_ylabel("Bias toward refusing the AI")
     ax.legend(handles=[Patch(facecolor="white", edgecolor="#666666", hatch="///", lw=.6, label="individual"), Patch(facecolor="white", edgecolor="#666666", hatch="xxx", lw=.6, label="society")],
-              handlelength=1.6, handleheight=1.1, frameon=False, loc="lower left", borderaxespad=.1, labelspacing=.2, title="affected party", title_fontsize=FT)
+              handlelength=1.6, handleheight=1.0, frameon=False, loc="lower center", ncol=2, columnspacing=1.0, borderaxespad=.1)
     ax.set_title("Individual vs society")
 
 
@@ -118,10 +118,10 @@ def panel_f(ax, pm, fr, cap, title, show_legend):
     xs = np.linspace(pm.capability.min() - 1, pm.capability.max() + 1, 50); zs = (xs - mu) / sd
     ax.plot(xs, (ai.estimate + it.estimate * zs) / att, color="#222222", lw=1.0, zorder=4)
     ax.axhline(0, color="black", lw=.5, ls=":", zorder=1); ax.grid(alpha=.15)
-    ax.set_title(title); ax.set_ylabel("log-OR, AI vs human")
+    ax.set_title(title); ax.set_ylabel("log-OR")
     if show_legend:
         ax.legend(handles=[Line2D([], [], marker="o", ls="", ms=2.5, color=ORIGIN["US"], label="US model"), Line2D([], [], marker="o", ls="", ms=2.5, color=ORIGIN["CN"], label="CN model")],
-                  frameon=False, loc="upper left", handlelength=1.0, borderaxespad=.1, labelspacing=.2)
+                  frameon=False, loc="upper left", ncol=2, columnspacing=.8, handlelength=1.0, borderaxespad=.1, labelspacing=.2)
 
 
 def build(d):
@@ -140,8 +140,8 @@ def build(d):
     cax = axE.inset_axes([1.01, .15, .025, .7])
     cb = fig.colorbar(imE, cax=cax, orientation="vertical", ticks=[-1, 0, 1]); cb.ax.tick_params(labelsize=FT, width=.4, length=1.5, pad=1); cb.outline.set_linewidth(.4)
     gl = d["F_glmm"]; pool = gl[gl.run == "pooled"]; pm = d["F_pm"]
-    panel_f(axF1, pm[pm.set == "power_shifting_pooled"], pool[pool.set == "power_shifting"].set_index("quantity"), d["cap"], "Capability: power shifting", True)
-    panel_f(axF2, pm[pm.set == "control"], pool[pool.set == "control"].set_index("quantity"), d["cap"], "Capability: control", False)
+    panel_f(axF1, pm[pm.set == "power_shifting_pooled"], pool[pool.set == "power_shifting"].set_index("quantity"), d["cap"], "Capability: power shifting", False)
+    panel_f(axF2, pm[pm.set == "control"], pool[pool.set == "control"].set_index("quantity"), d["cap"], "Capability: control", True)
     axF2.set_xlabel("capability index (%)"); axF1.tick_params(labelbottom=False)
     ylo = min(axF1.get_ylim()[0], axF2.get_ylim()[0]); yhi = max(axF1.get_ylim()[1], axF2.get_ylim()[1])
     for a in (axF1, axF2):
