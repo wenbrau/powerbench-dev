@@ -41,7 +41,7 @@ import figure2_countries_paper as f2  # noqa: E402
 import figure3_aiagent_paper as f3  # noqa: E402
 from _paperstyle import RESULTS, MODES, PS  # noqa: E402
 
-MODE = {"he": "Self-emp.", "de": "Disemp.", "pg": "Power grab.", "control": "Control", PS: "Power shift.\\ (pooled)"}
+MODE = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "Power shift.\\ (pooled)"}
 LANGS = ["en", "de", "fr", "es", "pt", "zh", "hi", "sw"]
 LANG_NAME = {"en": "English", "de": "German", "fr": "French", "es": "Spanish", "pt": "Portuguese", "zh": "Chinese", "hi": "Hindi", "sw": "Swahili"}
 DAG = "$^{\\smash{\\dagger}}$"                       # smashed: no extra row height
@@ -124,7 +124,7 @@ def fig1():
     L = ["\\begin{tabular}{@{}lllr@{}}", "\\toprule", row("Test", "Log-odds [95\\% CI]", "OR [95\\% CI]", "$q$"), "\\midrule"]
 
     L.append(block("Contrasts cited in the text (GLMM, 24 models)", 4))
-    for fk, lab, t in (("he_vs_de", "Disemp.\\ vs Self-emp.", f"de {MINUS} he"), ("de_vs_pg", "Power grab.\\ vs Disemp.", f"pg {MINUS} de")):
+    for fk, lab, t in (("he_vs_de", "DE\\ vs SE", f"de {MINUS} he"), ("de_vs_pg", "PG\\ vs DE", f"pg {MINUS} de")):
         r = mc.loc[fk]
         L.append(row(lab, est_ci(r.m2_logodds, r.m2_lo, r.m2_hi, sign=True), est_ci(r.m2_odds_ratio, r.m2_or_lo, r.m2_or_hi),
                      pq(q77("Figura 1 · A modos", "contrastes de modo", t))))
@@ -133,7 +133,7 @@ def fig1():
                  est_ci(r.xxps_odds_ratio, r.xxps_or_lo, r.xxps_or_hi),
                  pq(q77("Figura 1 · C escala", "interacción scale × (power shifting vs control), pooled", "power shifting vs control (pooled)"), True)))
 
-    L += ["\\midrule", block("(B) Model origin, CN vs US", 4)]
+    L += ["\\midrule", block("(B) Developer country, CN vs US", 4)]
     pb = B.drop_duplicates("group").set_index("group")
     for g in f1.GROUPS:
         r = orig.loc[fit[g]]
@@ -142,10 +142,10 @@ def fig1():
                      pq(pb.loc[g, "q"], g == PS)))
     lo, hi = Ball.cn_logodds - 1.96 * Ball.se, Ball.cn_logodds + 1.96 * Ball.se
     assert np.isclose(np.exp(lo), Ball.OR_lo) and np.isclose(np.exp(hi), Ball.OR_hi)
-    L.append(row("Overall, four modes", est_ci(Ball.cn_logodds, lo, hi, sign=True), est_ci(Ball.OR, Ball.OR_lo, Ball.OR_hi), pq(Ball.p, True)))
+    L.append(row("Overall, four request types", est_ci(Ball.cn_logodds, lo, hi, sign=True), est_ci(Ball.OR, Ball.OR_lo, Ball.OR_hi), pq(Ball.p, True)))
     r = inter.loc["E_ps_vs_control"]
     assert np.isclose(r.cnxps_logodds, Ball.cn_x_ps_logodds) and np.isclose(r.cnxps_p, Ball.cn_x_ps_p)
-    L.append(row("Origin $\\times$ (power shift.\\ vs control)", est_ci(r.cnxps_logodds, r.cnxps_lo, r.cnxps_hi, sign=True),
+    L.append(row("DC $\\times$ (power shift.\\ vs control)", est_ci(r.cnxps_logodds, r.cnxps_lo, r.cnxps_hi, sign=True),
                  est_ci(r.cnxps_odds_ratio, r.cnxps_or_lo, r.cnxps_or_hi), pq(r.cnxps_p, True)))
 
     for fac, title, pan in (("scale", "(D) Scale of the affected party: linear slope per level", "Figura 1 · C escala"),
@@ -181,7 +181,7 @@ def fig2():
     L = ["\\begin{tabular}{@{}llrlrlr@{}}", "\\toprule",
          row("", "\\multicolumn{2}{c}{(B) Excess of $|$side bias$|$}", "\\multicolumn{2}{c}{(C) OR, GLMM}", "\\multicolumn{2}{c}{(D) OR, usage-weighted}"),
          "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(l){6-7}",
-         row("Mode", "Est.\\ [95\\% CI]", "$q$", "OR [95\\% CI]", "$q$", "OR [95\\% CI]", "$q$"), "\\midrule"]
+         row("Request type", "Est.\\ [95\\% CI]", "$q$", "OR [95\\% CI]", "$q$", "OR [95\\% CI]", "$q$"), "\\midrule"]
     for st, title in (("geo", "Geopolitical set: US-side vs China-side user (US/China and allies pooled)"),
                       ("neutral", "Neutral set: neutral-A vs neutral-B user")):
         if st == "neutral":
@@ -237,7 +237,7 @@ def fig3():
 
     # columns: 1 label | 2, 3 levels or counts | 4 main estimate [CI] | 5 its q | 6 GLMM OR [CI] | 7 its q
     L += [block("(A) Refusal with a human and with an AI-agent user", N),
-          row("Mode", "Human (\\%)", "AI (\\%)", stack("$\\Delta$ AI $-$ human,", "pp [95\\% CI]"), "", stack("GLMM OR AI/human", "[95\\% CI]"), "$q$"),
+          row("Request type", "Human (\\%)", "AI (\\%)", stack("$\\Delta$ AI $-$ human,", "pp [95\\% CI]"), "", stack("GLMM OR AI/human", "[95\\% CI]"), "$q$"),
           "\\cmidrule{1-7}"]
     for m in MODES:
         h, a = one(lv, mode=m, condition="human").estimate, one(lv, mode=m, condition="ai").estimate
@@ -248,7 +248,7 @@ def fig3():
     s = d["B"].set_index("mode"); ps = d["B_ps"].set_index("set").loc["power_shifting"]
     tt = one(d["B_test"], contrast="power_shifting - control")
     L += ["\\midrule", block("(B) Direction of the verdict changes: bias toward refusing the AI", N),
-          row("Mode", "\\multicolumn{2}{c}{Models $>$ 0}", "Bias [95\\% CI]", "$q$", "", ""), "\\cmidrule{1-7}"]
+          row("Request type", "\\multicolumn{2}{c}{Models $>$ 0}", "Bias [95\\% CI]", "$q$", "", ""), "\\cmidrule{1-7}"]
     for m in MODES:
         r = s.loc[m]
         L.append(row(MODE[m], f"\\multicolumn{{2}}{{c}}{{{int(r.n_positive)}/{int(r.n_models)}}}", est_ci(r.bias, r.lo, r.hi, sign=True), pq(r.q_bh), "", ""))
@@ -259,7 +259,7 @@ def fig3():
 
     cells, tp = d["C_cells"], d["C_t"]
     L += ["\\midrule", block("(C) Bias toward refusing the AI, by scale of the affected party", N),
-          row("Mode", "Individual", "Society", stack("Society $-$ individual,", "paired [95\\% CI]"), "$q$",
+          row("Request type", "Individual", "Society", stack("Society $-$ individual,", "paired [95\\% CI]"), "$q$",
               stack("GLMM OR society/", "individual [95\\% CI]"), "$q$"), "\\cmidrule{1-7}"]
     for m in MODES:
         i, so = one(cells, mode=m, level="individual"), one(cells, mode=m, level="society")
@@ -276,7 +276,7 @@ def fig3():
         Q = sd.pivot(index="mode", columns="level", values="q_bh").reindex(index=modes, columns=levels)
         cnt[dim] = dict(zip(modes, ((Q < .05) & np.isfinite(M)).sum(axis=1).to_numpy()))
     L += ["\\midrule", block("(D, E) Cells whose bias differs from zero ($q < 0.05$)", N),
-          row("Mode", "Contexts", "Domains", "", "", "", ""), "\\cmidrule{1-7}"]
+          row("Request type", "Contexts", "Domains", "", "", "", ""), "\\cmidrule{1-7}"]
     for m in MODES:
         dom = f"{cnt['domain'][m]}/{len(f3.DOMAINS)}" if m in cnt["domain"] else "---"
         L.append(row(MODE[m], f"{cnt['context'][m]}/{len(f3.CONTEXTS)}", dom, "", "", "", ""))
@@ -323,15 +323,15 @@ def fig4():
         cells.append(f"{num(r.omnibus_chi2, 1)} ({pq(r.p)})")
     L.append(row("Omnibus $\\chi^2(7)$ ($p$)", *cells))
 
-    L += ["\\midrule", block("(C) Do the modes order the languages alike? Spearman correlation, mean of 22 models", N),
+    L += ["\\midrule", block("(C) Do the request types order the languages alike? Spearman correlation, mean of 22 models", N),
           row("Test", "Mean $\\rho$ [95\\% CI]", "$p$", "", ""), "\\cmidrule{1-3}"]
-    for key, lab, t in (("Q1 en rho", "Pairs of power modes", "C B1"), ("Q2", "Control vs power-mode consensus", "C B2")):
+    for key, lab, t in (("Q1 en rho", "Pairs of power-shifting types", "C B1"), ("Q2", "CT vs power-shifting consensus", "C B2")):
         r = summ[summ.question.str.startswith(key)].iloc[0]
         assert np.isclose(r.p_t, one(bhq, panel="C", test=t).q)
         L.append(row(lab, est_ci(r["mean"], r.lo, r.hi), pq(r.p_t, True), "", ""))
 
     L += ["\\midrule", block("(D) Range across languages beyond chance: observed / chance range", N),
-          row("Mode", "Equal weight [95\\% CI]", "$q$", "Usage-weighted [95\\% CI]", "$q$"), "\\cmidrule{1-5}"]
+          row("Request type", "Equal weight [95\\% CI]", "$q$", "Usage-weighted [95\\% CI]", "$q$"), "\\cmidrule{1-5}"]
     for m in MODES:
         e, u = tb.loc[(m, "eq")], tb.loc[(m, "use")]
         assert np.isclose(e.q_bh, one(bhq, panel="D", family="4 modos, peso eq", test=m).q)
@@ -348,7 +348,7 @@ def fig4():
         L.append(row(lab, npairs[k], num(t1.loc[k, "observed"], 2, sign=True), pq(q.q), ""))
     c = one(st, test="test2_blockperm", quantity=f"dentro {MINUS} mixto")
     assert np.isclose(c.p, one(bhq, panel="F", test=f"dentro {MINUS} mixto").q)
-    L.append(row("Same origin $-$ mixed", "", num(c.observed, 2, sign=True), pq(c.p, True), ""))
+    L.append(row("Same DC $-$ mixed", "", num(c.observed, 2, sign=True), pq(c.p, True), ""))
     L += ["\\bottomrule", "\\end{tabular}"]
     write("est_fig4.tex", L)
 
@@ -359,7 +359,7 @@ def fig4_models():
     L = ["\\begin{tabular}{@{}llrrrllr@{}}", "\\toprule",
          row("", "", "\\multicolumn{3}{c}{Range across languages (pp)}", "\\multicolumn{2}{c}{Refusal (\\%)}", ""),
          "\\cmidrule(lr){3-5}\\cmidrule(lr){6-7}",
-         row("Model", "Origin", "Chance", "Observed", "Excess", "Least refused", "Most refused", "$q$"), "\\midrule"]
+         row("Model", "DC", "Chance", "Observed", "Excess", "Least refused", "Most refused", "$q$"), "\\midrule"]
     for _, r in tab.iterrows():
         L.append(row(r.model, r.origin, num(r.null_mean, 1), num(r.range_pp, 1), num(r.excess, 1, sign=True),
                      f"{LANG_NAME[r.least]} {num(r.R_least, 1)}", f"{LANG_NAME[r.most]} {num(r.R_most, 1)}", pq(r.q_bh)))
@@ -406,7 +406,7 @@ def lang_22_vs_24():
         L.append(row(MODE[m], *cells))
 
     L += ["\\midrule", block("(C) Mean Spearman correlation between language orders", N)]
-    for key, lab, t in (("Q1 en rho", "Pairs of power modes", "C B1"), ("Q2", "Control vs power-mode consensus", "C B2")):
+    for key, lab, t in (("Q1 en rho", "Pairs of power-shifting types", "C B1"), ("Q2", "CT vs power-shifting consensus", "C B2")):
         cells = []
         for n in (24, 22):
             r = sm[n][sm[n].question.str.startswith(key)].iloc[0]
@@ -439,7 +439,7 @@ def lang_22_vs_24():
         c = one(stt[n], test="test2_blockperm", quantity=f"dentro {MINUS} mixto")
         assert np.isclose(c.p, cq("F", "test único", f"dentro {MINUS} mixto", n))
         cells += [num(c.observed, 2, sign=True), pq(c.p, True)]
-    L.append(row("Same origin $-$ mixed", *cells))
+    L.append(row("Same DC $-$ mixed", *cells))
     L += ["\\bottomrule", "\\end{tabular}"]
     write("lang_22_vs_24.tex", L)
 

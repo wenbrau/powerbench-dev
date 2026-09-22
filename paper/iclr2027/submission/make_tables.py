@@ -64,7 +64,7 @@ rows.sort()
 lines = [
     "\\begin{tabular}{llllrrr}",
     "\\toprule",
-    "Model & Developer & Origin & Endpoint & GPQA-D & MMLU-Pro & Index \\\\",
+    "Model & Developer & DC & Endpoint & GPQA-D & MMLU-Pro & Index \\\\",
     "\\midrule",
 ]
 last = None
@@ -85,7 +85,7 @@ lines += ["\\bottomrule", "\\end{tabular}"]
 lines = [
     "\\begin{tabular}{llrrrrrrr}",
     "\\toprule",
-    "Model & Origin & Self-emp. & Disemp. & Power grab. & Power shift. & Control & Mean of 4 & Usage (\\%) \\\\",
+    "Model & DC & SE & DE & PG & Power shift. & CT & Mean of 4 & Usage (\\%) \\\\",
     "\\midrule",
 ]
 
@@ -139,16 +139,16 @@ for r in tm:
     d["n"] += int(r["n"]); d["t"] += int(r["over5000"])
     if r["lang"] == "sw":
         d["sw"] = (int(r["over5000"]), int(r["n"]))
-lines = ["\\begin{tabular}{llrrr}", "\\toprule", "Model & Origin & Responses & Truncated (\\%) & Swahili (\\%) \\\\", "\\midrule"]
+lines = ["\\begin{tabular}{llrrr}", "\\toprule", "Model & DC & Responses & Truncated (\\%) & Swahili (\\%) \\\\", "\\midrule"]
 for m, d in sorted(bym.items(), key=lambda kv: (kv[1]["origin"], -kv[1]["t"] / kv[1]["n"])):
     lines.append(f"{esc(m)} & {d['origin']} & {d['n']:,} & {100*d['t']/d['n']:.2f} & {100*d['sw'][0]/max(d['sw'][1],1):.2f} \\\\")
 lines += ["\\bottomrule", "\\end{tabular}"]
 (OUT / "truncation_by_model.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 # ------------------------------------------------------------ harmfulness
-MODE = {"he": "Self-empowerment", "de": "Disempowerment", "pg": "Power grabbing", "control": "Control"}
+MODE = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}
 h = read_csv(R / "25_fig1_notelab" / "harm_nonrefused_pooled.csv")
-lines = ["\\begin{tabular}{lrrr}", "\\toprule", "Mode & All models & US models & CN models \\\\", "\\midrule"]
+lines = ["\\begin{tabular}{lrrr}", "\\toprule", "Request type & All models & US models & CN models \\\\", "\\midrule"]
 for mode in ["he", "de", "pg", "control"]:
     cells = []
     for bloc in ["all", "US", "CN"]:
@@ -175,7 +175,7 @@ lines += ["\\bottomrule", "\\end{tabular}"]
 # ------------------------------------------------- AI agent: levels by scale
 sl = read_csv(R / "61_fig4_scale_levels" / "scale_levels_summary.csv")
 lines = ["\\begin{tabular}{llrrrrr}", "\\toprule",
-         "Mode & Scale & Human (\\%) & AI (\\%) & $\\Delta$ (pp) & Direction bias & OR \\\\", "\\midrule"]
+         "Request type & Scale & Human (\\%) & AI (\\%) & $\\Delta$ (pp) & Direction bias & OR \\\\", "\\midrule"]
 for mode in ["he", "de", "pg", "control"]:
     for r in [x for x in sl if x["mode"] == mode]:
         lines.append(
