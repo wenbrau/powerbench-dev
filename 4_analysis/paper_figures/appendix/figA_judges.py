@@ -76,7 +76,7 @@ def agreement_sets():
         assert abs(k["kappa"] - tab.loc[ref, "kappa"]) < 5e-4 and abs(k["agree"] - tab.loc[ref, "agree"]) < 5e-3, (ref, k, tab.loc[ref])
     k7 = pooled(a10, [f"{l} {X} {m}" for l in LANGS[1:] for m in six])
     assert abs(k7["kappa"] - a10.loc["all", "kappa"]) < 5e-4, k7
-    rows = [("English base bank", pooled(a09, [f"model={m}" for m in PANEL5]))]
+    rows = [("English dataset", pooled(a09, [f"model={m}" for m in PANEL5]))]
     for l in LANGS[1:]:
         rows.append((LANG_NAME[l], pooled(a10, [f"{l} {X} {m}" for m in PANEL5])))
     rows.append(("Seven other languages", pooled(a10, [f"{l} {X} {m}" for l in LANGS[1:] for m in PANEL5])))
@@ -124,7 +124,7 @@ def build(ag, per_model, con, by_model):
     xl = np.arange(len(LANGS))
     for m in PANEL5:
         axB.plot(xl, per_model[m], color=ORIGIN[ORIGIN5[m]], marker=MARK[m], ms=2.3, lw=.6, alpha=.85, zorder=2)
-    pooled_line = [ag.set_index("set").loc["English base bank", "kappa"]] + [ag.set_index("set").loc[LANG_NAME[l], "kappa"] for l in LANGS[1:]]
+    pooled_line = [ag.set_index("set").loc["English dataset", "kappa"]] + [ag.set_index("set").loc[LANG_NAME[l], "kappa"] for l in LANGS[1:]]
     axB.plot(xl, pooled_line, color="#111111", lw=1.5, zorder=3)
     axB.set_xticks(xl, [LANG_NAME[l] for l in LANGS], rotation=40, ha="right", rotation_mode="anchor")
     axB.set_xlim(-.3, len(LANGS) - .7); axB.set_ylim(.2, 1.0); axB.set_yticks([.2, .4, .6, .8, 1.0]); axB.grid(axis="y", alpha=.15)

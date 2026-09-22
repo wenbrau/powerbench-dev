@@ -20,7 +20,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 FB, FT, FL = 6.5, 6.0, 9.0
-MODE_LEG = {"he": "Self-empowerment", "de": "Disempowerment", "pg": "Power grabbing", "control": "Control", PS: "Power shifting (pooled)"}
+MODE_LEG = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "Power shifting (pooled)"}
 DYL = {"us_ally": "ally", "us_neutral": "neutral", "us_rival": "rival", "us_cn": "China", "cn_ally": "ally", "cn_neutral": "neutral", "cn_rival": "rival", "cn_us": "US"}
 
 
@@ -116,7 +116,7 @@ def build(data):
         ax.axvspan(-.5, .5, color="#000", alpha=.05, zorder=0); ax.axvline(.5, color="#666", lw=.6, ls="--")
         ax.axhspan(ELO, 1, color=ORIGIN["US" if pole == "usa" else "CN"], alpha=.07, zorder=0)
         ax.set_xticks(xg, [g[1] for g in groups], fontsize=FT)
-        ax.set_ylabel(f"OR, {P} as user / as affected")
+        ax.set_ylabel(f"OR, {P} as user / as target")
         ax.set_title(f"Direction, {P}")
 
     fig.legend(handles=[Patch(fc=MODE_COLORS[m], label=MODE_LEG[m]) for m in MODES5] + [Patch(fc=SIDE_COL["us"], alpha=.2, label="US-side user"), Patch(fc=SIDE_COL["cn"], alpha=.2, label="China-side user")],

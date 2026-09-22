@@ -22,7 +22,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 FB, FT, FL = 6.5, 6.0, 9.0
-SHORT = {"he": "Self-emp.", "de": "Disemp.", "pg": "Power grab.", "control": "Control"}
+SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}
 CTX_SHORT = {"Interpersonal": "Interpers.", "Government": "Governm."}
 
 
@@ -135,8 +135,8 @@ def build(d):
     g2 = gs[1].subgridspec(2, 2, width_ratios=[3.0, 1.9], height_ratios=[4.3, 3.6], wspace=.06, hspace=.1)
     axD, axF1, axE, axF2 = fig.add_subplot(g2[0, 0]), fig.add_subplot(g2[0, 1]), fig.add_subplot(g2[1, 0]), fig.add_subplot(g2[1, 1])
     DE = d["DE"]
-    heat(axD, DE[DE.dim == "context"], CONTEXTS, MODES, "Bias by context and mode")
-    imE = heat(axE, DE[DE.dim == "domain"], DOMAINS, MODES[:3], "Bias by domain and mode")
+    heat(axD, DE[DE.dim == "context"], CONTEXTS, MODES, "Bias by context and request type")
+    imE = heat(axE, DE[DE.dim == "domain"], DOMAINS, MODES[:3], "Bias by domain and request type")
     cax = axE.inset_axes([1.01, .15, .025, .7])
     cb = fig.colorbar(imE, cax=cax, orientation="vertical", ticks=[-1, 0, 1]); cb.ax.tick_params(labelsize=FT, width=.4, length=1.5, pad=1); cb.outline.set_linewidth(.4)
     gl = d["F_glmm"]; pool = gl[gl.run == "pooled"]; pm = d["F_pm"]

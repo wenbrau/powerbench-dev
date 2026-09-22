@@ -33,8 +33,8 @@ import pandas as pd  # noqa: E402
 FB, FT, FS, FL = 6.5, 6.0, 5.5, 9.0          # base, ticks, smallest allowed, panel letter
 W = 5.5
 MODES = ["he", "de", "pg", "control"]
-LABEL = {"he": "Self-empowerment", "de": "Disempowerment", "pg": "Power grabbing", "control": "Control"}
-SHORT = {"he": "Self-emp.", "de": "Disemp.", "pg": "Power grab.", "control": "Control"}
+LABEL = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}
+SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}
 ORIGIN_LABEL = {"US": "US models", "CN": "CN models"}
 CTX = ["Fiction", "Work", "Government", "Interpersonal", "Diplomacy", "Academia", "Markets", "Media"]
 DOM = ["Rank", "Wealth", "Health", "Legal", "Physical", "Epistemic", "Status", "Attentional"]
@@ -103,7 +103,7 @@ def fig_model_level():
         ax.set_xlim(lim); ax.set_ylim(lim); ax.set_aspect("equal")
         ax.set_xticks([0, 20, 40]); ax.set_yticks([0, 20, 40]); ax.grid(alpha=.15)
         ax.set_title(LABEL[m]); ax.set_xlabel("Control refusal (%)")
-    axes[0].set_ylabel("Refusal in the mode (%)")
+    axes[0].set_ylabel("Refusal in the request type (%)")
     axes[0].legend(handles=origin_handles(), frameon=False, loc="upper left", handletextpad=.2, borderaxespad=.2)
     letters(zip(axes, "ABC"))
     save(fig, "figA1_model_level")
@@ -116,8 +116,8 @@ def fig_components():
     x = np.arange(len(C))
     fig, ax = plt.subplots(figsize=(W, 2.0), layout="constrained")
     fig.get_layout_engine().set(w_pad=.02, h_pad=.02)
-    ax.bar(x, C.components, width=.82, color="#C9CCD1", zorder=2, label="Union of Self-emp. and Disemp. refusal")
-    ax.bar(x, C.pg, width=.44, color=MODE_COLORS["pg"], zorder=3, label="Power-grabbing refusal")
+    ax.bar(x, C.components, width=.82, color="#C9CCD1", zorder=2, label="Union of SE and DE refusal")
+    ax.bar(x, C.pg, width=.44, color=MODE_COLORS["pg"], zorder=3, label="PG refusal")
     ax.errorbar(x, C.pg, yerr=[C.pg - C.pg_lo, C.pg_hi - C.pg], **ERR)
     ax.set_xticks(x, C.index, rotation=45, ha="right", rotation_mode="anchor")
     ax.tick_params(axis="x", length=0, pad=1.5)
@@ -248,7 +248,7 @@ def fig_origin():
 def fig_factors():
     T = pd.read_csv(SUBGROUPS)
     dims = {"scale": ("Scale", ["individual", "group", "society"], MODES),
-            "standing": ("Prior standing", ["low", "med", "high"], MODES),
+            "standing": ("Prior power standing", ["low", "med", "high"], MODES),
             "context": ("Context", CTX, MODES),            # same level order as figA1_context_domain
             "domain": ("Domain", DOM, MODES[:3])}
     lvl_label = {"individual": "Individual", "group": "Group", "society": "Society", "low": "Low", "med": "Medium", "high": "High"}

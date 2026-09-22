@@ -30,7 +30,7 @@ fv2.fp = fp
 FB, FT, FL = 6.5, 6.0, 9.0
 for mod in (fp, fv2):
     mod.F_TITLE, mod.F_BASE, mod.F_TICK, mod.F_SMALL, mod.F_TINY, mod.F_LETTER = FB + .5, FB, FT, FT, FT, FL
-fp.MODE_LABEL2 = {"he": "Self-emp.", "de": "Disemp.", "pg": "Power grab.", "control": "Control"}
+fp.MODE_LABEL2 = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}
 ORIGIN, ORIGIN_LIGHT = fp.ORIGIN, fp.ORIGIN_LIGHT
 
 
@@ -74,7 +74,7 @@ def build(d):
     qa, qd, qf, qtab = fv2.bh_q()
     fp.panel_a1(axA, d, t, q=qa); fv2.panel_a2_bump(axB, t2); fv2.panel_b_bars(axC, t2); fp.panel_b(axD, t, q=qd); panel_e(axE)
     fp.panel_c(axF, d, t, q=qf, inset=False)
-    axA.set_xticks(axA.get_xticks(), [LANG_NAME[l] for l in order], fontsize=FT, rotation=30, ha="right", rotation_mode="anchor"); axA.set_title("Refusal by language and mode")
+    axA.set_xticks(axA.get_xticks(), [LANG_NAME[l] for l in order], fontsize=FT, rotation=30, ha="right", rotation_mode="anchor"); axA.set_title("Refusal by language and request type")
     axA.set_ylim(0, 40); axA.legend(frameon=False, loc="upper left", ncol=2, handlelength=1.1, columnspacing=1.0, borderaxespad=.2, fontsize=FT)
     for txt in axB.texts:
         txt.set_text(txt.get_text().rstrip("*")); txt.set_fontsize(FT)
@@ -95,7 +95,7 @@ def build(d):
             txt.set_text("*"); txt.set_fontsize(FB + 1)
         else:
             txt.remove()
-    axC.set_title(""); axC.set_title("", loc="center"); axC.set_title("Same order?", loc="right"); axC.set_ylabel(""); axC.set_xticks([0, 1], ["power modes", "control"], fontsize=FT, rotation=35, ha="right", rotation_mode="anchor")
+    axC.set_title(""); axC.set_title("", loc="center"); axC.set_title("Same order?", loc="right"); axC.set_ylabel(""); axC.set_xticks([0, 1], ["power-shifting types", "CT"], fontsize=FT, rotation=35, ha="right", rotation_mode="anchor")
     axC.set_ylim(-.05, .8)
     axD.set_title("Range beyond chance"); axD.set_ylabel("observed / chance range")
     h, l = axD.get_legend_handles_labels(); axD.legend(h, ["equal", "usage"], frameon=False, loc="lower right", handlelength=1.0, borderaxespad=.1, labelspacing=.2, fontsize=FT)

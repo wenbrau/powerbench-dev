@@ -20,7 +20,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 FB, FT, FL = 6.5, 6.0, 9.0          # base, ticks, letra de panel
-SHORT = {"he": "Self-emp.", "de": "Disemp.", "pg": "Power grab.", "control": "Control", PS: "Power shift."}
+SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "Power shift."}
 CTX_SHORT = {"Interpersonal": "Interpers.", "Government": "Governm.", "Diplomacy": "Diplomacy", "Attentional": "Attention."}
 
 
@@ -44,7 +44,7 @@ def panel_a(ax, A):
     ax.bar(x, a["mean"], width=.62, color=[MODE_COLORS[g] for g in MODES], zorder=2)
     ax.errorbar(x, a["mean"], yerr=[a["mean"] - a.lo, a.hi - a["mean"]], fmt="none", ecolor="#222", elinewidth=.6, capsize=1.5, capthick=.6, zorder=3)
     ax.set_xticks(x, [SHORT[g] for g in MODES], rotation=35, ha="right", rotation_mode="anchor")
-    ax.set_ylabel("Refusal (%)"); ax.grid(axis="y", alpha=.15); ax.set_title("Refusal by mode")
+    ax.set_ylabel("Refusal (%)"); ax.grid(axis="y", alpha=.15); ax.set_title("Refusal by request type")
 
 
 def panel_b(ax, B):
@@ -60,7 +60,7 @@ def panel_b(ax, B):
     ax.legend(handles=[Patch(facecolor="#888", alpha=.5, edgecolor="#888", label="US (12)"), Patch(facecolor="#888", alpha=.95, label="CN (12)")],
               frameon=False, loc="upper left", handlelength=1.1, borderaxespad=.2)
     ax.set_xticks(x, [SHORT[g] for g in GROUPS], rotation=35, ha="right", rotation_mode="anchor")
-    ax.set_ylabel("Refusal (%)"); ax.grid(axis="y", alpha=.15); ax.set_title("US vs CN by mode")
+    ax.set_ylabel("Refusal (%)"); ax.grid(axis="y", alpha=.15); ax.set_title("US vs CN by request type")
     ax.set_ylim(0, float(B.hi.max()) * 1.25)
 
 
@@ -84,11 +84,11 @@ def panel_de(ax, LV, bhq, fac, first):
         if bhq[fac][mode] < .05:
             ax.text(2.12, float(s["mean"].iloc[-1]), "*", ha="left", va="center", fontsize=FB + 1, color=MODE_COLORS[mode])
     ax.set_xticks(xs, [LEVEL_LABEL[s_] for s_ in FACTORS[fac]]); ax.set_xlim(-.15, 2.35)
-    ax.set_ylabel("Refusal (%), mean of 24" if first else ""); ax.set_xlabel("scale of the affected party" if fac == "scale" else "user's prior standing")
+    ax.set_ylabel("Refusal (%), mean of 24" if first else ""); ax.set_xlabel("scale of the target" if fac == "scale" else "user's prior power standing")
     ax.grid(axis="y", alpha=.15); ax.set_ylim(0, 50)
     if not first:   # the legend sits in E, whose upper half is empty; in D it would cover the power-grabbing curve
         ax.legend(frameon=False, loc="upper left", handlelength=1.3, labelspacing=.2, borderaxespad=.1)
-    ax.set_title("By scale" if fac == "scale" else "By standing")
+    ax.set_title("By scale" if fac == "scale" else "By power standing")
 
 
 def panel_fg(ax, CD, fac):

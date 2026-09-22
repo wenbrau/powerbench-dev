@@ -22,7 +22,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 MODES = ["he", "de", "pg", "control"]
-SHORT = {"he": "Self-emp.", "de": "Disemp.", "pg": "Power grab.", "control": "Control", "power_shifting": "Power shift."}
+SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", "power_shifting": "Power shift."}
 FB, FT, FL = 6.5, 6.0, 9.0
 STEM = "figA3_origin_usage"
 
@@ -45,7 +45,7 @@ def panel_a(ax, d):
     ax.set_ylabel("Bias toward refusing the AI")
     ax.legend(handles=[Patch(facecolor=ORIGIN["US"], label="US models"), Patch(facecolor=ORIGIN["CN"], label="CN models")],
               frameon=False, loc="upper right", ncol=2, handlelength=1.0, columnspacing=.8, borderaxespad=.1)
-    ax.set_title("By model origin")
+    ax.set_title("By developer country")
 
 
 def panel_b(ax, d):
