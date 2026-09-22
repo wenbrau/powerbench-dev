@@ -9,6 +9,9 @@ Ejecutar desde la raíz del repo:  python 4_analysis/review_fig_languages_22mode
 from __future__ import annotations
 
 from _common import HERE, ROOT, MODES, LANG_NAME, load22
+import sys
+sys.path.insert(0, str(ROOT / "4_analysis" / "paper_figures"))
+from _paperstyle import short  # noqa: E402
 import figure_paper as fp
 import figure_paper_v2 as fv2
 import matplotlib.pyplot as plt
@@ -31,6 +34,8 @@ FB, FT, FL = 6.5, 6.0, 9.0
 for mod in (fp, fv2):
     mod.F_TITLE, mod.F_BASE, mod.F_TICK, mod.F_SMALL, mod.F_TINY, mod.F_LETTER = FB + .5, FB, FT, FT, FT, FL
 fp.MODE_LABEL2 = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}
+fp.MODE_LABEL = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}      # panel A legend
+fv2.MODE_SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}     # panel B and C ticks
 ORIGIN, ORIGIN_LIGHT = fp.ORIGIN, fp.ORIGIN_LIGHT
 
 
@@ -47,7 +52,7 @@ def panel_e(ax):
     for i, r in tab.iterrows():
         if r.sig_bh:
             ax.text(max(r.range_pp, r.null_p95) + .6, i, "*", va="center", ha="left", fontsize=FB + 1)
-    ax.set_yticks(y, tab.model, fontsize=FT); ax.tick_params(axis="y", length=0, pad=1.2)
+    ax.set_yticks(y, [short(m) for m in tab.model], fontsize=FT); ax.tick_params(axis="y", length=0, pad=1.2)
     for lab, o in zip(ax.get_yticklabels(), tab.origin):
         lab.set_color(ORIGIN[o])
     ax.set_ylim(n - .4, -.6); ax.set_xlabel("range across languages (pp)"); ax.set_xlim(0, float(tab.range_pp.max()) * 1.15); ax.grid(axis="x", alpha=.15)
@@ -95,7 +100,7 @@ def build(d):
             txt.set_text("*"); txt.set_fontsize(FB + 1)
         else:
             txt.remove()
-    axC.set_title(""); axC.set_title("", loc="center"); axC.set_title("Same order?", loc="right"); axC.set_ylabel(""); axC.set_xticks([0, 1], ["power-shifting types", "CT"], fontsize=FT, rotation=35, ha="right", rotation_mode="anchor")
+    axC.set_title(""); axC.set_title("", loc="center"); axC.set_title("Same order?", loc="right"); axC.set_ylabel(""); axC.set_xticks([0, 1], ["PS", "CT"], fontsize=FT, rotation=35, ha="right", rotation_mode="anchor")
     axC.set_ylim(-.05, .8)
     axD.set_title("Range beyond chance"); axD.set_ylabel("observed / chance range")
     h, l = axD.get_legend_handles_labels(); axD.legend(h, ["equal", "usage"], frameon=False, loc="lower right", handlelength=1.0, borderaxespad=.1, labelspacing=.2, fontsize=FT)
@@ -108,6 +113,10 @@ def build(d):
     for cbax in axF.child_axes:
         cbax.set_xticks([-1, 0, 1])
     axF.set_xticks([])   # rows and columns list the same models in the same order; the column labels do not fit
+    _labs = axF.get_yticklabels(); _cols = [l.get_color() for l in _labs]
+    axF.set_yticks(axF.get_yticks(), [short(l.get_text()) for l in _labs])
+    for l, c in zip(axF.get_yticklabels(), _cols):
+        l.set_color(c)
     for ax, s, xo in ((axA, "A", .008), (axB, "B", .545), (axC, "C", .83), (axD, "D", .008), (axE, "E", .295), (axF, "F", .615)):
         x0, y0, w, h = ax.get_position().bounds
         fig.text(xo, y0 + h + .012, s, fontsize=FL, fontweight="bold", ha="left", va="bottom")

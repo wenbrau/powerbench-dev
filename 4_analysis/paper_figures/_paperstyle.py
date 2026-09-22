@@ -31,7 +31,21 @@ F_TITLE, F_BASE, F_TICK, F_SMALL, F_TINY, F_LETTER = 7.2, 6.5, 6.0, 5.2, 4.7, 9.
 MODES = ["he", "de", "pg", "control"]
 PS = "power_shifting"
 MODE_LABEL = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}
-MODE_SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "Power shift.\n(mean)"}
+MODE_SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "PS\n(mean)"}
+# Abbreviations used wherever a figure lists the models (Table tab:panel of the paper maps them back).
+MODEL_SHORT = {
+    "deepseek-v4-pro": "dsk-v4", "gemini-3.1-flash-lite": "gem-3.1fl", "gemma-4-31b": "gemma-4", "glm-5.2": "glm-5.2",
+    "gpt-5.6-luna": "luna", "gpt-5.6-sol": "sol", "gpt-5.6-terra": "terra", "grok-4.3": "grok-4.3", "haiku-4.5": "haiku-4.5",
+    "hy3": "hy3", "inkling": "inkling", "kimi-k2.6": "kimi-k2.6", "kimi-k3": "kimi-k3", "ling-3.0-flash": "ling-3.0",
+    "mimo-v2.5-pro": "mimo-2.5", "minimax-m3": "mmax-m3", "nemotron-3-ultra": "nemo-3u", "nemotron-3.5-lightning": "nemo-3.5l",
+    "nova-2-lite": "nova-2", "qwen3.7-plus": "qwen3.7+", "qwen3.8-27b": "q3.8-27b", "qwen3.8-flash": "q3.8-fl",
+    "seed-2-1-turbo": "seed-2.1", "sonnet-5": "sonnet-5",
+}
+
+def short(m):
+    """Abbreviated model name for figure labels; unknown ids are returned unchanged."""
+    return MODEL_SHORT.get(m, m)
+
 MODE_COLORS = {"he": "#456B91", "de": "#B68534", "pg": "#A44255", "control": "#777C83", PS: "#5B3F8C"}
 ORIGIN = {"US": "#326CA0", "CN": "#B44941"}
 ORIGIN_LIGHT = {"US": "#B9CDE0", "CN": "#E6BDB9"}

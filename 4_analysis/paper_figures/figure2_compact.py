@@ -20,7 +20,7 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 FB, FT, FL = 6.5, 6.0, 9.0
-MODE_LEG = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "Power shifting (pooled)"}
+MODE_LEG = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "PS (pooled)"}
 DYL = {"us_ally": "ally", "us_neutral": "neutral", "us_rival": "rival", "us_cn": "China", "cn_ally": "ally", "cn_neutral": "neutral", "cn_rival": "rival", "cn_us": "US"}
 
 

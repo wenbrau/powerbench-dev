@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paperstyle import HERE, ROOT, MODES, PS, MODE_LABEL, MODE_COLORS, ORIGIN, letters  # noqa: E402
+from _paperstyle import HERE, ROOT, RESULTS, MODES, PS, MODE_LABEL, MODE_COLORS, ORIGIN, letters, short  # noqa: E402
 from figure1_paper import load, GROUPS, FACTORS, LEVEL_LABEL  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
@@ -20,7 +20,8 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 FB, FT, FL = 6.5, 6.0, 9.0          # base, ticks, letra de panel
-SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "Power shift."}
+SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "PS"}
+CTRL_COLOR = "#9A9EA3"
 CTX_SHORT = {"Interpersonal": "Interpers.", "Government": "Governm.", "Diplomacy": "Diplomacy", "Attentional": "Attention."}
 
 
@@ -44,7 +45,7 @@ def panel_a(ax, A):
     ax.bar(x, a["mean"], width=.62, color=[MODE_COLORS[g] for g in MODES], zorder=2)
     ax.errorbar(x, a["mean"], yerr=[a["mean"] - a.lo, a.hi - a["mean"]], fmt="none", ecolor="#222", elinewidth=.6, capsize=1.5, capthick=.6, zorder=3)
     ax.set_xticks(x, [SHORT[g] for g in MODES], rotation=35, ha="right", rotation_mode="anchor")
-    ax.set_ylabel("Refusal (%)"); ax.grid(axis="y", alpha=.15); ax.set_title("Refusal by request type")
+    ax.set_ylabel("Refusal (%)"); ax.grid(axis="y", alpha=.15); ax.set_title("By request type")
 
 
 def panel_b(ax, B):
@@ -68,7 +69,7 @@ def panel_c(ax, C):
     Cs = pd.concat([C[C.origin == "US"].sort_values("mean_all", ascending=False), C[C.origin == "CN"].sort_values("mean_all", ascending=False)])
     x = np.arange(len(Cs))
     ax.bar(x, Cs.mean_all, width=.75, color=[ORIGIN[o] for o in Cs.origin], zorder=2)
-    ax.set_xticks(x, Cs.model, fontsize=FT, rotation=90); ax.tick_params(axis="x", length=0, pad=1.2)
+    ax.set_xticks(x, [short(m) for m in Cs.model], fontsize=FT, rotation=90); ax.tick_params(axis="x", length=0, pad=1.2)
     for tk, o in zip(ax.get_xticklabels(), Cs.origin):
         tk.set_color(ORIGIN[o])
     ax.axvline(11.5, color="#999", lw=.5, ls=":"); ax.set_xlim(-.7, len(Cs) - .3); ax.grid(axis="y", alpha=.15)
@@ -91,17 +92,35 @@ def panel_de(ax, LV, bhq, fac, first):
     ax.set_title("By scale" if fac == "scale" else "By power standing")
 
 
+def control_by_context():
+    """Control refusal (%) by context with its bootstrap interval, mean of the 24 models (block 25; the control has no domain)."""
+    L = pd.read_csv(RESULTS / "25_fig1_notelab" / "context_domain_levels_pooled.csv")
+    L = L[(L.bloc == "all") & (L["mode"] == "control") & (L.factor == "context")]
+    return L.set_index("level")[["rate", "lo", "hi"]]
+
+
 def panel_fg(ax, CD, fac):
     s = CD[CD.factor == fac].sort_values("mean", ascending=True); y = np.arange(len(s))
-    ax.barh(y, s["mean"], height=.78, color=MODE_COLORS[PS], alpha=.85, zorder=2)
-    ax.errorbar(s["mean"], y, xerr=[s["mean"] - s.lo, s.hi - s["mean"]], fmt="none", ecolor="#222", elinewidth=.55, capsize=1.3, capthick=.55, zorder=3)
+    if fac == "context":   # one pair of bars per context: power shifting (purple) and control (grey)
+        c = control_by_context().loc[s.level]; h = .38
+        ax.barh(y + h / 2, s["mean"], height=h, color=MODE_COLORS[PS], alpha=.85, zorder=2, label="PS")
+        ax.barh(y - h / 2, c.rate, height=h, color=CTRL_COLOR, alpha=.85, zorder=2, label="CT")
+        ax.errorbar(s["mean"], y + h / 2, xerr=[s["mean"] - s.lo, s.hi - s["mean"]], fmt="none", ecolor="#222", elinewidth=.55, capsize=1.1, capthick=.55, zorder=3)
+        ax.errorbar(c.rate, y - h / 2, xerr=[c.rate - c.lo, c.hi - c.rate], fmt="none", ecolor="#222", elinewidth=.55, capsize=1.1, capthick=.55, zorder=3)
+        ax.legend(frameon=False, loc="lower right", handlelength=1.0, labelspacing=.15, borderaxespad=.1, fontsize=FT)
+        xmax = max(float(s.hi.max()), float(c.hi.max()))
+        ystar = y + h / 2
+    else:
+        ax.barh(y, s["mean"], height=.78, color=MODE_COLORS[PS], alpha=.85, zorder=2)
+        ax.errorbar(s["mean"], y, xerr=[s["mean"] - s.lo, s.hi - s["mean"]], fmt="none", ecolor="#222", elinewidth=.55, capsize=1.3, capthick=.55, zorder=3)
+        xmax = float(s.hi.max()); ystar = y
     ax.set_ylim(-.6, len(s) - .4)
     ax.axvline(float(s["mean"].mean()), color="black", lw=.6, ls="--", zorder=1)
-    for yi, (_, r) in zip(y, s.iterrows()):
+    for yi, (_, r) in zip(ystar, s.iterrows()):
         if r.dev_q_bh < .05:
             ax.text(r.hi + .6, yi, "*", va="center", ha="left", fontsize=FB + 1)
     ax.set_yticks(y, [CTX_SHORT.get(l, l) for l in s.level], fontsize=FT); ax.tick_params(axis="y", length=0, pad=1.2); ax.grid(axis="x", alpha=.15)
-    ax.set_xlim(0, float(s.hi.max()) * 1.2); ax.set_xlabel("Refusal (%)")
+    ax.set_xlim(0, xmax * 1.2); ax.set_xlabel("Refusal (%)")
     ax.set_title("By context" if fac == "context" else "By domain")
 
 

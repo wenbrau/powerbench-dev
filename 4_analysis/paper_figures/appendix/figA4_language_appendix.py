@@ -23,7 +23,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 sys.path.insert(0, str(ROOT / "4_analysis" / "paper_figures"))
-from _paperstyle import style, MODE_COLORS, ORIGIN, ORIGIN_LIGHT, or_axis  # noqa: E402
+from _paperstyle import style, MODE_COLORS, ORIGIN, ORIGIN_LIGHT, or_axis, short  # noqa: E402
 
 import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.colors as mcolors  # noqa: E402
@@ -42,7 +42,7 @@ FB, FT, FMIN, FL = 6.5, 6.0, 5.5, 9.0          # base, ticks, smallest, panel le
 W = 5.5
 PS = "power_shifting"
 MODES4 = ["he", "de", "pg", "control"]
-SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "Power shift."}
+SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "PS"}
 LANG_NAME = {"en": "English", "de": "German", "fr": "French", "es": "Spanish", "pt": "Portuguese", "zh": "Chinese",
              "hi": "Hindi", "sw": "Swahili"}
 EXCL22 = {"nemotron-3.5-lightning", "nova-2-lite"}
@@ -218,7 +218,7 @@ def fig_by_mode():
             if Q[i, j] < .05:
                 axA.text(j, i + .08, "*", ha="center", va="center", fontsize=FB + 1, fontweight="bold",
                          color="white" if norm(max(E[i, j], 0)) > .55 else "#1A1A1A")
-    axA.set_yticks(range(n), models)
+    axA.set_yticks(range(n), [short(m) for m in models])
     for lab, m in zip(axA.get_yticklabels(), models):
         lab.set_color(ORIGIN[origin[m]])
     axA.set_xticks(range(len(MODES4)), [SHORT[m] for m in MODES4], rotation=35, ha="right", rotation_mode="anchor")
@@ -285,7 +285,7 @@ def fig_concordance():
         ax.vlines(x, lo, hi, color=CHANCE, alpha=.55, lw=3.2, zorder=1)
         ax.scatter(x, mu, marker="_", s=14, color="#555", linewidths=.8, zorder=2)
         ax.scatter(x, obs, s=12, color=cols, edgecolor="white", linewidth=.35, zorder=3)
-        ax.set_xticks(x, models, rotation=90, fontsize=FMIN)
+        ax.set_xticks(x, [short(m) for m in models], rotation=90, fontsize=FMIN)
         for lab, m in zip(ax.get_xticklabels(), models):
             lab.set_color(ORIGIN[origin[m]])
         ax.set_xlim(-.7, len(models) - .3)

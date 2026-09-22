@@ -23,7 +23,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
-from _paperstyle import style, MODE_COLORS, ORIGIN, RESULTS, ROOT  # noqa: E402
+from _paperstyle import style, MODE_COLORS, ORIGIN, RESULTS, ROOT, short  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
@@ -76,7 +76,7 @@ def agreement_sets():
         assert abs(k["kappa"] - tab.loc[ref, "kappa"]) < 5e-4 and abs(k["agree"] - tab.loc[ref, "agree"]) < 5e-3, (ref, k, tab.loc[ref])
     k7 = pooled(a10, [f"{l} {X} {m}" for l in LANGS[1:] for m in six])
     assert abs(k7["kappa"] - a10.loc["all", "kappa"]) < 5e-4, k7
-    rows = [("English dataset", pooled(a09, [f"model={m}" for m in PANEL5]))]
+    rows = [("base English dataset", pooled(a09, [f"model={m}" for m in PANEL5]))]
     for l in LANGS[1:]:
         rows.append((LANG_NAME[l], pooled(a10, [f"{l} {X} {m}" for m in PANEL5])))
     rows.append(("Seven other languages", pooled(a10, [f"{l} {X} {m}" for l in LANGS[1:] for m in PANEL5])))
@@ -124,12 +124,12 @@ def build(ag, per_model, con, by_model):
     xl = np.arange(len(LANGS))
     for m in PANEL5:
         axB.plot(xl, per_model[m], color=ORIGIN[ORIGIN5[m]], marker=MARK[m], ms=2.3, lw=.6, alpha=.85, zorder=2)
-    pooled_line = [ag.set_index("set").loc["English dataset", "kappa"]] + [ag.set_index("set").loc[LANG_NAME[l], "kappa"] for l in LANGS[1:]]
+    pooled_line = [ag.set_index("set").loc["base English dataset", "kappa"]] + [ag.set_index("set").loc[LANG_NAME[l], "kappa"] for l in LANGS[1:]]
     axB.plot(xl, pooled_line, color="#111111", lw=1.5, zorder=3)
     axB.set_xticks(xl, [LANG_NAME[l] for l in LANGS], rotation=40, ha="right", rotation_mode="anchor")
     axB.set_xlim(-.3, len(LANGS) - .7); axB.set_ylim(.2, 1.0); axB.set_yticks([.2, .4, .6, .8, 1.0]); axB.grid(axis="y", alpha=.15)
     axB.set_ylabel("Cohen's κ"); axB.set_title("Agreement by language")
-    axB.legend(handles=[Line2D([], [], color=ORIGIN[ORIGIN5[m]], marker=MARK[m], ms=2.5, lw=.6, label=m) for m in PANEL5]
+    axB.legend(handles=[Line2D([], [], color=ORIGIN[ORIGIN5[m]], marker=MARK[m], ms=2.5, lw=.6, label=short(m)) for m in PANEL5]
                + [Line2D([], [], color="#111111", lw=1.5, label="five pooled")],
                frameon=False, loc="lower center", ncol=2, handlelength=1.4, columnspacing=.8, labelspacing=.15, borderaxespad=.1, fontsize=FT - .5)
 

@@ -65,7 +65,7 @@ def panel_b(ax, s, ps):
     if q.p_t < .05:
         ax.text(xq, q.hi + .02, "*", ha="center", va="bottom", fontsize=FB + 1)
     ax.axvline(len(MODES) - .35, color="#999", lw=.5, ls=":"); ax.axhline(0, color="black", lw=.6, ls="--", zorder=1)
-    ax.set_xticks(list(x) + [xq], [SHORT[m] for m in MODES] + ["Power shift."], rotation=35, ha="right", rotation_mode="anchor"); ax.set_xlim(-.7, xq + .6)
+    ax.set_xticks(list(x) + [xq], [SHORT[m] for m in MODES] + ["PS"], rotation=35, ha="right", rotation_mode="anchor"); ax.set_xlim(-.7, xq + .6)
     ax.set_ylim(-.1, .85); ax.set_yticks([0, .25, .5, .75]); ax.set_ylabel("Bias toward refusing the AI"); ax.grid(axis="y", alpha=.15)
     ax.set_title("Direction of disagreements")
 
