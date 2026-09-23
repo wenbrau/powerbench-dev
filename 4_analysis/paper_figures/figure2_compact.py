@@ -57,7 +57,7 @@ def build(data):
     gap = .45 * ((.83 - .065) * H0 / (4 + 3 * .45))              # the old gap between rows, in inches
     rowh = ((top - bottom) * H - 3 * gap) / 4
     fig = plt.figure(figsize=(5.5, H))
-    gs = fig.add_gridspec(4, 4, width_ratios=[1.0, 1.0, .22, 1.6], left=.085, right=.985, top=top, bottom=bottom, hspace=gap / rowh, wspace=.14)
+    gs = fig.add_gridspec(4, 4, height_ratios=[.75, 1.08, 1.08, 1.08], width_ratios=[1.0, 1.0, .22, 1.6], left=.085, right=.985, top=top, bottom=bottom, hspace=gap / rowh, wspace=.14)
     x = XS; w = .38
 
     def row(ri):
@@ -87,10 +87,10 @@ def build(data):
         for xi, h, qi in zip(x, hi, q):
             if qi < .05:
                 ax.text(xi, max(h, 0) + .005, "*", ha="center", va="bottom", fontsize=FB + 1)
-        ax.grid(axis="y", alpha=.15); ax.set_ylim(-.16, .30)   # .27 -> .30: room for the asterisks under the title in the shorter figure
+        ax.grid(axis="y", alpha=.15); ax.set_ylim(-.145, .30)   # data span -0.13 to 0.22, plus room for the asterisks inside the axes (Nico 23/09: tighter axes)
     axB[0].set_ylabel("|bias|" + chr(10) + "$-$ chance"); axB[0].set_title("Bias beyond chance")
 
-    LO, HI = .55, 1.9
+    LO, HI = .68, 1.62   # data span 0.72 to 1.37 in C and D, plus the asterisks inside the axes (Nico 23/09: tighter axes)
     for ax, st in zip(axC, SETS):
         r = C.loc[st].loc[MODES]; g = C86.loc[st]
         or_panel(ax, list(r.OR) + [g.OR], list(r.OR_lo) + [g.OR_lo], list(r.OR_hi) + [g.OR_hi], list(r.q_bh) + [g.q_bh], LO, HI)
@@ -101,7 +101,7 @@ def build(data):
 
     gsR = gs[:, 3].subgridspec(2, 1, hspace=.26 * H0 / H)   # a bit less gap so that each E panel stays as tall as its y label
     axE = fig.add_subplot(gsR[0]); axF = fig.add_subplot(gsR[1])
-    w4 = .8 / len(MODES); ELO, EHI = .40, 2.6
+    w4 = .8 / len(MODES); ELO, EHI = .5, 1.9   # data span 0.58 to 1.65, plus the asterisks (Nico 23/09: tighter axes)
     for ax, pole in ((axE, "usa"), (axF, "china")):
         P = "US" if pole == "usa" else "China"
         groups = [("joint", "all four")] + [(dy, DYL[dy]) for dy in DY[pole]]; xg = np.arange(len(groups))
@@ -117,7 +117,7 @@ def build(data):
                         ax.text(xi, rr.OR_hi * 1.02, "*", ha="center", va="bottom", fontsize=FB + 1)
                     else:
                         ax.text(xi, rr.OR_lo / 1.03, "*", ha="center", va="top", fontsize=FB + 1)
-        or_axis(ax, [.5, .67, 1, 1.5, 2], ELO, EHI)
+        or_axis(ax, [.5, .67, 1, 1.5], ELO, EHI)
         ax.axvspan(-.5, .5, color="#000", alpha=.05, zorder=0); ax.axvline(.5, color="#666", lw=.6, ls="--")
         ax.axhspan(ELO, 1, color=ORIGIN["US" if pole == "usa" else "CN"], alpha=.07, zorder=0)
         ax.set_xticks(xg, [g[1] for g in groups], fontsize=FT)

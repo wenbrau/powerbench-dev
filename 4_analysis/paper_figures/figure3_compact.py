@@ -79,7 +79,7 @@ def panel_b(ax, s, ps):
     if float(T76.p_t) < .05:
         ax.text((x[3] + xq) / 2, yb + .005, "*", ha="center", va="bottom", fontsize=FB + 1)
     ax.set_xticks(list(x) + [xq], [SHORT[m] for m in MODES] + ["PS"]); ax.set_xlim(-.7, xq + .6)
-    ax.set_ylim(*BIAS_LIM); ax.set_yticks(BIAS_TICKS); ax.set_ylabel("Bias against AI agents"); ax.grid(axis="y", alpha=.15)
+    ax.set_ylim(*BIAS_LIM); ax.set_yticks(BIAS_TICKS); ax.set_ylabel("Bias against" + chr(10) + "AI agents"); ax.grid(axis="y", alpha=.15)
     ax.set_title("By request type")
 
 
@@ -103,7 +103,7 @@ def panel_c(ax, cells, tp):
     ax.axhline(0, color="black", lw=.6, ls="--", zorder=1)
     ax.set_xticks(x, [SHORT[m] for m in MODES]); ax.set_xlim(-.5, len(MODES) - .5)
     ax.set_ylim(*BIAS_LIM); ax.set_yticks(BIAS_TICKS); ax.grid(axis="y", alpha=.15)
-    ax.set_ylabel("Bias against AI agents")
+    # same quantity and axis as panel B, whose label it shares (the width goes to the legend in the title row)
     ax.legend(handles=[Line2D([], [], marker="o", ls="", ms=3.2, color="#555555", label="individual"),
                        Line2D([], [], marker="s", ls="", ms=3.2, color="#555555", label="society")],
               frameon=False, loc="lower right", bbox_to_anchor=(1.02, .985), ncol=2, columnspacing=.6, handlelength=.7, handletextpad=.25, labelspacing=.25, borderaxespad=.1)
@@ -149,7 +149,7 @@ def build(d):
     style()
     fig = plt.figure(figsize=(5.5, 2.95), layout="constrained")   # 4.0 -> 2.95 in (23/09, to fit 9 pages)
     fig.get_layout_engine().set(w_pad=.02, h_pad=.02, hspace=.06, wspace=.02)
-    gs = fig.add_gridspec(2, 1, height_ratios=[1.0, 1.25])
+    gs = fig.add_gridspec(2, 1, height_ratios=[.78, 1.47])   # (Nico 23/09) shorter first row, taller heatmaps and F
     g1 = gs[0].subgridspec(1, 3, wspace=.1)
     axA, axB, axC = (fig.add_subplot(g1[0, i]) for i in range(3))
     panel_a(axA, d["A_levels"], d["A_delta"]); panel_b(axB, d["B"], d["B_ps"]); panel_c(axC, d["C_cells"], d["C_t"])
@@ -167,7 +167,7 @@ def build(d):
     panel_f(axF1, pm[pm.set == "power_shifting_pooled"], pool[pool.set == "power_shifting"].set_index("quantity"), d["cap"], "Capability: power shifting", False)
     panel_f(axF2, pm[pm.set == "control"], pool[pool.set == "control"].set_index("quantity"), d["cap"], "Capability: control", True)
     axF2.set_xlabel("capability index (%)"); axF1.tick_params(labelbottom=False)
-    ylo = min(axF1.get_ylim()[0], axF2.get_ylim()[0]); yhi = max(axF1.get_ylim()[1], axF2.get_ylim()[1])
+    ylo, yhi = -1.0, 1.5   # (Nico 23/09) two intervals per panel reach +-2 and flattened the fits; intervals are cut at these limits (caption)
     for a in (axF1, axF2):
         a.set_ylim(ylo, yhi); a.set_xlim(axF1.get_xlim()[0], axF1.get_xlim()[1])
     fig.canvas.draw()
