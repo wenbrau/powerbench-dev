@@ -51,8 +51,8 @@ def build(data):
     style()
     B, C, D, E, Ed, vals, B86, C86 = data
     cols5 = [MODE_COLORS[m] for m in MODES5]
-    # 3.95 -> 3.65 in (23/09, to fit 9 pages): the margins and the gaps between rows keep their size in inches, the panels get shorter
-    H0, H = 3.95, 3.65
+    # 3.95 -> 3.3 in (23/09, to fit 9 pages): the margins and the gaps between rows keep their size in inches, the panels get shorter
+    H0, H = 3.95, 3.3
     top, bottom = 1 - ((1 - .83) * H0 - .15) / H, .065 * H0 / H   # the legend takes one row instead of two (-.15 in)
     gap = .45 * ((.83 - .065) * H0 / (4 + 3 * .45))              # the old gap between rows, in inches
     rowh = ((top - bottom) * H - 3 * gap) / 4
