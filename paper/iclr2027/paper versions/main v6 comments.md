@@ -1,7 +1,9 @@
 # Ronda 6 de comentarios (22/09/2026, sobre el PDF compilado en 29fc224 + 4dce563)
 
-El PDF anotado de esta ronda no se conservó: los comentarios se extrajeron de `main.pdf` y el archivo se regeneró
-antes de guardarlo. Este es el volcado textual completo (54 anotaciones, en orden de página), reconstruido del registro
+El PDF anotado original de esta ronda no se conservó: los comentarios se extrajeron de `main.pdf` y el archivo se regeneró
+antes de guardarlo. `main v6.pdf` es una reconstrucción sobre el mismo build (commit 4dce563): los 50 subrayados se
+recrearon sobre los mismos caracteres del texto ancla, y las 4 notas al margen (#24, #46–48) se colocaron junto al
+párrafo al que refieren, no en su posición original. Este es el volcado textual completo (54 anotaciones, en orden de página), reconstruido del registro
 de la extracción. Cada entrada da el texto subrayado (ANCLA) y la nota. Todas se aplicaron en 767d4be y c5ad77d.
 
 ## Página 3
