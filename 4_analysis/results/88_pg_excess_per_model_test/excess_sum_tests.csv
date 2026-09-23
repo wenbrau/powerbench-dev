@@ -1,0 +1,6 @@
+statistic,value,lo95,hi95,p,test
+mean excess over the sum (pp),6.009921284176845,3.7967965402252277,8.223046028128461,1.0217985965296612e-05,"one-sample t, 24 models"
+median excess over the sum (pp),7.291666666666666,,,0.00016173228443949514,"Wilcoxon signed-rank, 24 models"
+models with excess over the sum > 0,20.0,,,0.001543879508972168,binomial against 1/2
+"mean excess over the sum (pp), US models",6.985120346131471,3.54285600669026,10.427384685572683,0.0009527123530847327,"one-sample t, 12 models"
+"mean excess over the sum (pp), CN models",5.034722222222221,1.7944124532347296,8.275031991209714,0.005724827333672154,"one-sample t, 12 models"
