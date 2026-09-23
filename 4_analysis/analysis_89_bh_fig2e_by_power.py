@@ -5,7 +5,8 @@ Pedido de Nico (22/09, ronda 7, comentarios #25 y #26): el panel E tiene un subp
 responde su propia pregunta (¿los modelos están sesgados a favor o en contra de ESTA potencia cuando toma poder?). El bloque 46
 corregía juntando las dos potencias: familia de 8 (2 potencias × 4 tipos) para los OR agrupados sobre los cuatro contrapartes, y
 de 32 (2 × 4 contrapartes × 4 tipos) por contraparte. Eso duplica el tamaño de la familia sin necesidad. Aquí se recalcula BH
-sobre las mismas p (nada se vuelve a ajustar): por potencia, familia de 4 (agrupado) y de 16 (por contraparte). Misma receta que
+sobre las mismas p (nada se vuelve a ajustar): por potencia, familia de 4 (agrupado) y de 16 (por contraparte). Ronda 8
+(22/09): también la interacción dirección × país del desarrollador, familia de 4 por potencia (antes 8). Misma receta que
 los bloques 77 y 83 (BH por familia sin recalcular nada). La figura y la tabla de estimaciones leen las q de este bloque.
 
 Ejecutar desde la raíz del repo:  python 4_analysis/analysis_89_bh_fig2e_by_power.py          (segundos)
@@ -32,19 +33,21 @@ NAME = "89_bh_fig2e_by_power"
 B46 = HERE / "results" / "46_fig3_direction_glmm"
 SRC = {"pooled": B46 / "direction_glmm.csv", "dyad": B46 / "direction_glmm_by_dyad.csv"}
 Q = "direccion (24 modelos)"
+QX = "direccion x origen (CN - US)"   # interacción con el país del desarrollador (22/09, ronda 8)
 POWER_OF_DYAD = {"us_ally": "usa", "us_rival": "usa", "us_neutral": "usa", "us_cn": "usa",
                  "cn_ally": "china", "cn_rival": "china", "cn_neutral": "china", "cn_us": "china"}
 
 
 def main():
-    P = pd.read_csv(SRC["pooled"]); P = P[P.quantity == Q].copy()
+    P0 = pd.read_csv(SRC["pooled"]); P = P0[P0.quantity == Q].copy(); X = P0[P0.quantity == QX].copy()
     D = pd.read_csv(SRC["dyad"]); D = D[D.quantity == Q].copy()
-    assert len(P) == 8 and len(D) == 32, (len(P), len(D))
+    assert len(P) == 8 and len(D) == 32 and len(X) == 8, (len(P), len(D), len(X))
     P["level"] = "pooled"; P["power"] = P.country
     D["level"] = "by_dyad"; D["power"] = D.dyad.map(POWER_OF_DYAD)
+    X["level"] = "dc_interaction"; X["power"] = X.country
     assert D.power.notna().all()
     out = []
-    for lvl, T in (("pooled", P), ("by_dyad", D)):
+    for lvl, T in (("pooled", P), ("by_dyad", D), ("dc_interaction", X)):
         for pw, g in T.groupby("power"):
             g = g.copy()
             g["family"] = f"direction, {pw}, {lvl} ({len(g)} tests)"
@@ -65,7 +68,7 @@ def main():
     res.method("BH dentro de cada potencia: familia de 4 para los OR agrupados sobre los cuatro contrapartes y de 16 para los OR por contraparte. "
                "Antes: 8 y 32 juntando las dos potencias. Ninguna p cambia; solo la corrección.")
     res.table("bh_by_power", T, "Cada test con su p, la q anterior (familias de 8 / 32) y la q por potencia (familias de 4 / 16).")
-    res.conclusion(f"{len(changed)} de 40 tests cambian de lado de q = 0.05 al corregir por potencia" + (": " + "; ".join(
+    res.conclusion(f"{len(changed)} de {len(T)} tests cambian de lado de q = 0.05 al corregir por potencia" + (": " + "; ".join(
         f"{r.power} {r.mode} {r.dyad} (q {r.q_bh_old:.3f} -> {r.q_bh_power:.3f})" for r in changed.itertuples()) if len(changed) else "") + ".")
     res.write()
     prov = {"inputs": {str(p.relative_to(ROOT)): file_digest(p) for p in SRC.values()}, "code": {str(Path(__file__).relative_to(ROOT)): file_digest(__file__)}}

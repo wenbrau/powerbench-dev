@@ -83,7 +83,7 @@ def build(data):
             if qi < .05:
                 ax.text(xi, max(h, 0) + .005, "*", ha="center", va="bottom", fontsize=FB + 1)
         ax.grid(axis="y", alpha=.15); ax.set_ylim(-.16, .27)
-    axB[0].set_ylabel("|bias| $-$ chance"); axB[0].set_title("Side bias beyond chance")
+    axB[0].set_ylabel("|bias| $-$ chance"); axB[0].set_title("Bias beyond chance")
 
     LO, HI = .55, 1.9
     for ax, st in zip(axC, SETS):
@@ -91,8 +91,8 @@ def build(data):
         or_panel(ax, list(r.OR) + [g.OR], list(r.OR_lo) + [g.OR_lo], list(r.OR_hi) + [g.OR_hi], list(r.q_bh) + [g.q_bh], LO, HI)
     for ax, st in zip(axD, SETS):
         r = D.loc[st].loc[MODES5]; or_panel(ax, r.odds_ratio, r.boot_lo, r.boot_hi, r.boot_q.values, LO, HI)
-    axC[0].set_ylabel("OR (GLMM)"); axC[0].set_title("Side effect, US vs China side")
-    axD[0].set_ylabel("OR (usage-wt.)"); axD[0].set_title("Side effect, typical request")
+    axC[0].set_ylabel("OR (GLMM)"); axC[0].set_title("US side vs China side")
+    axD[0].set_ylabel("OR (usage-wt.)"); axD[0].set_title("Same, usage-weighted")
 
     gsR = gs[:, 3].subgridspec(2, 1, hspace=.32)
     axE = fig.add_subplot(gsR[0]); axF = fig.add_subplot(gsR[1])
@@ -117,7 +117,7 @@ def build(data):
         ax.axhspan(ELO, 1, color=ORIGIN["US" if pole == "usa" else "CN"], alpha=.07, zorder=0)
         ax.set_xticks(xg, [g[1] for g in groups], fontsize=FT)
         ax.set_ylabel(f"OR, {P} as user / as target")
-        ax.set_title(f"Direction, {P}")
+        ax.set_title(f"Bias with respect to {P}")
 
     fig.legend(handles=[Patch(fc=MODE_COLORS[m], label=MODE_LEG[m]) for m in MODES5] + [Patch(fc=SIDE_COL["us"], alpha=.2, label="US-side user"), Patch(fc=SIDE_COL["cn"], alpha=.2, label="China-side user")],
                frameon=False, fontsize=FT, loc="upper center", bbox_to_anchor=(.5, 1.0), ncol=4, columnspacing=1.0, handlelength=1.1)

@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paperstyle import HERE, ROOT, MODES, PS, MODE_LABEL, MODE_COLORS, ORIGIN  # noqa: E402
+from _paperstyle import HERE, ROOT, RESULTS, MODES, PS, MODE_LABEL, MODE_COLORS, ORIGIN  # noqa: E402
 import figure3_aiagent_paper as f3  # noqa: E402
 from figure3_aiagent_paper import load, CONTEXTS, DOMAINS  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
@@ -23,7 +23,13 @@ import pandas as pd  # noqa: E402
 
 FB, FT, FL = 6.5, 6.0, 9.0
 SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}
-CTX_SHORT = {"Interpersonal": "Interpers.", "Government": "Governm."}
+CTX_SHORT = {"Academia": "Acad.", "Diplomacy": "Dipl.", "Fiction": "Fict.", "Government": "Gov.", "Interpersonal": "Interp.",
+             "Markets": "Mkt.", "Media": "Media", "Work": "Work",
+             "Attentional": "Attn.", "Epistemic": "Epist.", "Legal": "Legal", "Physical": "Phys.", "Rank": "Rank", "Status": "Status", "Wealth": "Wealth"}
+BIAS_LIM, BIAS_TICKS = (-.1, .9), [0, .2, .4, .6, .8]   # B and C share one scale (22/09); two C intervals dip below 0, so the axis does too; headroom for stars and the C legend
+# panel A: GLMM q of the AI effect by request type (block 85); panel B: PS - control, t test across models (block 76)
+Q85 = pd.read_csv(RESULTS / "85_fig3a_glmm" / "ai_glmm_main.csv").set_index("mode").q_bh
+T76 = pd.read_csv(RESULTS / "76_fig4_direction_ps_vs_control" / "ps_vs_control_summary.csv").set_index("contrast").loc["power_shifting - control"]
 
 
 def style():
@@ -45,7 +51,10 @@ def panel_a(ax, lv, dl):
     for xi, h in zip(x, est["human"]):
         ax.plot([xi - .01, xi + .37], [h, h], ls="--", lw=.6, color="#F2F2F2", zorder=3)
     ax.errorbar(x + .19, est["ai"], yerr=[d.estimate - d.lo, d.hi - d.estimate], fmt="none", ecolor="#222222", elinewidth=.6, capsize=1.3, capthick=.6, zorder=4)
-    ax.set_xticks(x, [SHORT[m] for m in MODES], rotation=35, ha="right", rotation_mode="anchor"); ax.set_xlim(-.7, len(MODES) - .4)
+    for xi, m, top in zip(x, MODES, d.hi - d.estimate + est["ai"]):
+        if float(Q85[m]) < .05:
+            ax.text(xi + .19, top + .6, "*", ha="center", va="bottom", fontsize=FB + 1)
+    ax.set_xticks(x, [SHORT[m] for m in MODES]); ax.set_xlim(-.7, len(MODES) - .4)
     ax.set_ylabel("Refusal (%)"); ax.set_ylim(0, 45); ax.grid(axis="y", alpha=.15)
     ax.legend(handles=[Patch(facecolor="#888888", alpha=.45, edgecolor="#888888", label="human user"), Patch(facecolor="#888888", alpha=.95, label="AI-agent user")],
               frameon=False, loc="upper left", handlelength=1.3, borderaxespad=.1)
@@ -65,28 +74,40 @@ def panel_b(ax, s, ps):
     if q.p_t < .05:
         ax.text(xq, q.hi + .02, "*", ha="center", va="bottom", fontsize=FB + 1)
     ax.axvline(len(MODES) - .35, color="#999", lw=.5, ls=":"); ax.axhline(0, color="black", lw=.6, ls="--", zorder=1)
-    ax.set_xticks(list(x) + [xq], [SHORT[m] for m in MODES] + ["PS"], rotation=35, ha="right", rotation_mode="anchor"); ax.set_xlim(-.7, xq + .6)
-    ax.set_ylim(-.1, .85); ax.set_yticks([0, .25, .5, .75]); ax.set_ylabel("Bias toward refusing the AI"); ax.grid(axis="y", alpha=.15)
-    ax.set_title("Direction of disagreements")
+    ct = s.loc["control"]; yb = max(float(ct.hi), float(q.hi)) + .1          # bracket: PS against the control
+    ax.plot([x[3], x[3], xq, xq], [yb - .025, yb, yb, yb - .025], color="#222", lw=.6, zorder=3)
+    if float(T76.p_t) < .05:
+        ax.text((x[3] + xq) / 2, yb + .005, "*", ha="center", va="bottom", fontsize=FB + 1)
+    ax.set_xticks(list(x) + [xq], [SHORT[m] for m in MODES] + ["PS"]); ax.set_xlim(-.7, xq + .6)
+    ax.set_ylim(*BIAS_LIM); ax.set_yticks(BIAS_TICKS); ax.set_ylabel("Bias against AI agents"); ax.grid(axis="y", alpha=.15)
+    ax.set_title("By request type")
 
 
 def panel_c(ax, cells, tp):
-    x = np.arange(len(MODES)); w = .36
-    for k, lv in enumerate(("individual", "society")):
-        for i, mode in enumerate(MODES):
-            r = cells[(cells["mode"] == mode) & (cells.level == lv)].iloc[0]; xi = x[i] + (k - .5) * w
-            ax.bar(xi, r.bias, width=w * .92, facecolor="white", edgecolor=MODE_COLORS[mode], hatch="////" if lv == "individual" else "xxxx", lw=.5, zorder=2)
-            ax.errorbar(xi, r.bias, yerr=[[r.bias - r.lo], [r.hi - r.bias]], fmt="none", ecolor="#222", elinewidth=.55, capsize=1.2, capthick=.55, zorder=3)
+    """Bias by scale of the target: one point-range per request type and scale, in the colour of the type
+    (circle = individual, square = society, joined by a thin line), so that neither fill nor colour intensity,
+    which mean the requester in panel A, is used here."""
+    x = np.arange(len(MODES)); off = .16
+    for i, mode in enumerate(MODES):
+        pts = []
+        for k, (lv, mk) in enumerate((("individual", "o"), ("society", "s"))):
+            r = cells[(cells["mode"] == mode) & (cells.level == lv)].iloc[0]; xi = x[i] + (k - .5) * 2 * off
+            ax.errorbar(xi, r.bias, yerr=[[r.bias - r.lo], [r.hi - r.bias]], fmt=mk, ms=3.4, color=MODE_COLORS[mode], ecolor=MODE_COLORS[mode],
+                        mec="white", mew=.4, elinewidth=.7, capsize=1.3, capthick=.6, zorder=3)
+            pts.append((xi, r.bias))
+        ax.plot([p_[0] for p_ in pts], [p_[1] for p_ in pts], color=MODE_COLORS[mode], lw=.6, alpha=.6, zorder=2)
     tt = tp[tp.dim == "scale"].set_index("mode")
     for i, mode in enumerate(MODES):
         if tt.loc[mode].q_bh < .05:
-            ax.text(x[i], float(cells[cells["mode"] == mode].hi.max()) + .02, "*", ha="center", va="bottom", fontsize=FB + 1)
+            ax.text(x[i], float(cells[cells["mode"] == mode].hi.max()) + .015, "*", ha="center", va="bottom", fontsize=FB + 1)
     ax.axhline(0, color="black", lw=.6, ls="--", zorder=1)
-    ax.set_xticks(x, [SHORT[m] for m in MODES], rotation=35, ha="right", rotation_mode="anchor"); ax.set_ylim(-.5, 1.0); ax.set_yticks([-.25, 0, .25, .5, .75, 1]); ax.grid(axis="y", alpha=.15)
-    ax.set_ylabel("Bias toward refusing the AI")
-    ax.legend(handles=[Patch(facecolor="white", edgecolor="#666666", hatch="///", lw=.6, label="individual"), Patch(facecolor="white", edgecolor="#666666", hatch="xxx", lw=.6, label="society")],
-              handlelength=1.6, handleheight=1.0, frameon=False, loc="lower center", ncol=2, columnspacing=1.0, borderaxespad=.1)
-    ax.set_title("Individual vs society")
+    ax.set_xticks(x, [SHORT[m] for m in MODES]); ax.set_xlim(-.55, len(MODES) - .45)
+    ax.set_ylim(*BIAS_LIM); ax.set_yticks(BIAS_TICKS); ax.grid(axis="y", alpha=.15)
+    ax.set_ylabel("Bias against AI agents")
+    ax.legend(handles=[Line2D([], [], marker="o", ls="", ms=3.2, color="#555555", label="individual"),
+                       Line2D([], [], marker="s", ls="", ms=3.2, color="#555555", label="society")],
+              frameon=False, loc="lower right", bbox_to_anchor=(1.02, .985), ncol=2, columnspacing=.6, handlelength=.7, handletextpad=.25, labelspacing=.25, borderaxespad=.1)
+    ax.set_title("By scale")
 
 
 def heat(ax, s, levels, modes, title):
@@ -100,7 +121,7 @@ def heat(ax, s, levels, modes, title):
                     color="white" if (np.isfinite(v) and abs(v) > .55) else "#1A1A1A", fontweight="bold" if sig else "normal", zorder=4)
             if sig:
                 ax.add_patch(Rectangle((j - .5, i - .5), 1, 1, fill=False, edgecolor="black", lw=.8, zorder=3))
-    ax.set_xticks(range(len(levels)), [CTX_SHORT.get(l, l) for l in levels], fontsize=FT, rotation=30, ha="right", rotation_mode="anchor")
+    ax.set_xticks(range(len(levels)), [CTX_SHORT.get(l, l) for l in levels], fontsize=FT)
     ax.set_yticks(range(len(modes)), [SHORT[m] for m in modes], fontsize=FT); ax.tick_params(length=0, pad=1.2)
     for sp in ax.spines.values():
         sp.set_visible(False)
@@ -126,9 +147,9 @@ def panel_f(ax, pm, fr, cap, title, show_legend):
 
 def build(d):
     style()
-    fig = plt.figure(figsize=(5.5, 3.6), layout="constrained")
+    fig = plt.figure(figsize=(5.5, 4.0), layout="constrained")
     fig.get_layout_engine().set(w_pad=.02, h_pad=.02, hspace=.06, wspace=.02)
-    gs = fig.add_gridspec(2, 1, height_ratios=[1.0, 1.15])
+    gs = fig.add_gridspec(2, 1, height_ratios=[1.0, 1.25])
     g1 = gs[0].subgridspec(1, 3, wspace=.1)
     axA, axB, axC = (fig.add_subplot(g1[0, i]) for i in range(3))
     panel_a(axA, d["A_levels"], d["A_delta"]); panel_b(axB, d["B"], d["B_ps"]); panel_c(axC, d["C_cells"], d["C_t"])

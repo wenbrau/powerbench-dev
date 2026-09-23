@@ -1,6 +1,6 @@
 # Figura 2 E: BH por potencia para los OR de dirección (bloque 46)
 
-*pedido de Nico (22/09, #25-#26): familias por potencia en lugar de juntar EE.UU. y China · 2026-09-22 · commit `769dc9d` · `89_bh_fig2e_by_power`*
+*pedido de Nico (22/09, #25-#26): familias por potencia en lugar de juntar EE.UU. y China · 2026-09-23 · commit `d303186` · `89_bh_fig2e_by_power`*
 
 ## Question
 
@@ -68,6 +68,8 @@ Cada test con su p, la q anterior (familias de 8 / 32) y la q por potencia (fami
 | by_dyad | usa | he | us_neutral | 0.1 | 1.1 | 0.9 | 1.3 | 0.522 | 0.7 | 0.6 | direction, usa, by_dyad (16 tests) | 16 | False | False |
 | by_dyad | usa | he | us_cn | -0.2 | 0.8 | 0.6 | 1.0 | 0.032 | 0.1 | 0.1 | direction, usa, by_dyad (16 tests) | 16 | False | False |
 
+*(48 rows; first 40 shown)*
+
 ## Conclusion (preliminary)
 
-0 de 40 tests cambian de lado de q = 0.05 al corregir por potencia.
+0 de 48 tests cambian de lado de q = 0.05 al corregir por potencia.
