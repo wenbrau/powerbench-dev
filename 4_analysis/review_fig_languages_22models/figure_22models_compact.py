@@ -99,13 +99,14 @@ def build(d):
     axA = fig.add_axes([.075, .68, .43, .24])
     axB = fig.add_axes([.635, .68, .15, .24])
     axC = fig.add_axes([.84, .68, .15, .24])
-    axD = fig.add_axes([.075, .09, .15, .44])
-    axE = fig.add_axes([.335, .075, .17, .455])
-    axF = fig.add_axes([.63, .09, .36, .44]); axF.set_anchor("N")
+    axD = fig.add_axes([.075, .09, .15, .48])
+    axE = fig.add_axes([.335, .075, .17, .495])
+    axF = fig.add_axes([.63, .09, .36, .48]); axF.set_anchor("N")
     qa, qd, qf, qtab = fv2.bh_q()
     fp.panel_a1(axA, d, t, q=qa); fv2.panel_a2_bump(axB, t2); fv2.panel_b_bars(axC, t2); fp.panel_b(axD, t, q=qd); panel_e(axE)
     S, contrast_p, _ = fp.panel_c(axF, d, t, q=qf, inset=False, cb_rect=[.02, -.07, .42, .03])
-    axA.set_xticks(axA.get_xticks(), [LANG_NAME[l] for l in order], fontsize=FT, rotation=30, ha="right", rotation_mode="anchor"); axA.set_title("Refusal by language and request type")
+    LANG_ABBR = {"en": "Eng", "es": "Spa", "de": "Ger", "fr": "Fre", "hi": "Hin", "sw": "Swa", "zh": "Chi", "pt": "Por"}   # (Nico, 23/09) unrotated
+    axA.set_xticks(axA.get_xticks(), [LANG_ABBR[l] for l in order], fontsize=FT, rotation=0, ha="center"); axA.set_title("Refusal by language and request type")
     axA.set_ylim(0, 35); axA.legend(frameon=False, loc="upper left", ncol=4, handlelength=1.1, columnspacing=1.0, borderaxespad=.2, fontsize=FT)
     for txt in list(axB.texts):   # language names on the left side only (Nico, 23/09)
         if txt.get_position()[0] > 1.5:
