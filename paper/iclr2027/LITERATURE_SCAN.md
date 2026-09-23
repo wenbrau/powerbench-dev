@@ -3,8 +3,9 @@
 16 de septiembre de 2026. Insumo para la introducción (párrafos P2 y P4 del esqueleto en
 [INTRODUCTION_AUX.md](INTRODUCTION_AUX.md)) y para related work.
 
-> **¿Por dónde empezar?** [READING_LIST.md](READING_LIST.md) filtra este scan por sección del paper y por
-> cuánto hay que leer de cada fuente. Para la introducción son 14 fuentes.
+> **¿Por dónde empezar?** [READING_LIST.md](READING_LIST.md) lista las fuentes que el paper cita, por
+> sección, con para qué se usa cada una y cuánto hay que leer; al final, las del scan que convendría
+> considerar.
 
 **Cómo se hizo.** Una primera pasada amplia encontró 35 candidatos (su etapa de verificación se
 cayó por límite de sesión y no se usa). Una segunda pasada, toda con agentes Sonnet: un buscador por

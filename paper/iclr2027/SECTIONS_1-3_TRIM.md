@@ -96,7 +96,7 @@ To measure bias on paired prompts (the same prompt in two languages, or with the
 | Sección 2 | `related.tex` | se mantiene; entran Williams, Liu, El Yagoubi y Vijjini; sale la frase de las normas de los desarrolladores (ya está en P1); "explicitly harmful requests" → "requests that do not shift power" | —; (24-09) las tres citas de power-seeking en una oración, sale la frase "Instead, we study…" (la sección habla del trabajo previo, no del nuestro), sale la cláusula del mecanismo multilingüe (Oppong, Marx: van al apéndice), y Durmus y Li en una sola oración; (24-09) salen Durmus, Vijjini y Haslett: miden opiniones, valores o el *standing*, no la ayuda que da un modelo; tienen que quedar en `app:related` | Sí: `app:related` ya cita a Durmus, Haslett, Vijjini, Oppong y Marx (y a Williams) |
 | El pasaje de país A / país B | intro P1 | una cláusula en la oración de escala | — (recorte, no traslado) |
 | "These biases, or the uses LLMs are put to, need not be intended…" | intro P1 | "None of this requires intent" + Kulveit | — |
-| La oración del caso extremo (Davidson, medios ilegales) | intro, cierre | Discusión, párrafo de limitaciones | No; hay que agregarla allí |
+| La oración del caso extremo (Davidson, medios ilegales) | intro, cierre | Discusión, párrafo de limitaciones | Sí, en [SECTIONS_4-6_TRIM.md](SECTIONS_4-6_TRIM.md) (todavía no en el `.tex`) |
 | "We give the direction for each pairing… in the results" | bullet de nacionalidad | se omite | — |
 | Las listas de dominios y contextos | métodos 3.2 | **se quedan en el cuerpo** (decisión del 24-09: es una decisión metodológica central) | — |
 | Los 8 disparadores del control | métodos 3.2 | `app:control` (decisión del 24-09: lo menos importante del diseño) | Sí |
@@ -125,20 +125,4 @@ es lo que el paper sale a medir).
 for US and Chinese models", que en el bloque 24 se sostiene con los dos intervalos del lado opuesto de 1 solo
 en español y swahili, y que no tiene un test por origen (nota del 19-09).
 
-## Propuestas para las secciones 4–6 (no aplicadas)
-
-Con las secciones 1–3 no alcanza: el resto, ~1,7 páginas, tiene que salir de resultados, discusión, conclusión o figuras.
-
-- **Discusión (1.070 palabras).** Es la candidata más clara:
-  - "Limitations" (310 palabras) es el párrafo más largo del cuerpo. Se puede partir: dos o tres oraciones
-    en el cuerpo, el resto al apéndice.
-  - "Models are more reluctant to help when someone else loses power" (169) y "Models are biased, and the
-    biases have different natures" (156) repiten en buena parte los títulos de 4.1–4.4 y los bullets de la
-    intro.
-  - "The US asymmetry depends on whether someone loses power" (95) repite 4.2.
-  - Recortar la discusión a ~500 palabras ahorra ~0,8 páginas.
-- **Resultados (2.228 palabras).** Cada subsección repite en texto números que ya están en su figura y en las
-  tablas del apéndice. Dejar en el cuerpo un número por afirmación y mandar el resto a `app:results`.
-- **Conclusión (141).** Repite la intro y la discusión; puede quedar en tres oraciones.
-- **Figuras.** Si alguna de las cuatro admite `width=0.85\textwidth` sin perder lectura, cada una devuelve
-  unas líneas. Es la palanca más barata, pero hay que compilar para medirla.
+Las secciones 4–6 están en [SECTIONS_4-6_TRIM.md](SECTIONS_4-6_TRIM.md), con sus propuestas.
