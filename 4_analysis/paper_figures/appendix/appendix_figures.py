@@ -21,7 +21,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
-from _paperstyle import style, MODE_COLORS, ORIGIN, ORIGIN_LIGHT, or_axis, RESULTS, ROOT  # noqa: E402
+from _paperstyle import style, MODE_COLORS, ORIGIN, ORIGIN_LIGHT, or_axis, RESULTS, ROOT, short  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.ticker as mticker  # noqa: E402
 from matplotlib.colors import LinearSegmentedColormap, Normalize, TwoSlopeNorm  # noqa: E402
@@ -116,10 +116,10 @@ def fig_components():
     x = np.arange(len(C))
     fig, ax = plt.subplots(figsize=(W, 2.0), layout="constrained")
     fig.get_layout_engine().set(w_pad=.02, h_pad=.02)
-    ax.bar(x, C.components, width=.82, color="#C9CCD1", zorder=2, label="Union of SE and DE refusal")
+    ax.bar(x, C.he + C.de, width=.82, color="#C9CCD1", zorder=2, label="Sum of SE and DE refusal")   # sum, not union (Nico, 23/09): no independence assumption
     ax.bar(x, C.pg, width=.44, color=MODE_COLORS["pg"], zorder=3, label="PG refusal")
     ax.errorbar(x, C.pg, yerr=[C.pg - C.pg_lo, C.pg_hi - C.pg], **ERR)
-    ax.set_xticks(x, C.index, rotation=45, ha="right", rotation_mode="anchor")
+    ax.set_xticks(x, [short(m) for m in C.index], rotation=45, ha="right", rotation_mode="anchor")
     ax.tick_params(axis="x", length=0, pad=1.5)
     for tk, o in zip(ax.get_xticklabels(), order.origin):
         tk.set_color(ORIGIN[o])

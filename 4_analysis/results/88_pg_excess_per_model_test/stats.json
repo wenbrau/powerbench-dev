@@ -1,4 +1,12 @@
 {
+ "mean_excess_sum_pp": {
+  "est": 6.009921284176845,
+  "lo": 3.7967965402252277,
+  "hi": 8.223046028128461,
+  "p": 1.0217985965296612e-05,
+  "unit": "pp",
+  "note": "sobre la suma; t de una muestra, 24 modelos"
+ },
  "mean_excess_pp": {
   "est": 6.617680302372684,
   "lo": 4.554417335102011,
