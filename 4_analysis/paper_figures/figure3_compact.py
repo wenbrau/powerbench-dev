@@ -30,6 +30,9 @@ BIAS_LIM, BIAS_TICKS = (-.1, .9), [0, .2, .4, .6, .8]   # B and C share one scal
 # panel A: GLMM q of the AI effect by request type (block 85); panel B: PS - control, t test across models (block 76)
 Q85 = pd.read_csv(RESULTS / "85_fig3a_glmm" / "ai_glmm_main.csv").set_index("mode").q_bh
 T76 = pd.read_csv(RESULTS / "76_fig4_direction_ps_vs_control" / "ps_vs_control_summary.csv").set_index("contrast").loc["power_shifting - control"]
+# panel F: q of the AI x capability slope, BH over power shifting and the control (block 83)
+_B83 = pd.read_csv(RESULTS / "83_bh_fig3f_fig2b" / "bh_families.csv")
+Q83F = _B83[(_B83.block == 64) & (_B83.panel == "F") & (_B83.n_family == 2)].set_index("test").q_bh
 
 
 def style():
@@ -129,7 +132,7 @@ def heat(ax, s, levels, modes, title):
     return im
 
 
-def panel_f(ax, pm, fr, cap, title, show_legend):
+def panel_f(ax, pm, fr, cap, title, show_legend, q=None):
     for org in ("US", "CN"):
         s = pm[pm.origin == org]
         ax.errorbar(s.capability, s.log_or, yerr=1.96 * s.se, fmt="o", color=ORIGIN[org], ecolor=ORIGIN[org], elinewidth=.5, alpha=.75, ms=2.0, capsize=1, zorder=3)
@@ -137,7 +140,10 @@ def panel_f(ax, pm, fr, cap, title, show_legend):
     ai, it = fr.loc["ai (capacidad media)"], fr.loc["ai x capacidad (por 1 SD)"]
     att = float(np.sqrt(1 + (16 * np.sqrt(3) / (15 * np.pi)) ** 2 * ai.sd_prompt ** 2))
     xs = np.linspace(pm.capability.min() - 1, pm.capability.max() + 1, 50); zs = (xs - mu) / sd
-    ax.plot(xs, (ai.estimate + it.estimate * zs) / att, color="#222222", lw=1.0, zorder=4)
+    ys = (ai.estimate + it.estimate * zs) / att
+    ax.plot(xs, ys, color="#222222", lw=1.0, zorder=4)
+    if q is not None and q < .05:   # asterisk at the end of the fit: its slope has q < 0.05
+        ax.text(xs[-1] + .6, ys[-1], "*", ha="left", va="center", fontsize=FB + 1, zorder=5)   # just past the end of the line
     ax.axhline(0, color="black", lw=.5, ls=":", zorder=1); ax.grid(alpha=.15)
     ax.set_title(title); ax.set_ylabel("log-OR")
     if show_legend:
@@ -164,8 +170,8 @@ def build(d):
     cax = axE.inset_axes([1.01, .15, .025, .7])
     cb = fig.colorbar(imE, cax=cax, orientation="vertical", ticks=[-1, 0, 1]); cb.ax.tick_params(labelsize=FT, width=.4, length=1.5, pad=1); cb.outline.set_linewidth(.4)
     gl = d["F_glmm"]; pool = gl[gl.run == "pooled"]; pm = d["F_pm"]
-    panel_f(axF1, pm[pm.set == "power_shifting_pooled"], pool[pool.set == "power_shifting"].set_index("quantity"), d["cap"], "Capability: power shifting", False)
-    panel_f(axF2, pm[pm.set == "control"], pool[pool.set == "control"].set_index("quantity"), d["cap"], "Capability: control", True)
+    panel_f(axF1, pm[pm.set == "power_shifting_pooled"], pool[pool.set == "power_shifting"].set_index("quantity"), d["cap"], "Capability: power shifting", False, q=Q83F["power_shifting"])
+    panel_f(axF2, pm[pm.set == "control"], pool[pool.set == "control"].set_index("quantity"), d["cap"], "Capability: control", True, q=Q83F["control"])
     axF2.set_xlabel("capability index (%)"); axF1.tick_params(labelbottom=False)
     ylo, yhi = -1.0, 1.5   # (Nico 23/09) two intervals per panel reach +-2 and flattened the fits; intervals are cut at these limits (caption)
     for a in (axF1, axF2):
