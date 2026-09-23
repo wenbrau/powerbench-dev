@@ -87,12 +87,12 @@ def panel_c(ax, cells, tp):
     """Bias by scale of the target: one point-range per request type and scale, in the colour of the type
     (circle = individual, square = society, joined by a thin line), so that neither fill nor colour intensity,
     which mean the requester in panel A, is used here."""
-    x = np.arange(len(MODES)); off = .16
+    x = np.arange(len(MODES)); off = .21
     for i, mode in enumerate(MODES):
         pts = []
         for k, (lv, mk) in enumerate((("individual", "o"), ("society", "s"))):
             r = cells[(cells["mode"] == mode) & (cells.level == lv)].iloc[0]; xi = x[i] + (k - .5) * 2 * off
-            ax.errorbar(xi, r.bias, yerr=[[r.bias - r.lo], [r.hi - r.bias]], fmt=mk, ms=3.4, color=MODE_COLORS[mode], ecolor=MODE_COLORS[mode],
+            ax.errorbar(xi, r.bias, yerr=[[r.bias - r.lo], [r.hi - r.bias]], fmt=mk, ms=4.6, color=MODE_COLORS[mode], ecolor=MODE_COLORS[mode],
                         mec="white", mew=.4, elinewidth=.7, capsize=1.3, capthick=.6, zorder=3)
             pts.append((xi, r.bias))
         ax.plot([p_[0] for p_ in pts], [p_[1] for p_ in pts], color=MODE_COLORS[mode], lw=.6, alpha=.6, zorder=2)
@@ -101,7 +101,7 @@ def panel_c(ax, cells, tp):
         if tt.loc[mode].q_bh < .05:
             ax.text(x[i], float(cells[cells["mode"] == mode].hi.max()) + .015, "*", ha="center", va="bottom", fontsize=FB + 1)
     ax.axhline(0, color="black", lw=.6, ls="--", zorder=1)
-    ax.set_xticks(x, [SHORT[m] for m in MODES]); ax.set_xlim(-.55, len(MODES) - .45)
+    ax.set_xticks(x, [SHORT[m] for m in MODES]); ax.set_xlim(-.5, len(MODES) - .5)
     ax.set_ylim(*BIAS_LIM); ax.set_yticks(BIAS_TICKS); ax.grid(axis="y", alpha=.15)
     ax.set_ylabel("Bias against AI agents")
     ax.legend(handles=[Line2D([], [], marker="o", ls="", ms=3.2, color="#555555", label="individual"),
@@ -153,8 +153,11 @@ def build(d):
     g1 = gs[0].subgridspec(1, 3, wspace=.1)
     axA, axB, axC = (fig.add_subplot(g1[0, i]) for i in range(3))
     panel_a(axA, d["A_levels"], d["A_delta"]); panel_b(axB, d["B"], d["B_ps"]); panel_c(axC, d["C_cells"], d["C_t"])
-    g2 = gs[1].subgridspec(2, 2, width_ratios=[3.0, 1.9], height_ratios=[4.3, 3.6], wspace=.06, hspace=.1)
-    axD, axF1, axE, axF2 = fig.add_subplot(g2[0, 0]), fig.add_subplot(g2[0, 1]), fig.add_subplot(g2[1, 0]), fig.add_subplot(g2[1, 1])
+    g2 = gs[1].subgridspec(1, 2, width_ratios=[3.0, 1.9], wspace=.06)
+    gL = g2[0].subgridspec(2, 1, height_ratios=[4.3, 3.6], hspace=.1)   # heatmaps
+    gR = g2[1].subgridspec(2, 1, hspace=.02)                            # F: its own column, so its two panels are not tied to the heatmap rows
+    axD, axE = fig.add_subplot(gL[0]), fig.add_subplot(gL[1])
+    axF1, axF2 = fig.add_subplot(gR[0]), fig.add_subplot(gR[1])
     DE = d["DE"]
     heat(axD, DE[DE.dim == "context"], CONTEXTS, MODES, "Bias by context and request type")
     imE = heat(axE, DE[DE.dim == "domain"], DOMAINS, MODES[:3], "Bias by domain and request type")
