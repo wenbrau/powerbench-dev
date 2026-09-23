@@ -127,7 +127,7 @@ def panel_fg(ax, CD, fac):
 def build(data):
     style()
     A, B, Ball, C, LV, bhq, CD, omni = data
-    fig = plt.figure(figsize=(5.5, 2.65), layout="constrained")   # 3.4 -> 2.65 in (23/09, to fit 9 pages)
+    fig = plt.figure(figsize=(5.5, 2.45), layout="constrained")   # 3.4 -> 2.45 in (23/09, to fit 9 pages)
     fig.get_layout_engine().set(w_pad=.02, h_pad=.02, hspace=.08, wspace=.02)
     gs = fig.add_gridspec(2, 1, height_ratios=[1.05, 1.0])
     g1 = gs[0].subgridspec(1, 3, width_ratios=[.85, 1.3, 2.1], wspace=.06)

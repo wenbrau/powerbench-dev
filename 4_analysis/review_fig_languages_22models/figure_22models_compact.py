@@ -95,15 +95,15 @@ def build(d):
     rate = per_model.groupby(["mode", "lang"]).refuse.mean().mul(100)
     order = rate.reset_index().query("mode in ['he','de','pg']").groupby("lang").refuse.mean().sort_values().index.tolist()
     fp.LANGS79 = order
-    # 4.7 -> 4.02 in (23/09, to fit 9 pages): margins and gaps keep their size in inches; the top row is 0.26 in and the
+    # 4.7 -> 3.91 in (23/09, to fit 9 pages): margins and gaps keep their size in inches; the top row is 0.37 in and the
     # bottom row 0.42 in shorter (F keeps its aspect and is anchored at the top)
-    H0, H = 4.7, 4.02
+    H0, H = 4.7, 3.91
     def pos(x, y_in, w, h_in):
         return [x, y_in / H, w, h_in / H]
     fig = plt.figure(figsize=(5.5, H))
-    axA = fig.add_axes(pos(.075, 2.776, .43, .868))
-    axB = fig.add_axes(pos(.635, 2.776, .15, .868))
-    axC = fig.add_axes(pos(.84, 2.776, .15, .868))
+    axA = fig.add_axes(pos(.075, 2.776, .43, .758))
+    axB = fig.add_axes(pos(.635, 2.776, .15, .758))
+    axC = fig.add_axes(pos(.84, 2.776, .15, .758))
     axD = fig.add_axes(pos(.075, .423, .15, 1.836))
     axE = fig.add_axes(pos(.335, .3525, .17, 1.9065))
     axF = fig.add_axes(pos(.63, .423, .36, 1.836)); axF.set_anchor("N")
