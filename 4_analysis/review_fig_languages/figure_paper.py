@@ -322,7 +322,7 @@ def rank_corr(R):
     return K @ K.T
 
 
-def panel_c(ax, d, t, q=None, inset=True):
+def panel_c(ax, d, t, q=None, inset=True, cb_rect=None):
     """q: opcional, {tipo de par: q de BH} para las estrellas del recuadro (figure_paper_v2.py); sin q, p de permutación crudo.
     inset=False (Wendy, 21/09): sin el recuadro de barras del acuerdo medio; el resultado del test va como nota, que escribe el
     que llama con lo que esta función devuelve: (S por tipo de par, p del corchete, valor observado del corchete)."""
@@ -363,7 +363,7 @@ def panel_c(ax, d, t, q=None, inset=True):
         sp.set_visible(False)
     ax.set_title(t["c_title"], x=-.27)
     # colorbar horizontal dentro del triángulo vacío
-    cax = ax.inset_axes([.60, .445, .36, .025] if inset else [.58, .70, .38, .03])
+    cax = ax.inset_axes(cb_rect if cb_rect is not None else ([.60, .445, .36, .025] if inset else [.58, .70, .38, .03]))
     cb = plt.colorbar(im, cax=cax, orientation="horizontal", ticks=[-1, -.5, 0, .5, 1])
     cb.ax.tick_params(labelsize=F_TINY, width=.4, length=1.5, pad=1); cb.outline.set_linewidth(.4)
     cb.set_label(t["c_cb"], fontsize=F_TINY, labelpad=1)

@@ -55,34 +55,63 @@ def panel_e(ax):
     ax.set_yticks(y, [short(m) for m in tab.model], fontsize=FT); ax.tick_params(axis="y", length=0, pad=1.2)
     for lab, o in zip(ax.get_yticklabels(), tab.origin):
         lab.set_color(ORIGIN[o])
-    ax.set_ylim(n - .4, -.6); ax.set_xlabel("range across languages (pp)"); ax.set_xlim(0, float(tab.range_pp.max()) * 1.15); ax.grid(axis="x", alpha=.15)
+    ax.set_ylim(n - .4, -.6); ax.set_xlabel("refusal range (pp)"); ax.set_xlim(0, float(tab.range_pp.max()) * 1.15); ax.grid(axis="x", alpha=.15)
     ax.legend(handles=[Patch(color="#C9C9C9", label="chance"), Patch(color="#666", label="excess")], frameon=False, fontsize=FT, loc="lower right",
               handlelength=1.0, labelspacing=.2, borderaxespad=.2)
     ax.set_title("Range per model")
 
 
+def panel_f_inset(axF, S, contrast_p, qf):
+    """Mean agreement by pair type (CN-CN, US-US, mixed), chance band from languages permuted within each model, stars = BH over the
+    three pair types; bracket = same-DC against mixed pairs (DC labels permuted across models). Stored tests, nothing recomputed."""
+    from matplotlib.patches import Rectangle
+    axb = axF.inset_axes([.43, .60, .56, .36])
+    kinds = list(fp.KINDS); cols = [ORIGIN["CN"], ORIGIN["US"], "#8A7FA3"]
+    obs = [float(S[k].observed) for k in kinds]
+    axb.bar(range(3), obs, color=cols, alpha=.9, width=.66, zorder=2)
+    for i, k in enumerate(kinds):
+        axb.add_patch(Rectangle((i - .4, float(S[k].null_lo)), .8, float(S[k].null_hi - S[k].null_lo), facecolor="#9AA0A6", alpha=.30, edgecolor="none", zorder=1))
+        if qf[k] < .05:
+            axb.text(i, obs[i] + .01, "*", ha="center", va="bottom", fontsize=FB + 1)
+    axb.axhline(0, color="black", lw=.5, zorder=3)
+    yb, tk = .215, .015
+    axb.plot([0, 0, 1, 1], [yb - tk, yb, yb, yb - tk], color="#222", lw=.5)
+    axb.plot([.5, .5, 2, 2], [yb, yb + tk, yb + tk, yb - tk], color="#222", lw=.5)
+    if contrast_p < .05:
+        axb.text(1.25, yb + tk + .003, "*", ha="center", va="bottom", fontsize=FB + 1)
+    axb.set_xticks(range(3), ["CN–CN", "US–US", "mixed"], fontsize=FT, rotation=0, ha="center"); axb.set_xlim(-.6, 2.6); axb.set_ylim(-.12, .29); axb.set_yticks([0, .1, .2])
+    axb.set_ylabel("mean ρ", fontsize=FT, labelpad=1); axb.tick_params(labelsize=FT, width=.4, length=1.5, pad=1)
+    for sp in ("top", "right"):
+        axb.spines[sp].set_visible(False)
+    for sp in ("left", "bottom"):
+        axb.spines[sp].set_linewidth(.5)
+
+
 def build(d):
     fp.style(); t = dict(fp.TXT["en"]); t2 = fv2.TXT["en"]
-    t["a1_y"] = "Refusal (%), 22 models"
+    t["a1_y"] = "Refusal (%)"
     plt.rcParams.update({"axes.titlesize": FB + .5, "axes.titleweight": "bold", "axes.titlelocation": "left", "axes.titlepad": 3, "legend.fontsize": FT})
     per_model = d.groupby(["mode", "lang", "model"]).refuse.mean().reset_index()
     rate = per_model.groupby(["mode", "lang"]).refuse.mean().mul(100)
     order = rate.reset_index().query("mode in ['he','de','pg']").groupby("lang").refuse.mean().sort_values().index.tolist()
     fp.LANGS79 = order
-    fig = plt.figure(figsize=(5.5, 4.3))
-    axA = fig.add_axes([.075, .68, .46, .27])
-    axB = fig.add_axes([.615, .68, .19, .27])
-    axC = fig.add_axes([.89, .68, .10, .27])
-    axD = fig.add_axes([.075, .10, .17, .44])
-    axE = fig.add_axes([.40, .075, .18, .47])
-    axF = fig.add_axes([.72, .03, .27, .51])
+    fig = plt.figure(figsize=(5.5, 4.7))
+    axA = fig.add_axes([.075, .68, .43, .24])
+    axB = fig.add_axes([.635, .68, .15, .24])
+    axC = fig.add_axes([.84, .68, .15, .24])
+    axD = fig.add_axes([.075, .09, .15, .44])
+    axE = fig.add_axes([.335, .075, .17, .455])
+    axF = fig.add_axes([.63, .09, .36, .44]); axF.set_anchor("N")
     qa, qd, qf, qtab = fv2.bh_q()
     fp.panel_a1(axA, d, t, q=qa); fv2.panel_a2_bump(axB, t2); fv2.panel_b_bars(axC, t2); fp.panel_b(axD, t, q=qd); panel_e(axE)
-    fp.panel_c(axF, d, t, q=qf, inset=False)
+    S, contrast_p, _ = fp.panel_c(axF, d, t, q=qf, inset=False, cb_rect=[.02, -.07, .42, .03])
     axA.set_xticks(axA.get_xticks(), [LANG_NAME[l] for l in order], fontsize=FT, rotation=30, ha="right", rotation_mode="anchor"); axA.set_title("Refusal by language and request type")
-    axA.set_ylim(0, 40); axA.legend(frameon=False, loc="upper left", ncol=2, handlelength=1.1, columnspacing=1.0, borderaxespad=.2, fontsize=FT)
-    for txt in axB.texts:
+    axA.set_ylim(0, 35); axA.legend(frameon=False, loc="upper left", ncol=4, handlelength=1.1, columnspacing=1.0, borderaxespad=.2, fontsize=FT)
+    for txt in list(axB.texts):   # language names on the left side only (Nico, 23/09)
+        if txt.get_position()[0] > 1.5:
+            txt.remove(); continue
         txt.set_text(txt.get_text().rstrip("*")); txt.set_fontsize(FT)
+    axB.set_xlim(-1.35, 3.35)
     from collections import defaultdict
     groups = defaultdict(list)
     for txt in axB.texts:
@@ -92,7 +121,7 @@ def build(d):
             for k, txt in enumerate(ts):
                 txt.set_position((x, y + (k - (len(ts) - 1) / 2) * .55))
     axB.set_title("Language order"); axB.set_ylabel("")
-    axB.set_xticks(axB.get_xticks(), [lab.get_text() for lab in axB.get_xticklabels()], rotation=45, ha="right", rotation_mode="anchor", fontsize=FT)
+    axB.set_xticks(axB.get_xticks(), [lab.get_text() for lab in axB.get_xticklabels()], fontsize=FT, rotation=0, ha="center")
     import re
     for txt in list(axC.texts):   # the p labels of the two one-sample tests become stars (p < 0.05); the values go to the appendix table
         m = re.search(r"p\s*([<=])\s*([0-9.]+)", txt.get_text())
@@ -100,24 +129,26 @@ def build(d):
             txt.set_text("*"); txt.set_fontsize(FB + 1)
         else:
             txt.remove()
-    axC.set_title(""); axC.set_title("", loc="center"); axC.set_title("Same order?", loc="right"); axC.set_ylabel(""); axC.set_xticks([0, 1], ["PS", "CT"], fontsize=FT, rotation=35, ha="right", rotation_mode="anchor")
+    axC.set_title(""); axC.set_title("", loc="center"); axC.set_title("Order across" + chr(10) + "request types", loc="left"); axC.set_ylabel(""); axC.set_xticks([0, 1], ["PS", "CT"], fontsize=FT, rotation=0, ha="center")
     axC.set_ylim(-.05, .8)
-    axD.set_title("Range beyond chance"); axD.set_ylabel("observed / chance range")
+    axD.set_title("Range beyond" + chr(10) + "chance"); axD.set_ylabel("observed / chance range")
     h, l = axD.get_legend_handles_labels(); axD.legend(h, ["equal", "usage"], frameon=False, loc="lower right", handlelength=1.0, borderaxespad=.1, labelspacing=.2, fontsize=FT)
     for ax_ in (axA, axD):   # one significance level in every body figure: * = q < 0.05
         for txt in ax_.texts:
             if txt.get_text().strip() and set(txt.get_text().strip()) == {"*"}:
                 txt.set_text("*")
-    axD.set_xticks(range(len(MODES)), [fp.MODE_LABEL2[m] for m in MODES], fontsize=FT, rotation=35, ha="right", rotation_mode="anchor")
+    axD.set_xticks(range(len(MODES)), [fp.MODE_LABEL2[m] for m in MODES], fontsize=FT, rotation=0, ha="center")
     axF.set_title("Model agreement", x=0); axF.tick_params(axis="x", labelsize=FT); axF.tick_params(axis="y", labelsize=FT)
-    for cbax in axF.child_axes:
+    for cbax in axF.child_axes:   # the colorbar (the only child so far)
         cbax.set_xticks([-1, 0, 1])
+    panel_f_inset(axF, S, contrast_p, qf)   # after the loop above, which would reset its ticks
     axF.set_xticks([])   # rows and columns list the same models in the same order; the column labels do not fit
     _labs = axF.get_yticklabels(); _cols = [l.get_color() for l in _labs]
     axF.set_yticks(axF.get_yticks(), [short(l.get_text()) for l in _labs])
     for l, c in zip(axF.get_yticklabels(), _cols):
         l.set_color(c)
-    for ax, s, xo in ((axA, "A", .008), (axB, "B", .545), (axC, "C", .83), (axD, "D", .008), (axE, "E", .295), (axF, "F", .615)):
+    fig.canvas.draw()
+    for ax, s, xo in ((axA, "A", .008), (axB, "B", .525), (axC, "C", .812), (axD, "D", .008), (axE, "E", .255), (axF, "F", .545)):
         x0, y0, w, h = ax.get_position().bounds
         fig.text(xo, y0 + h + .012, s, fontsize=FL, fontweight="bold", ha="left", va="bottom")
     for ext in ("pdf", "png"):
