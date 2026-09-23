@@ -164,13 +164,16 @@ lines += ["\\bottomrule", "\\end{tabular}"]
 # -------------------------------------------- rank correlation between modes
 rc = read_csv(R / "25_fig1_notelab" / "rank_correlation_between_modes.csv")
 get = {(r["mode_a"], r["mode_b"]): r for r in rc}
+# q of the permutation test over models (block 87), BH over the six pairs
+q87 = {(r["type_a"], r["type_b"]): float(r["q_bh"]) for r in read_csv(R / "87_model_rank_spearman_test" / "spearman_pairs.csv")}
 order = ["he", "de", "pg", "control"]
 lines = ["\\begin{tabular}{l" + "r" * 4 + "}", "\\toprule", " & " + " & ".join(MODE[m] for m in order) + " \\\\", "\\midrule"]
 for a in order:
     cells = []
     for b in order:
         r = get.get((a, b)) or get.get((b, a))
-        cells.append("--" if a == b else f"{float(r['spearman']):.2f}")
+        q = q87.get((MODE[a], MODE[b])) or q87.get((MODE[b], MODE[a]))
+        cells.append("--" if a == b else f"{float(r['spearman']):.2f} ({q:.4f})")
     lines.append(f"{MODE[a]} & " + " & ".join(cells) + " \\\\")
 lines += ["\\bottomrule", "\\end{tabular}"]
 (OUT / "rank_between_modes.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")

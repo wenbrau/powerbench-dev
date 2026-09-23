@@ -1,0 +1,11 @@
+{
+  "inputs": {
+    "4_analysis\\results\\78_fig1_v3\\rates_per_model.csv": "74366b767256ec22efafef828a930964c050f14a022957115e55863b99cfb5fd",
+    "4_analysis\\results\\25_fig1_notelab\\rank_correlation_between_modes.csv": "337445b388a7bc6e115a10ef1ebd6ee8d57970f9ded11d17fafcdbee2d77f5d8"
+  },
+  "code": {
+    "4_analysis\\analysis_87_model_rank_spearman_test.py": "dbb0a100903295a7cd0ae90249deb707766c47c97f93fa0fb0a7d770f1eb30be"
+  },
+  "n_perm": 10000,
+  "seed": 87
+}
