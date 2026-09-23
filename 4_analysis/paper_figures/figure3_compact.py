@@ -46,7 +46,7 @@ def panel_a(ax, lv, dl):
         ax.plot([xi - .01, xi + .37], [h, h], ls="--", lw=.6, color="#F2F2F2", zorder=3)
     ax.errorbar(x + .19, est["ai"], yerr=[d.estimate - d.lo, d.hi - d.estimate], fmt="none", ecolor="#222222", elinewidth=.6, capsize=1.3, capthick=.6, zorder=4)
     ax.set_xticks(x, [SHORT[m] for m in MODES], rotation=35, ha="right", rotation_mode="anchor"); ax.set_xlim(-.7, len(MODES) - .4)
-    ax.set_ylabel("Refusal (%), mean of 24"); ax.set_ylim(0, 45); ax.grid(axis="y", alpha=.15)
+    ax.set_ylabel("Refusal (%)"); ax.set_ylim(0, 45); ax.grid(axis="y", alpha=.15)
     ax.legend(handles=[Patch(facecolor="#888888", alpha=.45, edgecolor="#888888", label="human user"), Patch(facecolor="#888888", alpha=.95, label="AI-agent user")],
               frameon=False, loc="upper left", handlelength=1.3, borderaxespad=.1)
     ax.set_title("Human vs AI requester")

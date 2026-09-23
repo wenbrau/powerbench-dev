@@ -31,6 +31,7 @@ SRC = {"B": RESULTS / "55_fig3_side_excess" / "side_abs_bias_excess_summary.csv"
        "E": RESULTS / "46_fig3_direction_glmm" / "direction_glmm.csv",
        "E_dyad": RESULTS / "46_fig3_direction_glmm" / "direction_glmm_by_dyad.csv",
        "bh83": RESULTS / "83_bh_fig3f_fig2b" / "bh_families.csv",
+       "bh89": RESULTS / "89_bh_fig2e_by_power" / "bh_by_power.csv",
        "pmr": RESULTS / "21_d2_nationality_final" / "per_model_rates.csv",
        "A86": RESULTS / "86_fig2_ps_pooled" / "ps_rates_by_side.csv", "B86": RESULTS / "86_fig2_ps_pooled" / "side_abs_bias_excess_ps.csv",
        "C86": RESULTS / "86_fig2_ps_pooled" / "side_glmm_ps.csv"}   # columna violeta de power shifting agrupado (20/09)
@@ -133,8 +134,15 @@ def load():
     q83 = pd.read_csv(SRC["bh83"]); q83 = q83[q83.block == 45]
     C["q_bh"] = [float(q83[(q83.family == f"lado del usuario, set {st} (4 modos)") & (q83.test == m)].q_bh.iloc[0]) for st, m in C.index]
     D = pd.read_csv(SRC["D"]).set_index(["set", "group"])
-    E = pd.read_csv(SRC["E"]); E = E[E.quantity == "direccion (24 modelos)"]
-    Ed = pd.read_csv(SRC["E_dyad"]); Ed = Ed[Ed.quantity == "direccion (24 modelos)"]
+    E = pd.read_csv(SRC["E"]); E = E[E.quantity == "direccion (24 modelos)"].copy()
+    Ed = pd.read_csv(SRC["E_dyad"]); Ed = Ed[Ed.quantity == "direccion (24 modelos)"].copy()
+    # q por potencia (bloque 89, 22/09): familia de 4 (agrupado) y de 16 (por contraparte) dentro de cada potencia,
+    # en lugar de 8 y 32 juntando EE.UU. y China. Las p son las del bloque 46; solo cambia la corrección.
+    q89 = pd.read_csv(SRC["bh89"])
+    qp = q89[q89.level == "pooled"].set_index(["power", "mode"]).q_bh_power
+    qd = q89[q89.level == "by_dyad"].set_index(["dyad", "mode"]).q_bh_power
+    E["q_bh"] = [float(qp[(c, m)]) for c, m in zip(E.country, E["mode"])]
+    Ed["q_bh"] = [float(qd[(d, m)]) for d, m in zip(Ed.dyad, Ed["mode"])]
     pmr = pd.read_csv(SRC["pmr"])
     vals = {(st, m, s): float(pmr[(pmr["mode"] == m) & pmr.condition.isin(SIDE_CONDS[st][s])].groupby("target").rate.mean().mean())
             for st in SETS for m in MODES for s in ("us", "cn")}

@@ -44,7 +44,7 @@ def panel_a(ax, A):
     x = np.arange(len(MODES)); a = A.loc[MODES]
     ax.bar(x, a["mean"], width=.62, color=[MODE_COLORS[g] for g in MODES], zorder=2)
     ax.errorbar(x, a["mean"], yerr=[a["mean"] - a.lo, a.hi - a["mean"]], fmt="none", ecolor="#222", elinewidth=.6, capsize=1.5, capthick=.6, zorder=3)
-    ax.set_xticks(x, [SHORT[g] for g in MODES], rotation=35, ha="right", rotation_mode="anchor")
+    ax.set_xticks(x, [SHORT[g] for g in MODES])
     ax.set_ylabel("Refusal (%)"); ax.grid(axis="y", alpha=.15); ax.set_title("By request type")
 
 
@@ -60,7 +60,7 @@ def panel_b(ax, B):
         star(ax, xi, float(B[B.group == g].hi.max()) + .6, q[g])
     ax.legend(handles=[Patch(facecolor="#888", alpha=.5, edgecolor="#888", label="US (12)"), Patch(facecolor="#888", alpha=.95, label="CN (12)")],
               frameon=False, loc="upper left", handlelength=1.1, borderaxespad=.2)
-    ax.set_xticks(x, [SHORT[g] for g in GROUPS], rotation=35, ha="right", rotation_mode="anchor")
+    ax.set_xticks(x, [SHORT[g] for g in GROUPS])
     ax.set_ylabel("Refusal (%)"); ax.grid(axis="y", alpha=.15); ax.set_title("US vs CN by request type")
     ax.set_ylim(0, float(B.hi.max()) * 1.25)
 
@@ -73,7 +73,7 @@ def panel_c(ax, C):
     for tk, o in zip(ax.get_xticklabels(), Cs.origin):
         tk.set_color(ORIGIN[o])
     ax.axvline(11.5, color="#999", lw=.5, ls=":"); ax.set_xlim(-.7, len(Cs) - .3); ax.grid(axis="y", alpha=.15)
-    ax.set_ylabel("Mean refusal (%)"); ax.set_title("Mean refusal by model")
+    ax.set_ylabel("Refusal (%)"); ax.set_title("Mean refusal by model")
 
 
 def panel_de(ax, LV, bhq, fac, first):
@@ -85,7 +85,7 @@ def panel_de(ax, LV, bhq, fac, first):
         if bhq[fac][mode] < .05:
             ax.text(2.12, float(s["mean"].iloc[-1]), "*", ha="left", va="center", fontsize=FB + 1, color=MODE_COLORS[mode])
     ax.set_xticks(xs, [LEVEL_LABEL[s_] for s_ in FACTORS[fac]]); ax.set_xlim(-.15, 2.35)
-    ax.set_ylabel("Refusal (%), mean of 24" if first else ""); ax.set_xlabel("scale of the target" if fac == "scale" else "user's prior power standing")
+    ax.set_ylabel("Refusal (%)" if first else ""); ax.set_xlabel("scale of the target" if fac == "scale" else "user's prior power standing")
     ax.grid(axis="y", alpha=.15); ax.set_ylim(0, 50)
     if not first:   # the legend sits in E, whose upper half is empty; in D it would cover the power-grabbing curve
         ax.legend(frameon=False, loc="upper left", handlelength=1.3, labelspacing=.2, borderaxespad=.1)
