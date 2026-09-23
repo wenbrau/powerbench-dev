@@ -147,7 +147,7 @@ def panel_f(ax, pm, fr, cap, title, show_legend):
 
 def build(d):
     style()
-    fig = plt.figure(figsize=(5.5, 4.0), layout="constrained")
+    fig = plt.figure(figsize=(5.5, 3.6), layout="constrained")   # 4.0 -> 3.6 in (23/09, to fit 9 pages)
     fig.get_layout_engine().set(w_pad=.02, h_pad=.02, hspace=.06, wspace=.02)
     gs = fig.add_gridspec(2, 1, height_ratios=[1.0, 1.25])
     g1 = gs[0].subgridspec(1, 3, wspace=.1)

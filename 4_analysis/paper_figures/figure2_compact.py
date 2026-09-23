@@ -51,8 +51,13 @@ def build(data):
     style()
     B, C, D, E, Ed, vals, B86, C86 = data
     cols5 = [MODE_COLORS[m] for m in MODES5]
-    fig = plt.figure(figsize=(5.5, 3.95))
-    gs = fig.add_gridspec(4, 4, width_ratios=[1.0, 1.0, .22, 1.6], left=.085, right=.985, top=.83, bottom=.065, hspace=.45, wspace=.14)
+    # 3.95 -> 3.65 in (23/09, to fit 9 pages): the margins and the gaps between rows keep their size in inches, the panels get shorter
+    H0, H = 3.95, 3.65
+    top, bottom = 1 - ((1 - .83) * H0 - .15) / H, .065 * H0 / H   # the legend takes one row instead of two (-.15 in)
+    gap = .45 * ((.83 - .065) * H0 / (4 + 3 * .45))              # the old gap between rows, in inches
+    rowh = ((top - bottom) * H - 3 * gap) / 4
+    fig = plt.figure(figsize=(5.5, H))
+    gs = fig.add_gridspec(4, 4, width_ratios=[1.0, 1.0, .22, 1.6], left=.085, right=.985, top=top, bottom=bottom, hspace=gap / rowh, wspace=.14)
     x = XS; w = .38
 
     def row(ri):
@@ -82,8 +87,8 @@ def build(data):
         for xi, h, qi in zip(x, hi, q):
             if qi < .05:
                 ax.text(xi, max(h, 0) + .005, "*", ha="center", va="bottom", fontsize=FB + 1)
-        ax.grid(axis="y", alpha=.15); ax.set_ylim(-.16, .27)
-    axB[0].set_ylabel("|bias| $-$ chance"); axB[0].set_title("Bias beyond chance")
+        ax.grid(axis="y", alpha=.15); ax.set_ylim(-.16, .30)   # .27 -> .30: room for the asterisks under the title in the shorter figure
+    axB[0].set_ylabel("|bias|" + chr(10) + "$-$ chance"); axB[0].set_title("Bias beyond chance")
 
     LO, HI = .55, 1.9
     for ax, st in zip(axC, SETS):
@@ -94,7 +99,7 @@ def build(data):
     axC[0].set_ylabel("OR (GLMM)"); axC[0].set_title("US side vs China side")
     axD[0].set_ylabel("OR (usage-wt.)"); axD[0].set_title("Same, usage-weighted")
 
-    gsR = gs[:, 3].subgridspec(2, 1, hspace=.32)
+    gsR = gs[:, 3].subgridspec(2, 1, hspace=.32 * H0 / H)
     axE = fig.add_subplot(gsR[0]); axF = fig.add_subplot(gsR[1])
     w4 = .8 / len(MODES); ELO, EHI = .40, 2.6
     for ax, pole in ((axE, "usa"), (axF, "china")):
@@ -120,13 +125,13 @@ def build(data):
         ax.set_title(f"Bias with respect to {P}")
 
     fig.legend(handles=[Patch(fc=MODE_COLORS[m], label=MODE_LEG[m]) for m in MODES5] + [Patch(fc=SIDE_COL["us"], alpha=.2, label="US-side user"), Patch(fc=SIDE_COL["cn"], alpha=.2, label="China-side user")],
-               frameon=False, fontsize=FT, loc="upper center", bbox_to_anchor=(.5, 1.0), ncol=4, columnspacing=1.0, handlelength=1.1)
+               frameon=False, fontsize=FT, loc="upper center", bbox_to_anchor=(.5, 1.0), ncol=7, columnspacing=1.0, handlelength=1.1)
     for st, ax in zip(SETS, axA):
         p = ax.get_position()
-        fig.text(p.x0 + p.width / 2, p.y1 + .06, "US side / China side" if st == "geo" else "neutral A / neutral B", ha="center", va="bottom", fontsize=FB, fontweight="bold")
+        fig.text(p.x0 + p.width / 2, p.y1 + .06 * H0 / H, "US side / China side" if st == "geo" else "neutral A / neutral B", ha="center", va="bottom", fontsize=FB, fontweight="bold")
     for key, axr, xo in (("A", axA, .008), ("B", axB, .008), ("C", axC, .008), ("D", axD, .008)):
-        g = axr[0].get_position(); fig.text(xo, g.y1 + .012, key, fontsize=FL, fontweight="bold", ha="left", va="bottom")
-    pe = axE.get_position(); fig.text(pe.x0 - .075, pe.y1 + .012, "E", fontsize=FL, fontweight="bold", ha="left", va="bottom")
+        g = axr[0].get_position(); fig.text(xo, g.y1 + .012 * H0 / H, key, fontsize=FL, fontweight="bold", ha="left", va="bottom")
+    pe = axE.get_position(); fig.text(pe.x0 - .075, pe.y1 + .012 * H0 / H, "E", fontsize=FL, fontweight="bold", ha="left", va="bottom")
     for ext in ("pdf", "png"):
         out = HERE / f"figure2_compact_en.{ext}"; fig.savefig(out, dpi=300); print("escrito:", out.relative_to(ROOT))
     plt.close(fig)
