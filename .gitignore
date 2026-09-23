@@ -115,3 +115,6 @@ current/runs/*.status
 current/runs/d2_geobloc_A19_pinned_off.jsonl
 current/runs/control_d2_geobloc_A19_pinned_off.jsonl
 current/runs/*_ladder_*_pinned_on.jsonl
+
+# Third-party papers downloaded for the bibliography audit (not redistributable; keep local)
+paper/iclr2027/bibliography/pdfs/
