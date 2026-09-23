@@ -95,18 +95,18 @@ def build(d):
     rate = per_model.groupby(["mode", "lang"]).refuse.mean().mul(100)
     order = rate.reset_index().query("mode in ['he','de','pg']").groupby("lang").refuse.mean().sort_values().index.tolist()
     fp.LANGS79 = order
-    # 4.7 -> 4.13 in (23/09, to fit 9 pages): margins and gaps keep their size in inches; the top row is 0.21 in and the
-    # bottom row 0.36 in shorter (F keeps its aspect and is anchored at the top)
-    H0, H = 4.7, 4.13
+    # 4.7 -> 4.02 in (23/09, to fit 9 pages): margins and gaps keep their size in inches; the top row is 0.26 in and the
+    # bottom row 0.42 in shorter (F keeps its aspect and is anchored at the top)
+    H0, H = 4.7, 4.02
     def pos(x, y_in, w, h_in):
         return [x, y_in / H, w, h_in / H]
     fig = plt.figure(figsize=(5.5, H))
-    axA = fig.add_axes(pos(.075, 2.836, .43, .918))
-    axB = fig.add_axes(pos(.635, 2.836, .15, .918))
-    axC = fig.add_axes(pos(.84, 2.836, .15, .918))
-    axD = fig.add_axes(pos(.075, .423, .15, 1.896))
-    axE = fig.add_axes(pos(.335, .3525, .17, 1.9665))
-    axF = fig.add_axes(pos(.63, .423, .36, 1.896)); axF.set_anchor("N")
+    axA = fig.add_axes(pos(.075, 2.776, .43, .868))
+    axB = fig.add_axes(pos(.635, 2.776, .15, .868))
+    axC = fig.add_axes(pos(.84, 2.776, .15, .868))
+    axD = fig.add_axes(pos(.075, .423, .15, 1.836))
+    axE = fig.add_axes(pos(.335, .3525, .17, 1.9065))
+    axF = fig.add_axes(pos(.63, .423, .36, 1.836)); axF.set_anchor("N")
     qa, qd, qf, qtab = fv2.bh_q()
     fp.panel_a1(axA, d, t, q=qa); fv2.panel_a2_bump(axB, t2); fv2.panel_b_bars(axC, t2); fp.panel_b(axD, t, q=qd); panel_e(axE)
     S, contrast_p, _ = fp.panel_c(axF, d, t, q=qf, inset=False, cb_rect=[.02, -.07, .42, .03])

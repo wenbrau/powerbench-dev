@@ -51,8 +51,8 @@ def build(data):
     style()
     B, C, D, E, Ed, vals, B86, C86 = data
     cols5 = [MODE_COLORS[m] for m in MODES5]
-    # 3.95 -> 3.3 in (23/09, to fit 9 pages): the margins and the gaps between rows keep their size in inches, the panels get shorter
-    H0, H = 3.95, 3.3
+    # 3.95 -> 3.15 in (23/09, to fit 9 pages): the margins and the gaps between rows keep their size in inches, the panels get shorter
+    H0, H = 3.95, 3.15
     top, bottom = 1 - ((1 - .83) * H0 - .15) / H, .065 * H0 / H   # the legend takes one row instead of two (-.15 in)
     gap = .45 * ((.83 - .065) * H0 / (4 + 3 * .45))              # the old gap between rows, in inches
     rowh = ((top - bottom) * H - 3 * gap) / 4
@@ -99,7 +99,7 @@ def build(data):
     axC[0].set_ylabel("OR (GLMM)"); axC[0].set_title("US side vs China side")
     axD[0].set_ylabel("OR (usage-wt.)"); axD[0].set_title("Same, usage-weighted")
 
-    gsR = gs[:, 3].subgridspec(2, 1, hspace=.32 * H0 / H)
+    gsR = gs[:, 3].subgridspec(2, 1, hspace=.26 * H0 / H)   # a bit less gap so that each E panel stays as tall as its y label
     axE = fig.add_subplot(gsR[0]); axF = fig.add_subplot(gsR[1])
     w4 = .8 / len(MODES); ELO, EHI = .40, 2.6
     for ax, pole in ((axE, "usa"), (axF, "china")):
@@ -131,7 +131,7 @@ def build(data):
         fig.text(p.x0 + p.width / 2, p.y1 + .06 * H0 / H, "US side / China side" if st == "geo" else "neutral A / neutral B", ha="center", va="bottom", fontsize=FB, fontweight="bold")
     for key, axr, xo in (("A", axA, .008), ("B", axB, .008), ("C", axC, .008), ("D", axD, .008)):
         g = axr[0].get_position(); fig.text(xo, g.y1 + .012 * H0 / H, key, fontsize=FL, fontweight="bold", ha="left", va="bottom")
-    pe = axE.get_position(); fig.text(pe.x0 - .075, pe.y1 + .012 * H0 / H, "E", fontsize=FL, fontweight="bold", ha="left", va="bottom")
+    pe = axE.get_position(); fig.text(pe.x0 - .1, pe.y1 + .012 * H0 / H, "E", fontsize=FL, fontweight="bold", ha="left", va="bottom")
     for ext in ("pdf", "png"):
         out = HERE / f"figure2_compact_en.{ext}"; fig.savefig(out, dpi=300); print("escrito:", out.relative_to(ROOT))
     plt.close(fig)
