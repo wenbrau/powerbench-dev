@@ -118,9 +118,11 @@ def main():
         raw.parent.mkdir(parents=True, exist_ok=True); o.to_csv(raw, index=False)
     o["OR"] = np.where(o.kind == "contraste", np.exp(o.estimate), np.nan)
     o["OR_lo"] = np.exp(o.estimate - 1.96 * o.se); o["OR_hi"] = np.exp(o.estimate + 1.96 * o.se)
-    fam = np.select([o.quantity.str.contains(" en modelos "), o.quantity.str.contains(r" en (he|de|pg|ctl)$", regex=True),
-                     o.quantity.str.contains(" - en ctl"), o.quantity.str.contains("promedio")],
-                    ["por_origen", "por_modo", "modo_menos_control", "principal"], "otro")
+    # " - en ctl" must be tested before " en (he|de|pg|ctl)$": np.select takes the first match, and a
+    # quantity like "r1 en de - en ctl" also ends in " en ctl" (fixed 2026-09-24, audit v21 #13).
+    fam = np.select([o.quantity.str.contains(" en modelos "), o.quantity.str.contains(" - en ctl"),
+                     o.quantity.str.contains(r" en (he|de|pg|ctl)$", regex=True), o.quantity.str.contains("promedio")],
+                    ["por_origen", "modo_menos_control", "por_modo", "principal"], "otro")
     o["family"] = fam; o["q_bh"] = np.nan
     for f_ in ("por_origen", "por_modo", "modo_menos_control", "principal"):
         idx = o.family == f_

@@ -211,7 +211,7 @@ def fig_by_pairing():
         for xi, e, l, h, q in zip(x, a.excess, a.lo, a.hi, a.q_bh):
             star(ax, xi, max(h, 0) + .004, q) if e >= 0 else star(ax, xi, min(l, 0) - .004, q, below=True)
         ax.set_ylim(-.16, .31); ax.grid(axis="y", alpha=.15); ax.set_title(title)
-        for i, (T, est, lo, hi, qc) in ((1, (B, "OR", "OR_lo", "OR_hi", "q_bh")), (2, (C, "odds_ratio", "boot_lo", "boot_hi", "perm_q"))):
+        for i, (T, est, lo, hi, qc) in ((1, (B, "OR", "OR_lo", "OR_hi", "q_bh")), (2, (C, "odds_ratio", "boot_lo", "boot_hi", "boot_q"))):  # boot_q: the protocol's test for usage-weighted results (audit v21)
             r = T.loc[st].loc[MODES]; ax = axes[i][j]
             ax.bar(x, r[est] - 1, bottom=1, width=.62, color=cols, zorder=2)
             ax.errorbar(x, r[est], yerr=[r[est] - r[lo], r[hi] - r[est]], **ERR)

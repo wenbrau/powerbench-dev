@@ -180,14 +180,20 @@ lines += ["\\bottomrule", "\\end{tabular}"]
 
 # ------------------------------------------------- AI agent: levels by scale
 sl = read_csv(R / "61_fig4_scale_levels" / "scale_levels_summary.csv")
+# Block 61 stores the direction bias rounded to 3 decimals, and rounding that again to 2 moves
+# three cells by 0.01 (e.g. 0.3554 -> 0.355 -> 0.35). Block 59 holds the same bias and t interval
+# at full precision, so the bias column is read from there.
+b59 = {(r["mode"], r["level"]): r
+       for r in read_csv(R / "59_fig4_by_dimension" / "bias_direction_by_level.csv") if r["dim"] == "scale"}
 lines = ["\\begin{tabular}{llrrrrr}", "\\toprule",
          "Request type & Scale & Human (\\%) & AI (\\%) & $\\Delta$ (pp) & Direction bias & OR \\\\", "\\midrule"]
 for mode in ["he", "de", "pg", "control"]:
     for r in [x for x in sl if x["mode"] == mode]:
+        b = b59[(mode, r["scale"])]
         lines.append(
             f"{MODE[mode]} & {r['scale']} & {float(r['refusal_human']):.1f} & {float(r['refusal_ai']):.1f} & "
             f"{float(r['delta_pp']):+.1f} [{float(r['delta_pp_lo']):+.1f}; {float(r['delta_pp_hi']):+.1f}] & "
-            f"{float(r['bias']):.2f} [{float(r['bias_lo']):.2f}; {float(r['bias_hi']):.2f}] & "
+            f"{float(b['bias']):.2f} [{float(b['lo']):.2f}; {float(b['hi']):.2f}] & "
             f"{float(r['OR']):.2f} [{float(r['OR_lo']):.2f}; {float(r['OR_hi']):.2f}] \\\\"
         )
 lines += ["\\bottomrule", "\\end{tabular}"]

@@ -1,0 +1,18 @@
+{
+ "diff_ps_control_all": {
+  "est": 0.27945635572459,
+  "lo": 0.1762785751464948,
+  "hi": 0.38263413630268517,
+  "p": 1.0589365692127375e-05,
+  "unit": "dirección de desacuerdo",
+  "note": "21/24 modelos > 0"
+ },
+ "diff_ps_control_no_deepseek": {
+  "est": 0.2639842409489877,
+  "lo": 0.1612764679607755,
+  "hi": 0.3666920139371999,
+  "p": 2.3763398930959087e-05,
+  "unit": "dirección de desacuerdo",
+  "note": "20/23 modelos > 0"
+ }
+}
