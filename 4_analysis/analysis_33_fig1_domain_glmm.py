@@ -42,7 +42,7 @@ from pbanalysis import Boot, ci, report  # noqa: E402
 from pbanalysis.load import DOMAINS  # noqa: E402
 from pbanalysis.final_panel import load_d1_english, MODES, file_digest  # noqa: E402
 
-NAME = "33_fig1_domain_glmm"
+NAME = "33_fig1_domain_glmm_nagq1"
 B, SEED = 2000, 33
 POWER = ["he", "de", "pg"]
 LABELS = {"he": "Self-empowerment", "de": "Disempowerment", "pg": "Power grabbing"}

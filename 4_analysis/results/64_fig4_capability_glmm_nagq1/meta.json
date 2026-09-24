@@ -1,0 +1,23 @@
+{
+ "name": "64_fig4_capability_glmm_nagq1",
+ "title": "Figura 4, apéndice: sesgo hacia la IA contra capacidad, con GLMM",
+ "question": "GLMM por modo y en conjunto (power-shifting vs control) con la interacción usuario IA × capacidad estandarizada: cambio del log-OR IA / humano por 1 SD de capacidad, con la pendiente aleatoria por modelo como error.",
+ "status": "apéndice (pedido de Nico, 18/09); lectura pendiente",
+ "date": "2026-09-24",
+ "commit": "17ae987",
+ "conclusion": "Ver capability_glmm; lectura de Nico pendiente.",
+ "inputs": [
+  "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz",
+  "4_analysis/results/30_fig1_glmm_nagq1/capability_index.csv",
+  "4_analysis/r/glmm_ai_capability.R"
+ ],
+ "tables": [
+  "capability_glmm",
+  "capability_per_model_log_or"
+ ],
+ "figures": [
+  "pA_capability_glmm",
+  "pB_capability_scatter_bymode",
+  "pC_capability_scatter_pooled"
+ ]
+}

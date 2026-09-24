@@ -8,7 +8,7 @@
 #   ai = +0,5 usuario IA (D3), −0,5 humano (D1 inglés); level = factor con el primer nivel como referencia (individual / low).
 #   Se reportan: el efecto ai en cada nivel (b_ai + b_ai:level, combinación lineal con vcov), los contrastes entre niveles del
 #   efecto ai (= los términos ai:level y su diferencia), y el ómnibus de Wald b' V⁻¹ b sobre los dos términos ai:level (χ², 2 gl).
-# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 0, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald,
+# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 1, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald,
 # ajuste singular aceptado.
 #
 # Uso:  Rscript glmm_ai_level.R <datos.csv> <salida.csv> <nivel1,nivel2,nivel3>

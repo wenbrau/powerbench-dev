@@ -54,7 +54,7 @@ CHANCE = "#9AA0A6"
 
 def model_order(models=None):
     """US first, then CN; each by descending mean refusal over the four modes (block 78, rates_per_model.csv)."""
-    r = pd.read_csv(RES / "78_fig1_v3" / "rates_per_model.csv")
+    r = pd.read_csv(RES / "78_fig1_v3_nagq1" / "rates_per_model.csv")
     r["mean4"] = r[MODES4].mean(axis=1)
     if models is not None:
         r = r[r.model.isin(models)]
@@ -87,7 +87,7 @@ def base_style():
 
 # ============================================================================ 1. mean effects
 def fig_mean_effects():
-    dev = pd.read_csv(RES / "82_fig2_language_glmm_ps" / "language_deviation_ps.csv")
+    dev = pd.read_csv(RES / "82_fig2_language_glmm_ps_nagq1" / "language_deviation_ps.csv")
     orr = pd.read_csv(RES / "72_fig2_usage_weighted_requests" / "usage_weighted_or_requests.csv")
     langs = dev.lang.tolist()                                   # source order (de pt en es sw zh fr hi)
     fig = plt.figure(figsize=(W, 2.0))

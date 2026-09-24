@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 
 # ---------------------------------------------------------------- redirigir las tablas que leen los paneles a esta carpeta
-fp.GLMM36 = HERE / "glmm"
+fp.GLMM36 = HERE / "glmm_nagq1"
 fp.TB = HERE / "panelD_bootstrap.csv"
 fp.TC = HERE / "panelF_test_stats_power_shifting.csv"
 fp.TD = HERE / "F6_exceso_ps.csv"
@@ -112,7 +112,7 @@ def build(d):
         fig.savefig(out, dpi=300); print("escrito:", out.relative_to(ROOT))
     plt.close(fig)
     (HERE / "figure_22models_caption_en.md").write_text(CAPTION + "\n", encoding="utf-8")
-    (HERE / "figure_paper_v2_bh_q_values.csv").rename(HERE / "figure_22models_bh_q_values.csv")
+    (HERE / fv2.BHQ_NAME).replace(HERE / "figure_22models_bh_q_values_nagq1.csv")
     ch = qtab[qtab.sig_p05 != qtab.sig_q05]
     print("tests que cambian de estado con BH:"); print(ch.to_string(index=False) if len(ch) else "  ninguno")
     return qtab
@@ -122,10 +122,10 @@ def main():
     d, _ = load22()
     q22 = build(d)
     # comparación de estrellas con la figura de 24 modelos
-    q24 = pd.read_csv(REF / "figure_paper_v2_bh_q_values.csv")
+    q24 = pd.read_csv(REF / fv2.BHQ_NAME)
     m = q24.merge(q22, on=["panel", "family", "test"], suffixes=("_24", "_22"), how="outer")
     m["stars_24"] = m.q_24.map(lambda q: fp.stars(q)); m["stars_22"] = m.q_22.map(lambda q: fp.stars(q))
-    m.to_csv(HERE / "compare_q_24_vs_22.csv", index=False)
+    m.to_csv(HERE / "compare_q_24_vs_22_nagq1.csv", index=False)
     ch = m[m.stars_24 != m.stars_22]
     print("\nestrellas que cambian entre 24 y 22 modelos:"); print(ch[["panel", "family", "test", "q_24", "stars_24", "q_22", "stars_22"]].to_string(index=False) if len(ch) else "  ninguna")
 

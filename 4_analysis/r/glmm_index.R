@@ -10,7 +10,7 @@
 #   origin_c = +0,5 modelo CN, −0,5 modelo US (centrado: 'x' es la pendiente media de los dos orígenes)
 #   country1 = el país cuyo índice es x (A–D) o el país usuario (E); country2 = el país afectado (solo E)
 #   pendiente en modelos US = x − 0,5 · x:origin_c; en modelos CN = x + 0,5 · x:origin_c (combinaciones lineales con su error estándar)
-# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 0, || primero, bobyqa y nlminbwrap, Wald, ajuste singular aceptado.
+# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 1, || primero, bobyqa y nlminbwrap, Wald, ajuste singular aceptado.
 #
 # Uso:  Rscript glmm_index.R <datos.csv> <salida.csv>
 # datos.csv: columnas refuse (0/1), variant, mode, x, origin_c, prompt_id, model, country1, country2 ("" si no hay).

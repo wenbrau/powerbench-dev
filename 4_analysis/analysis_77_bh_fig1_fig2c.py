@@ -37,15 +37,15 @@ import pandas as pd  # noqa: E402
 from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import file_digest  # noqa: E402
 
-NAME = "77_bh_fig1_fig2c"
+NAME = "77_bh_fig1_fig2c_nagq1"
 R = HERE / "results"
-SRC = {"modes": R / "30_fig1_glmm" / "glmm_mode_contrasts.csv",
-       "origin": R / "30_fig1_glmm" / "glmm_origin.csv",
-       "origin_x": R / "30_fig1_glmm" / "glmm_interaction_ps_vs_control.csv",
-       "scale": R / "31_fig1_glmm_scale" / "glmm_scale_trend.csv",
-       "scale_x": R / "31_fig1_glmm_scale" / "glmm_scale_interaction_ps_vs_control.csv",
-       "standing": R / "31_fig1_glmm_standing" / "glmm_standing_trend.csv",
-       "standing_x": R / "31_fig1_glmm_standing" / "glmm_standing_interaction_ps_vs_control.csv",
+SRC = {"modes": R / "30_fig1_glmm_nagq1" / "glmm_mode_contrasts.csv",
+       "origin": R / "30_fig1_glmm_nagq1" / "glmm_origin.csv",
+       "origin_x": R / "30_fig1_glmm_nagq1" / "glmm_interaction_ps_vs_control.csv",
+       "scale": R / "31_fig1_glmm_scale_nagq1" / "glmm_scale_trend.csv",
+       "scale_x": R / "31_fig1_glmm_scale_nagq1" / "glmm_scale_interaction_ps_vs_control.csv",
+       "standing": R / "31_fig1_glmm_standing_nagq1" / "glmm_standing_trend.csv",
+       "standing_x": R / "31_fig1_glmm_standing_nagq1" / "glmm_standing_interaction_ps_vs_control.csv",
        "order": R / "39_fig2_order_stats" / "order_agreement_tests.csv"}
 MODES = ["he", "de", "pg", "control"]
 
@@ -116,7 +116,7 @@ def main():
         "Benjamini-Hochberg con familia = los tests que contestan la misma pregunta dentro del panel?",
         status="pedido de Nico (19/09): BH con familias por pregunta para los bloques que no la tenían; sin recalcular ningún test")
     res.inputs([str(v.relative_to(ROOT)) for v in SRC.values()])
-    res.data("Tablas de p de los bloques 30, 31 y 39 (GLMM con nAGQ = 0 en 30 y 31; permutaciones en 39). No se recalcula nada: solo se agrega q.")
+    res.data("Tablas de p de los bloques 30, 31 y 39 (GLMM con nAGQ = 1 en 30 y 31; permutaciones en 39). No se recalcula nada: solo se agrega q.")
     res.method("Familias en la docstring del script y en DECISIONES punto 37. BH dentro de cada familia; los tests únicos (pooled) llevan q = p. "
                "En el bloque 39 se corrige p_right (unilateral), tal como lo definió ese bloque.")
     res.table("bh_families", tab, "Todos los tests con su familia, p, q y si cambian de estado a q < 0,05.")

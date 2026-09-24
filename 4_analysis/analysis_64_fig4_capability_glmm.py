@@ -4,7 +4,7 @@
 Pedido de Nico (18/09), tras las correlaciones sobre medias por modelo del bloque 62 (ρ ≈ 0,3, n.s.): "hagámoslo, para ver si
 lo conseguimos con la herramienta correcta; versión todos los modos separados, y versión powershifting vs control".
 
-GLMM del protocolo (r/glmm_ai_capability.R, lme4::glmer, nAGQ = 0): refuse ~ ai × cap_z + (1 + ai || modelo) + (1 | prompt),
+GLMM del protocolo (r/glmm_ai_capability.R, lme4::glmer, nAGQ = 1): refuse ~ ai × cap_z + (1 + ai || modelo) + (1 | prompt),
 ai = ±0,5, cap_z = índice de capacidad estandarizado (bloque 30). El término ai:cap_z es el cambio del log-OR IA / humano por
 1 SD de capacidad; su error viene de la pendiente aleatoria por modelo (24 unidades). Dos corridas:
   bymode: los cuatro modos por separado (q = BH sobre 4).
@@ -41,9 +41,9 @@ from statsmodels.stats.multitest import multipletests  # noqa: E402
 from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import file_digest  # noqa: E402
 
-NAME = "64_fig4_capability_glmm"
+NAME = "64_fig4_capability_glmm_nagq1"
 SRC_ROWS = HERE / "results" / "22_d3_ai_final" / "analysis_rows.csv.gz"
-SRC_CAP = HERE / "results" / "30_fig1_glmm" / "capability_index.csv"
+SRC_CAP = HERE / "results" / "30_fig1_glmm_nagq1" / "capability_index.csv"
 R_SCRIPT = HERE / "r" / "glmm_ai_capability.R"
 R_LIB = Path.home() / "R" / "win-library" / "4.6"
 MODES = ["he", "de", "pg", "control"]
@@ -107,7 +107,7 @@ def main():
         "log-OR IA / humano por 1 SD de capacidad, con la pendiente aleatoria por modelo como error.", status="apéndice (pedido de Nico, 18/09); lectura pendiente")
     res.inputs([str(SRC_ROWS.relative_to(ROOT)), str(SRC_CAP.relative_to(ROOT)), str(R_SCRIPT.relative_to(ROOT))])
     res.data("Filas válidas del bloque 22 (24 modelos); cap_z del bloque 30 (índice GPQA-Diamond + MMLU-Pro estandarizado sobre los 24).")
-    res.method("GLMM (lme4::glmer, nAGQ = 0, || primero, bobyqa + nlminbwrap, Wald; glmm_ai_capability.R). bymode: refuse ~ ai * cap_z + (1 + ai || model) + "
+    res.method("GLMM (lme4::glmer, nAGQ = 1, || primero, bobyqa + nlminbwrap, Wald; glmm_ai_capability.R). bymode: refuse ~ ai * cap_z + (1 + ai || model) + "
                "(1 | prompt_id), q = BH sobre 4 modos. pooled: he + de + pg con `+ mode`; control solo; apilado con ai * cap_z * ps + mode (ps = 1 "
                "power-shifting): ai:cap_z:ps = diferencia de pendientes. ai:cap_z se reporta como razón de OR por 1 SD de capacidad.")
     res.table("capability_glmm", tab.round(5), "Por corrida y conjunto: efecto IA a capacidad media (OR), interacción IA × capacidad (razón de OR por 1 SD), "

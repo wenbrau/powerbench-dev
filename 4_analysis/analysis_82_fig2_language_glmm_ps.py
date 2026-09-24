@@ -6,7 +6,7 @@ Nico (20/09): sobre "en power-shifting se rechaza más al hindi que al promedio"
 por encima de la media en los tres modos de poder solo con p crudo (de q = 0,029; he q = 0,078; pg q = 0,29) y que afirmarlo sobre
 power shifting junto requería un ajuste sobre las filas pooled: "podría estar bueno, y dejar constancia".
 
-GLMM (r/glmm_language_ps.R, protocolo de glmm_common.R, nAGQ = 0): refuse ~ lang (suma-cero) + mode + (1 | model) + (1 | model:lang) +
+GLMM (r/glmm_language_ps.R, protocolo de glmm_common.R, nAGQ = 1): refuse ~ lang (suma-cero) + mode + (1 | model) + (1 | model:lang) +
 (1 | prompt_id) sobre las filas de he, de y pg; desviación de cada idioma respecto de la media de los 8, Wald, BH sobre los 8;
 ómnibus χ²(7). Swahili sin nemotron-3.5-lightning ni nova-2-lite (regla del 16/09).
 
@@ -39,13 +39,13 @@ import pandas as pd  # noqa: E402
 from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import load_d1_multilingual, file_digest  # noqa: E402
 
-NAME = "82_fig2_language_glmm_ps"
+NAME = "82_fig2_language_glmm_ps_nagq1"
 LANGS = ["de", "pt", "en", "es", "sw", "zh", "fr", "hi"]
 LANG_NAME = {"en": "English", "de": "German", "fr": "French", "es": "Spanish", "pt": "Portuguese", "zh": "Chinese", "hi": "Hindi", "sw": "Swahili"}
 EXCL_SW = {"nemotron-3.5-lightning", "nova-2-lite"}
 R_SCRIPT = HERE / "r" / "glmm_language_ps.R"
 R_LIB = Path.home() / "R" / "win-library" / "4.6"
-SRC36 = HERE / "results" / "36_fig2_language_glmm" / "glmm_language_by_language.csv"
+SRC36 = HERE / "results" / "36_fig2_language_glmm_nagq1" / "glmm_language_by_language.csv"
 
 
 def style():
@@ -104,7 +104,7 @@ def main():
         status="constancia pedida por Nico (20/09): la versión pooled del bloque 36")
     res.inputs(list(df.attrs["inputs"]) + [str(R_SCRIPT.relative_to(ROOT)), str((HERE / "r" / "glmm_common.R").relative_to(ROOT)), str(SRC36.relative_to(ROOT))])
     res.data(f"D1 en 8 idiomas, modos he, de y pg, 24 modelos (22 en swahili), {len(x):,} filas válidas.")
-    res.method("refuse ~ lang (suma-cero) + mode + (1 | model) + (1 | model:lang) + (1 | prompt_id), lme4::glmer, nAGQ = 0, bobyqa y nlminbwrap, Wald; "
+    res.method("refuse ~ lang (suma-cero) + mode + (1 | model) + (1 | model:lang) + (1 | prompt_id), lme4::glmer, nAGQ = 1, bobyqa y nlminbwrap, Wald; "
                "desviación de cada idioma respecto de la media de los 8 (el 8º derivado de los otros 7 con su varianza), BH sobre los 8; ómnibus χ²(7). "
                "Comparación con el bloque 36 (mismo modelo, modo por modo).")
     res.table("language_deviation_ps", dev[["lang", "language", "estimate", "se", "lo", "hi", "z", "p", "p_bh"]], "Desviación en log-odds de cada idioma respecto de la media de los 8, power shifting pooled.")

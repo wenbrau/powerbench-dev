@@ -34,7 +34,10 @@ clean <- function(m) { x <- msgs_of(m); length(x[!is_sing_msg(x)]) == 0 }
 # que glmer usa como primera etapa; con 18 efectos fijos el ajuste de contexto pasa de 240 s a 24 s y
 # el estadístico ómnibus cambia poco (χ² 6,8 → 4,7, misma conclusión). Los bloques 30–33 se recorrieron
 # todos con nAGQ = 0 para que la Figura 1 tenga un solo estimador; se declara en métodos.
-NAGQ <- 0
+# 24/09 (rama nagq1-rerun, pedido de Nico): todos los GLMM del paper se vuelven a ajustar con la
+# aproximación de Laplace (nAGQ = 1, el default de lme4), mismo protocolo en todo lo demás. PB_NAGQ=0
+# en el entorno reproduce las tablas anteriores.
+NAGQ <- as.integer(Sys.getenv("PB_NAGQ", "1"))
 fit_any <- function(formulas, dd) {
   for (fi in seq_along(formulas)) {
     for (o in optimizers) {

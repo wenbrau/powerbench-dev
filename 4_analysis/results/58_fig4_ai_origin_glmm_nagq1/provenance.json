@@ -1,0 +1,11 @@
+{
+  "inputs": {
+    "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz": "241532ef9e3a10c7dfe7ce906bb5cd98ddd0b7817dd046147d36cf76a8c49795",
+    "4_analysis/results/56_fig4_bias_direction/bias_direction_per_model.csv": "32f264c798aa9c96a76d919c0c05120d41234e4d61829ba9f458d86fbed54602",
+    "4_analysis/r/glmm_ai_origin.R": "07a765f2f1956190b14b0e6b1561bac780333262f830b57e8070202fae3fe320"
+  },
+  "code": {
+    "4_analysis\\analysis_58_fig4_ai_origin_glmm.py": "405e9f18ed14b42a61d6091b97ba06288ef4b25bf4fdaf6a690b38f3fd0816f2",
+    "4_analysis/r/glmm_common.R": "39442dc1639be3d4c7fef81842592bdb2ed800d4674024670d4253e44f1f218d"
+  }
+}

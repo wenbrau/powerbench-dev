@@ -1,0 +1,4 @@
+figure,block,panel,family,test,estimate,p,singular,n_family,q_bh,sig_p05,sig_q05
+Figura 1,30,Figura 1 · origen,efecto CN − US por modo (4),de,1.07769518128273,0.043289155963227,False,4,0.173156623852908,True,False
+Figura 1,31,Figura 1 · C escala,interacción scale × (modo vs control) por modo (3),de vs control,0.65931701462987,0.0493366669780265,True,3,0.07400500046703976,True,False
+Figura 1,31,Figura 1 · D standing,pendiente de standing por modo (4),pg,0.508586366321295,0.0284782402868876,False,4,0.1139129611475504,True,False

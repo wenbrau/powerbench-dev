@@ -1,0 +1,24 @@
+{
+ "name": "95_between_model_small_sample",
+ "title": "Tests entre modelos (DC, capacidad) con referencia t de grados de libertad between-within",
+ "question": "¿Cambian los p de los efectos que solo se estiman entre los 24 modelos si se reemplaza la referencia normal del z de Wald por una t con df = modelos − parámetros a nivel de modelo?",
+ "status": "pedido de Nico (24/09); estimaciones nAGQ = 1 de la rama nagq1-rerun; lectura pendiente",
+ "date": "2026-09-24",
+ "commit": "17ae987",
+ "conclusion": "",
+ "inputs": [
+  "4_analysis/results/30_fig1_glmm_nagq1/glmm_origin.csv",
+  "4_analysis/results/30_fig1_glmm_nagq1/glmm_interaction_ps_vs_control.csv",
+  "4_analysis/results/78_fig1_v3_nagq1/origin_overall_glmm.csv",
+  "4_analysis/results/45_fig3_side_combined_nagq1/side_glmm.csv",
+  "4_analysis/results/46_fig3_direction_glmm_nagq1/direction_glmm.csv",
+  "4_analysis/results/58_fig4_ai_origin_glmm_nagq1/ai_origin_glmm.csv",
+  "4_analysis/results/64_fig4_capability_glmm_nagq1/capability_glmm.csv",
+  "4_analysis/results/68_reasoning_glmm_nagq1/reasoning_glmm.csv"
+ ],
+ "tables": [
+  "between_model_tests",
+  "reasoning_omnibus"
+ ],
+ "figures": []
+}

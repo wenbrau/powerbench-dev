@@ -13,7 +13,7 @@
 #   toward:origin_c   -> 2) ¿depende del origen del modelo?        (CN − US)
 #   efecto en modelos US = toward − 0,5 · interacción; en modelos CN = toward + 0,5 · interacción (combinación lineal de
 #   coeficientes con su error estándar de la matriz de covarianza; no es un ajuste aparte).
-# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 0, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald,
+# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 1, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald,
 # ajuste singular aceptado. dyad entra solo en el modelo conjunto.
 #
 # Uso:  Rscript glmm_direction.R <datos.csv> <salida.csv> [joint|bydyad]

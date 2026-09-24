@@ -1,0 +1,24 @@
+{
+ "name": "77_bh_fig1_fig2c_nagq1",
+ "title": "BH por familia para los tests de la Figura 1 (bloques 30, 31) y del panel C de idioma (bloque 39)",
+ "question": "¿Qué tests de la Figura 1 (modos, origen, escala, standing) y del acuerdo entre rankings de idiomas sobreviven la corrección de Benjamini-Hochberg con familia = los tests que contestan la misma pregunta dentro del panel?",
+ "status": "pedido de Nico (19/09): BH con familias por pregunta para los bloques que no la tenían; sin recalcular ningún test",
+ "date": "2026-09-24",
+ "commit": "17ae987",
+ "conclusion": "Ver changed_at_q05. Las lecturas del cuerpo que dependan de un test que cambie de estado se revisan con Nico.",
+ "inputs": [
+  "4_analysis/results/30_fig1_glmm_nagq1/glmm_mode_contrasts.csv",
+  "4_analysis/results/30_fig1_glmm_nagq1/glmm_origin.csv",
+  "4_analysis/results/30_fig1_glmm_nagq1/glmm_interaction_ps_vs_control.csv",
+  "4_analysis/results/31_fig1_glmm_scale_nagq1/glmm_scale_trend.csv",
+  "4_analysis/results/31_fig1_glmm_scale_nagq1/glmm_scale_interaction_ps_vs_control.csv",
+  "4_analysis/results/31_fig1_glmm_standing_nagq1/glmm_standing_trend.csv",
+  "4_analysis/results/31_fig1_glmm_standing_nagq1/glmm_standing_interaction_ps_vs_control.csv",
+  "4_analysis/results/39_fig2_order_stats/order_agreement_tests.csv"
+ ],
+ "tables": [
+  "bh_families",
+  "changed_at_q05"
+ ],
+ "figures": []
+}

@@ -37,7 +37,7 @@ from statsmodels.stats.multitest import multipletests  # noqa: E402
 from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import file_digest  # noqa: E402
 
-NAME = "60_fig4_ai_level_glmm"
+NAME = "60_fig4_ai_level_glmm_nagq1"
 SRC_ROWS = HERE / "results" / "22_d3_ai_final" / "analysis_rows.csv.gz"
 SRC_LEVEL = HERE / "results" / "59_fig4_by_dimension" / "bias_direction_by_level_per_model.csv"
 R_SCRIPT = HERE / "r" / "glmm_ai_level.R"
@@ -87,7 +87,7 @@ def main():
         status="tests del panel 4 (pedido de Nico, 18/09); lectura pendiente")
     res.inputs([str(SRC_ROWS.relative_to(ROOT)), str(SRC_LEVEL.relative_to(ROOT)), str(R_SCRIPT.relative_to(ROOT))])
     res.data("Filas válidas del bloque 22 (24 modelos × 504 prompts de poder + 192 de control × 2 condiciones); sesgo por modelo y nivel del bloque 59.")
-    res.method("GLMM (lme4::glmer, nAGQ = 0, || primero, bobyqa + nlminbwrap, Wald; glmm_ai_level.R): refuse ~ ai * level + (1 + ai || model) + "
+    res.method("GLMM (lme4::glmer, nAGQ = 1, || primero, bobyqa + nlminbwrap, Wald; glmm_ai_level.R): refuse ~ ai * level + (1 + ai || model) + "
                "(1 | prompt_id) por modo; ai = ±0,5; nivel de referencia = individual / low. Ómnibus: Wald χ² (2 gl) sobre los dos términos ai:level. "
                "BH: ómnibus sobre 4 modos por dimensión; contrastes sobre 12 por dimensión. t pareada: por modelo, sesgo(nivel 3) − sesgo(nivel 1), "
                "modelos con discordantes en ambos niveles; BH sobre 4 modos por dimensión.")

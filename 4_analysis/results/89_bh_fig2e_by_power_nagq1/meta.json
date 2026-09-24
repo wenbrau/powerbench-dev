@@ -1,0 +1,17 @@
+{
+ "name": "89_bh_fig2e_by_power_nagq1",
+ "title": "Figura 2 E: BH por potencia para los OR de dirección (bloque 46)",
+ "question": "Con la familia definida por la pregunta de cada subpanel (una potencia), ¿qué contrastes de dirección sobreviven la corrección?",
+ "status": "pedido de Nico (22/09, #25-#26): familias por potencia en lugar de juntar EE.UU. y China",
+ "date": "2026-09-24",
+ "commit": "17ae987",
+ "conclusion": "0 de 48 tests cambian de lado de q = 0.05 al corregir por potencia.",
+ "inputs": [
+  "4_analysis/results/46_fig3_direction_glmm_nagq1/direction_glmm.csv",
+  "4_analysis/results/46_fig3_direction_glmm_nagq1/direction_glmm_by_dyad.csv"
+ ],
+ "tables": [
+  "bh_by_power"
+ ],
+ "figures": []
+}

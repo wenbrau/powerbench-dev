@@ -10,7 +10,7 @@
 #                 mide cuánto difieren los modelos en el efecto.
 #   ai_origin_US  refuse ~ ai * cn + ...    ai = efecto en modelos US; ai:cn = diferencia CN − US (el test de origen)
 #   ai_origin_CN  refuse ~ ai * us + ...    ai = efecto en modelos CN (misma verosimilitud, otra parametrización)
-# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 0, || primero y correlacionada si no converge, bobyqa y nlminbwrap,
+# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 1, || primero y correlacionada si no converge, bobyqa y nlminbwrap,
 # Wald, ajuste singular aceptado.
 #
 # Uso:  Rscript glmm_ai_origin.R <datos.csv> <salida.csv>

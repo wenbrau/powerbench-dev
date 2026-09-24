@@ -12,7 +12,7 @@
 #            (3) apilado, todos los modos:       refuse ~ ai * cap_z * ps + mode + (1 + ai || model) + (1 | prompt_id)
 #                ps = 1 power-shifting, 0 control → ai:cap_z = pendiente en el control; ai:cap_z:ps = diferencia ps − control;
 #                pendiente en power-shifting = combinación lineal con vcov.
-# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 0, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald,
+# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 1, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald,
 # ajuste singular aceptado.
 #
 # Uso:  Rscript glmm_ai_capability.R <datos.csv> <salida.csv> <bymode|pooled>

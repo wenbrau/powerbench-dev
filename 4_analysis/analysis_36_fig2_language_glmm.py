@@ -15,7 +15,7 @@ Por modo (he, de, pg, control):
   ¿cuál?; SD del efecto aleatorio modelo × idioma contra la SD de los 8 efectos fijos = ¿cuánto es promedio y
   cuánto por modelo?
 - Regla permanente: nemotron-3.5-lightning y nova-2-lite sin swahili.
-- Protocolo del 16/09: nAGQ = 0, bobyqa y nlminbwrap, Wald, singular aceptado (glmm_common.R).
+- Protocolo del 16/09 con nAGQ = 1 desde el 24/09, bobyqa y nlminbwrap, Wald, singular aceptado (glmm_common.R).
 
 Ejecutar desde la raíz del repo:  python 4_analysis/analysis_36_fig2_language_glmm.py
 Requiere Rscript con lme4. Sin llamadas a ninguna API.
@@ -43,7 +43,7 @@ import pandas as pd  # noqa: E402
 from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import load_d1_multilingual, MODES, file_digest  # noqa: E402
 
-NAME = "36_fig2_language_glmm"
+NAME = "36_fig2_language_glmm_nagq1"
 LANGS = ["en", "de", "fr", "es", "pt", "zh", "hi", "sw"]
 LANG_NAME = {"en": "English", "de": "German", "fr": "French", "es": "Spanish", "pt": "Portuguese", "zh": "Chinese", "hi": "Hindi", "sw": "Swahili"}
 EXCL_SW = {"nemotron-3.5-lightning", "nova-2-lite"}
@@ -102,7 +102,7 @@ def main():
                "desviación respecto de la media del modo (log-odds), z de Wald, p y BH sobre 8. Descomposición: SD del "
                "intercepto aleatorio modelo × idioma (variación del efecto del idioma entre modelos) contra la SD "
                "poblacional de las 8 desviaciones fijas (variación del efecto promedio entre idiomas).")
-    res.method(f"Estimación: lme4::glmer {lme4_version} en {r_version}, nAGQ = 0 (decisión del 16/09), sin priors; script "
+    res.method(f"Estimación: lme4::glmer {lme4_version} en {r_version}, nAGQ = 1 (Laplace; 24/09, antes nAGQ = 1), sin priors; script "
                "4_analysis/r/glmm_language.R (común: glmm_common.R); bobyqa y nlminbwrap; Wald; singular aceptado.")
 
     om_rows, dev_rows, coef_rows = [], [], []
@@ -161,7 +161,7 @@ def main():
                      "4_analysis/r/glmm_language.R": file_digest(R_SCRIPT),
                      "4_analysis/r/glmm_common.R": file_digest(HERE / "r" / "glmm_common.R"),
                      "4_analysis/pbanalysis/final_panel.py": file_digest(HERE / "pbanalysis/final_panel.py")},
-            "excluded_sw": sorted(EXCL_SW), "estimator": f"lme4::glmer {lme4_version}, {r_version}, nAGQ = 0"}
+            "excluded_sw": sorted(EXCL_SW), "estimator": f"lme4::glmer {lme4_version}, {r_version}, nAGQ = 1"}
     (out / "provenance.json").write_text(json.dumps(prov, indent=2, ensure_ascii=False), encoding="utf-8")
     print("wrote", out)
 

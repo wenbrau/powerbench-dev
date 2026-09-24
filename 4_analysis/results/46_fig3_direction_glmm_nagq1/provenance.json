@@ -1,0 +1,21 @@
+{
+  "inputs": {
+    "common/models_panel.py": "e46b8e80a7bad2bd9fe4057bda4fe8a45cfc783462d00eb3bc0f11d22e526bcc",
+    "current/banks/dataset2_control_dyads_geobloc.v1.1.jsonl": "e3a70710344483ebf867a5e4958105196c351de50e42a85a88f9c6eb684edb26",
+    "current/banks/dataset2_dyads_geobloc.v2.jsonl": "cd23b198e86ed82d78690cf79ecbb84565cd89c44b8bde5515149f07d73c6616",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d2_geobloc_A19_pinned_off.jsonl": "21e776286e98b76fffb9001647cca4c27523b02ea291973ec43093276a9ecd22",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d2_geobloc_v1.1_6models_pinned_off.jsonl": "c3cf11088f11eb352fef7a7a8c6924010168c8b5af4394bebed20c06fadad41c",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d2_geobloc_v1.1_6models_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "9de0f4da450dcb31874048a7a553a6dfef2b9ccdbd62a3421603b1e225d598d2",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d2_geobloc_v1.1_newconds_6models_pinned_off.jsonl": "dcade724351471472be8ff0bb5fb3e022b94abe46af908a31456e8c94f426fad",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d2_geobloc_A19_pinned_off.jsonl": "bb8eece68e3fd7aee6c7f27a93a99bce0a4d7edd9a78efa6502f53de0cc79a69",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d2_geobloc_v2_6models_pinned_off.jsonl.gz": "6e93309c137a64d22af8239c45ec26c13fd183877d265acc0ada04c656a80766",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d2_geobloc_v2_6models_pinned_off.rejudge_deepseek-v4-flash-0731.jsonl": "7c4821b925e47d630f56f5e9c8f448759d815102215a6d6803d066636cfd6b46",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d2_geobloc_v2_6models_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "0acf43df52ca3504fc8d7075eef5ad9e515f2a8f41a77ae3ed5108616fafa741",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d2_geobloc_v2_newconds_6models_pinned_off.jsonl": "3a9f46a01a0cf1b3180f14d00c99b451182427887f1ddc64ea377ae729d4ada4",
+    "4_analysis/r/glmm_direction.R": "6d11f25e7246245996a044a5c83459a326d94c8dbb95ca24470ca3c96979d42e",
+    "4_analysis/r/glmm_common.R": "39442dc1639be3d4c7fef81842592bdb2ed800d4674024670d4253e44f1f218d"
+  },
+  "code": {
+    "4_analysis\\analysis_46_fig3_direction_glmm.py": "e5721f1315b3169f7426f076574b378de0e16a6e83de567c6f9ff6a993ff7f2d"
+  }
+}

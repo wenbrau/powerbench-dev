@@ -1,0 +1,32 @@
+{
+ "name": "93_specificity_interactions",
+ "title": "Tests directos de especificidad: interacciones que faltaban para las afirmaciones de 'específico'",
+ "question": "¿El efecto que el paper llama específico de un tipo de pedido difiere significativamente del mismo efecto en el tipo con el que se lo compara? (diferencia de pendientes en un mismo ajuste, no significativo contra no significativo)",
+ "status": "computado a pedido de Nico (24/09), rama nagq1-rerun (nAGQ = 1); lectura pendiente del equipo",
+ "date": "2026-09-24",
+ "commit": "17ae987",
+ "conclusion": "",
+ "inputs": [
+  "common/models_panel.py",
+  "current/banks/dataset2_control_dyads_geobloc.v1.1.jsonl",
+  "current/banks/dataset2_dyads_geobloc.v2.jsonl",
+  "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d2_geobloc_A19_pinned_off.jsonl",
+  "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d2_geobloc_v1.1_6models_pinned_off.jsonl",
+  "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d2_geobloc_v1.1_6models_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl",
+  "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d2_geobloc_v1.1_newconds_6models_pinned_off.jsonl",
+  "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d2_geobloc_A19_pinned_off.jsonl",
+  "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d2_geobloc_v2_6models_pinned_off.jsonl.gz",
+  "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d2_geobloc_v2_6models_pinned_off.rejudge_deepseek-v4-flash-0731.jsonl",
+  "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d2_geobloc_v2_6models_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl",
+  "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d2_geobloc_v2_newconds_6models_pinned_off.jsonl",
+  "4_analysis/r/glmm_specificity.R",
+  "4_analysis/r/glmm_common.R",
+  "4_analysis/inputs/openrouter_usage/usage_30d_2026-08-18_2026-09-16.csv",
+  "4_analysis/review_fig_languages_22models/panelD_bootstrap_draws.npz"
+ ],
+ "tables": [
+  "specificity_tests",
+  "glmm_specificity_fits"
+ ],
+ "figures": []
+}

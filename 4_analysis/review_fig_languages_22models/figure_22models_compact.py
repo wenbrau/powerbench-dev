@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 
 # ---------------------------------------------------------------- las mismas redirecciones que figure_22models.py
-fp.GLMM36 = HERE / "glmm"
+fp.GLMM36 = HERE / "glmm_nagq1"
 fp.TB = HERE / "panelD_bootstrap.csv"
 fp.TC = HERE / "panelF_test_stats_power_shifting.csv"
 fp.TD = HERE / "F6_exceso_ps.csv"
@@ -160,7 +160,7 @@ def build(d):
     for ext in ("pdf", "png"):
         out = HERE / f"figure_22models_compact_en.{ext}"; fig.savefig(out, dpi=300); print("escrito:", out.relative_to(ROOT))
     plt.close(fig)
-    stray = HERE / "figure_paper_v2_bh_q_values.csv"
+    stray = HERE / fv2.BHQ_NAME
     if stray.exists():
         stray.unlink()
 

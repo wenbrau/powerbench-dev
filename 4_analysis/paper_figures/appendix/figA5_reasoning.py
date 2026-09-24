@@ -52,7 +52,7 @@ def panel(ax, d, mode):
 
 def main():
     restyle()
-    d = pd.read_csv(RESULTS / "68_reasoning_glmm" / "panel_a_curves.csv")
+    d = pd.read_csv(RESULTS / "68_reasoning_glmm_nagq1" / "panel_a_curves.csv")
     fig = plt.figure(figsize=(5.5, 1.8), layout="constrained")
     fig.get_layout_engine().set(w_pad=.02, h_pad=.04, wspace=.03)
     gs = fig.add_gridspec(1, 4)

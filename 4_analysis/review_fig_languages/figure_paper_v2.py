@@ -204,6 +204,9 @@ def bh(p):
     return multipletests(np.asarray(p, float), method="fdr_bh")[1]
 
 
+BHQ_NAME = "figure_paper_v2_bh_q_values_nagq1.csv"   # 24/09: q de los GLMM con nAGQ = 1; el csv sin sufijo es la versión nAGQ = 0
+
+
 def bh_q():
     rows = []
     b = pd.read_csv(fp.GLMM36 / "glmm_language_by_language.csv"); b = b[b.fit.str.startswith("A_")].copy(); b["mode"] = b.fit.str[2:]
@@ -228,7 +231,7 @@ def bh_q():
     c = float(st[(st.test == "test2_blockperm") & (st.quantity == "dentro − mixto")].p.iloc[0])
     rows.append(dict(panel="F", family="test único", test="dentro − mixto", p=c, q=c))
     out = pd.DataFrame(rows); out["sig_p05"] = out.p < .05; out["sig_q05"] = out.q < .05
-    out.to_csv(HERE / "figure_paper_v2_bh_q_values.csv", index=False)
+    out.to_csv(HERE / BHQ_NAME, index=False)
     return qa, qd, qf, out
 
 

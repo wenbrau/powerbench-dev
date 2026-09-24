@@ -7,7 +7,7 @@
 #   side   refuse ~ side [+ dyad si el conjunto tiene más de una díada] + (1 + side || model) + (1 | prompt_id)
 #          side = +0,5 si el usuario es del lado A (USA o su aliado), −0,5 si es del lado B; el coeficiente es el log-OR
 #          de refusal usuario-lado-A contra usuario-lado-B. Misma codificación y protocolo que glmm_side.R (glmm_common.R:
-#          lme4::glmer, nAGQ = 0, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald, singular aceptado).
+#          lme4::glmer, nAGQ = 1, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald, singular aceptado).
 #
 # Uso:  Rscript glmm_side_sets.R <datos.csv> <salida.csv>
 # datos.csv: columnas refuse (0/1), mode, set, dyad, side (+0.5 / -0.5), prompt_id, model.

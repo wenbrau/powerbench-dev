@@ -1,0 +1,17 @@
+{
+ "name": "94_pg_excess_logodds",
+ "title": "Exceso de PG sobre la suma de SE y DE, medido en log-odds",
+ "question": "¿PG se rechaza más que la suma de sus dos componentes cuando el exceso se mide y se promedia en log-odds?",
+ "status": "pedido de Nico (24/09), a partir de la revisión de otro Claude; lectura pendiente",
+ "date": "2026-09-24",
+ "commit": "17ae987",
+ "conclusion": "",
+ "inputs": [
+  "4_analysis/results/25_fig1_notelab/components_excess_per_model.csv"
+ ],
+ "tables": [
+  "logodds_excess_tests",
+  "logodds_excess_per_model"
+ ],
+ "figures": []
+}

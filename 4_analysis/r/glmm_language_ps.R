@@ -7,7 +7,7 @@
 #   lang en contrastes suma-cero: cada coeficiente es la desviación del idioma respecto de la media de los 8; el 8º se deriva como
 #   −(suma de los otros 7) con su varianza desde vcov; Wald por idioma, BH sobre los 8; ómnibus χ² con 7 gl. (1 | model_lang) es el
 #   perfil de idioma propio de cada modelo (como en el bloque 36 y en glmm_fig1_v3.R). Variante mínima sin él si no converge.
-#   Protocolo de glmm_common.R (nAGQ = 0, bobyqa y nlminbwrap, Wald, singular aceptado).
+#   Protocolo de glmm_common.R (nAGQ = 1, bobyqa y nlminbwrap, Wald, singular aceptado).
 #
 # Uso:  Rscript glmm_language_ps.R <datos.csv> <salida.csv>
 # datos.csv: columnas refuse (0/1), mode (he/de/pg), prompt_id, model, lang (entero 1..8 en el orden que pasa el Python).

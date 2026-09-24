@@ -27,11 +27,11 @@ SRC = {"A_levels": RESULTS / "54_fig4_levels_box" / "levels_pooled.csv",
        "A_delta": RESULTS / "54_fig4_levels_box" / "delta_paired_pooled.csv",   # Δ pareado, bootstrap sobre prompts (bloque 22). 20/09: se probó el Δ del GLMM (bloque 85) y Wendy volvió al bootstrap: el bigote de un gráfico de niveles tiene que coincidir con la brecha entre barras; el test oficial sigue siendo el GLMM (85) y el caption lo dice
        "B": RESULTS / "56_fig4_bias_direction" / "bias_direction_summary.csv",
        "B_ps": RESULTS / "76_fig4_direction_ps_vs_control" / "levels.csv", "B_test": RESULTS / "76_fig4_direction_ps_vs_control" / "ps_vs_control_summary.csv",
-       "C_cells": RESULTS / "60_fig4_ai_level_glmm" / "scale_4x2_cells.csv", "C_t": RESULTS / "60_fig4_ai_level_glmm" / "bias_direction_paired_t.csv",
+       "C_cells": RESULTS / "60_fig4_ai_level_glmm_nagq1" / "scale_4x2_cells.csv", "C_t": RESULTS / "60_fig4_ai_level_glmm_nagq1" / "bias_direction_paired_t.csv",
        "DE": RESULTS / "59_fig4_by_dimension" / "bias_direction_by_level.csv",
-       "F_pm": RESULTS / "84_fig3f_ivw" / "capability_per_model_log_or_ivw.csv", "F_glmm": RESULTS / "64_fig4_capability_glmm" / "capability_glmm.csv",
-       "cap": RESULTS / "30_fig1_glmm" / "capability_index.csv",
-       "bh83": RESULTS / "83_bh_fig3f_fig2b" / "bh_families.csv"}   # q de la interacción IA × capacidad (familia = power shifting y control)
+       "F_pm": RESULTS / "84_fig3f_ivw_nagq1" / "capability_per_model_log_or_ivw.csv", "F_glmm": RESULTS / "64_fig4_capability_glmm_nagq1" / "capability_glmm.csv",
+       "cap": RESULTS / "30_fig1_glmm_nagq1" / "capability_index.csv",
+       "bh83": RESULTS / "83_bh_fig3f_fig2b_nagq1" / "bh_families.csv"}   # q de la interacción IA × capacidad (familia = power shifting y control)
 CONTEXTS = ["Academia", "Diplomacy", "Fiction", "Government", "Interpersonal", "Markets", "Media", "Work"]
 DOMAINS = ["Attentional", "Epistemic", "Legal", "Physical", "Rank", "Status", "Wealth"]
 BAR = {"human": ("#CFCFCF", "#6E6E6E"), "ai": ("#7A7A7A", "#1F1F1F")}

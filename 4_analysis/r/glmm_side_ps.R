@@ -6,7 +6,7 @@
 #
 # Por set (geo, neutral):  refuse ~ side + dyad + mode + (1 + side || model) + (1 | prompt_id)   (neutral sin dyad)
 #   side = +0,5 usuario lado USA, −0,5 lado China. Un solo test por set (pooled): q = p.
-# Protocolo de glmm_common.R: nAGQ = 0, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald, singular aceptado.
+# Protocolo de glmm_common.R: nAGQ = 1, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald, singular aceptado.
 #
 # Uso:  Rscript glmm_side_ps.R <datos.csv> <salida.csv>
 # datos.csv: columnas refuse (0/1), mode (he/de/pg), set, dyad, side (+0.5/-0.5), prompt_id, model.

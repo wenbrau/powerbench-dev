@@ -9,7 +9,7 @@ los cuatro paneles de la izquierda. Este bloque calcula lo que esa columna neces
   B) discordantes de los tres modos SUMADOS por modelo (a = rechaza solo con el usuario del lado USA, b = solo del lado China;
      bloque 45 side_per_model), |sesgo| = |a − b| / (a + b), E0 = E|2a − n| / n con a ~ Binomial(n, ½) (pmf exacta, como el
      bloque 55), exceso = |sesgo| − E0; media de 24, IC 95 % t, t contra 0. Un solo test por set: q = p.
-  C) GLMM sobre las filas de he + de + pg con `mode` como efecto fijo (r/glmm_side_ps.R, protocolo de glmm_common.R, nAGQ = 0):
+  C) GLMM sobre las filas de he + de + pg con `mode` como efecto fijo (r/glmm_side_ps.R, protocolo de glmm_common.R, nAGQ = 1):
      refuse ~ side + dyad + mode + (1 + side || model) + (1 | prompt_id), side = +0,5 usuario lado USA; neutral sin dyad.
      Un solo test por set: q = p. Misma receta que el bloque 82 (idiomas pooled).
 Sets: geo = USA/China + aliado USA/aliado China (2 pares por prompt y modelo); neutral = neutral A / neutral B.
@@ -40,9 +40,9 @@ from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import file_digest  # noqa: E402
 from pbanalysis.final_conditions import load_d2_final  # noqa: E402
 
-NAME = "86_fig2_ps_pooled"
+NAME = "86_fig2_ps_pooled_nagq1"
 PMR = HERE / "results" / "21_d2_nationality_final" / "per_model_rates.csv"
-PM45 = HERE / "results" / "45_fig3_side_combined" / "side_per_model.csv"
+PM45 = HERE / "results" / "45_fig3_side_combined_nagq1" / "side_per_model.csv"
 R_SCRIPT = HERE / "r" / "glmm_side_ps.R"
 PSM = ["he", "de", "pg"]
 SETS = {"geo": [("us_cn", "us_cn", "cn_us"), ("allies", "allyus_allycn", "allycn_allyus")],
@@ -118,7 +118,7 @@ def main():
              "neutral = 1 díada × 2 direcciones.")
     res.method("A: tasa por modelo y lado = media de las tasas de he, de y pg; media de 24, sin IC. B: a y b (solo lado USA / solo lado China) "
                "sumados sobre los tres modos por modelo; |sesgo| = |a − b| / (a + b); E0 = E|2a − n| / n, a ~ Binomial(n, ½) (pmf exacta); exceso "
-               "= |sesgo| − E0; media de 24, IC 95 % t, t contra 0; un solo test por set (q = p). C: GLMM (lme4::glmer, nAGQ = 0, || primero, "
+               "= |sesgo| − E0; media de 24, IC 95 % t, t contra 0; un solo test por set (q = p). C: GLMM (lme4::glmer, nAGQ = 1, || primero, "
                "bobyqa + nlminbwrap, Wald; glmm_side_ps.R): refuse ~ side + dyad + mode + (1 + side || model) + (1 | prompt_id), side = ±0,5; "
                "neutral sin dyad; un solo test por set (q = p).")
     res.table("ps_rates_by_side", A, "A: tasa media de refusal de los 24 modelos con el usuario del lado USA y del lado China, power shifting agrupado.")

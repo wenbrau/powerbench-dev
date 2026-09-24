@@ -1,0 +1,10 @@
+{
+ "mean_log_or_pooled": {
+  "est": 0.408331491272843,
+  "lo": null,
+  "hi": null,
+  "p": null,
+  "unit": "log-OR, media de 24 modelos",
+  "note": "ivw 0.435; media simple 0.442; Spearman directo vs ivw 0.996"
+ }
+}

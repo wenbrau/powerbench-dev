@@ -56,7 +56,7 @@ NO_TEMP = {"gpt-5.6-luna", "gpt-5.6-sol", "gpt-5.6-terra", "sonnet-5"}
 
 cap = {r["model"]: r for r in read_csv(R / "19_d1_final" / "capability_vs_refusal.csv")}
 wts = {r["model"]: r for r in read_csv(R / "72_fig2_usage_weighted_requests" / "weights.csv")}
-rates = {r["model"]: r for r in read_csv(R / "78_fig1_v3" / "rates_per_model.csv")}
+rates = {r["model"]: r for r in read_csv(R / "78_fig1_v3_nagq1" / "rates_per_model.csv")}
 
 rows = []
 for m, c in cap.items():

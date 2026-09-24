@@ -1,0 +1,29 @@
+{
+  "inputs": {
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d1_en_A19_pinned_off.jsonl.gz": "79c6cab0b45e27c2936cabdb59128addd513ca4e622ae13a366e38d96cf480d6",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d1_en_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "479bcc5f6f28b5b1cd0bdbd4652edbe826754ba3dcd3ffb90a49d21f69db5aeb",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d1_v6r2_7models_pinned_off_en.jsonl": "b872ab1c6616c71c87da295b26a5e769e43c06c3c206de2ece10bfe60cf09b8e",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d1_v6r2_7models_pinned_off_en.rejudge_deepseek-v4-flash-0731.jsonl": "8ecd2556218c2cf7c200a1de635a1b5feaf6d84ebf8c49fe9bc8512a2f580e77",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d1_v6r2_7models_pinned_off_en.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "47ef17aa7a5877b9de1eae2d7d1d3e2a946321df68d5acf4268c9a73be3936a5",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d1_en_A19_pinned_off.jsonl.gz": "3f589caf5fe79fc3a89718b0dbd0bde947e05148b8c39afdc9cd4fdccaeaf96f",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d1_en_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "165e62002b716dc51268a089aa6a557ab5c16b01a567e37fc0777aa2f4efcb91",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control192_v1.1_multilang_6models_pinned_off.jsonl": "61d832f595fdbc1f39dbea93a8d09237bb41234a53916f65389891ad97ed6e34",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control192_v1.1_multilang_6models_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "a8d6c14d9feb8474b6b93d99387f6f795768528f048ffc23a107d86bb3671b50",
+    "current/banks/dataset1_full_576.v6r2.multilang.verified.jsonl": "ae8cd5d5e0bc382e319ce4498a947fdf96472b05842c00e73c61925e28d06d2a",
+    "current/banks/dataset1_control_192.v1.1.jsonl": "d1b711605266b85ee62e84ab158d8513f0dc3e09d81866796d3d0f5f57e3658d",
+    "common/models_panel.py": "e46b8e80a7bad2bd9fe4057bda4fe8a45cfc783462d00eb3bc0f11d22e526bcc",
+    "current/runs/capability_probe_off.jsonl": "feafd8e1930135941bf17fa37a5e0f9df4071cdb69a60d982a788578fce64ebb"
+  },
+  "code": {
+    "4_analysis\\analysis_30_fig1_glmm.py": "db640255148031d07a1809ef187c309b451e3000475376ddcb761c219ea0d20b",
+    "4_analysis/r/glmm_origin.R": "3aac703b1a6adabb2de3a3f70f434280f573916df030dc6f86404e6f469c6379",
+    "4_analysis/r/glmm_modes.R": "d989e175d7a572f55e333ecf04eaf5df2cb0bfd01a20e9df766d76cdf658d0a2",
+    "4_analysis/r/glmm_common.R": "39442dc1639be3d4c7fef81842592bdb2ed800d4674024670d4253e44f1f218d",
+    "4_analysis/results/25_fig1_notelab/mode_contrasts_per_model.csv": "96480f9b064798ab60a9ad27e27d57dea5ad58ad4172b87182fe200bc4db4bf9",
+    "4_analysis/pbanalysis/final_panel.py": "ca6b49d58690a14b730a4831524e52378118b5c544c24cd14461d86ab2ba87ed",
+    "4_analysis/analysis_08_capability.py": "807b65c13a6b9fb41866b51db420d0c031eb5f82553aa91817abf28e4d98f2d3"
+  },
+  "estimator": "lme4::glmer 2.0.6, R version 4.6.1 (2026-06-24 ucrt)",
+  "rscript": "C:\\Program Files\\R\\R-4.6.1\\bin\\Rscript.EXE",
+  "seed_capability": 25
+}

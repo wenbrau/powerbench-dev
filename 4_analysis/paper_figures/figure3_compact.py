@@ -28,10 +28,10 @@ CTX_SHORT = {"Academia": "Acad.", "Diplomacy": "Dipl.", "Fiction": "Fict.", "Gov
              "Attentional": "Attn.", "Epistemic": "Epist.", "Legal": "Legal", "Physical": "Phys.", "Rank": "Rank", "Status": "Status", "Wealth": "Wealth"}
 BIAS_LIM, BIAS_TICKS = (-.1, .9), [0, .2, .4, .6, .8]   # B and C share one scale (22/09); two C intervals dip below 0, so the axis does too; headroom for stars and the C legend
 # panel A: GLMM q of the AI effect by request type (block 85); panel B: PS - control, t test across models (block 76)
-Q85 = pd.read_csv(RESULTS / "85_fig3a_glmm" / "ai_glmm_main.csv").set_index("mode").q_bh
+Q85 = pd.read_csv(RESULTS / "85_fig3a_glmm_nagq1" / "ai_glmm_main.csv").set_index("mode").q_bh
 T76 = pd.read_csv(RESULTS / "76_fig4_direction_ps_vs_control" / "ps_vs_control_summary.csv").set_index("contrast").loc["power_shifting - control"]
 # panel F: q of the AI x capability slope, BH over power shifting and the control (block 83)
-_B83 = pd.read_csv(RESULTS / "83_bh_fig3f_fig2b" / "bh_families.csv")
+_B83 = pd.read_csv(RESULTS / "83_bh_fig3f_fig2b_nagq1" / "bh_families.csv")
 Q83F = _B83[(_B83.block == 64) & (_B83.panel == "F") & (_B83.n_family == 2)].set_index("test").q_bh
 
 

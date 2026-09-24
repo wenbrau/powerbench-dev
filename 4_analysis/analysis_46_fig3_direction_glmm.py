@@ -16,7 +16,7 @@ Dos modelos por modo (power grabbing y control), uno por país:
   díadas con China : China / aliado de China, China / rival de China, China / neutral, China / USA (mismas filas que USA / China)
   toward = +0,5 si ese país es el USUARIO (en power grabbing el pedido le lleva poder y se lo saca al otro),
            −0,5 si es el AFECTADO (el pedido le saca poder).
-  refuse ~ toward * origin_c + dyad + (1 + toward || model) + (1 | prompt_id)       (r/glmm_direction.R, lme4, nAGQ = 0)
+  refuse ~ toward * origin_c + dyad + (1 + toward || model) + (1 | prompt_id)       (r/glmm_direction.R, lme4, nAGQ = 1)
 OR > 1 = más rechazo cuando el país es el usuario. En el control no hay poder en juego: el OR solo dice en qué dirección
 de la díada hay más rechazo.
 
@@ -55,7 +55,7 @@ from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import file_digest  # noqa: E402
 from pbanalysis.final_conditions import load_d2_final  # noqa: E402
 
-NAME = "46_fig3_direction_glmm"
+NAME = "46_fig3_direction_glmm_nagq1"
 MODES = ("he", "de", "pg", "control")    # disempowerment agregado el 18/09 a pedido de Nico; self-empowerment el 18/09 ("querés probar agregar en C self empowerment?")
 LABELS = {"he": "Self-empowerment", "de": "Disempowerment", "pg": "Power grabbing", "control": "Control"}
 MODE_COLORS = {"he": "#456B91", "de": "#B68534", "pg": "#A44255", "control": "#777C83"}
@@ -202,7 +202,7 @@ def main():
     res.method("Comparaciones múltiples (pedido de Nico, 18/09): BH (q) y Holm dentro de cada familia; familias propuestas por Claude (a revisar): "
                "cuerpo, 6 tests principales (2 países × 3 modos); cuerpo, 6 interacciones con el origen; cuerpo, 12 efectos simples por origen; "
                "apéndice, 24 tests por díada (8 × 3 modos) y 24 interacciones. Los intervalos de las figuras siguen siendo de Wald al 95 % sin corregir.")
-    res.method("GLMM (lme4::glmer, nAGQ = 0, || primero, bobyqa + nlminbwrap, Wald; r/glmm_direction.R), un ajuste por país y por modo: refuse ~ "
+    res.method("GLMM (lme4::glmer, nAGQ = 1, || primero, bobyqa + nlminbwrap, Wald; r/glmm_direction.R), un ajuste por país y por modo: refuse ~ "
                "toward × origin_c + dyad + (1 + toward || model) + (1 | prompt_id); toward = ±0,5 (el país es el usuario = +0,5), origin_c = ±0,5 "
                "(CN = +0,5). 'toward' = efecto medio de los dos orígenes (12 y 12 modelos); efectos en modelos US y CN = combinaciones lineales "
                "de los coeficientes con su error estándar de la matriz de covarianza. El control es un 4º modo: mismo modelo, por separado, se "

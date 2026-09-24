@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Paso 1 — panel A: el GLMM del bloque 36 (analysis_36_fig2_language_glmm.py) sobre los 22 modelos.
-Por modo: refuse ~ idioma (suma-cero) + (1|prompt) + (1|model) + (1|model:idioma); lme4::glmer, nAGQ = 0, Wald, BH sobre los 8 idiomas.
+Por modo: refuse ~ idioma (suma-cero) + (1|prompt) + (1|model) + (1|model:idioma); lme4::glmer, nAGQ = 1, Wald, BH sobre los 8 idiomas.
 Mismo R script (4_analysis/r/glmm_language.R). Salida: glmm/glmm_language_by_language.csv, glmm_fixed_effects.csv,
 glmm_language_omnibus.csv, glmer_raw.csv (mismas columnas que el bloque 36, que es lo que lee figure_paper.panel_a1)."""
 import shutil
@@ -17,7 +17,7 @@ from _common import HERE, ROOT, MODES, LANGS, LANG_NAME, load22, write_provenanc
 R_SCRIPT = ROOT / "4_analysis/r/glmm_language.R"
 LABELS = {"he": "Self-empowerment", "de": "Disempowerment", "pg": "Power grabbing", "control": "Control"}
 LANGS36 = ["en", "de", "fr", "es", "pt", "zh", "hi", "sw"]     # el orden 1..8 del bloque 36
-OUT = HERE / "glmm"
+OUT = HERE / "glmm_nagq1"   # nAGQ = 1 (24/09); la versión nAGQ = 1 sigue en glmm/
 
 
 def main():
@@ -66,7 +66,7 @@ def main():
     print(pd.DataFrame(om_rows)[["fit", "omnibus_chi2", "p", "sd_prompt", "sd_model", "sd_model_lang", "sd_fixed_lang", "singular", "fit_seconds"]].round(3).to_string(index=False))
     print(pd.DataFrame(dev_rows)[["fit", "lang", "dev_logodds", "se", "p", "p_bh"]].round(4).to_string(index=False))
     write_provenance("step1_glmm", inputs, [__file__, R_SCRIPT, ROOT / "4_analysis/r/glmm_common.R"],
-                     estimator=f"lme4::glmer {o.lme4_version.iloc[0]}, {o.r_version.iloc[0]}, nAGQ = 0")
+                     estimator=f"lme4::glmer {o.lme4_version.iloc[0]}, {o.r_version.iloc[0]}, nAGQ = 1")
     print("wrote", OUT)
 
 

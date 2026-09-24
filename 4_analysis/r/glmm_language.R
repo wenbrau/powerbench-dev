@@ -10,7 +10,7 @@
 # el perfil de idiomas propio de cada modelo y entra en el error del efecto fijo. Ómnibus: Wald conjunto
 # b' V⁻¹ b, χ² con 7 gl. Por idioma: z de Wald, p, BH sobre 8. Se reportan las SD de los tres efectos
 # aleatorios para la descomposición "promedio vs por modelo".
-# Protocolo del 16/09 (glmm_common.R): nAGQ = 0, bobyqa y nlminbwrap, Wald, singular aceptado.
+# Protocolo del 16/09 (glmm_common.R): nAGQ = 1, bobyqa y nlminbwrap, Wald, singular aceptado.
 # Variante 2 si no converge: sin (1 | model:lang).
 #
 # Uso:  Rscript glmm_language.R <datos.csv> <salida.csv>

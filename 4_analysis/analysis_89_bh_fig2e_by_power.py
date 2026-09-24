@@ -29,8 +29,8 @@ from statsmodels.stats.multitest import multipletests  # noqa: E402
 from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import file_digest  # noqa: E402
 
-NAME = "89_bh_fig2e_by_power"
-B46 = HERE / "results" / "46_fig3_direction_glmm"
+NAME = "89_bh_fig2e_by_power_nagq1"
+B46 = HERE / "results" / "46_fig3_direction_glmm_nagq1"
 SRC = {"pooled": B46 / "direction_glmm.csv", "dyad": B46 / "direction_glmm_by_dyad.csv"}
 Q = "direccion (24 modelos)"
 QX = "direccion x origen (CN - US)"   # interacción con el país del desarrollador (22/09, ronda 8)

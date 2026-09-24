@@ -10,7 +10,7 @@
 #         ctx_ps       refuse ~ ctx + mode + (1 | model) + (1 | model_ctx) + (1 | prompt_id)
 #         dom_ps       refuse ~ dom + mode + (1 | model) + (1 | model_dom) + (1 | prompt_id)
 #       El intercepto por modelo × nivel es el perfil propio de cada modelo (como en glmm_context.R); variante mínima sin
-#       él si no converge. Protocolo de glmm_common.R (nAGQ = 0, bobyqa y nlminbwrap, Wald, singular aceptado).
+#       él si no converge. Protocolo de glmm_common.R (nAGQ = 1, bobyqa y nlminbwrap, Wald, singular aceptado).
 #
 # Uso:  Rscript glmm_fig1_v3.R <datos.csv> <salida.csv>
 # datos.csv: columnas refuse (0/1), mode (he/de/pg/control), prompt_id, model, cn (0/1), ctx (1..8), dom (1..8).

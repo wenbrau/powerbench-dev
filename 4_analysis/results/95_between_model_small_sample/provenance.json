@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "4_analysis\\results\\30_fig1_glmm_nagq1\\glmm_origin.csv": "c33bf3db738a2072ee3adcc041334331e3539a8b095e2964d6f8cd337925e348",
+    "4_analysis\\results\\30_fig1_glmm_nagq1\\glmm_interaction_ps_vs_control.csv": "de6c0ef28608d4b48b7cd2a246f059a58a924143047645e8c8fcb3f927774a82",
+    "4_analysis\\results\\78_fig1_v3_nagq1\\origin_overall_glmm.csv": "090674de4b64b091580beb29ada73cc98e0c045a2595074bb75cc4293a93dc72",
+    "4_analysis\\results\\45_fig3_side_combined_nagq1\\side_glmm.csv": "7426dff984899f6dc85a27a87e2602ae619703337ab44f08166c27c0d80839bc",
+    "4_analysis\\results\\46_fig3_direction_glmm_nagq1\\direction_glmm.csv": "1a08759d92668646069c15accb9c29a481010d7ec5835e3abc6fb5a8cc6596ef",
+    "4_analysis\\results\\58_fig4_ai_origin_glmm_nagq1\\ai_origin_glmm.csv": "a7bcd7b97a31528ceb3e074e87476169fb419c56c8343eb734d7b62045bfd57b",
+    "4_analysis\\results\\64_fig4_capability_glmm_nagq1\\capability_glmm.csv": "f02d6b964245d54afabdd9d06c959cd041c0cf6ca0da2aaa57acb849be353a6b",
+    "4_analysis\\results\\68_reasoning_glmm_nagq1\\reasoning_glmm.csv": "3938b27f35e609a12fa2867ec62f10ba56ab103f477307bb246db348bf52a600"
+  },
+  "code": {
+    "4_analysis\\analysis_95_between_model_small_sample.py": "de31e565498d6a00171ed3ca9ea034daca0ae377209d7b24991cea8fd65e2580"
+  }
+}

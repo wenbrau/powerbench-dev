@@ -1,0 +1,2 @@
+wald_chi2,df,p,sd_prompt,sd_model,sd_model_lang,singular,optimizer,variant,formula_used,fit_seconds,nobs
+8.43531871860939,7.0,0.295776020164986,2.03840683705822,1.225697102711,0.668869956403988,False,bobyqa,1,refuse ~ lang + mode + (1 | model) + (1 | model_lang) + (1 |     prompt_id),308.1,109424

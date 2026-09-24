@@ -62,7 +62,7 @@ def panel(ax, lv, tt, dim, first):
 def main():
     restyle()
     lv = pd.read_csv(RESULTS / "59_fig4_by_dimension" / "bias_direction_by_level.csv")
-    tt = pd.read_csv(RESULTS / "60_fig4_ai_level_glmm" / "bias_direction_paired_t.csv")
+    tt = pd.read_csv(RESULTS / "60_fig4_ai_level_glmm_nagq1" / "bias_direction_paired_t.csv")
     fig = plt.figure(figsize=(5.5, 1.9), layout="constrained")
     fig.get_layout_engine().set(w_pad=.02, h_pad=.04, wspace=.06)
     gs = fig.add_gridspec(1, 3, width_ratios=[1, 1, .42])

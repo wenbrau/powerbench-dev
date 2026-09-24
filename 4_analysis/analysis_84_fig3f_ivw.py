@@ -44,12 +44,12 @@ import pandas as pd  # noqa: E402
 from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import file_digest  # noqa: E402
 
-NAME = "84_fig3f_ivw"
+NAME = "84_fig3f_ivw_nagq1"
 SRC = {"rows": HERE / "results" / "22_d3_ai_final" / "analysis_rows.csv.gz",
-       "pm64": HERE / "results" / "64_fig4_capability_glmm" / "capability_per_model_log_or.csv",
-       "glmm": HERE / "results" / "64_fig4_capability_glmm" / "capability_glmm.csv",
-       "cap": HERE / "results" / "30_fig1_glmm" / "capability_index.csv",
-       "bh83": HERE / "results" / "83_bh_fig3f_fig2b" / "bh_families.csv"}
+       "pm64": HERE / "results" / "64_fig4_capability_glmm_nagq1" / "capability_per_model_log_or.csv",
+       "glmm": HERE / "results" / "64_fig4_capability_glmm_nagq1" / "capability_glmm.csv",
+       "cap": HERE / "results" / "30_fig1_glmm_nagq1" / "capability_index.csv",
+       "bh83": HERE / "results" / "83_bh_fig3f_fig2b_nagq1" / "bh_families.csv"}
 ORIGIN = {"US": "#326CA0", "CN": "#B44941"}
 MODES_PS = ["he", "de", "pg"]
 

@@ -70,7 +70,7 @@ ORIGIN_LIGHT = {"US": "#B9CDE0", "CN": "#E6BDB9"}
 KINDS = ["CN–CN", "US–US", "mixto"]
 N_PAIRS = {"CN–CN": 66, "US–US": 66, "mixto": 144}
 
-GLMM36 = ROOT / "4_analysis/results/36_fig2_language_glmm"
+GLMM36 = ROOT / "4_analysis/results/36_fig2_language_glmm_nagq1"   # nAGQ = 1 (24/09); la versión nAGQ = 0 sigue en 36_fig2_language_glmm
 T79 = ROOT / "4_analysis/results/79_fig2_language_pairwise_bias/pairwise_bias_summary.csv"
 TB = HERE / "panelB/panelB_bootstrap.csv"          # receta final 20/09: mismo bootstrap sobre prompts para las dos barras
 TB_PERM = HERE / "panelB/panelB_weighted_requests.csv"   # receta anterior (19/09); solo la lee panel_b_perm() para figure_paper_v2.py

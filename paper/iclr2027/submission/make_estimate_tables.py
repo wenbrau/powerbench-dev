@@ -107,7 +107,7 @@ def one(df, **kw):
 def fig1():
     A, B, Ball, C, LV, bhq, CD, omni = f1.load()
     bh = pd.read_csv(f1.SRC["bh"])
-    r30, r31s, r31t = RESULTS / "30_fig1_glmm", RESULTS / "31_fig1_glmm_scale", RESULTS / "31_fig1_glmm_standing"
+    r30, r31s, r31t = RESULTS / "30_fig1_glmm_nagq1", RESULTS / "31_fig1_glmm_scale_nagq1", RESULTS / "31_fig1_glmm_standing_nagq1"
     orig = pd.read_csv(r30 / "glmm_origin.csv").set_index("fit")
     inter = pd.read_csv(r30 / "glmm_interaction_ps_vs_control.csv").set_index("fit")
     mc = pd.read_csv(r30 / "glmm_mode_contrasts.csv").set_index("fit")
@@ -229,8 +229,8 @@ def fig2():
 # ---------------------------------------------------------------- Figure 3
 def fig3():
     d = f3.load()
-    g85 = pd.read_csv(RESULTS / "85_fig3a_glmm" / "ai_glmm_main.csv").set_index("mode")
-    g60 = pd.read_csv(RESULTS / "60_fig4_ai_level_glmm" / "ai_level_glmm.csv")
+    g85 = pd.read_csv(RESULTS / "85_fig3a_glmm_nagq1" / "ai_glmm_main.csv").set_index("mode")
+    g60 = pd.read_csv(RESULTS / "60_fig4_ai_level_glmm_nagq1" / "ai_level_glmm.csv")
     lv, dl = d["A_levels"], d["A_delta"].set_index("mode")
     N = 7
     L = ["\\begin{tabular}{@{}llllrlr@{}}", "\\toprule"]
@@ -299,9 +299,9 @@ def fig3():
 
 # ---------------------------------------------------------------- Figure 4 (22 models, body version)
 def fig4():
-    bl = pd.read_csv(L22 / "glmm" / "glmm_language_by_language.csv")
-    om = pd.read_csv(L22 / "glmm" / "glmm_language_omnibus.csv").set_index("fit")
-    bhq = pd.read_csv(L22 / "figure_22models_bh_q_values.csv")
+    bl = pd.read_csv(L22 / "glmm_nagq1" / "glmm_language_by_language.csv")
+    om = pd.read_csv(L22 / "glmm_nagq1" / "glmm_language_omnibus.csv").set_index("fit")
+    bhq = pd.read_csv(L22 / "figure_22models_bh_q_values_nagq1.csv")
     summ = pd.read_csv(L22 / "concordance" / "summary.csv")
     tb = pd.read_csv(L22 / "panelD_bootstrap.csv").set_index(["mode", "weights"])
     st = pd.read_csv(L22 / "panelF_test_stats_power_shifting.csv")
@@ -369,10 +369,10 @@ def fig4_models():
 
 # ---------------------------------------------------------------- Figure 4: 24-model (appendix) vs 22-model (body) version
 def lang_22_vs_24():
-    cmp_ = pd.read_csv(L22 / "compare_q_24_vs_22.csv")
-    g = {22: pd.read_csv(L22 / "glmm" / "glmm_language_by_language.csv"), 24: pd.read_csv(RESULTS / "36_fig2_language_glmm" / "glmm_language_by_language.csv")}
-    o = {22: pd.read_csv(L22 / "glmm" / "glmm_language_omnibus.csv").set_index("fit"),
-         24: pd.read_csv(RESULTS / "36_fig2_language_glmm" / "glmm_language_omnibus.csv").set_index("fit")}
+    cmp_ = pd.read_csv(L22 / "compare_q_24_vs_22_nagq1.csv")
+    g = {22: pd.read_csv(L22 / "glmm_nagq1" / "glmm_language_by_language.csv"), 24: pd.read_csv(RESULTS / "36_fig2_language_glmm_nagq1" / "glmm_language_by_language.csv")}
+    o = {22: pd.read_csv(L22 / "glmm_nagq1" / "glmm_language_omnibus.csv").set_index("fit"),
+         24: pd.read_csv(RESULTS / "36_fig2_language_glmm_nagq1" / "glmm_language_omnibus.csv").set_index("fit")}
     sm = {22: pd.read_csv(L22 / "concordance" / "summary.csv"), 24: pd.read_csv(RESULTS / "81_fig2_mode_rank_concordance" / "summary.csv")}
     tb = {22: pd.read_csv(L22 / "panelD_bootstrap.csv").set_index(["mode", "weights"]),
           24: pd.read_csv(L24 / "panelB" / "panelB_bootstrap.csv").set_index(["mode", "weights"])}

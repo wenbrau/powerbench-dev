@@ -1,0 +1,29 @@
+table,key,col,old,new
+results/32_fig1_context_glmm/glmm_context_interaction_by_context.csv,F_de_vs_control | Disempowerment vs control | Markets,p,0.10284630845119,0.0489904602109632
+results/33_fig1_domain_glmm/glmm_domain_by_domain.csv,A_de | Disempowerment | Legal,p,0.06754024177404,0.0372302313443852
+results/33_fig1_domain_glmm/glmm_domain_by_domain.csv,A_he | Self-empowerment | Attentional,p,0.053121376974086,0.0265043604370292
+results/33_fig1_domain_glmm/glmm_domain_by_domain.csv,A_pg | Power grabbing | Attentional,p_bh,0.114618438320974,0.0462840994014516
+results/33_fig1_domain_glmm/glmm_domain_by_domain.csv,A_pg | Power grabbing | Health,p_bh,0.0874522539278702,0.0274908585770229
+results/33_fig1_domain_glmm/glmm_domain_omnibus.csv,A_he | Self-empowerment | refuse ~ dom + (1 | model) + (1 | model_dom) + (1 | prompt_id),p,0.0670679664946347,0.0211904130983669
+results/33_fig1_domain_glmm/glmm_domain_omnibus.csv,A_pg | Power grabbing | refuse ~ dom + (1 | model) + (1 | model_dom) + (1 | prompt_id),p,0.0624329782104317,0.0129804986754525
+results/46_fig3_direction_glmm/direction_glmm_by_dyad.csv,"de | usa | us_neutral | direccion, modelos CN | apendice_por_origen",q_bh,0.0603615995373808,0.0467894703095328
+results/46_fig3_direction_glmm/direction_glmm_by_dyad.csv,"de | usa | us_rival | direccion, modelos US | apendice_por_origen",q_bh,0.0603615995373808,0.0467894703095328
+results/46_fig3_direction_glmm/direction_glmm_by_dyad.csv,"he | usa | us_rival | direccion, modelos US | apendice_por_origen",q_bh,0.0603615995373808,0.0392226348946227
+results/46_fig3_direction_glmm/direction_glmm_by_dyad.csv,"pg | usa | us_neutral | direccion, modelos CN | apendice_por_origen",q_bh,0.0603615995373808,0.0467894703095328
+results/46_fig3_direction_glmm/direction_glmm_by_dyad.csv,"pg | usa | us_neutral | direccion, modelos US | apendice_por_origen",p_holm,0.0636698051664633,0.0444829027449239
+results/68_reasoning_glmm/reasoning_glmm.csv,r1 en ctl | contraste | por_modo,p,0.05357,0.04405
+results/68_reasoning_glmm/reasoning_glmm.csv,r1 en pg | contraste | por_modo,q_bh,0.05268,0.04108
+results/75_fig3_dyads_separate/pB_side_glmm_by_dyad.csv,us_cn | he,p,0.0530720170350982,0.040253393719767
+results/77_bh_fig1_fig2c/bh_families.csv,Figura 1 | Figura 1 · C escala | interacción scale × (modo vs control) por modo (3) | de vs control | True,p,0.102357533490834,0.0493366669780265
+results/77_bh_fig1_fig2c/bh_families.csv,Figura 1 | Figura 1 · C escala | pendiente de scale por modo (4) | de | False,q_bh,0.07930923660041,0.0314181616765548
+results/77_bh_fig1_fig2c/bh_families.csv,Figura 1 | Figura 1 · D standing | pendiente de standing por modo (4) | pg | False,p,0.0628542225942142,0.0284782402868876
+results/77_bh_fig1_fig2c/bh_families.csv,"Figura 1 | Figura 1 · D standing | pendiente de standing, pooled (1) | power shifting (pooled) | False",p,0.0764768194788819,0.0322474610431876
+results/77_bh_fig1_fig2c/bh_families.csv,"Figura 1 | Figura 1 · D standing | pendiente de standing, pooled (1) | power shifting (pooled) | False",q_bh,0.0764768194788819,0.0322474610431876
+results/77_bh_fig1_fig2c/bh_families.csv,Figura 1 | Figura 1 · origen | efecto CN − US por modo (4) | de | False,p,0.0587196428735861,0.043289155963227
+results/77_bh_fig1_fig2c/bh_families.csv,Figura 1 | Figura 1 · origen | interacción CN × (modo vs control) por modo (3) | de vs control | False,q_bh,0.052580217293886,0.036190886542905
+results/78_fig1_v3/glmm_omnibus.csv,ctx_ps,p,0.146692478133086,0.033632505143396
+results/78_fig1_v3/pB_by_origin.csv,de | CN,p,0.0587196428735861,0.043289155963227
+results/78_fig1_v3/pB_by_origin.csv,de | US,p,0.0587196428735861,0.043289155963227
+results/90_fig1_context_within_type_glmm/glmm_context_by_context.csv,A_control | Control | Work,p,0.0872262491286139,0.0360613887420271
+results/90_fig1_context_within_type_glmm/glmm_context_by_context.csv,A_de | Disempowerment | Markets,p,0.0756269164286433,0.0369418220228978
+results/90_fig1_context_within_type_glmm/glmm_context_by_context.csv,A_pg | Power grabbing | Government,p,0.0581866794412485,0.0325879584363798

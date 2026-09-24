@@ -10,7 +10,7 @@
 # ctx con contrastes suma-cero (contr.sum): cada coeficiente es la desviación del contexto k respecto de la
 # media del tipo sobre los 8 contextos (log-odds); el 8º se deriva como −(suma) con su varianza.
 # Ómnibus: Wald conjunto b' V⁻¹ b sobre los 7 términos, χ² con 7 gl. Por contexto: z de Wald, p, BH sobre 8.
-# Variante 2 si no converge: solo (1 | model) + (1 | prompt_id). Protocolo de glmm_common.R (nAGQ = 0,
+# Variante 2 si no converge: solo (1 | model) + (1 | prompt_id). Protocolo de glmm_common.R (nAGQ = 1,
 # bobyqa y nlminbwrap, Wald).
 #
 # Uso:  Rscript glmm_context_within.R <datos.csv> <salida.csv>

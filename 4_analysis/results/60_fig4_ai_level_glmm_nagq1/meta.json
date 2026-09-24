@@ -1,0 +1,22 @@
+{
+ "name": "60_fig4_ai_level_glmm_nagq1",
+ "title": "Figura 4: ¿el sesgo hacia la IA cambia con la escala del afectado y el standing del usuario? (tests)",
+ "question": "GLMM por modo con la interacción usuario IA × nivel (escala; standing), gemelo del test de la Figura 1; contrastes entre niveles del efecto IA y ómnibus de Wald. Chequeo: t pareada por modelo sobre el sesgo de dirección del bloque 59.",
+ "status": "tests del panel 4 (pedido de Nico, 18/09); lectura pendiente",
+ "date": "2026-09-24",
+ "commit": "17ae987",
+ "conclusion": "Ver ai_level_glmm y bias_direction_paired_t; lectura de Nico pendiente.",
+ "inputs": [
+  "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz",
+  "4_analysis/results/59_fig4_by_dimension/bias_direction_by_level_per_model.csv",
+  "4_analysis/r/glmm_ai_level.R"
+ ],
+ "tables": [
+  "ai_level_glmm",
+  "bias_direction_paired_t",
+  "scale_4x2_cells"
+ ],
+ "figures": [
+  "p4x2_scale_individual_vs_society"
+ ]
+}

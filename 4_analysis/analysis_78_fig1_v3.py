@@ -63,10 +63,10 @@ from scipy import stats  # noqa: E402
 from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import load_d1_english, file_digest  # noqa: E402
 
-NAME = "78_fig1_v3"
+NAME = "78_fig1_v3_nagq1"
 R = HERE / "results"
-SRC = {"origin": R / "30_fig1_glmm" / "glmm_origin.csv", "origin_x": R / "30_fig1_glmm" / "glmm_interaction_ps_vs_control.csv",
-       "bh": R / "77_bh_fig1_fig2c" / "bh_families.csv", "model_mean": R / "70_fig1_model_mean_refusal" / "model_mean_refusal.csv"}
+SRC = {"origin": R / "30_fig1_glmm_nagq1" / "glmm_origin.csv", "origin_x": R / "30_fig1_glmm_nagq1" / "glmm_interaction_ps_vs_control.csv",
+       "bh": R / "77_bh_fig1_fig2c_nagq1" / "bh_families.csv", "model_mean": R / "70_fig1_model_mean_refusal" / "model_mean_refusal.csv"}
 R_SCRIPT = HERE / "r" / "glmm_fig1_v3.R"
 R_LIB = Path.home() / "R" / "win-library" / "4.6"
 MODES = ["he", "de", "pg", "control"]
@@ -209,7 +209,7 @@ def main():
                "bloque 30 da q < 0,05 (BH del bloque 77, familia = 4 modos; pooled solo). Efecto general del origen: GLMM nuevo refuse ~ cn + mode + "
                "(1 | prompt) + (1 | model) sobre los cuatro modos; dependencia de power shifting: cn × ps del ajuste E del bloque 30.")
     res.method("F, G: sobre las filas de power shifting, GLMM refuse ~ nivel (contrastes suma-cero) + mode + (1 | model) + (1 | model:nivel) + (1 | prompt); "
-               "desviación de cada nivel respecto de la media de los 8 en log-odds, Wald, BH sobre los 8; ómnibus χ²(7). nAGQ = 0 como el resto.")
+               "desviación de cada nivel respecto de la media de los 8 en log-odds, Wald, BH sobre los 8; ómnibus χ²(7). nAGQ = 1 como el resto.")
     res.table("pA_mean_by_mode", A, "A: media de refusal por grupo, IC t entre 24 modelos.")
     res.table("pB_by_origin", B.merge(Btest, on="group", how="left"), "B: media por origen y grupo con IC t entre 12 modelos; efecto CN − US del GLMM del bloque 30 con su p y q.")
     res.table("origin_overall_glmm", pd.DataFrame([dict(**origin_all, cn_x_ps_logodds=float(ox.cnxps_logodds), cn_x_ps_p=float(ox.cnxps_p), cn_x_ps_source="bloque 30, ajuste E")]),

@@ -8,7 +8,7 @@
 #   - log-OR y OR de refusal IA vs humano, Wald (panel B análogo, en la escala del OR).
 #   - pp MARGINALES: p(IA), p(humano) y Δ pp integrando logistic(eta + u) sobre u ~ N(0, var(prompt) + var(model) +
 #     0,25·var(pendiente ai)); IC de Δ por simulación de los efectos fijos ~ MVN(fixef, vcov) (panel A análogo).
-# Protocolo de glmm_common.R: nAGQ = 0, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald, singular aceptado.
+# Protocolo de glmm_common.R: nAGQ = 1, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald, singular aceptado.
 #
 # Uso:  Rscript glmm_ai_main.R <datos.csv> <salida.csv>
 # datos.csv: columnas refuse (0/1), mode, ai (+0.5 / -0.5), prompt_id, model.

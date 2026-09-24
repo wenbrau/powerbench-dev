@@ -1,0 +1,36 @@
+{
+  "inputs": {
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d1_en_A19_pinned_off.jsonl.gz": "79c6cab0b45e27c2936cabdb59128addd513ca4e622ae13a366e38d96cf480d6",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d1_en_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "479bcc5f6f28b5b1cd0bdbd4652edbe826754ba3dcd3ffb90a49d21f69db5aeb",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d1_v6r2_7models_pinned_off_en.jsonl": "b872ab1c6616c71c87da295b26a5e769e43c06c3c206de2ece10bfe60cf09b8e",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d1_v6r2_7models_pinned_off_en.rejudge_deepseek-v4-flash-0731.jsonl": "8ecd2556218c2cf7c200a1de635a1b5feaf6d84ebf8c49fe9bc8512a2f580e77",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/d1_v6r2_7models_pinned_off_en.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "47ef17aa7a5877b9de1eae2d7d1d3e2a946321df68d5acf4268c9a73be3936a5",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d1_en_A19_pinned_off.jsonl.gz": "3f589caf5fe79fc3a89718b0dbd0bde947e05148b8c39afdc9cd4fdccaeaf96f",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control_d1_en_A19_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "165e62002b716dc51268a089aa6a557ab5c16b01a567e37fc0777aa2f4efcb91",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control192_v1.1_multilang_6models_pinned_off.jsonl": "61d832f595fdbc1f39dbea93a8d09237bb41234a53916f65389891ad97ed6e34",
+    "C:/Users/Nico/Documents/GitHub/powerbench-dev-nagq1/current/runs/control192_v1.1_multilang_6models_pinned_off.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "a8d6c14d9feb8474b6b93d99387f6f795768528f048ffc23a107d86bb3671b50",
+    "current/banks/dataset1_full_576.v6r2.multilang.verified.jsonl": "ae8cd5d5e0bc382e319ce4498a947fdf96472b05842c00e73c61925e28d06d2a",
+    "current/banks/dataset1_control_192.v1.1.jsonl": "d1b711605266b85ee62e84ab158d8513f0dc3e09d81866796d3d0f5f57e3658d",
+    "common/models_panel.py": "e46b8e80a7bad2bd9fe4057bda4fe8a45cfc783462d00eb3bc0f11d22e526bcc"
+  },
+  "code": {
+    "4_analysis\\analysis_32_fig1_context_glmm.py": "1fbd775d31433f85675eca9a385a8da42720e8b2f0fd8f485724813bc191f968",
+    "4_analysis/r/glmm_context.R": "a6073dc9d268c71cd7080a410aa642473fe83732e5dfe5f34cdfe8e37660a9fa",
+    "4_analysis/r/glmm_common.R": "39442dc1639be3d4c7fef81842592bdb2ed800d4674024670d4253e44f1f218d",
+    "4_analysis/pbanalysis/final_panel.py": "ca6b49d58690a14b730a4831524e52378118b5c544c24cd14461d86ab2ba87ed",
+    "4_analysis/pbanalysis/boot.py": "07b3125530854df251fe7c34cad5f4ea6976ad0b04a00041c836010a00f8d591"
+  },
+  "B": 2000,
+  "seed": 32,
+  "contexts": [
+    "Fiction",
+    "Work",
+    "Government",
+    "Interpersonal",
+    "Diplomacy",
+    "Academia",
+    "Markets",
+    "Media"
+  ],
+  "estimator": "lme4::glmer 2.0.6, R version 4.6.1 (2026-06-24 ucrt)"
+}

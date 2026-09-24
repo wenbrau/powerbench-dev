@@ -36,9 +36,9 @@ from statsmodels.stats.multitest import multipletests  # noqa: E402
 from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import file_digest  # noqa: E402
 
-NAME = "83_bh_fig3f_fig2b"
-SRC = {"64": HERE / "results" / "64_fig4_capability_glmm" / "capability_glmm.csv",
-       "45": HERE / "results" / "45_fig3_side_combined" / "side_glmm.csv"}
+NAME = "83_bh_fig3f_fig2b_nagq1"
+SRC = {"64": HERE / "results" / "64_fig4_capability_glmm_nagq1" / "capability_glmm.csv",
+       "45": HERE / "results" / "45_fig3_side_combined_nagq1" / "side_glmm.csv"}
 MODES = ["he", "de", "pg", "control"]
 
 
@@ -71,7 +71,7 @@ def main():
         "¿Qué q lleva cada test de esos dos paneles con familia = los tests que contestan la misma pregunta dentro del panel?",
         status="pedido de Nico (20/09) tras la revisión de asteriscos: 'hagamos las tres cosas'")
     res.inputs([str(v.relative_to(ROOT)) for v in SRC.values()])
-    res.data("Tablas de p de los bloques 64 (GLMM ai × cap_z, nAGQ = 0) y 45 (GLMM del lado, nAGQ = 0). No se recalcula nada: solo se agrega q.")
+    res.data("Tablas de p de los bloques 64 (GLMM ai × cap_z, nAGQ = 1) y 45 (GLMM del lado, nAGQ = 1). No se recalcula nada: solo se agrega q.")
     res.method("Familias en la docstring del script y en DECISIONES punto 44. BH dentro de cada familia; el test único lleva q = p.")
     res.table("bh_families", tab, "Todos los tests con su familia, p, q y si cambian de estado a q < 0,05.")
     res.table("changed_at_q05", changed, "Tests cuyo estado (p < 0,05) cambia al pasar a q < 0,05.")

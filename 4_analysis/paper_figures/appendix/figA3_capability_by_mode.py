@@ -30,7 +30,7 @@ MODES = ["he", "de", "pg", "control"]
 LABEL = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}
 FB, FT, FL = 6.5, 6.0, 9.0
 STEM = "figA3_capability_by_mode"
-B64 = RESULTS / "64_fig4_capability_glmm"
+B64 = RESULTS / "64_fig4_capability_glmm_nagq1"
 
 
 def restyle():
@@ -57,7 +57,7 @@ def main():
     restyle()
     pm = pd.read_csv(B64 / "capability_per_model_log_or.csv")
     gl = pd.read_csv(B64 / "capability_glmm.csv")
-    cap = pd.read_csv(RESULTS / "30_fig1_glmm" / "capability_index.csv")
+    cap = pd.read_csv(RESULTS / "30_fig1_glmm_nagq1" / "capability_index.csv")
     fig = plt.figure(figsize=(5.5, 1.7), layout="constrained")
     fig.get_layout_engine().set(w_pad=.02, h_pad=.04, wspace=.03)
     gs = fig.add_gridspec(1, 4)

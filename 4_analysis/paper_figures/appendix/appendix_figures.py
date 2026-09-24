@@ -38,8 +38,8 @@ SHORT = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT"}
 ORIGIN_LABEL = {"US": "US models", "CN": "CN models"}
 CTX = ["Fiction", "Work", "Government", "Interpersonal", "Diplomacy", "Academia", "Markets", "Media"]
 DOM = ["Rank", "Wealth", "Health", "Legal", "Physical", "Epistemic", "Status", "Attentional"]
-B25, B78, B75, B45 = (RESULTS / "25_fig1_notelab", RESULTS / "78_fig1_v3", RESULTS / "75_fig3_dyads_separate",
-                      RESULTS / "45_fig3_side_combined")
+B25, B78, B75, B45 = (RESULTS / "25_fig1_notelab", RESULTS / "78_fig1_v3_nagq1", RESULTS / "75_fig3_dyads_separate_nagq1",
+                      RESULTS / "45_fig3_side_combined_nagq1")
 SUBGROUPS = ROOT / "4_analysis" / "review_fig_countries" / "panelB" / "panelB_subgroups.csv"
 GFMT = mticker.FuncFormatter(lambda v, _: f"{v:g}")          # OR tick labels: 0.7, 1, 1.25
 ERR = dict(fmt="none", ecolor="#222", elinewidth=.55, capsize=1.3, capthick=.55, zorder=4)
@@ -133,7 +133,7 @@ def fig_components():
 # ---------------------------------------------------------------- A1 · context × mode and domain × mode heatmaps
 def fig_context_domain():
     L = pd.read_csv(B25 / "context_domain_levels_pooled.csv"); L = L[L.bloc == "all"]
-    G = pd.read_csv(RESULTS / "33_fig1_domain_glmm" / "glmm_domain_by_domain.csv")
+    G = pd.read_csv(RESULTS / "33_fig1_domain_glmm_nagq1" / "glmm_domain_by_domain.csv")
     qdom = {(r.fit.split("_")[1], r.domain): r.p_bh for r in G.itertuples()}          # BH over the 8 domains within each mode
     cmap = LinearSegmentedColormap.from_list("refusal", ["#F7F5FA", "#B9A9D3", "#6A4C9C", "#2E1B52"])
     norm = Normalize(0, 40)

@@ -10,7 +10,7 @@ de dominios por tipo (bloque 33), para cada tipo:
     refuse ~ ctx + (1 | model) + (1 | model:ctx) + (1 | prompt_id),  ctx con contrastes suma-cero,
 
 ómnibus de Wald χ²(7) y desviación de cada contexto respecto de la media del tipo con BH sobre 8 (r/glmm_context_within.R,
-protocolo de glmm_common.R: nAGQ = 0, bobyqa y nlminbwrap, Wald). Se corre para los cuatro tipos (el control es el que se
+protocolo de glmm_common.R: nAGQ = 1, bobyqa y nlminbwrap, Wald). Se corre para los cuatro tipos (el control es el que se
 pidió; he, de y pg dan la tabla simétrica a la de dominios del bloque 33 y se guardan para el apéndice).
 
 Ejecutar desde la raíz del repo:  python 4_analysis/analysis_90_fig1_context_within_type_glmm.py      (~2 min; Rscript + lme4)
@@ -39,7 +39,7 @@ from pbanalysis import report  # noqa: E402
 from pbanalysis.load import CONTEXTS  # noqa: E402
 from pbanalysis.final_panel import load_d1_english, file_digest  # noqa: E402
 
-NAME = "90_fig1_context_within_type_glmm"
+NAME = "90_fig1_context_within_type_glmm_nagq1"
 TYPES = ["control", "he", "de", "pg"]
 LABELS = {"control": "Control", "he": "Self-empowerment", "de": "Disempowerment", "pg": "Power grabbing"}
 SHORT = {"control": "CT", "he": "SE", "de": "DE", "pg": "PG"}
@@ -92,7 +92,7 @@ def main():
                "desviación del contexto k respecto de la media del tipo (log-odds); el 8º se deriva como −(suma) con su varianza. "
                "Ómnibus: Wald conjunto b' V⁻¹ b sobre los 7 términos, χ² con 7 gl. Por contexto: z de Wald, p y BH sobre 8. "
                "Variante 2 si no converge: solo (1 | model) + (1 | prompt_id). Gemelo exacto de glmm_domain.R (bloque 33).")
-    res.method(f"Estimación: lme4::glmer {lme4_version} en {r_version}, nAGQ = 0, bobyqa y nlminbwrap, Wald, sin LRT "
+    res.method(f"Estimación: lme4::glmer {lme4_version} en {r_version}, nAGQ = 1, bobyqa y nlminbwrap, Wald, sin LRT "
                "(protocolo de glmm_common.R); script 4_analysis/r/glmm_context_within.R.")
 
     om_rows, dev_rows, coef_rows = [], [], []

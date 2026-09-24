@@ -12,7 +12,7 @@
 #   aleatorias de r1 y r2 (la heterogeneidad entre modelos es el error del efecto del razonamiento y de sus interacciones).
 # Salidas: r1, r2 (log-OR ON vs OFF, promedio); ómnibus de Wald r1 + r2 (2 gl); interacciones nivel × origen (2 gl) y nivel ×
 # modo (6 gl); efectos simples por origen y por modo como combinaciones lineales con vcov.
-# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 0, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald.
+# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 1, || primero y correlacionada si no converge, bobyqa y nlminbwrap, Wald.
 #
 # Uso:  Rscript glmm_reasoning.R <datos.csv> <salida.csv>
 # datos.csv: refuse (0/1), level (off / r1 / r2), mode (he / de / pg / ctl), origin (US / CN), prompt_id, model.

@@ -26,15 +26,15 @@ import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
 SRC = {"B": RESULTS / "55_fig3_side_excess" / "side_abs_bias_excess_summary.csv",
-       "C": RESULTS / "45_fig3_side_combined" / "side_glmm.csv",
+       "C": RESULTS / "45_fig3_side_combined_nagq1" / "side_glmm.csv",
        "D": RESULTS / "73_fig3_usage_weighted_requests" / "side_or_requests.csv",
-       "E": RESULTS / "46_fig3_direction_glmm" / "direction_glmm.csv",
-       "E_dyad": RESULTS / "46_fig3_direction_glmm" / "direction_glmm_by_dyad.csv",
-       "bh83": RESULTS / "83_bh_fig3f_fig2b" / "bh_families.csv",
-       "bh89": RESULTS / "89_bh_fig2e_by_power" / "bh_by_power.csv",
+       "E": RESULTS / "46_fig3_direction_glmm_nagq1" / "direction_glmm.csv",
+       "E_dyad": RESULTS / "46_fig3_direction_glmm_nagq1" / "direction_glmm_by_dyad.csv",
+       "bh83": RESULTS / "83_bh_fig3f_fig2b_nagq1" / "bh_families.csv",
+       "bh89": RESULTS / "89_bh_fig2e_by_power_nagq1" / "bh_by_power.csv",
        "pmr": RESULTS / "21_d2_nationality_final" / "per_model_rates.csv",
-       "A86": RESULTS / "86_fig2_ps_pooled" / "ps_rates_by_side.csv", "B86": RESULTS / "86_fig2_ps_pooled" / "side_abs_bias_excess_ps.csv",
-       "C86": RESULTS / "86_fig2_ps_pooled" / "side_glmm_ps.csv"}   # columna violeta de power shifting agrupado (20/09)
+       "A86": RESULTS / "86_fig2_ps_pooled_nagq1" / "ps_rates_by_side.csv", "B86": RESULTS / "86_fig2_ps_pooled_nagq1" / "side_abs_bias_excess_ps.csv",
+       "C86": RESULTS / "86_fig2_ps_pooled_nagq1" / "side_glmm_ps.csv"}   # columna violeta de power shifting agrupado (20/09)
 SETS = ("geo", "neutral")
 MODES5 = list(MODES) + [PS]; XS = np.array([0, 1, 2, 3, 4.45]); XSEP = 3.72
 MODE_LABEL = dict(MODE_LABEL); MODE_LABEL[PS] = "Power shifting (he + de + pg)"

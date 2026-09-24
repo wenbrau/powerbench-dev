@@ -1,0 +1,26 @@
+{
+ "changed_30_de": {
+  "est": 1.07769518128273,
+  "lo": null,
+  "hi": null,
+  "p": 0.043289155963227,
+  "unit": "log-odds o Spearman",
+  "note": "q = 0.173 (efecto CN − US por modo (4))"
+ },
+ "changed_31_de vs control": {
+  "est": 0.65931701462987,
+  "lo": null,
+  "hi": null,
+  "p": 0.0493366669780265,
+  "unit": "log-odds o Spearman",
+  "note": "q = 0.074 (interacción scale × (modo vs control) por modo (3))"
+ },
+ "changed_31_pg": {
+  "est": 0.508586366321295,
+  "lo": null,
+  "hi": null,
+  "p": 0.0284782402868876,
+  "unit": "log-odds o Spearman",
+  "note": "q = 0.114 (pendiente de standing por modo (4))"
+ }
+}

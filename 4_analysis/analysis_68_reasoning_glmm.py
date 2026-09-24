@@ -7,7 +7,7 @@ saber si depende de CN vs USA, y si depende del modo".
 
 Panel A: por modo, refusal medio (peso igual por modelo) en OFF / nivel 1 / nivel 2 para los 4 CN, los 4 US y los 8; banda =
 IC 95 % t entre modelos (n = 4, 4, 8; anchas por construcción: la inferencia es el GLMM).
-Test (r/glmm_reasoning.R, lme4::glmer, nAGQ = 0): un solo ajuste, refuse ~ (r1 + r2) × (modo + origen) con contrastes suma-cero,
+Test (r/glmm_reasoning.R, lme4::glmer, nAGQ = 1): un solo ajuste, refuse ~ (r1 + r2) × (modo + origen) con contrastes suma-cero,
 (1 + r1 + r2 || modelo) + (1 | prompt): el prompt aparea las tres ramas dentro del modelo; las pendientes aleatorias por modelo
 son el error del efecto del razonamiento. Salidas: efecto de cada nivel vs OFF (promedio, por origen, por modo), interacción
 nivel × origen (ómnibus 2 gl) y nivel × modo (ómnibus 6 gl), contrastes modo − control del efecto. BH: familias definidas por
@@ -45,7 +45,7 @@ from pbanalysis import report  # noqa: E402
 from pbanalysis.final_panel import file_digest  # noqa: E402
 from analysis_18_reasoning_ladder import load as load_ladder  # noqa: E402
 
-NAME = "68_reasoning_glmm"
+NAME = "68_reasoning_glmm_nagq1"
 R_SCRIPT = HERE / "r" / "glmm_reasoning.R"
 R_LIB = Path.home() / "R" / "win-library" / "4.6"
 MODES = ["he", "de", "pg", "ctl"]
@@ -135,7 +135,7 @@ def main():
         "nivel × origen, prompt aleatorio y pendientes aleatorias del nivel por modelo.", status="panel A propuesto + test (pedido de Nico, 18/09); lectura pendiente")
     res.inputs(["4_analysis/analysis_18_reasoning_ladder.py", str(R_SCRIPT.relative_to(ROOT))])
     res.data(f"Filas del bloque 18 (load()): {len(d):,} válidas; 8 modelos × 3 ramas × 768 prompts (D1 inglés + control), juez oficial.")
-    res.method("Panel A: media con peso igual por modelo, IC 95 % t entre modelos. GLMM (lme4::glmer, nAGQ = 0, || primero, bobyqa + nlminbwrap, Wald): "
+    res.method("Panel A: media con peso igual por modelo, IC 95 % t entre modelos. GLMM (lme4::glmer, nAGQ = 1, || primero, bobyqa + nlminbwrap, Wald): "
                "refuse ~ (r1 + r2) × (modo + origen), contrastes suma-cero para modo y origen, (1 + r1 + r2 || modelo) + (1 | prompt). Efectos simples por "
                "combinación lineal con vcov; ómnibus de Wald para nivel (2 gl), nivel × origen (2 gl), nivel × modo (6 gl); q = BH por familia.")
     res.table("panel_a_curves", curves.round(3), "Refusal medio por modo, grupo (US, CN, todos) y nivel, con IC t entre modelos.")

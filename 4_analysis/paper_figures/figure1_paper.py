@@ -27,10 +27,10 @@ from matplotlib.patches import Patch  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
-B78 = RESULTS / "78_fig1_v3"
+B78 = RESULTS / "78_fig1_v3_nagq1"
 SRC = {"A": B78 / "pA_mean_by_mode.csv", "B": B78 / "pB_by_origin.csv", "B_all": B78 / "origin_overall_glmm.csv",
        "C": RESULTS / "70_fig1_model_mean_refusal" / "model_mean_refusal.csv", "DE": B78 / "pDE_levels.csv",
-       "bh": RESULTS / "77_bh_fig1_fig2c" / "bh_families.csv", "FG": B78 / "pFG_context_domain.csv", "omni": B78 / "glmm_omnibus.csv"}
+       "bh": RESULTS / "77_bh_fig1_fig2c_nagq1" / "bh_families.csv", "FG": B78 / "pFG_context_domain.csv", "omni": B78 / "glmm_omnibus.csv"}
 GROUPS = MODES + [PS]
 FACTORS = {"scale": ["individual", "group", "society"], "standing": ["low", "med", "high"]}
 LEVEL_LABEL = {"individual": "Individual", "group": "Group", "society": "Society", "low": "Low", "med": "Med", "high": "High"}

@@ -12,7 +12,7 @@
 #                   contraste que es dentro del modelo; su SD mide cuánto difieren los modelos en el efecto del lado.
 #   side_origin_US  refuse ~ side * cn + dyad + ...    side = efecto en modelos US; side:cn = diferencia CN − US
 #   side_origin_CN  refuse ~ side * us + dyad + ...    side = efecto en modelos CN (misma verosimilitud, otra parametrización)
-# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 0, || primero y correlacionada si no converge, bobyqa y nlminbwrap,
+# Protocolo de glmm_common.R: lme4::glmer, nAGQ = 1, || primero y correlacionada si no converge, bobyqa y nlminbwrap,
 # Wald, ajuste singular aceptado.
 #
 # Uso:  Rscript glmm_side.R <datos.csv> <salida.csv>

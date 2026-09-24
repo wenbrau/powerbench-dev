@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "4_analysis/results/22_d3_ai_final/analysis_rows.csv.gz": "241532ef9e3a10c7dfe7ce906bb5cd98ddd0b7817dd046147d36cf76a8c49795",
+    "4_analysis/results/64_fig4_capability_glmm_nagq1/capability_per_model_log_or.csv": "d9c9bdad17f911f11cb168b1304f9279fec345a3a3cd59a0b3f57ea457776eab",
+    "4_analysis/results/64_fig4_capability_glmm_nagq1/capability_glmm.csv": "f02d6b964245d54afabdd9d06c959cd041c0cf6ca0da2aaa57acb849be353a6b",
+    "4_analysis/results/30_fig1_glmm_nagq1/capability_index.csv": "903df8fd98eadb79b5978d16d92782c0a55caf485fc872a093dbecd51483c762",
+    "4_analysis/results/83_bh_fig3f_fig2b_nagq1/bh_families.csv": "ca3e0fa92c36607d82b20e0fb53c5f30cfb2b4b57361c3e2c96213c59f5db1fd"
+  },
+  "code": {
+    "4_analysis\\analysis_84_fig3f_ivw.py": "0d7a62db5e437d93ce5ad99390c044c53dfe339261512d982a69b48566d5f33c"
+  }
+}
