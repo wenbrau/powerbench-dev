@@ -1,4 +1,5 @@
 statistic,value,lo95,hi95,p,test
+mean excess over the sum (pp),6.009921284176847,1.1259251644736867,10.980902777777775,0.0196,"bootstrap over prompts, B = 5000, seed 25 (block 25 draws), models fixed"
 mean excess over the sum (pp),6.009921284176845,3.7967965402252277,8.223046028128461,1.0217985965296612e-05,"one-sample t, 24 models"
 median excess over the sum (pp),7.291666666666666,,,0.00016173228443949514,"Wilcoxon signed-rank, 24 models"
 models with excess over the sum > 0,20.0,,,0.001543879508972168,binomial against 1/2

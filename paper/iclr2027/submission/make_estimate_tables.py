@@ -336,7 +336,7 @@ def fig4():
         e, u = tb.loc[(m, "eq")], tb.loc[(m, "use")]
         assert np.isclose(e.q_bh, one(bhq, panel="D", family="4 modos, peso eq", test=m).q)
         assert np.isclose(u.q_bh, one(bhq, panel="D", family="4 modos, peso wt", test=m).q)
-        L.append(row(MODE[m], est_ci(e.excess_bc_or, e.lo95_or, e.hi95_or), pq(e.q_bh), est_ci(u.excess_bc_or, u.lo95_or, u.hi95_or), pq(u.q_bh)))
+        L.append(row(MODE[m], est_ci(e.excess_or, e.lo95_or, e.hi95_or), pq(e.q_bh), est_ci(u.excess_or, u.lo95_or, u.hi95_or), pq(u.q_bh)))
 
     npairs = {"CN–CN": 66, "US–US": 45, "mixto": 120}                     # figure_22models.py: fp.N_PAIRS
     t1 = st[st.test == "test1_langperm"].set_index("quantity")
@@ -420,7 +420,7 @@ def lang_22_vs_24():
         for n in (24, 22):
             r = tb[n].loc[(m, "eq")]
             assert np.isclose(r.q_bh, cq("D", "4 modos, peso eq", m, n))
-            cells += [est_ci(r.excess_bc_or, r.lo95_or, r.hi95_or), pq(r.q_bh)]
+            cells += [est_ci(r.excess_or, r.lo95_or, r.hi95_or), pq(r.q_bh)]
         L.append(row(MODE[m], *cells))
 
     L += ["\\midrule", block("(E) Per-model range beyond chance, power shifting", N)]

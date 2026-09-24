@@ -22,7 +22,7 @@ diferencia directamente, en los casos en que el paper no lo hacía ya:
 GLMM: r/glmm_specificity.R con el protocolo de glmm_common.R y nAGQ = 1 (rama nagq1-rerun). Los tests se reparten entre
 varios procesos de R en paralelo (--jobs, por defecto 9). BH dentro de cada familia (columna family). Sin llamadas a API.
 
-Ejecutar desde la raíz del repo:  python 4_analysis/analysis_93_specificity_interactions.py [--jobs N] [--reuse-glmm]
+Ejecutar desde la raíz del repo:  python 4_analysis/analysis_93_specificity_interactions.py [--jobs N] [--reuse-glmm] [--only-language]
 """
 from __future__ import annotations
 
@@ -238,24 +238,44 @@ def side_usage_interactions(d2):
 
 
 def language_range_differences():
-    """Figura 4D: exceso del rango entre idiomas sobre el azar (log), tipo − control, con las 4.000 extracciones guardadas del
-    bootstrap (cada modo remuestreado aparte); estimación corregida por sesgo e IC pivotal como en el panel; p por inversión."""
+    """Figura 4D: exceso del rango entre idiomas sobre el azar (log), tipo − control, con las 2.000 extracciones guardadas del
+    bootstrap (cada modo remuestreado aparte); estimación observada e IC percentil como en el panel (corrección del 24/09, ver
+    review_fig_languages/panelB/panelB_bootstrap.py); p por inversión."""
     z = np.load(LANG_DRAWS); tab = pd.read_csv(LANG_TAB).set_index(["mode", "weights"])
     rows = []
     for wi, wname in enumerate(("eq", "use")):
         for g in POWER:
-            obs = tab.loc[(g, wname), "excess_raw"] - tab.loc[("control", wname), "excess_raw"]
+            obs = tab.loc[(g, wname), "excess"] - tab.loc[("control", wname), "excess"]
             bt = z[g][:, wi] - z["control"][:, wi]
-            n = len(bt); ge = (1 + int(np.sum(bt >= 2 * obs))) / (n + 1); le = (1 + int(np.sum(bt <= 2 * obs))) / (n + 1)
+            n = len(bt); le = (1 + int(np.sum(bt <= 0))) / (n + 1); ge = (1 + int(np.sum(bt >= 0))) / (n + 1)
             lo, hi = np.percentile(bt, [2.5, 97.5])
             rows.append(dict(test=f"language_range__{g}_vs_control__{wname}", family=f"rango de idiomas (tipo − CT), pesos {wname}",
-                             quantity="interaction", estimate=2 * obs - bt.mean(), lo=2 * obs - hi, hi=2 * obs - lo, p=min(1.0, 2 * min(ge, le)),
-                             or_target=tab.loc[(g, wname), "excess_bc_or"], or_control=tab.loc[("control", wname), "excess_bc_or"],
-                             method="extracciones guardadas (B = 4.000) de review_fig_languages_22models/step3; IC pivotal; p por inversión"))
+                             quantity="interaction", estimate=obs, lo=lo, hi=hi, p=min(1.0, 2 * min(ge, le)),
+                             or_target=tab.loc[(g, wname), "excess_or"], or_control=tab.loc[("control", wname), "excess_or"],
+                             method="extracciones guardadas (B = 2.000) de review_fig_languages_22models/step3; IC percentil; p por inversión"))
     return pd.DataFrame(rows)
 
 
+def only_language():
+    """--only-language (24/09): recalcula solo las filas de idiomas (Figura 4D) desde las réplicas guardadas del panel y las
+    reemplaza en specificity_tests.csv, sin volver a ajustar los GLMM ni a correr el bootstrap pesado por uso sobre D2 (sus filas
+    no dependen de las de idiomas: son otras familias de BH)."""
+    out = HERE / "results" / NAME / "specificity_tests.csv"
+    t = pd.read_csv(out)
+    keep = t[~t.test.str.startswith("language_range__")]
+    lang = language_range_differences()
+    lang["q_bh"] = np.nan
+    for f, idx in lang.groupby("family").groups.items():
+        lang.loc[idx, "q_bh"] = bh(lang.loc[idx, "p"].to_numpy())
+    lang["n_family"] = lang.groupby("family").family.transform("size")
+    lang["ratio"], lang["ratio_lo"], lang["ratio_hi"] = np.exp(lang.estimate), np.exp(lang.lo), np.exp(lang.hi)
+    pd.concat([keep, lang.reindex(columns=t.columns)], ignore_index=True).to_csv(out, index=False)
+    print(lang[["test", "ratio", "ratio_lo", "ratio_hi", "p", "q_bh"]].round(3).to_string(index=False))
+
+
 def main():
+    if "--only-language" in sys.argv:
+        return only_language()
     jobs = int(sys.argv[sys.argv.index("--jobs") + 1]) if "--jobs" in sys.argv else 9
     out_dir = HERE / "results" / NAME; raw = out_dir / "glmm_specificity_raw.csv"
     tests, fam, d2 = build_tests()
@@ -291,7 +311,7 @@ def main():
                "(1 + escala + standing || model) + (1 | prompt_id), combinación lineal. Contraparte: refuse ~ toward + toward·r + díada + "
                "(1 + toward + toward·r || model) + (1 | prompt_id).")
     res.method("Pesado por uso (Figura 2D): el estimador del bloque 73 (pesos por pedidos) en el tipo menos el del control; bootstrap sobre "
-               "prompts (B = 5.000, semilla 73). Idiomas (Figura 4D): extracciones guardadas del bootstrap del panel, tipo − control, IC pivotal.")
+               "prompts (B = 5.000, semilla 73). Idiomas (Figura 4D): extracciones guardadas del bootstrap del panel, tipo − control, IC percentil.")
     res.method("BH dentro de cada familia (columna family), como las familias del paper para el panel de origen.")
     res.table("specificity_tests", allt[["family", "test", "method", "estimate", "lo", "hi", "ratio", "ratio_lo", "ratio_hi", "p", "q_bh", "n_family",
                                          "OR_slope_reference", "OR_slope_target", "OR_slope_m", "OR_slope_m2", "OR_slope_common",

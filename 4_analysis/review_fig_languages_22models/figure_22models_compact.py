@@ -22,6 +22,7 @@ import pandas as pd
 # ---------------------------------------------------------------- las mismas redirecciones que figure_22models.py
 fp.GLMM36 = HERE / "glmm_nagq1"
 fp.TB = HERE / "panelD_bootstrap.csv"
+fp.TA = HERE / "panelA_deviation_bootstrap.csv"
 fp.TC = HERE / "panelF_test_stats_power_shifting.csv"
 fp.TD = HERE / "F6_exceso_ps.csv"
 fp.EXCL_SW = set()

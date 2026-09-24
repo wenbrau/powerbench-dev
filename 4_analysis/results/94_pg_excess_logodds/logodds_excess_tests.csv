@@ -1,4 +1,5 @@
 statistic,value,lo95,hi95,p,test
+mean empirical-logit excess over the sum,0.5222935525319848,0.18472496709987501,0.9012185986575804,0.0044,"bootstrap over prompts, B = 5000, seed 25 (block 25 draws), models fixed"
 mean log-odds excess over the sum,0.5446658035170507,0.32947797396277057,0.7598536330713309,2.6025219856937678e-05,"one-sample t, 24 models"
 OR (exp of the mean log-odds excess over the sum),1.7240321206182703,1.3902421963779763,2.1379632704771034,2.6025219856937678e-05,same test
 median log-odds excess over the sum,0.45435061094099694,,,0.00011214112045483084,"Wilcoxon signed-rank, 24 models"

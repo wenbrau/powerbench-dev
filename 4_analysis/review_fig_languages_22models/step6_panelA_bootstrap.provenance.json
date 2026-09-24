@@ -19,20 +19,16 @@
     "current\\runs\\d1_v6r2_6models_pinned_off_7langs.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "ac18bcb794fa6d336c3a26dd628c5eaa57295761cce74a43ad63980d78f252ca",
     "current\\runs\\d1_v6r2_7models_pinned_off_en.jsonl": "b872ab1c6616c71c87da295b26a5e769e43c06c3c206de2ece10bfe60cf09b8e",
     "current\\runs\\d1_v6r2_7models_pinned_off_en.rejudge_deepseek-v4-flash-0731.jsonl": "8ecd2556218c2cf7c200a1de635a1b5feaf6d84ebf8c49fe9bc8512a2f580e77",
-    "current\\runs\\d1_v6r2_7models_pinned_off_en.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "47ef17aa7a5877b9de1eae2d7d1d3e2a946321df68d5acf4268c9a73be3936a5",
-    "4_analysis\\results\\72_fig2_usage_weighted_requests\\weights.csv": "94c189490877ecc654fe61fa5ef814ede1149e31a359f25e37c781237b32db9b"
+    "current\\runs\\d1_v6r2_7models_pinned_off_en.rejudge_trunc5000_deepseek-v4-flash-0731.jsonl": "47ef17aa7a5877b9de1eae2d7d1d3e2a946321df68d5acf4268c9a73be3936a5"
   },
   "code": {
-    "4_analysis\\review_fig_languages_22models\\step3_panelD_bootstrap.py": "8805601f91ed79d98f99863488ab151709d42bb5250d82af86b9cc2dbe806cae",
-    "4_analysis\\review_fig_languages\\panelB\\panelB_bootstrap.py": "64e2708e93c4db236f5b79c1ebb75acaeb1154d1681f31f2f8aee1f68784ca5f",
-    "4_analysis\\review_fig_languages\\panelB\\panelB_weighted_requests.py": "16dcfcd8936fc78ba388d8422706cbc8532d55c20c79f20b654cd32db5ba267e"
+    "4_analysis\\review_fig_languages_22models\\step6_panelA_bootstrap.py": "101da9d4d06e65d1811104b72239ac1dfc8bcbb43d85dbe0773e311ba8ef51aa",
+    "4_analysis\\review_fig_languages\\figure_paper.py": "c71a8b9a0c263f7d593434747405bd75b36d3f3906da7c70d2076f7c9c3fdf97"
   },
   "excluded_models": [
     "nemotron-3.5-lightning",
     "nova-2-lite"
   ],
   "B": 2000,
-  "n_perm": 2000,
-  "n_perm_boot": 100,
-  "seed": 35
+  "seed": 36
 }
