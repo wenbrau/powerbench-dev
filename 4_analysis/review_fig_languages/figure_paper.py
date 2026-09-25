@@ -376,7 +376,7 @@ def panel_c(ax, d, t, q=None, inset=True, cb_rect=None):
     for k in KINDS:
         assert abs(float(np.nanmean(vals[pk == k])) - S[k].observed) < 1e-9, k
 
-    cmap = plt.get_cmap("RdBu_r").copy(); cmap.set_bad("white")
+    cmap = plt.get_cmap("PRGn").copy(); cmap.set_bad("white")   # violet-white-green (25/09): blue/red are the US/CN model colours
     im = ax.imshow(Cshow, cmap=cmap, vmin=-1, vmax=1)
     ax.set_xticks(range(n), models, rotation=90, fontsize=F_TINY)
     ax.set_yticks(range(n), models, fontsize=F_TINY)

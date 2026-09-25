@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _paperstyle import HERE, ROOT, RESULTS, MODES, PS, MODE_LABEL, MODE_COLORS, ORIGIN  # noqa: E402
+from _paperstyle import HERE, ROOT, RESULTS, MODES, PS, MODE_LABEL, MODE_COLORS, ORIGIN, DIVERGING_CMAP, text_on  # noqa: E402
 import figure3_aiagent_paper as f3  # noqa: E402
 from figure3_aiagent_paper import load, CONTEXTS, DOMAINS  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
@@ -116,12 +116,12 @@ def panel_c(ax, cells, tp):
 def heat(ax, s, levels, modes, title):
     piv = lambda col: s.pivot(index="mode", columns="level", values=col).reindex(index=modes, columns=levels)  # noqa: E731
     M, Q = piv("bias"), piv("q_bh")
-    im = ax.imshow(M.to_numpy(float), cmap="RdBu_r", vmin=-1, vmax=1, aspect="auto")
+    im = ax.imshow(M.to_numpy(float), cmap=DIVERGING_CMAP, vmin=-1, vmax=1, aspect="auto")   # violet-white-green (25/09): blue/red = US/CN
     for i in range(len(modes)):
         for j in range(len(levels)):
             v, q = M.iloc[i, j], Q.iloc[i, j]; sig = bool(np.isfinite(v) and q < .05)
             ax.text(j, i, "" if np.isnan(v) else f"{v:+.2f}".replace("+0.", "+.").replace("-0.", "-."), ha="center", va="center", fontsize=FT,
-                    color="white" if (np.isfinite(v) and abs(v) > .55) else "#1A1A1A", fontweight="bold" if sig else "normal", zorder=4)
+                    color=text_on(im.cmap(im.norm(v))) if np.isfinite(v) else "#1A1A1A", fontweight="bold" if sig else "normal", zorder=4)
             if sig:
                 ax.add_patch(Rectangle((j - .5, i - .5), 1, 1, fill=False, edgecolor="black", lw=.8, zorder=3))
     ax.set_xticks(range(len(levels)), [CTX_SHORT.get(l, l) for l in levels], fontsize=FT)

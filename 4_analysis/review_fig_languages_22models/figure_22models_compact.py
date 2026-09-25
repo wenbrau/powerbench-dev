@@ -57,7 +57,9 @@ def panel_e(ax):
     for lab, o in zip(ax.get_yticklabels(), tab.origin):
         lab.set_color(ORIGIN[o])
     ax.set_ylim(n - .4, -.6); ax.set_xlabel("refusal range (pp)"); ax.set_xlim(0, float(tab.range_pp.max()) * 1.15); ax.grid(axis="x", alpha=.15)
-    ax.legend(handles=[Patch(color="#C9C9C9", label="chance"), Patch(color="#666", label="excess")], frameon=False, fontsize=FT, loc="lower right",
+    # US / CN entries (25/09): bar and label colours are the model's origin
+    ax.legend(handles=[Patch(color="#C9C9C9", label="chance"), Patch(color="#666", label="excess"),
+                       Patch(color=ORIGIN["US"], label="US"), Patch(color=ORIGIN["CN"], label="CN")], frameon=False, fontsize=FT, loc="lower right",
               handlelength=1.0, labelspacing=.2, borderaxespad=.2)
     ax.set_title("Range per model")
 

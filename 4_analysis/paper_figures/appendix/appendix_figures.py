@@ -21,7 +21,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
-from _paperstyle import style, MODE_COLORS, ORIGIN, ORIGIN_LIGHT, or_axis, RESULTS, ROOT, short  # noqa: E402
+from _paperstyle import style, MODE_COLORS, ORIGIN, ORIGIN_LIGHT, or_axis, RESULTS, ROOT, short, DIVERGING_CMAP, text_on  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.ticker as mticker  # noqa: E402
 from matplotlib.colors import LinearSegmentedColormap, Normalize, TwoSlopeNorm  # noqa: E402
@@ -253,7 +253,9 @@ def fig_factors():
             "domain": ("Domain", DOM, MODES[:3])}
     lvl_label = {"individual": "Individual", "group": "Group", "society": "Society", "low": "Low", "med": "Medium", "high": "High"}
     lim = np.log(2.0)
-    cmap = LinearSegmentedColormap.from_list("side", [ORIGIN["US"], "#F3F3F3", ORIGIN["CN"]])
+    # violet (OR < 1, more refusal with a China-side user) - white - green (OR > 1, more refusal with a US-side user), 25/09:
+    # blue and red are the US and China model colours everywhere else in the paper
+    cmap = plt.get_cmap(DIVERGING_CMAP)
     norm = TwoSlopeNorm(vmin=-lim, vcenter=0, vmax=lim)
     # explicit layout in inches: each gap is as wide as the y labels that sit in it
     H = 2.45; c, h = .27, .225; yb = .06; yt = yb + 8 * h
@@ -276,7 +278,7 @@ def fig_factors():
                 if sig:
                     starred.append((dim, lv, m, round(r.OR, 2), round(r.q_bh, 4)))
                 ax.text(j, i, f"{r.OR:.2f}" + ("*" if sig else ""), ha="center", va="center", fontsize=FS,
-                        color="white" if abs(r.logOR) > .55 * lim else "#222")
+                        color=text_on(cmap(norm(r.logOR)), dark="#222"))
         ax.set_xlim(-.5, len(modes) - .5); ax.set_ylim(len(levels) - .5, -.5)
         ax.set_yticks(range(len(levels)), [lvl_label.get(lv, lv) for lv in levels])
         top = dim != "standing"

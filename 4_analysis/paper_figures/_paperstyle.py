@@ -49,6 +49,17 @@ def short(m):
 MODE_COLORS = {"he": "#456B91", "de": "#B68534", "pg": "#A44255", "control": "#777C83", PS: "#5B3F8C"}
 ORIGIN = {"US": "#326CA0", "CN": "#B44941"}
 ORIGIN_LIGHT = {"US": "#B9CDE0", "CN": "#E6BDB9"}
+# Diverging heatmaps (25/09, Nico): violet (negative) - white (0) - green (positive), because blue and red mean US and China
+# models everywhere else in the paper.
+DIVERGING_CMAP = "PRGn"
+
+
+def text_on(rgba, dark="#1A1A1A"):
+    """Colour for a number printed on a heatmap cell of colour rgba: white on dark cells, `dark` on light ones. The switch is at
+    relative luminance 0.2, where both colours have the same contrast with the cell (PRGn is lighter on its green side than
+    on its violet side, so a threshold on |value| would put white text on light green cells)."""
+    lin = [c / 12.92 if c <= .04045 else ((c + .055) / 1.055) ** 2.4 for c in rgba[:3]]
+    return "white" if .2126 * lin[0] + .7152 * lin[1] + .0722 * lin[2] < .2 else dark
 
 
 def style():

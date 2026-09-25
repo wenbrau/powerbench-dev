@@ -13,6 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _paperstyle import HERE, ROOT, MODES, PS, MODE_COLORS, ORIGIN, or_axis  # noqa: E402
+RESULTS97 = ROOT / "4_analysis" / "results" / "97_fig1c_fig2a_intervals_capability"
 from figure2_countries_paper import load, SETS, MODES5, XS, XSEP, SIDE_COL, DESAT, DY, mix, shade_dir  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
@@ -21,6 +22,7 @@ import pandas as pd  # noqa: E402
 
 FB, FT, FL = 6.5, 6.0, 9.0
 MODE_LEG = {"he": "SE", "de": "DE", "pg": "PG", "control": "CT", PS: "PS (pooled)"}
+NEUTRAL_BG = "#666666"   # (25/09) backdrop of the neutral-countries column in A: grey, since neither side there is the US or China
 DYL = {"us_ally": "ally", "us_neutral": "neutral", "us_rival": "rival", "us_cn": "China", "cn_ally": "ally", "cn_neutral": "neutral", "cn_rival": "rival", "cn_us": "US"}
 
 
@@ -34,7 +36,7 @@ def style():
     })
 
 
-def or_panel(ax, OR, l, h, q, lo, hi):
+def or_panel(ax, OR, l, h, q, lo, hi, shade=True):
     x = XS; OR, l, h = np.asarray(OR, float), np.asarray(l, float), np.asarray(h, float)
     ax.bar(x, OR - 1, bottom=1, width=.6, color=[MODE_COLORS[m] for m in MODES5], zorder=2)
     ax.errorbar(x, OR, yerr=[OR - l, h - OR], fmt="none", ecolor="#111", elinewidth=.55, capsize=1.3, capthick=.55, zorder=3)
@@ -44,7 +46,9 @@ def or_panel(ax, OR, l, h, q, lo, hi):
                 ax.text(xi, hh * 1.02, "*", ha="center", va="bottom", fontsize=FB + 1)
             else:
                 ax.text(xi, ll / 1.03, "*", ha="center", va="top", fontsize=FB + 1)
-    or_axis(ax, [.7, 1, 1.5], lo, hi); shade_dir(ax, lo, hi)
+    or_axis(ax, [.7, 1, 1.5], lo, hi)
+    if shade:   # US / China shading only in the US side / China side column (25/09)
+        shade_dir(ax, lo, hi)
 
 
 def build(data):
@@ -67,16 +71,24 @@ def build(data):
     for ax in axA + axB + axC + axD:
         ax.set_xticks(x, [""] * 5); ax.set_xlim(-.6, XS[-1] + .6); ax.axvline(XSEP, color="#999", lw=.5, ls=":", zorder=1)
 
-    ytop = max(vals.values()) * 1.15
+    # 95% t interval across the 24 models for each bar, as in Figure 1A (block 97, Nico 25/09)
+    CI = pd.read_csv(RESULTS97 / "fig2a_side_rates_ci.csv").set_index(["set", "mode", "side"])
+    ytop = max(max(vals.values()), float(CI.hi.max())) * 1.08
     for ax, st in zip(axA, SETS):
         for i, m in enumerate(MODES5):
+            if st != "geo":   # one grey backdrop for the pair, same span as the two side backdrops (no overlap seam)
+                ax.bar(x[i], ytop, 2 * w + .02, color=NEUTRAL_BG, alpha=.14, lw=0, zorder=1)
             for side, off in (("us", -w / 2), ("cn", w / 2)):
-                ax.bar(x[i] + off, ytop, w + .02, color=SIDE_COL[side], alpha=.14, lw=0, zorder=1)
+                if st == "geo":
+                    ax.bar(x[i] + off, ytop, w + .02, color=SIDE_COL[side], alpha=.14, lw=0, zorder=1)
                 ax.bar(x[i] + off, vals[(st, m, side)], w, color=mix(MODE_COLORS[m], "#FFFFFF", DESAT[side]),
                        edgecolor=mix(MODE_COLORS[m], "#FFFFFF", DESAT[side] * .5), lw=.3, zorder=2)
+                ci = CI.loc[(st, m, side)]
+                assert abs(float(ci["mean"]) - vals[(st, m, side)]) < 1e-6
+                ax.errorbar(x[i] + off, ci["mean"], yerr=[[ci["mean"] - ci.lo], [ci.hi - ci["mean"]]], fmt="none", ecolor="#222", elinewidth=.5, capsize=1.0, capthick=.5, zorder=3)
         ax.grid(axis="y", alpha=.15); ax.set_ylim(0, ytop)
     axA[0].set_ylabel("Refusal (%)")
-    axA[0].set_title("Refusal by user's side"); axA[1].set_title("neutral reference", fontweight="normal")
+    axA[0].set_title("Refusal by user's side"); axA[1].set_title("neutral countries", fontweight="normal")
 
     for ax, st in zip(axB, SETS):
         r = B.loc[st].loc[MODES]; b = B86.loc[st]
@@ -93,9 +105,9 @@ def build(data):
     LO, HI = .68, 1.62   # data span 0.72 to 1.37 in C and D, plus the asterisks inside the axes (Nico 23/09: tighter axes)
     for ax, st in zip(axC, SETS):
         r = C.loc[st].loc[MODES]; g = C86.loc[st]
-        or_panel(ax, list(r.OR) + [g.OR], list(r.OR_lo) + [g.OR_lo], list(r.OR_hi) + [g.OR_hi], list(r.q_bh) + [g.q_bh], LO, HI)
+        or_panel(ax, list(r.OR) + [g.OR], list(r.OR_lo) + [g.OR_lo], list(r.OR_hi) + [g.OR_hi], list(r.q_bh) + [g.q_bh], LO, HI, shade=st == "geo")
     for ax, st in zip(axD, SETS):
-        r = D.loc[st].loc[MODES5]; or_panel(ax, r.odds_ratio, r.boot_lo, r.boot_hi, r.boot_q.values, LO, HI)
+        r = D.loc[st].loc[MODES5]; or_panel(ax, r.odds_ratio, r.boot_lo, r.boot_hi, r.boot_q.values, LO, HI, shade=st == "geo")
     axC[0].set_ylabel("OR (GLMM)"); axC[0].set_title("US side vs China side")
     axD[0].set_ylabel("OR (usage-wt.)"); axD[0].set_title("Same, usage-weighted")
 

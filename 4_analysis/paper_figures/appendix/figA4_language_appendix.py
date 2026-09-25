@@ -23,7 +23,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 sys.path.insert(0, str(ROOT / "4_analysis" / "paper_figures"))
-from _paperstyle import style, MODE_COLORS, ORIGIN, ORIGIN_LIGHT, or_axis, short  # noqa: E402
+from _paperstyle import style, MODE_COLORS, ORIGIN, ORIGIN_LIGHT, or_axis, short, DIVERGING_CMAP, text_on  # noqa: E402
 
 import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.colors as mcolors  # noqa: E402
@@ -155,7 +155,7 @@ def fig_pairs_prevalence(cell_values=True):
     axB = fig.add_axes([.60, .195, .385, .71])
 
     vlim = .25
-    im = axA.imshow(np.ma.masked_invalid(M), cmap="RdBu_r", vmin=-vlim, vmax=vlim, aspect="auto")
+    im = axA.imshow(np.ma.masked_invalid(M), cmap=DIVERGING_CMAP, vmin=-vlim, vmax=vlim, aspect="auto")   # violet-white-green (25/09): blue/red = US/CN
     if cell_values:
         for i in range(len(rows)):
             for j in range(len(cols)):
@@ -163,7 +163,7 @@ def fig_pairs_prevalence(cell_values=True):
                 if np.isfinite(v):
                     s = f"{v:+.2f}".replace("0.", ".").replace("-", "−")
                     axA.text(j, i, s, ha="center", va="center", fontsize=FMIN,
-                             color="white" if abs(v) > .15 else "#1A1A1A")
+                             color=text_on(im.cmap(im.norm(v))))
     axA.set_xticks(range(len(cols)), [LANG_NAME[l] for l in cols], rotation=35, ha="right", rotation_mode="anchor")
     axA.set_yticks(range(len(rows)), [LANG_NAME[l] for l in rows])
     axA.tick_params(length=0, pad=1.5)

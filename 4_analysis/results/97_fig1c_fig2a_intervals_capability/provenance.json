@@ -1,0 +1,15 @@
+{
+  "script": "4_analysis/analysis_97_fig1c_fig2a_intervals_capability.py",
+  "bootstrap_B": 5000,
+  "seed": 97,
+  "inputs": [
+    "pbanalysis.final_panel.load_d1_english()",
+    "results/70_fig1_model_mean_refusal/model_mean_refusal.csv",
+    "results/21_d2_nationality_final/per_model_rates.csv",
+    "results/86_fig2_ps_pooled_nagq1/ps_rates_by_side.csv",
+    "results/96_exploratory_order_capability/B_per_model_values.csv",
+    "results/30_fig1_glmm_nagq1/capability_index.csv",
+    "results/64_fig4_capability_glmm_nagq1/capability_glmm.csv",
+    "results/83_bh_fig3f_fig2b_nagq1/bh_families.csv"
+  ]
+}

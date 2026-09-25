@@ -69,6 +69,10 @@ def panel_c(ax, C):
     Cs = pd.concat([C[C.origin == "US"].sort_values("mean_all", ascending=False), C[C.origin == "CN"].sort_values("mean_all", ascending=False)])
     x = np.arange(len(Cs))
     ax.bar(x, Cs.mean_all, width=.75, color=[ORIGIN[o] for o in Cs.origin], zorder=2)
+    # 95% bootstrap interval over prompts of each model's mean refusal (block 97, Nico 25/09)
+    ci = pd.read_csv(RESULTS / "97_fig1c_fig2a_intervals_capability" / "fig1c_model_mean_refusal_ci.csv").set_index("model").loc[Cs.model]
+    assert np.allclose(ci.mean_all.round(2).values, Cs.mean_all.values, atol=.011)
+    ax.errorbar(x, Cs.mean_all, yerr=[Cs.mean_all.values - ci.lo.values, ci.hi.values - Cs.mean_all.values], fmt="none", ecolor="#222", elinewidth=.45, capsize=.8, capthick=.45, zorder=3)
     ax.set_xticks(x, [short(m) for m in Cs.model], fontsize=FT, rotation=90); ax.tick_params(axis="x", length=0, pad=1.2)
     for tk, o in zip(ax.get_xticklabels(), Cs.origin):
         tk.set_color(ORIGIN[o])
