@@ -11,6 +11,15 @@
 \usepackage{CJKutf8}
 
 \usepackage{hyperref}
+% A link broken across a page break is otherwise continued over the footer of the first page
+% and the header of the next (the page number and the running head become clickable). The
+% kernel brackets the header and footer with these two hooks; point them to pdfTeX's switches.
+\makeatletter
+\ifdefined\pdfrunninglinkoff
+  \protected\def\pdfannot@link@off@@{\pdfrunninglinkoff}
+  \protected\def\pdfannot@link@on@@{\pdfrunninglinkon}
+\fi
+\makeatother
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{booktabs}
