@@ -147,11 +147,19 @@ def panel_a2_bump(ax, t):
     mr = pd.read_csv(R81 / "mean_rank_by_mode.csv").set_index("lang")
     bump = mr[list(MODES)].rank()                      # posición 1..8 según el rango medio, como en el bloque 81
     x = np.arange(len(MODES))
+    # empates exactos de rango medio (inglés e hindi en el control, 22 modelos): los puntos van uno al lado del otro, no superpuestos (Wendy, 25/09)
+    dx = {}
+    for j, md in enumerate(MODES):
+        for _, ls in bump[md].groupby(bump[md]).groups.items():
+            ls = [l for l in LANGS81 if l in ls]
+            for k, l in enumerate(ls):
+                dx[(l, j)] = (k - (len(ls) - 1) / 2) * .22
     for l in LANGS81:
         y = [bump.loc[l, md] for md in MODES]
+        xs = x + np.array([dx[(l, j)] for j in range(len(MODES))])
         # Wendy (21/09): la línea termina en power grabbing; el control se muestra como punto suelto, sin conexión
-        ax.plot(x[:3], y[:3], marker="o", color=LCOL[l], lw=1.1, ms=2.6, zorder=3, solid_capstyle="round")
-        ax.plot(x[3:], y[3:], marker="o", color=LCOL[l], ls="none", ms=2.6, zorder=3)
+        ax.plot(xs[:3], y[:3], marker="o", color=LCOL[l], lw=1.1, ms=2.6, zorder=3, solid_capstyle="round")
+        ax.plot(xs[3:], y[3:], marker="o", color=LCOL[l], ls="none", ms=2.6, zorder=3)
         name = fp.LANG_NAME[l] + ("*" if l == "sw" else "")
         ax.text(-.14, y[0], name, ha="right", va="center", fontsize=F_SMALL, color=LCOL[l])
         ax.text(len(MODES) - 1 + .14, y[-1], name, ha="left", va="center", fontsize=F_SMALL, color=LCOL[l])
