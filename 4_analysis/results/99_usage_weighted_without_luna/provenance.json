@@ -1,0 +1,49 @@
+{
+  "code": {
+    "4_analysis\\analysis_99_usage_weighted_without_luna.py": "a4099b3bea077252fcd219e2153acb2108b0ea579097b125a475e9256ddbe1e3",
+    "4_analysis\\analysis_72_fig2_usage_weighted_requests.py": "669a901617f676c36d2df494b0c98716ade882b1811515c4558e724e51125a1d",
+    "4_analysis\\analysis_73_fig3_usage_weighted_requests.py": "dd69d0ef398400d871d5a66b727356f02e995a28367ebc289f8571c1c066e625",
+    "4_analysis\\analysis_74_fig4_usage_weighted_requests.py": "41c2f7d3fa0ebb615a39d37b8d9fa7a2d31a495bf6f9fcd7eae31d09d1818d04",
+    "4_analysis\\analysis_93_specificity_interactions.py": "272a74cb5a759fddb4f0c4b6c8b3d4fcf42d638cd8f314e63c27b2a94121cc32"
+  },
+  "usage": {
+    "4_analysis\\inputs\\openrouter_usage\\usage_30d_2026-08-18_2026-09-16.csv": "e01e6d082f8f33bd7001a57cc5c0a5a62d0e01a2fe43b623657a72130fb51778"
+  },
+  "excluded_model": "gpt-5.6-luna",
+  "weights": "requests_30d share; without_luna = same shares with gpt-5.6-luna set to 0 and renormalized over the other 23",
+  "B_seed": {
+    "72": [
+      1000,
+      40,
+      5000,
+      72
+    ],
+    "73": [
+      5000,
+      73,
+      5000,
+      173
+    ],
+    "74": [
+      1000,
+      63,
+      5000,
+      174
+    ],
+    "93": [
+      5000,
+      73
+    ]
+  },
+  "last_invocation_ran": [
+    "72",
+    "73",
+    "74"
+  ],
+  "comparison_files_on_disk": [
+    "compare_72_language_vs_english.csv",
+    "compare_73_nationality_side.csv",
+    "compare_74_ai_agent.csv",
+    "compare_93_side_vs_control.csv"
+  ]
+}

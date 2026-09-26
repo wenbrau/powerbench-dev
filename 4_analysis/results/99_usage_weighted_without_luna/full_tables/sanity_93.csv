@@ -1,0 +1,9 @@
+block,column,n_rows,max_abs_diff,identical
+93 (side usage × type vs control),estimate,4,4.163336342344337e-17,True
+93 (side usage × type vs control),lo,4,9.71445146547012e-17,True
+93 (side usage × type vs control),hi,4,5.551115123125783e-17,True
+93 (side usage × type vs control),p,4,0.0,True
+93 (side usage × type vs control),q_bh,4,2.7755575615628914e-17,True
+93 (side usage × type vs control),ratio,4,1.1102230246251565e-16,True
+93 (side usage × type vs control),or_target,4,2.220446049250313e-16,True
+93 (side usage × type vs control),or_control,4,0.0,True

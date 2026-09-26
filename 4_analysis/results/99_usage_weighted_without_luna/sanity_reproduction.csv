@@ -1,0 +1,45 @@
+block,column,n_rows,max_abs_diff,identical
+72,odds_ratio,35,2.220446049250313e-16,True
+72,boot_lo,35,1.1102230246251563e-16,True
+72,boot_hi,35,2.220446049250313e-16,True
+72,boot_p,35,0.0,True
+72,boot_q,35,5.551115123125783e-17,True
+72,perm_p,35,1.1102230246251563e-16,True
+72,perm_q,35,1.1102230246251563e-16,True
+73,odds_ratio,20,2.220446049250313e-16,True
+73,boot_lo,20,2.220446049250313e-16,True
+73,boot_hi,20,2.220446049250313e-16,True
+73,boot_p,20,0.0,True
+73,boot_q,20,0.0,True
+73,perm_p,20,1.1102230246251563e-16,True
+73,perm_q,20,1.1102230246251563e-16,True
+73,rate_A_user,20,3.552713678800501e-15,True
+73,rate_B_user,20,3.552713678800501e-15,True
+74 (24 models),odds_ratio,5,2.220446049250313e-16,True
+74 (24 models),boot_lo,5,0.0,True
+74 (24 models),boot_hi,5,2.220446049250313e-16,True
+74 (24 models),boot_p,5,0.0,True
+74 (24 models),boot_q,5,0.0,True
+74 (24 models),perm_p,5,1.7347234759768068e-17,True
+74 (24 models),perm_q,5,4.076600168545497e-17,True
+74 (24 models),rate_human,5,0.0,True
+74 (24 models),rate_ai,5,3.552713678800501e-15,True
+74 (24 models),pp,5,0.0,True
+74 (by origin),odds_ratio,10,0.0,True
+74 (by origin),boot_lo,10,2.220446049250313e-16,True
+74 (by origin),boot_hi,10,4.440892098500626e-16,True
+74 (by origin),boot_p,10,0.0,True
+74 (by origin),boot_q,10,2.775557561562892e-17,True
+74 (by origin),perm_p,10,8.326672684688674e-17,True
+74 (by origin),perm_q,10,8.326672684688674e-17,True
+74 (by origin),rate_human,10,1.7763568394002505e-15,True
+74 (by origin),rate_ai,10,3.552713678800501e-15,True
+74 (by origin),pp,10,2.220446049250313e-16,True
+93 (side usage × type vs control),estimate,4,4.163336342344337e-17,True
+93 (side usage × type vs control),lo,4,9.714451465470121e-17,True
+93 (side usage × type vs control),hi,4,5.551115123125783e-17,True
+93 (side usage × type vs control),p,4,0.0,True
+93 (side usage × type vs control),q_bh,4,2.775557561562892e-17,True
+93 (side usage × type vs control),ratio,4,1.1102230246251563e-16,True
+93 (side usage × type vs control),or_target,4,2.220446049250313e-16,True
+93 (side usage × type vs control),or_control,4,0.0,True

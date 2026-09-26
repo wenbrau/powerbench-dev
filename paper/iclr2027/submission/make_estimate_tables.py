@@ -332,11 +332,13 @@ def fig4():
 
     L += ["\\midrule", block("(D) Range across languages beyond chance: observed / chance range", N),
           row("Request type", "Equal weight [95\\% CI]", "$q$", "Usage-weighted [95\\% CI]", "$q$"), "\\cmidrule{1-5}"]
+    # q from the permutation test of the panel statistic (block 98, 26/09): the bootstrap interval stays, as a description
+    perm = pd.read_csv(A4 / "results" / "98_language_range_permutation" / "range_permutation.csv").set_index(["mode", "weighting"])
     for m in MODES:
         e, u = tb.loc[(m, "eq")], tb.loc[(m, "use")]
-        assert np.isclose(e.q_bh, one(bhq, panel="D", family="4 modos, peso eq", test=m).q)
-        assert np.isclose(u.q_bh, one(bhq, panel="D", family="4 modos, peso wt", test=m).q)
-        L.append(row(MODE[m], est_ci(e.excess_or, e.lo95_or, e.hi95_or), pq(e.q_bh), est_ci(u.excess_or, u.lo95_or, u.hi95_or), pq(u.q_bh)))
+        pe, pu = perm.loc[(m, "eq")], perm.loc[(m, "use")]
+        assert np.isclose(e.excess_or, pe.observed_or) and np.isclose(u.excess_or, pu.observed_or)
+        L.append(row(MODE[m], est_ci(e.excess_or, e.lo95_or, e.hi95_or), pq(pe.q_perm_bh), est_ci(u.excess_or, u.lo95_or, u.hi95_or), pq(pu.q_perm_bh)))
 
     npairs = {"CN–CN": 66, "US–US": 45, "mixto": 120}                     # figure_22models.py: fp.N_PAIRS
     t1 = st[st.test == "test1_langperm"].set_index("quantity")

@@ -1,0 +1,8 @@
+block,column,n_rows,max_abs_diff,identical
+72,odds_ratio,35,2.220446049250313e-16,True
+72,boot_lo,35,1.1102230246251565e-16,True
+72,boot_hi,35,2.220446049250313e-16,True
+72,boot_p,35,0.0,True
+72,boot_q,35,5.551115123125783e-17,True
+72,perm_p,35,1.1102230246251565e-16,True
+72,perm_q,35,1.1102230246251565e-16,True

@@ -1,0 +1,7 @@
+weights,bloc,n_models,n_effective,largest_share,largest_model,top3_share,top3_models
+with_luna,all,24,5.284820032793016,0.40030201264257786,gpt-5.6-luna,0.566514414769411,"gpt-5.6-luna, gemini-3.1-flash-lite, gemma-4-31b"
+with_luna,US,12,3.0289292005255457,0.5443967103732946,gpt-5.6-luna,0.7704397530843587,"gpt-5.6-luna, gemini-3.1-flash-lite, gemma-4-31b"
+with_luna,CN,12,6.538954807272918,0.26291787125458943,hy3,0.5737543527186088,"hy3, glm-5.2, minimax-m3"
+without_luna,all,23,12.410071437649245,0.150811342803181,gemini-3.1-flash-lite,0.3932034675758631,"gemini-3.1-flash-lite, gemma-4-31b, hy3"
+without_luna,US,11,6.144543664863117,0.2699650015365814,gemini-3.1-flash-lite,0.5972396105851618,"gemini-3.1-flash-lite, gemma-4-31b, nemotron-3-ultra"
+without_luna,CN,12,6.538954807272919,0.2629178712545895,hy3,0.5737543527186089,"hy3, glm-5.2, minimax-m3"
