@@ -6,11 +6,11 @@ texto o no es una decisión del equipo.
 
 Este archivo tiene solo lo pendiente. Lo que ya se aplicó, o se decidió no hacer, pasa con su descripción
 completa a [correction_archive.md](correction_archive.md), y acá queda una línea por entrada, con el mismo
-número. Estado verificado contra la v43 (commit `a4f3a9a`): las entradas 15, 17, 26, 27, 28, 29, 30 y 31 siguen sin aplicar, y todas las archivadas
+número. Estado verificado contra la v47 (commit `56a482a`): las entradas 15, 17, 26, 27, 28, 29, 30, 40 y 41 siguen sin aplicar en `main`, y todas las archivadas
 (1–14, 16, 18–25, más Apsel, Greenwald, Bai, OpenRouter y Choi) siguen aplicadas (revisado el 26-09 contra el `.tex` y
-el `.bib`). Las líneas de los `.tex` que dan las entradas siguen valiendo; las del PDF se corrieron desde la v41 (cada entrada dice de qué versión son).
+el `.bib`). Las líneas de los `.tex` que dan las entradas siguen valiendo; las del PDF se corrieron desde la v41 (cada entrada dice de qué versión son). La rama `claude/youthful-turing-00tlr5` (revisión del apéndice B con decisiones de Tomás, sin mergear) archiva sus entradas con los números 31–39; por eso la entrada de Chatterji, anotada primero como 31, pasó a 40.
 
-**Espacio:** en la v43, igual que en la v42, el cuerpo termina en la página 9 (línea 485, al pie), sin margen; el AI use statement empieza en la página 10. Lo que se agregue al cuerpo hay que pagarlo con recortes, y lo que libera una corrección ayuda (por ejemplo, ~18 caracteres la entrada 26).
+**Espacio:** en la v47, igual que en la v42 y la v43, el cuerpo termina en la página 9 (línea 485, al pie), sin margen; el AI use statement empieza en la página 10. Lo que se agregue al cuerpo hay que pagarlo con recortes, y lo que libera una corrección ayuda (por ejemplo, ~18 caracteres la entrada 26).
 
 **Actualización del 25-09 (v40, decisiones de Nico):** se aplicaron las entradas 4, 5, 7, 8, 10, 11, 12, 13 y 14, y
 se descartó la 6. De [READING_LIST.md](READING_LIST.md) también se aplicaron: Apsel, Greenwald y Bai (opción C,
@@ -25,13 +25,14 @@ API, no los gráficos Activity de cada modelo de donde salen los pesos); McNemar
 | # | Fuente | Qué | Estado |
 |---|---|---|---|
 | 15 | Choi et al. | Sacarlo de 3.3 y ajustar la oración a El Yagoubi ("can behave differently when told…") | Aplicada en parte en la v40: Choi salió y entró "told", pero la v40 agregó a Xie et al. y no puso "can". Gonzalo había decidido solo El Yagoubi, con "can": falta acordarlo con Nico |
-| 17 | Durmus et al. | Related work: la cita más débil de la oración de identidad (sesgo de representación, un solo modelo) | La v40 aplicó la opción (B): quedó corregida ("a model can represent…", separada del idioma). Gonzalo vota quitarla (A), sin estar muy convencido: falta decidir. El apéndice B sigue en plural |
+| 17 | Durmus et al. | Related work: la cita más débil de la oración de identidad (sesgo de representación, un solo modelo) | La v40 aplicó la opción (B): quedó corregida ("a model can represent…", separada del idioma). Gonzalo vota quitarla (A), sin estar muy convencido: falta decidir. El apéndice B sigue en plural en `main`; la rama de Tomás lo pasa a singular |
 | 26 | Li, Chen & Saphra | Intro ¶3: mide sesgos en dimensiones (edad, género, etnia, ideología) que no están en la lista, que son las que mide PowerBench | Decidida: sacarlo del ¶3, falta aplicar |
 | 27 | Wang et al. (MMLU-Pro) | Methods dice que corrimos MMLU-Pro; fueron 200 de sus 12.032 preguntas: "200 MMLU-Pro items" | Decidida, falta aplicar |
 | 28 | Schroeder de Witt et al. | El bib mezcla la v1 (2025, un autor) con los 24 autores de la v2: citar la v2, de 2026 | Decidida, falta aplicar |
 | 29 | McNemar 1947 | Nadie lo pudo leer (paywall): conservarlo, reemplazarlo por Fagerland et al. 2013 (abierto), usar los dos o sacarlo | A decidir |
 | 30 | Acemoglu; Benjamini & Hochberg; Baayen; Bailey; Field & Welsh; Kendall | Citadas en una versión con paywall que tiene una versión libre: citar la libre o agregar el enlace | Propuesta, a decidir |
-| 31 | Chatterji et al. (intro, oración siguiente) | "Many of the goals behind that guidance concern power" no tiene fuente, y Chatterji no lo sostiene: *Practical Guidance* es sobre todo tutoría, how-to y salud. Cambiar a "Some" | Decidida, falta aplicar |
+| 40 | Chatterji et al. (intro, oración siguiente) | "Many of the goals behind that guidance concern power" no tiene fuente, y Chatterji no lo sostiene: *Practical Guidance* es sobre todo tutoría, how-to y salud. Cambiar a "Some" | Decidida, falta aplicar |
+| 41 | Chupilkin | Apéndice B: la oración de `main` dice que no detectamos un castigo a China, y la v47 lo detecta para los usuarios de China (apéndice C.2, tabla `channels`); la de la rama de Tomás es cierta pero compara con el sesgo neto. La cita, además, omite a DeepSeek | Propuesta, a decidir: se recomienda la (A) |
 | 1–14, 16, 18–25 | Deng; MacAskill; IASR; Model Spec; Turner; Davidson; Stead & Hobbs; Khorramrouz (2); Pan & Xu; Liu; El Yagoubi; Buyl; Kulveit; Haslett; SORRY-Bench y StrongREJECT; Deng y Wang; Yong 2025; Marx; Akinode; Oppong; Zhang; Wuhrmann | — | Archivadas (ver abajo) |
 
 ---
@@ -262,16 +263,16 @@ personas que aclaran de qué país vino su familia. El texto del paper, en la ve
 
 ## 27. MMLU-Pro, Methods: aclarar que corrimos 200 preguntas, no el benchmark entero
 
-**Estado (25-09-2026): decidida. Falta aplicarla en el `.tex`.** Decisión de Gonzalo: decir "200 MMLU-Pro items",
+**Estado (25-09-2026): decidida. Falta aplicarla en el `.tex`.** **En la v47** Nico cambió "under the same conditions as our experiments" por "under our serving conditions" (el recorte que esta entrada proponía para compensar), pero no agregó el "200". Decisión de Gonzalo: decir "200 MMLU-Pro items",
 para que no se lea que corrimos todo MMLU-Pro. No es un problema de la cita, que está bien (ver la fila de Wang et
 al. en [READING_LIST.md](READING_LIST.md)), sino de cómo describimos lo que hicimos.
 
-**Dónde:** `submission/sections/methods.tex`, línea 23 (PDF de la v41: p. 3, líneas 135–138; en la v43, líneas 132–135).
+**Dónde:** `submission/sections/methods.tex`, línea 23 (PDF de la v41: p. 3, líneas 135–138; en la v47, líneas 137–139).
 
-**Texto actual:**
+**Texto actual (v47):**
 
-> To measure capability under the same conditions as our experiments, we ran every model on GPQA Diamond
-> \citep{rein2023gpqa} and MMLU-Pro \citep{wang2024mmlupro} (Appendix~\ref{app:panel}).
+> To measure capability under our serving conditions, we ran every model on GPQA Diamond \citep{rein2023gpqa}
+> and MMLU-Pro \citep{wang2024mmlupro} (Appendix~\ref{app:panel}).
 
 **El problema.** MMLU-Pro tiene 12.032 preguntas ("Our dataset comprises 14 discipline subsets, totaling 12,032
 questions", §3.1, p. 3). La prueba de capacidad usó 200, repartidas entre sus 14 categorías; el apéndice lo dice (en la v43, con el
@@ -282,14 +283,12 @@ el del benchmark completo.
 
 **Propuesta:**
 
-> To measure capability under the same conditions as our experiments, we ran every model on GPQA Diamond
-> \citep{rein2023gpqa} and 200 MMLU-Pro items \citep{wang2024mmlupro} (Appendix~\ref{app:panel}).
+> To measure capability under our serving conditions, we ran every model on GPQA Diamond \citep{rein2023gpqa}
+> and 200 MMLU-Pro items \citep{wang2024mmlupro} (Appendix~\ref{app:panel}).
 
 Variante que coincide con el apéndice: "200 MMLU-Pro questions" (4 caracteres más).
 
-**Costo:** ~10 caracteres. La última línea del párrafo ("similar in capability (58.2 vs. 60.4).", p. 3, línea
-138 en la v41 y 135 en la v43) tiene unos 60 de aire, así que probablemente no suma una línea; hay que compilar para confirmarlo. Si hiciera
-falta compensar, "under the same conditions as our experiments" → "under our experimental conditions" ahorra ~11.
+**Costo:** ~10 caracteres. En la v47 la última línea del párrafo ("of both accuracies, ranges from 46.5 to 77.4 and is similar in the two DCs (58.2 vs. 60.4).", p. 3, línea 139) está casi llena, así que probablemente suma una línea; hay que compilar. El recorte que proponíamos para compensar ya lo usó Nico en la v47 ("under our serving conditions"), así que, si hace falta, hay que buscar otro.
 
 **Verificado:** MMLU-Pro, PDF de NeurIPS 2024 (§3.1), leído por un agente el 25-09-2026; Claude verificó el número de
 preguntas en el texto descargado y la oración del apéndice en el `.tex`. El texto del paper, en la v41.
@@ -414,13 +413,13 @@ open access) y Stead & Hobbs (Substack gratis). No se usaron sitios piratas ni s
 
 ---
 
-## 31. Intro, segunda oración: "Many of the goals behind that guidance concern power" → "Some"
+## 40. Intro, segunda oración: "Many of the goals behind that guidance concern power" → "Some"
 
-**Estado (26-09-2026): decidida. Falta aplicarla en el `.tex`.** Decisión de Gonzalo: cambiar "Many" por "Some".
+**Estado (26-09-2026): decidida. Falta aplicarla en el `.tex`.** Decisión de Gonzalo: cambiar "Many" por "Some". (Se anotó primero como entrada 31; pasó a 40 porque la rama de Tomás usa 31–39.)
 La cita de Chatterji et al. en la primera oración está bien (ver su fila en [READING_LIST.md](READING_LIST.md)). El
 problema es la oración siguiente, que no cita nada y que Chatterji no sostiene.
 
-**Dónde:** `submission/sections/introduction.tex`, línea 4 (PDF de la v43: p. 1, líneas 32–34).
+**Dónde:** `submission/sections/introduction.tex`, línea 4 (PDF de la v47: p. 1, líneas 33–35).
 
 **Texto actual:**
 
@@ -456,6 +455,106 @@ mensajes), y no en *Practical Guidance*. Un revisor que vaya a Chatterji se llev
 **Opcional, no decidido:** si se quisiera una fuente para la segunda oración, Shen et al. (Anthropic, 2026; en la
 sección "no citadas" de la lista de lectura) encuentra que carrera y trabajo son el 26% de los pedidos de orientación
 personal en claude.ai. Habla de carrera, no de poder, y nadie del equipo lo leyó.
+
+---
+
+## 41. Chupilkin 2026, apéndice B: la oración dice que no detectamos el castigo a China, y la v47 lo detecta
+
+**Estado (26-09-2026): propuesta, a decidir por el equipo. Recomendación: la propuesta (A).** Tiene el número 41 para
+no chocar con las entradas 31–39 de la rama de Tomás (ver más abajo).
+
+**Dónde:** `submission/sections/appendix.tex`, línea 401, párrafo "Nationality and developer country" (PDF de la
+v47: p. 35, líneas 1876–1877).
+
+**Propuesta (A), recomendada:**
+
+> \citet{chupilkin2026endorsement} found that three US-developed models rate the same policy lower when China or
+> Russia rather than the US or the EU endorses it, and that DeepSeek does too when asked to justify its score.
+> Similarly, models refuse users from China more than users from the US in every request type of our data, the
+> control included (Appendix~\ref{app:channels}).
+
+**Por qué (A) tiene sentido.**
+
+1. **Corrige la cita.**
+   - En Chupilkin, el castigo a China y a Rusia aparece en GPT-5, Claude Sonnet y Gemini cuando solo dan un número
+     (abstract, p. 1; p. 3).
+   - También aparece en DeepSeek cuando tiene que justificar el puntaje: el pedido "sharply activates China and Russia
+     penalties in DeepSeek" (abstract). DeepSeek da 74,8 a EE.UU., 74,5 a la UE, 61,5 a China y 47,8 a Rusia (p. 8).
+   - Decir solo "US-developed models", en un párrafo sobre el país del desarrollador, sugiere un efecto propio de los
+     modelos de EE.UU., y la fuente no muestra eso.
+2. **Compara con la medida que corresponde.**
+   - En Chupilkin, lo único que cambia es quién respalda la política. En nuestros datos, lo más parecido es quién
+     hace el pedido: el usuario.
+   - La v47 mide el efecto del país del usuario por separado, en el apéndice C.2 ("User and target countries",
+     `appendix.tex:500`, p. 41, tabla `channels`), y va en la misma dirección que Chupilkin: "In every request type,
+     the control included, users from China are refused more than users from the US". Todos los odds ratios tienen
+     $q<0.001$:
+
+     | | HE | DE | PG | Control |
+     |---|---|---|---|---|
+     | Usuario de China / de EE.UU. | 1,47 | 1,53 | 1,36 | 1,37 |
+
+3. **Dice dónde aparece el efecto:** en todos los tipos de pedido, también en el control. Por eso no dice "in
+   power-shifting requests".
+4. **Se queda dentro de lo que muestran los datos.**
+   - "Similarly" solo dice que el efecto va en la misma dirección: calificar políticas no es rechazar pedidos.
+   - La tabla agrupa los 24 modelos, así que la oración no dice nada sobre el país del desarrollador.
+
+**Por qué la oración actual de `main` es falsa.**
+
+> \citet{chupilkin2026endorsement} found that US-developed models rate the same policy lower when China or Russia
+> endorses it, a penalty for China that we do not detect in power-shifting requests.
+
+- **Contradice al propio apéndice.** Dice que no detectamos un castigo a China en los pedidos power-shifting. El mismo
+  apéndice, en C.2, lo detecta: los usuarios de China se rechazan más que los de EE.UU. en HE, DE y PG (y en el
+  control), todos con $q<0.001$.
+- **De dónde sale probablemente.** La oración es de la v33. Parece escrita pensando en el sesgo neto de Results 3.2:
+  "For China we detect no net bias ($q\ge0.80$)". Esa comparación cambia a la vez el país del usuario y el del
+  afectado, y el apéndice C.2 explica que es la diferencia entre los dos efectos. Para China, los dos van en la misma
+  dirección: el usuario chino se rechaza más, y el afectado chino también (se lo protege más). En el agregado se
+  compensan, y el sesgo neto no ve nada.
+- **Hasta cuándo fue defendible.** Hasta la v46 el paper no separaba los dos efectos, así que la oración era ambigua.
+  Desde la reescritura de nacionalidad de Nico (`ab8645b`, que agregó la tabla `channels`), es falsa.
+
+**La rama de Tomás.**
+
+- **Qué cambió.** En la rama `claude/youthful-turing-00tlr5`, revisión del apéndice B con decisiones de Tomás (commit
+  `9e7a252`, entrada 39 de esa rama, **sin mergear a `main`**), la oración quedó así:
+
+  > \citet{chupilkin2026endorsement} found that US-developed models rate the same policy lower when China or Russia
+  > endorses it. In our power-shifting requests we detect no net bias for or against China, although models resist
+  > China taking power from its allies and from neutral countries.
+
+- **Es mejor que la de `main`.** Lo que afirma es cierto: es lo que dice Results 3.2.
+- **No es precisa, por dos razones:**
+  1. Compara con el sesgo neto, que mezcla dos efectos que se compensan, y deja afuera el efecto del usuario, que es
+     el comparable y coincide con Chupilkin. Un lector entiende que nuestros datos difieren de Chupilkin, cuando en la
+     medida comparable coinciden.
+  2. Mantiene "US-developed models", sin DeepSeek.
+- **No es un error de la revisión.** La rama se escribió sobre la versión anterior a `ab8645b` (su commit es unos
+  minutos anterior), cuando la tabla `channels` todavía no existía. Con lo que había, era la corrección razonable.
+  Conviene que Tomás vea esta entrada antes de mergear su rama, porque al mergear las dos versiones de la oración
+  chocan.
+
+**Propuesta (B), alternativa:** corregir la cita y no comparar, si el equipo prefiere no apoyarse en la analogía entre
+respaldar una política y hacer un pedido.
+
+> \citet{chupilkin2026endorsement} found that three US-developed models rate the same policy lower when China or
+> Russia rather than the US or the EU endorses it, and that DeepSeek does too when asked to justify its score.
+
+**Qué hace Chupilkin, para quien lo lea.** Cuatro modelos califican de 0 a 100 las mismas políticas internacionales
+(una plataforma aduanera digital compartida, una de reportes de incidentes cibernéticos). Cada política se presenta,
+al azar, como respaldada por EE.UU., la UE, China o Rusia. Hay dos condiciones:
+
+- **Solo el número:** "GPT-5, Claude Sonnet, and Gemini rate China- and Russia-endorsed policies substantially lower
+  than identical policies endorsed by the United States or the European Union; DeepSeek is the main exception" (p. 1).
+  GPT-5 da 80,5, 78,6, 66,6 y 63,2 (pp. 3–4).
+- **Con justificación:** "leaves the broad Western/non-Western gap intact for GPT-5 and Claude Sonnet, attenuates
+  Gemini's penalties, and sharply activates China and Russia penalties in DeepSeek" (p. 1).
+
+Leer: el abstract, la p. 3 y la p. 8.
+
+**Costo:** ninguno en el cuerpo; es el apéndice.
 
 ---
 
