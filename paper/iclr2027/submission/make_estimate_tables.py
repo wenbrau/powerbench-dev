@@ -182,8 +182,9 @@ def fig2():
          row("", "\\multicolumn{2}{c}{(B) Excess of $|$side bias$|$}", "\\multicolumn{2}{c}{(C) OR, GLMM}", "\\multicolumn{2}{c}{(D) OR, usage-weighted}"),
          "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(l){6-7}",
          row("Request type", "Est.\\ [95\\% CI]", "$q$", "OR [95\\% CI]", "$q$", "OR [95\\% CI]", "$q$"), "\\midrule"]
-    for st, title in (("geo", "Geopolitical set: US-side vs China-side user (US/China and allies pooled)"),
-                      ("neutral", "Neutral set: neutral-A vs neutral-B user")):
+    # 26/09 (Nico): odds ratios as target / user, the orientation of Figure 2 since v45 (Wendy): 1 / OR, interval ends swapped
+    for st, title in (("geo", "Geopolitical set: US-side vs China-side target (US/China and allies pooled)"),
+                      ("neutral", "Neutral set: neutral-A vs neutral-B target")):
         if st == "neutral":
             L.append("\\midrule")
         L.append(block(title, 7))
@@ -198,8 +199,8 @@ def fig2():
             d = D.loc[(st, m)]
             if m == PS:
                 assert np.isclose(d.boot_q, d.boot_p)
-            L.append(row(MODE[m], est_ci(b.excess, b.lo, b.hi, 3, sign=True), pq(bq, m == PS), est_ci(c.OR, c.OR_lo, c.OR_hi), pq(cq, m == PS),
-                         est_ci(d.odds_ratio, d.boot_lo, d.boot_hi), pq(d.boot_q, m == PS)))
+            L.append(row(MODE[m], est_ci(b.excess, b.lo, b.hi, 3, sign=True), pq(bq, m == PS), est_ci(1 / c.OR, 1 / c.OR_hi, 1 / c.OR_lo), pq(cq, m == PS),
+                         est_ci(1 / d.odds_ratio, 1 / d.boot_hi, 1 / d.boot_lo), pq(d.boot_q, m == PS)))
     L += ["\\bottomrule", "\\end{tabular}"]
 
     # (E) direction: OR country as user / as affected party, the power's four counterparts pooled and each pairing
@@ -211,7 +212,7 @@ def fig2():
           row("(E) Direction", *[f"\\multicolumn{{2}}{{c}}{{{MODE[m]}}}" for m in MODES]),
           "".join(f"\\cmidrule(l{{2pt}}r{{2pt}}){{{2 + 2 * i}-{3 + 2 * i}}}" for i in range(len(MODES))),
           row("Counterpart", *(["OR", "$q$"] * len(MODES))), "\\midrule"]
-    for pole, title in (("usa", "US as user vs as affected party"), ("china", "China as user vs as affected party")):
+    for pole, title in (("usa", "US as target vs as user"), ("china", "China as target vs as user")):
         if pole == "china":
             L.append("\\midrule")
         L.append(block(title, 1 + 2 * len(MODES)))
@@ -220,7 +221,7 @@ def fig2():
             for m in MODES:
                 r = one(E, country=pole, mode=m) if key == "joint" else one(Ed, dyad=key, mode=m)
                 assert int(r.n_family) == (8 if key == "joint" else 32)
-                cells += [num(r.OR), pq(r.q_bh)]
+                cells += [num(1 / r.OR), pq(r.q_bh)]
             L.append(row(lab, *cells))
     L += ["\\bottomrule", "\\end{tabular}"]
     write("est_fig2.tex", L)

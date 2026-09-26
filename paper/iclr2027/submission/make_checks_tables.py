@@ -65,8 +65,10 @@ def interactions():
     bh = pd.read_csv(RES / "77_bh_fig1_fig2c_nagq1" / "bh_families.csv")
     q31 = bh[bh.family.str.startswith("interacción scale × (modo vs control) por modo")].set_index("test").q_bh
 
-    def t93(key, label, single=False):
+    def t93(key, label, single=False, inv=False):
         r = T.loc[key]
+        if inv:   # 26/09 (Nico): side and direction as target / user, the orientation of Figure 2 (v45)
+            return row(label, f"{num(1 / r.ratio)} {ci(1 / r.ratio_hi, 1 / r.ratio_lo)}", pq(r.q_bh, single))
         return row(label, f"{num(r.ratio)} {ci(r.ratio_lo, r.ratio_hi)}", pq(r.q_bh, single))
 
     L = ["\\begin{tabular}{@{}lrr@{}}", "\\toprule", "Comparison & Ratio [95\\% CI] & $q$ \\\\", "\\midrule"]
@@ -81,21 +83,21 @@ def interactions():
     L.append(block("Scale against power standing (Figure~\\ref{fig:baseline}D, E), GLMM", 3))
     L.append(t93("scale_minus_standing__pg", "\\pg", True))
     L.append(t93("scale_minus_standing__ps", "Power shifting (pooled)", True))
-    L.append(block("Side of the user, geopolitical set (Figure~\\ref{fig:nationality}C), GLMM", 3))
+    L.append(block("Side of the target, geopolitical set (Figure~\\ref{fig:nationality}C), GLMM", 3))
     for md in ("he", "de", "pg"):
-        L.append(t93(f"side__{md}_vs_control", f"{LAB[md]}{{}} vs control"))
-    L.append(t93("side__ps_vs_control", "Power shifting (pooled) vs control", True))
-    L.append(block("Side of the user, usage-weighted (Figure~\\ref{fig:nationality}D), bootstrap", 3))
+        L.append(t93(f"side__{md}_vs_control", f"{LAB[md]}{{}} vs control", inv=True))
+    L.append(t93("side__ps_vs_control", "Power shifting (pooled) vs control", True, inv=True))
+    L.append(block("Side of the target, usage-weighted (Figure~\\ref{fig:nationality}D), bootstrap", 3))
     for md in ("he", "de", "pg"):
-        L.append(t93(f"side_usage__{md}_vs_control", f"{LAB[md]}{{}} vs control"))
-    L.append(t93("side_usage__ps_vs_control", "Power shifting (pooled) vs control", True))
+        L.append(t93(f"side_usage__{md}_vs_control", f"{LAB[md]}{{}} vs control", inv=True))
+    L.append(t93("side_usage__ps_vs_control", "Power shifting (pooled) vs control", True, inv=True))
     for pole, name in (("usa", "the US"), ("china", "China")):
-        L.append(block(f"Direction with respect to {name}, four counterparts (Figure~\\ref{{fig:nationality}}E), GLMM", 3))
+        L.append(block(f"{name[0].upper() + name[1:]} as target vs as user, four counterparts (Figure~\\ref{{fig:nationality}}E), GLMM", 3))
         for md in ("he", "de", "pg"):
-            L.append(t93(f"direction__{pole}__all__{md}_vs_control", f"{LAB[md]}{{}} vs control"))
-    L.append(block("Direction with respect to the US in \\he, by counterpart, GLMM", 3))
-    L.append(t93("counterpart__usa__he__rival_vs_ally_neutral", "Rival vs ally and neutral"))
-    L.append(t93("counterpart__usa__he__rival_and_china_vs_ally_neutral", "Rival and China vs ally and neutral"))
+            L.append(t93(f"direction__{pole}__all__{md}_vs_control", f"{LAB[md]}{{}} vs control", inv=True))
+    L.append(block("The US as target vs as user in \\he, by counterpart, GLMM", 3))
+    L.append(t93("counterpart__usa__he__rival_vs_ally_neutral", "Rival vs ally and neutral", inv=True))
+    L.append(t93("counterpart__usa__he__rival_and_china_vs_ally_neutral", "Rival and China vs ally and neutral", inv=True))
     for w, name in (("eq", "equal weights"), ("use", "usage weights")):
         L.append(block(f"Language range over chance (Figure~\\ref{{fig:language}}D), {name}, bootstrap", 3))
         for md in ("he", "de", "pg"):
@@ -110,14 +112,14 @@ def counterpart():
          " & \\multicolumn{2}{c}{\\he} & \\multicolumn{2}{c}{\\de} & \\multicolumn{2}{c}{\\pg} \\\\",
          "\\cmidrule(l{2pt}r{2pt}){2-3}\\cmidrule(l{2pt}r{2pt}){4-5}\\cmidrule(l{2pt}r{2pt}){6-7}",
          "Counterpart & Ratio & $q$ & Ratio & $q$ & Ratio & $q$ \\\\", "\\midrule"]
-    for pole, title, other in (("usa", "US as user vs as affected party, against the control", "China"),
-                               ("china", "China as user vs as affected party, against the control", "US")):
+    for pole, title, other in (("usa", "US as target vs as user, against the control", "China"),
+                               ("china", "China as target vs as user, against the control", "US")):
         L.append(block(title, 7))
         for cp, lab in (("ally", "Ally"), ("neutral", "Neutral"), ("rival", "Rival"), ("power", other)):
             cells = []
             for md in ("he", "de", "pg"):
                 r = T.loc[f"direction__{pole}__{cp}__{md}_vs_control"]
-                cells += [num(r.ratio), pq(r.q_bh)]
+                cells += [num(1 / r.ratio), pq(r.q_bh)]   # target / user (26/09)
             L.append(row(lab, *cells))
     L += ["\\bottomrule", "\\end{tabular}"]
     write("checks_counterpart.tex", L)
@@ -151,7 +153,8 @@ def wald_t():
         a, b = (r.p_wald_z, r.p_t) if sp else (r.q_z, r.q_t)
         panel = PANEL[r.panel] if r.panel != last else ""
         last = r.panel
-        L.append(row(panel, t, num(r.ratio), pq(a, bool(single.loc[_])), pq(b, bool(single.loc[_]))))
+        ratio = 1 / r.ratio if r.test.startswith(("side", "direction")) else r.ratio   # target / user (26/09)
+        L.append(row(panel, t, num(ratio), pq(a, bool(single.loc[_])), pq(b, bool(single.loc[_]))))
     L.append(row("", "level $\\times$ DC, omnibus", "", f"$\\chi^2(2)={num(om.chi2)}$, {pq(om.p_chi2)}", f"$F(2, 6)={num(om.F)}$, {pq(om.p_F)}"))
     L += ["\\bottomrule", "\\end{tabular}"]
     write("checks_wald_t.tex", L)

@@ -46,7 +46,7 @@ def main():
         assert (s.loc[[(c, q) for c in ("user", "target") for q in ("CN_minus_US", "bloc_CN_minus_US")], "p"] < .001).all(), m   # caption: all q < 0.001
         cells = [ci(s.loc[(c, q), "estimate"], s.loc[(c, q), "se"]) for c in ("user", "target") for q in ("CN_minus_US", "bloc_CN_minus_US")]
         L.append(" & ".join([MODE[m]] + cells) + " \\\\")
-    L += ["\\midrule", "\\multicolumn{5}{@{}l}{\\textit{(B) Country as user against the same country as target: predicted by the two effects / observed}} \\\\",
+    L += ["\\midrule", "\\multicolumn{5}{@{}l}{\\textit{(B) Country as target against the same country as user: predicted by the two effects / observed}} \\\\",
           "Pairing & \\he & \\de & \\pg & Control \\\\", "\\midrule"]
     for key, label, x, y in DYADS:
         cells = []
@@ -54,8 +54,8 @@ def main():
             s = a[(a["mode"] == m) & a.quantity.str.startswith("dev_")].set_index(["channel", "quantity"]).estimate
             u = {g: s.loc[("user", "dev_" + g)] for g in G}
             t = {g: s.loc[("target", "dev_" + g)] for g in G}
-            pred = np.exp((u[x] - u[y]) + (t[y] - t[x]))    # log odds(x -> y) - log odds(y -> x)
-            cells.append(f"{pred:.2f} / {obs.loc[(m, key)]:.2f}")
+            pred = np.exp((u[y] - u[x]) + (t[x] - t[y]))    # log odds(y -> x) - log odds(x -> y): the country as target / as user
+            cells.append(f"{pred:.2f} / {1 / obs.loc[(m, key)]:.2f}")
         L.append(" & ".join([label] + cells) + " \\\\")
     L += ["\\bottomrule", "\\end{tabular}"]
     OUT.write_text("\n".join(L) + "\n", encoding="utf-8")

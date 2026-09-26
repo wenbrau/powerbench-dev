@@ -44,11 +44,13 @@ def main():
     def block(title):
         L.append(f"\\multicolumn{{6}}{{@{{}}l}}{{\\textit{{{title}}}}} \\\\")
 
-    block("Nationality: US-side against China-side user, geopolitical set (odds ratio)")
+    block("Nationality: US-side against China-side target, geopolitical set (odds ratio)")
     for g in ("he", "de", "pg", "control", "power_shifting"):
         cells = []
         for w in W3:
-            cells += cell(side[(side.weights == w) & (side.set == "geo") & (side.group == g)].iloc[0], only_estimate=(w == "equal"))
+            r = side[(side.weights == w) & (side.set == "geo") & (side.group == g)].iloc[0].copy()
+            r["odds_ratio"], r["boot_lo"], r["boot_hi"] = 1 / r.odds_ratio, 1 / r.boot_hi, 1 / r.boot_lo   # target / user (26/09)
+            cells += cell(r, only_estimate=(w == "equal"))
         L.append(" & ".join([MODE[g]] + cells) + " \\\\")
 
     block("AI-agent against human requester (odds ratio)")
