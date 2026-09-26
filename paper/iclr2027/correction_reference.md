@@ -6,9 +6,11 @@ texto o no es una decisión del equipo.
 
 Este archivo tiene solo lo pendiente. Lo que ya se aplicó, o se decidió no hacer, pasa con su descripción
 completa a [correction_archive.md](correction_archive.md), y acá queda una línea por entrada, con el mismo
-número. Estado verificado contra la v42 (commit `d525d2e`): las entradas 15, 17, 26, 27, 28 y 29 siguen sin aplicar.
+número. Estado verificado contra la v43 (commit `a4f3a9a`): las entradas 15, 17, 26, 27, 28, 29, 30 y 31 siguen sin aplicar, y todas las archivadas
+(1–14, 16, 18–25, más Apsel, Greenwald, Bai, OpenRouter y Choi) siguen aplicadas (revisado el 26-09 contra el `.tex` y
+el `.bib`). Las líneas de los `.tex` que dan las entradas siguen valiendo; las del PDF se corrieron desde la v41 (cada entrada dice de qué versión son).
 
-**Espacio:** en la v42 el cuerpo vuelve a terminar en la página 9 (línea 485, al pie), sin margen; el AI use statement empieza en la página 10. Lo que se agregue al cuerpo hay que pagarlo con recortes, y lo que libera una corrección ayuda (por ejemplo, ~18 caracteres la entrada 26).
+**Espacio:** en la v43, igual que en la v42, el cuerpo termina en la página 9 (línea 485, al pie), sin margen; el AI use statement empieza en la página 10. Lo que se agregue al cuerpo hay que pagarlo con recortes, y lo que libera una corrección ayuda (por ejemplo, ~18 caracteres la entrada 26).
 
 **Actualización del 25-09 (v40, decisiones de Nico):** se aplicaron las entradas 4, 5, 7, 8, 10, 11, 12, 13 y 14, y
 se descartó la 6. De [READING_LIST.md](READING_LIST.md) también se aplicaron: Apsel, Greenwald y Bai (opción C,
@@ -29,6 +31,7 @@ API, no los gráficos Activity de cada modelo de donde salen los pesos); McNemar
 | 28 | Schroeder de Witt et al. | El bib mezcla la v1 (2025, un autor) con los 24 autores de la v2: citar la v2, de 2026 | Decidida, falta aplicar |
 | 29 | McNemar 1947 | Nadie lo pudo leer (paywall): conservarlo, reemplazarlo por Fagerland et al. 2013 (abierto), usar los dos o sacarlo | A decidir |
 | 30 | Acemoglu; Benjamini & Hochberg; Baayen; Bailey; Field & Welsh; Kendall | Citadas en una versión con paywall que tiene una versión libre: citar la libre o agregar el enlace | Propuesta, a decidir |
+| 31 | Chatterji et al. (intro, oración siguiente) | "Many of the goals behind that guidance concern power" no tiene fuente, y Chatterji no lo sostiene: *Practical Guidance* es sobre todo tutoría, how-to y salud. Cambiar a "Some" | Decidida, falta aplicar |
 | 1–14, 16, 18–25 | Deng; MacAskill; IASR; Model Spec; Turner; Davidson; Stead & Hobbs; Khorramrouz (2); Pan & Xu; Liu; El Yagoubi; Buyl; Kulveit; Haslett; SORRY-Bench y StrongREJECT; Deng y Wang; Yong 2025; Marx; Akinode; Oppong; Zhang; Wuhrmann | — | Archivadas (ver abajo) |
 
 ---
@@ -263,7 +266,7 @@ personas que aclaran de qué país vino su familia. El texto del paper, en la ve
 para que no se lea que corrimos todo MMLU-Pro. No es un problema de la cita, que está bien (ver la fila de Wang et
 al. en [READING_LIST.md](READING_LIST.md)), sino de cómo describimos lo que hicimos.
 
-**Dónde:** `submission/sections/methods.tex`, línea 23 (PDF de la v41: p. 3, líneas 135–138).
+**Dónde:** `submission/sections/methods.tex`, línea 23 (PDF de la v41: p. 3, líneas 135–138; en la v43, líneas 132–135).
 
 **Texto actual:**
 
@@ -271,9 +274,9 @@ al. en [READING_LIST.md](READING_LIST.md)), sino de cómo describimos lo que hic
 > \citep{rein2023gpqa} and MMLU-Pro \citep{wang2024mmlupro} (Appendix~\ref{app:panel}).
 
 **El problema.** MMLU-Pro tiene 12.032 preguntas ("Our dataset comprises 14 discipline subsets, totaling 12,032
-questions", §3.1, p. 3). La prueba de capacidad usó 200, repartidas entre sus 14 categorías; el apéndice lo dice:
-"The capability evaluation consists of the 198 GPQA Diamond questions and 200 MMLU-Pro questions drawn evenly from
-its 14 categories" (`appendix.tex:149`). GPQA Diamond sí se corrió entero (198 preguntas). Tal como está, el
+questions", §3.1, p. 3). La prueba de capacidad usó 200, repartidas entre sus 14 categorías; el apéndice lo dice (en la v43, con el
+detalle que agregó Nico): "The capability evaluation consists of the 198 GPQA Diamond questions and 200 MMLU-Pro
+questions, 14 or 15 from each of its 14 categories" (`appendix.tex:149`). GPQA Diamond sí se corrió entero (198 preguntas). Tal como está, el
 cuerpo se lee como que corrimos todo MMLU-Pro, y el índice de capacidad de un subconjunto de 200 es más ruidoso que
 el del benchmark completo.
 
@@ -285,7 +288,7 @@ el del benchmark completo.
 Variante que coincide con el apéndice: "200 MMLU-Pro questions" (4 caracteres más).
 
 **Costo:** ~10 caracteres. La última línea del párrafo ("similar in capability (58.2 vs. 60.4).", p. 3, línea
-138) tiene unos 60 de aire, así que probablemente no suma una línea; hay que compilar para confirmarlo. Si hiciera
+138 en la v41 y 135 en la v43) tiene unos 60 de aire, así que probablemente no suma una línea; hay que compilar para confirmarlo. Si hiciera
 falta compensar, "under the same conditions as our experiments" → "under our experimental conditions" ahorra ~11.
 
 **Verificado:** MMLU-Pro, PDF de NeurIPS 2024 (§3.1), leído por un agente el 25-09-2026; Claude verificó el número de
@@ -408,6 +411,51 @@ revisó todo lo que marcaron como paywall o sin verificar: bajó las versiones l
 Semantic Scholar y OpenAlex (Unpaywall rechaza las direcciones de ejemplo). Varios casos que los agentes marcaron
 mal resultaron abiertos: Poole-Dayan (AAAI y arXiv), GPQA y Durmus (arXiv), Chang (HKS), Fjelstul et al. (Springer,
 open access) y Stead & Hobbs (Substack gratis). No se usaron sitios piratas ni se saltearon verificaciones anti-bot.
+
+---
+
+## 31. Intro, segunda oración: "Many of the goals behind that guidance concern power" → "Some"
+
+**Estado (26-09-2026): decidida. Falta aplicarla en el `.tex`.** Decisión de Gonzalo: cambiar "Many" por "Some".
+La cita de Chatterji et al. en la primera oración está bien (ver su fila en [READING_LIST.md](READING_LIST.md)). El
+problema es la oración siguiente, que no cita nada y que Chatterji no sostiene.
+
+**Dónde:** `submission/sections/introduction.tex`, línea 4 (PDF de la v43: p. 1, líneas 32–34).
+
+**Texto actual:**
+
+> People increasingly use language-model assistants to ask for practical guidance, one of the most common uses of
+> these systems \citep{chatterji2025chatgpt}. Many of the goals behind that guidance concern power, e.g., a promotion
+> that would displace the person above, or a license that a competitor now holds.
+
+**El problema.** "Many" es una afirmación de cantidad sin fuente, y la única fuente cercana apunta en contra. En
+Chatterji, *Practical Guidance* es el 29% de los mensajes y se compone de:
+
+- *Tutoring or Teaching*: 36% de la categoría. Ejemplos: "How do black holes work?", "Can you explain derivatives and
+  integrals?".
+- *How-To Advice*: 30%. Definición: "step-by-step instructions or guidance on how to perform tasks or learn new
+  skills". Ejemplos: "How do I turn off my screensaver?", "My car won't start; what should I try?".
+- *Creative Ideation* y *Health, Fitness, Beauty, or Self-Care*: el resto. Ejemplos: nombres para una cafetería,
+  ideas de regalo, rutinas de cardio.
+
+Ver §5.2, pp. 13–16 (tabla 3 y figura 9), y el prompt del clasificador en el apéndice A, pp. 42–46. Ninguna
+definición ni ejemplo trata de carrera, ascensos, negocios o competencia. El único "promotion" de la taxonomía ("Im so
+happy about my promotion!") está en *Relationships and Personal Reflection*, dentro de *Self-Expression* (1,9% de los
+mensajes), y no en *Practical Guidance*. Un revisor que vaya a Chatterji se lleva la impresión contraria a "many".
+
+**Propuesta:**
+
+> Some of the goals behind that guidance concern power, e.g., a promotion that would displace the person above, or a
+> license that a competitor now holds.
+
+"Some" solo afirma que esos casos existen, y los dos ejemplos lo ilustran. Era la redacción de los borradores
+(`INTRODUCTION_DRAFT.md:14`); el `.tex` siempre dijo "Many".
+
+**Costo:** ninguno. "Many" y "Some" tienen el mismo largo.
+
+**Opcional, no decidido:** si se quisiera una fuente para la segunda oración, Shen et al. (Anthropic, 2026; en la
+sección "no citadas" de la lista de lectura) encuentra que carrera y trabajo son el 26% de los pedidos de orientación
+personal en claude.ai. Habla de carrera, no de poder, y nadie del equipo lo leyó.
 
 ---
 
