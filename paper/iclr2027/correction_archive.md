@@ -719,7 +719,7 @@ tablas 1 y 2.
 
 ---
 
-## 12. El Yagoubi et al. 2026, intro ¶2: su sesgo no está en la lista
+## 12. El Yagoubi et al. 2026, intro ¶3: su sesgo no está en la lista
 
 **Archivada el 25-09-2026.** Aplicada en la v40 (`f9cd440`, decisiones de Nico), opción (a) (`introduction.tex:8`): la lista volvió a incluir "type of interlocutor".
 
