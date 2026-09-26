@@ -22,18 +22,20 @@ API, no los gráficos Activity de cada modelo de donde salen los pesos); McNemar
 
 | # | Fuente | Qué | Estado |
 |---|---|---|---|
-| 15 | Choi et al. | Sacarlo de 3.3 y ajustar la oración a El Yagoubi ("can behave differently when told…") | Aplicada en parte en la v40: Choi salió y entró "told", pero la v40 agregó a Xie et al. y no puso "can". Gonzalo había decidido solo El Yagoubi, con "can": falta acordarlo con Nico |
+| 15 | Choi et al. | Sacarlo de 3.3 y ajustar la oración a El Yagoubi ("can behave differently when told…") | Aplicada en parte en la v40: Choi salió y entró "told", pero la v40 agregó a Xie et al. y no puso "can". Gonzalo había decidido solo El Yagoubi, con "can": falta acordarlo con Nico. El apéndice B ya dice "Models can disclose…" (26-09, entrada 33) |
 | 17 | Durmus et al. | Related work: la cita más débil de la oración de identidad (sesgo de representación, un solo modelo) | La v40 aplicó la opción (B): quedó corregida ("a model can represent…", separada del idioma). Gonzalo vota quitarla (A), sin estar muy convencido: falta decidir. El apéndice B sigue en plural |
 | 26 | Li, Chen & Saphra | Intro ¶3: mide sesgos en dimensiones (edad, género, etnia, ideología) que no están en la lista, que son las que mide PowerBench | Decidida: sacarlo del ¶3, falta aplicar |
 | 27 | Wang et al. (MMLU-Pro) | Methods dice que corrimos MMLU-Pro; fueron 200 de sus 12.032 preguntas: "200 MMLU-Pro items" | Decidida, falta aplicar |
 | 28 | Schroeder de Witt et al. | El bib mezcla la v1 (2025, un autor) con los 24 autores de la v2: citar la v2, de 2026 | Decidida, falta aplicar |
 | 29 | McNemar 1947 | Nadie lo pudo leer (paywall): conservarlo, reemplazarlo por Fagerland et al. 2013 (abierto), usar los dos o sacarlo | A decidir |
 | 30 | Acemoglu; Benjamini & Hochberg; Baayen; Bailey; Field & Welsh; Kendall | Citadas en una versión con paywall que tiene una versión libre: citar la libre o agregar el enlace | Propuesta, a decidir |
-| 1–14, 16, 18–25 | Deng; MacAskill; IASR; Model Spec; Turner; Davidson; Stead & Hobbs; Khorramrouz (2); Pan & Xu; Liu; El Yagoubi; Buyl; Kulveit; Haslett; SORRY-Bench y StrongREJECT; Deng y Wang; Yong 2025; Marx; Akinode; Oppong; Zhang; Wuhrmann | — | Archivadas (ver abajo) |
+| 1–14, 16, 18–25, 31–33 | Deng; MacAskill; IASR; Model Spec; Turner; Davidson; Stead & Hobbs; Khorramrouz (2); Pan & Xu; Liu; El Yagoubi; Buyl; Kulveit; Haslett; SORRY-Bench y StrongREJECT; Deng y Wang; Yong 2025; Marx; Akinode; Oppong; Zhang; Wuhrmann; Poole-Dayan; Tamkin; El Yagoubi (apéndice B) | — | Archivadas (ver abajo) |
 
 ---
 
 ## 15. Choi et al. 2025, resultados 3.3: sacarlo y ajustar la oración a El Yagoubi
+
+**26-09:** el apéndice B ya dice "Models can disclose more personal data when told that the response goes to an AI agent" (decisión de Tomás; [correction_archive.md](correction_archive.md), entrada 33). La oración del cuerpo (3.3) sigue sin "can".
 
 **En la v40 (`f9cd440`): aplicada en parte.** El texto quedó "models behave differently when told their interlocutor is an AI agent \citep{elyagoubi2026interlocutor, xie2024trust}". Choi salió y entró "told", pero se agregó a Xie et al. (la propuesta (a) que figuraba en la lista de lectura antes de esta decisión, que todavía no estaba subida) y no se puso "can". Falta acordarlo con Nico.
 
@@ -438,3 +440,6 @@ La descripción completa de cada una está en [correction_archive.md](correction
 - **23. Oppong et al., apéndice B.** La fuente dice "suggesting"; ahora "found evidence … that suggests". Aplicada el 25-09 (Wendy). Ver [correction_archive.md](correction_archive.md), entrada 23.
 - **24. Zhang et al., apéndice B.** Se quitó el contraste con el suajili de SE (sus prompts neutros se parecen más a nuestro control). Aplicada el 25-09 (Wendy). Ver [correction_archive.md](correction_archive.md), entrada 24.
 - **25. Wuhrmann et al., apéndice B.** "Each model" eran dos modelos y el idioma es el de salida; "as we find …" atribuía al paper una conclusión sobre el alineamiento. Aplicada el 25-09 (Wendy). Ver [correction_archive.md](correction_archive.md), entrada 25.
+- **31. Poole-Dayan et al., apéndice B.** "From outside the United States" venía del abstract, pero en el experimento de país el efecto es solo de Claude 3 Opus (GPT-4 y Llama 3: "essentially no significant differences"). Ahora: "…less educated or less proficient in English, and one of the three models also underperforms for users from outside the United States". Aplicada el 26-09 (Tomás). Ver [correction_archive.md](correction_archive.md), entrada 31.
+- **32. Tamkin et al., apéndice B.** "Models" era un solo modelo (Claude 2.0). Ahora: "found that Claude~2 decides differently about people depending on their age, gender, and race". Aplicada el 26-09 (Tomás). Ver [correction_archive.md](correction_archive.md), entrada 32.
+- **33. El Yagoubi et al., apéndice B.** Los autores confirman el efecto solo en GPT-4o ("not a universal rule"). Ahora: "Models can disclose more personal data …". Aplicada el 26-09 (Tomás). Ver [correction_archive.md](correction_archive.md), entrada 33.

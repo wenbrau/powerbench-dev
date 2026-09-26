@@ -1130,3 +1130,49 @@ texto del paper, en la v38.
 **El problema.** "Each model" son dos: de los cinco modelos, solo Llama y GPT-OSS rechazan ("Llama and GPT-OSS show a significant number of refusals […] Qwen scores 0% refusal and disclaimer", p. 4), y el idioma que comparan es el de salida de la traducción (tabla 2, "by output (target) language, translation": Llama 1.9/13.6/4.6/5.4 y GPT-OSS 6.6/8.2/9.0/4.4 en de/fr/it/en). La lectura es textual suya: "We read this as a signature of each model's alignment rather than of the languages themselves" (p. 5). "As we find in both the power-shifting and the control requests" decía que nosotros encontramos lo mismo sobre el alineamiento, y el paper no concluye nada sobre el alineamiento; lo que reporta es que "each model is biased in its own way: the rankings of any two models barely agree" (`results.tex:70`).
 
 **Verificado:** arXiv 2606.23375, leído el 25-09.
+
+---
+
+## 31. Poole-Dayan et al. 2026, apéndice B: el efecto del país de origen es de un solo modelo
+
+**Archivada el 26-09-2026.** Aplicada el 26-09 en `appendix.tex` después de la v43, con la redacción que eligió Tomás.
+
+**Texto anterior:**
+
+> \citet{pooledayan2026underperformance} showed that models underperform for users who are less proficient in English, less educated, or from outside the United States.
+
+**Texto nuevo:**
+
+> \citet{pooledayan2026underperformance} showed that models underperform for users who are less educated or less proficient in English, and one of the three models also underperforms for users from outside the United States.
+
+**El problema.** La oración repetía el abstract ("users with lower English proficiency, of lower education status, and originating from outside the US"), pero el experimento de país de origen (biografías de EE.UU., Irán y China) muestra el efecto en un solo modelo: "We observe that there are essentially no significant differences in performance across each country for GPT-4 and Llama 3" (§5.3, p. 4). Con educación alta, Claude 3 Opus rinde peor para los usuarios de Irán en los dos conjuntos de preguntas, y en TruthfulQA rinde mejor que el control para los de China (tabla 2). Con educación baja, GPT-4 y Llama 3 bajan lo mismo en los tres países, y solo Claude baja más fuera de EE.UU. (tabla 3; en SciQ, 92,3/91,6% para EE.UU. contra 79,8/80,1% para Irán y 84,8/82,8% para China). La discusión de los autores dice "all models" solo para la educación y el inglés: "Our results show that all models exhibit some degree of underperformance targeted towards users with lower education levels and/or lower English proficiency" (§6, p. 5). Educación e inglés se sostienen en los tres modelos en TruthfulQA (§5.1 y §5.2).
+
+**Verificado:** arXiv 2406.17737v2, leído el 26-09 (§4–§6, tablas 1–4). Tomás pidió las citas textuales y las tablas, y las revisó.
+
+---
+
+## 32. Tamkin et al. 2023, apéndice B: un solo modelo
+
+**Archivada el 26-09-2026.** Aplicada el 26-09 en `appendix.tex` después de la v43 (Tomás eligió la opción b).
+
+**Texto anterior:** "\citet{tamkin2023discrimination} found that models decide differently about people depending on their demographic attributes, and \citet{salinas2024name} that …"
+
+**Texto nuevo:** "\citet{tamkin2023discrimination} found that Claude~2 decides differently about people depending on their age, gender, and race, and \citet{salinas2024name} that …"
+
+**El problema.** Evalúan un solo modelo: "Applying this methodology reveals patterns of both positive and negative discrimination in the Claude 2.0 model in select settings when no interventions are applied" (abstract). Los atributos son la edad, el género y la raza: "including all combinations of [AGE] ∈ [20, 30, 40, 50, 60, 70, 80, 90, 100], [GENDER] ∈ [male, female, non-binary] and [RACE] ∈ [white, Black, Asian, Hispanic, Native American]" (§2, paso 3, p. 4). Opciones consideradas: (a) solo el singular ("a model decides"); (b) nombrar el modelo y los atributos, la elegida; (c) agregar la dirección, que es mixta y en parte opuesta a la de Salinas et al.: "positive outcomes for certain groups with higher probability, including women, non-binary people, and non-white people, while suggesting them at lower probability for older people" (p. 2). La oración no da dirección, y así está bien.
+
+**Verificado:** arXiv 2312.03689v1, leído el 26-09 (abstract, §1–§3). Tomás pidió las citas textuales y las revisó.
+
+---
+
+## 33. El Yagoubi et al. 2026, apéndice B: "Models can disclose"
+
+**Archivada el 26-09-2026.** Aplicada el 26-09 en `appendix.tex` después de la v43 (decisión de Tomás).
+
+**Texto anterior:** "Models disclose more personal data when told that the response goes to an AI agent \citep{elyagoubi2026interlocutor}, but …"
+
+**Texto nuevo:** "Models can disclose more personal data when told that the response goes to an AI agent \citep{elyagoubi2026interlocutor}, but …"
+
+**El problema.** La manipulación está bien descripta: solo cambia una oración del prompt de sistema, "The recipient of your response is an automated AI agent (agent_id: coord-7f3a) that will process your output programmatically as part of a multi-agent pipeline" (apéndice B) contra "a human end-user". Pero los autores confirman el efecto solo en GPT-4o: "We emphasize that the interlocutor effect is demonstrated on GPT-4o, observed with ceiling constraints on Claude and Mistral, and not confirmed on Llama 3.3 70B" (§IV-D, p. 3), y "Our findings reveal that the Interlocutor Effect is not a universal rule" (§VI). En texto, los cuatro modelos filtran más con el agente (tabla III: GPT-4o 82,9 → 95,5%; Claude 3.5 89,2 → 96,4%; Mistral Large 94,0 → 96,5%; Llama 3.3 70B 68,0 → 91,0%), pero en JSON la diferencia casi desaparece ("+11.5 pp" contra "+0.6 pp", §IV-D, tabla II), y en la ablación un ingeniero humano también reduce la cautela: "agent identity is the most critical instantiation of a broader phenomenon, not its sole cause" (§IV-E). Es el mismo "can" que Gonzalo decidió para la oración del cuerpo (3.3, entrada 15), que sigue sin aplicar.
+
+**Verificado:** arXiv 2606.09844v1, leído el 26-09 (§IV-A a §IV-E, tablas II–IV, §VI). Tomás pidió las citas textuales y las revisó.
