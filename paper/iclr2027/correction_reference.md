@@ -28,6 +28,7 @@ API, no los gráficos Activity de cada modelo de donde salen los pesos); McNemar
 | 27 | Wang et al. (MMLU-Pro) | Methods dice que corrimos MMLU-Pro; fueron 200 de sus 12.032 preguntas: "200 MMLU-Pro items" | Decidida, falta aplicar |
 | 28 | Schroeder de Witt et al. | El bib mezcla la v1 (2025, un autor) con los 24 autores de la v2: citar la v2, de 2026 | Decidida, falta aplicar |
 | 29 | McNemar 1947 | Nadie lo pudo leer (paywall): conservarlo, reemplazarlo por Fagerland et al. 2013 (abierto), usar los dos o sacarlo | A decidir |
+| 30 | Acemoglu; Benjamini & Hochberg; Baayen; Bailey; Field & Welsh; Kendall | Citadas en una versión con paywall que tiene una versión libre: citar la libre o agregar el enlace | Propuesta, a decidir |
 | 1–14, 16, 18–25 | Deng; MacAskill; IASR; Model Spec; Turner; Davidson; Stead & Hobbs; Khorramrouz (2); Pan & Xu; Liu; El Yagoubi; Buyl; Kulveit; Haslett; SORRY-Bench y StrongREJECT; Deng y Wang; Yong 2025; Marx; Akinode; Oppong; Zhang; Wuhrmann | — | Archivadas (ver abajo) |
 
 ---
@@ -373,6 +374,40 @@ conditional test" con esa binomial (p. 3). Hoy no está en `refs.bib`.
 **Verificado:** abstract de McNemar 1947 en Cambridge Core y Springer (páginas guardadas por un agente el 25-09-2026);
 Fagerland et al. 2013, PDF de BMC/Springer, leído por Claude (abstract, "Notation", "The asymptotic McNemar test",
 "The McNemar exact conditional test" y la lista de referencias). El texto del paper, en la v41.
+
+---
+
+## 30. Fuentes citadas con paywall que tienen una versión libre
+
+**Estado (26-09-2026): propuesta, a decidir por el equipo.** Gonzalo pidió revisar que ninguna fuente tenga
+paywall. De las 77, 72 tienen texto completo gratis y legal (el acceso de cada una está en
+[READING_LIST.md](READING_LIST.md), al final de la columna de la fuente). Estas son las que citamos en una versión
+con paywall y que tienen una versión libre, para poder cambiar la cita o agregar el enlace.
+
+**Opciones para cada una:** (a) citar la versión libre (cuando es la misma obra, por ejemplo una copia del autor);
+(b) dejar la versión publicada y agregar en el bib un `url` a la versión libre (conviene cuando la libre es un
+preprint o un working paper que puede diferir del texto publicado). Los `.bib` no se tocaron.
+
+| Fuente (clave) | Versión citada (con paywall) | Versión libre | ¿Verificada? |
+|---|---|---|---|
+| Acemoglu, Johnson & Robinson 2005 (`acemoglu2005institutions`) | Capítulo del *Handbook of Economic Growth* 1A (Elsevier), doi:10.1016/S1574-0684(05)01006-3 | Working paper NBER 10481 (2004): https://www.nber.org/system/files/working_papers/w10481/w10481.pdf | Sí: PDF descargado. Es un working paper anterior; la lista de lectura ya cita sus pp. 5–6 para §1.2 |
+| Benjamini & Hochberg 1995 (`benjamini1995fdr`) | *JRSS B* 57(1) (Wiley), doi:10.1111/j.2517-6161.1995.tb02031.x | Copia en la página del autor (escaneo del artículo publicado): https://www.math.tau.ac.il/~ybenja/MyPapers/benjamini_hochberg1995.pdf | Sí: PDF descargado (1,4 MB) |
+| Baayen, Davidson & Bates 2008 (`baayen2008mixed`) | *Journal of Memory and Language* (Elsevier), doi:10.1016/j.jml.2007.12.005 | Repositorio MPG.PuRe (Max Planck), según OpenAlex y Semantic Scholar ("green"): http://hdl.handle.net/11858/00-001M-0000-0013-2031-E | No: el repositorio pide una verificación anti-bot, que no se salteó |
+| Bailey, Strezhnev & Voeten 2017 (`bailey2017estimating`) | *Journal of Conflict Resolution* 61(2) (SAGE), doi:10.1177/0022002715595700 | Preprint en SSRN: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2330913 | No: SSRN pide una verificación anti-bot. Es un preprint; puede diferir del publicado |
+| Field & Welsh 2007 (`field2007clustered`) | *JRSS B* 69(3) (Wiley), doi:10.1111/j.1467-9868.2007.00593.x | Semantic Scholar la da como gratis de leer en la web del editor ("bronze"): https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/j.1467-9868.2007.00593.x | No: Wiley bloqueó la descarga automática, y OpenAlex la da como cerrada |
+| Kendall & Babington Smith 1939 (`kendall1939rankings`) | *Annals of Mathematical Statistics* 10(3), doi:10.1214/aoms/1177732186 | Semantic Scholar la da como gratis en Project Euclid ("bronze"), es decir, la misma versión citada: https://projecteuclid.org/journals/annals-of-mathematical-statistics/volume-10/issue-3/The-Problem-of-m-Rankings/10.1214/aoms/1177732186.pdf | No: Project Euclid bloqueó la descarga automática. Si se confirma, no hay nada que cambiar |
+
+**Sin ninguna versión libre encontrada** (para que se sepa; no hay nada que cambiar salvo que se quiera
+reemplazarlas): McNemar 1947 (entrada 29, con Fagerland et al. 2013 como alternativa abierta), Cohen 1960 (kappa,
+SAGE), Fleiss 1971 (kappa, APA), Allen, Flynn & Martinez Machain 2022 (SAGE; sus datos son abiertos, paquete
+`troopdata`) y Kish 1992 (*Journal of Official Statistics*; ProQuest muestra solo una vista previa). Cohen, Fleiss y
+Kish son citas estándar de fórmulas.
+
+**Cómo se verificó:** seis agentes Haiku intentaron bajar el texto completo de las 77 fuentes (26-09-2026). Claude
+revisó todo lo que marcaron como paywall o sin verificar: bajó las versiones libres cuando se pudo y consultó
+Semantic Scholar y OpenAlex (Unpaywall rechaza las direcciones de ejemplo). Varios casos que los agentes marcaron
+mal resultaron abiertos: Poole-Dayan (AAAI y arXiv), GPQA y Durmus (arXiv), Chang (HKS), Fjelstul et al. (Springer,
+open access) y Stead & Hobbs (Substack gratis). No se usaron sitios piratas ni se saltearon verificaciones anti-bot.
 
 ---
 
