@@ -237,7 +237,7 @@ def fig3():
     L = ["\\begin{tabular}{@{}llllrlr@{}}", "\\toprule"]
 
     # columns: 1 label | 2, 3 levels or counts | 4 main estimate [CI] | 5 its q | 6 GLMM OR [CI] | 7 its q
-    L += [block("(A) Refusal with a human and with an AI-agent user", N),
+    L += [block("(A) Refusal with a human and with an AI-agent user (health domain excluded)", N),
           row("Request type", "Human (\\%)", "AI (\\%)", stack("$\\Delta$ AI $-$ human,", "pp [95\\% CI]"), "", stack("GLMM OR AI/human", "[95\\% CI]"), "$q$"),
           "\\cmidrule{1-7}"]
     for m in MODES:
