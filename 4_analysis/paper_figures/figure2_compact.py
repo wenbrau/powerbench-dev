@@ -36,8 +36,10 @@ def style():
     })
 
 
-def or_panel(ax, OR, l, h, q, lo, hi, shade=True):
+def or_panel(ax, OR, l, h, q, lo, hi, shade=True, inv=False, ticks=(.7, 1, 1.5)):
     x = XS; OR, l, h = np.asarray(OR, float), np.asarray(l, float), np.asarray(h, float)
+    if inv:   # target-first (26/09): the reciprocal ratio, its interval flips ends; q does not change
+        OR, l, h = 1 / OR, 1 / h, 1 / l
     ax.bar(x, OR - 1, bottom=1, width=.6, color=[MODE_COLORS[m] for m in MODES5], zorder=2)
     ax.errorbar(x, OR, yerr=[OR - l, h - OR], fmt="none", ecolor="#111", elinewidth=.55, capsize=1.3, capthick=.55, zorder=3)
     for xi, o, ll, hh, qi in zip(x, OR, l, h, q):
@@ -46,12 +48,14 @@ def or_panel(ax, OR, l, h, q, lo, hi, shade=True):
                 ax.text(xi, hh * 1.02, "*", ha="center", va="bottom", fontsize=FB + 1)
             else:
                 ax.text(xi, ll / 1.03, "*", ha="center", va="top", fontsize=FB + 1)
-    or_axis(ax, [.7, 1, 1.5], lo, hi)
+    or_axis(ax, list(ticks), lo, hi)
     if shade:   # US / China shading only in the US side / China side column (25/09); blue above 1 = more refusal with a US-side user (Wendy 26/09)
         ax.axhspan(1, hi, color=ORIGIN["US"], alpha=.06, zorder=0); ax.axhspan(lo, 1, color=ORIGIN["CN"], alpha=.06, zorder=0)
 
 
-def build(data):
+def build(data, tf=True):
+    """tf (default since 26/09, Wendy): every ratio as target / user, panel A by the target's side, shading labelled by target.
+    tf=False (--user-first) is the earlier user / target version (v44)."""
     style()
     B, C, D, E, Ed, vals, B86, C86 = data
     cols5 = [MODE_COLORS[m] for m in MODES5]
@@ -78,16 +82,17 @@ def build(data):
         for i, m in enumerate(MODES5):
             if st != "geo":   # one grey backdrop for the pair, same span as the two side backdrops (no overlap seam)
                 ax.bar(x[i], ytop, 2 * w + .02, color=NEUTRAL_BG, alpha=.14, lw=0, zorder=1)
-            for side, off in (("us", -w / 2), ("cn", w / 2)):
+            for side, off in (("us", -w / 2), ("cn", w / 2)):   # side = whose colour; with tf the data are the other side's user = this side's target
+                ds = {"us": "cn", "cn": "us"}[side] if tf else side
                 if st == "geo":
                     ax.bar(x[i] + off, ytop, w + .02, color=SIDE_COL[side], alpha=.14, lw=0, zorder=1)
-                ax.bar(x[i] + off, vals[(st, m, side)], w, color=mix(MODE_COLORS[m], "#FFFFFF", DESAT[side]),
+                ax.bar(x[i] + off, vals[(st, m, ds)], w, color=mix(MODE_COLORS[m], "#FFFFFF", DESAT[side]),
                        edgecolor=mix(MODE_COLORS[m], "#FFFFFF", DESAT[side] * .5), lw=.3, zorder=2)
-                ci = CI.loc[(st, m, side)]
-                assert abs(float(ci["mean"]) - vals[(st, m, side)]) < 1e-6
+                ci = CI.loc[(st, m, ds)]
+                assert abs(float(ci["mean"]) - vals[(st, m, ds)]) < 1e-6
                 ax.errorbar(x[i] + off, ci["mean"], yerr=[[ci["mean"] - ci.lo], [ci.hi - ci["mean"]]], fmt="none", ecolor="#222", elinewidth=.5, capsize=1.0, capthick=.5, zorder=3)
         ax.grid(axis="y", alpha=.15); ax.set_ylim(0, ytop)
-    axA[0].set_title("Refusal by user's side"); axA[1].set_title("neutral countries", fontweight="normal")
+    axA[0].set_title("Refusal by target side" if tf else "Refusal by user's side"); axA[1].set_title("neutral countries", fontweight="normal")
 
     for ax, st in zip(axB, SETS):
         r = B.loc[st].loc[MODES]; b = B86.loc[st]
@@ -102,22 +107,30 @@ def build(data):
     axB[0].set_title("Bias beyond chance")
 
     LO, HI = .68, 1.62   # data span 0.72 to 1.37 in C and D, plus the asterisks inside the axes (Nico 23/09: tighter axes)
+    TK = (.7, 1, 1.5)
+    if tf:
+        LO, HI, TK = 1 / HI, 1 / LO, (.7, 1, 1.4)
     for ax, st in zip(axC, SETS):
         r = C.loc[st].loc[MODES]; g = C86.loc[st]
-        or_panel(ax, list(r.OR) + [g.OR], list(r.OR_lo) + [g.OR_lo], list(r.OR_hi) + [g.OR_hi], list(r.q_bh) + [g.q_bh], LO, HI, shade=st == "geo")
+        or_panel(ax, list(r.OR) + [g.OR], list(r.OR_lo) + [g.OR_lo], list(r.OR_hi) + [g.OR_hi], list(r.q_bh) + [g.q_bh], LO, HI, shade=st == "geo", inv=tf, ticks=TK)
     for ax, st in zip(axD, SETS):
-        r = D.loc[st].loc[MODES5]; or_panel(ax, r.odds_ratio, r.boot_lo, r.boot_hi, r.boot_q.values, LO, HI, shade=st == "geo")
+        r = D.loc[st].loc[MODES5]; or_panel(ax, r.odds_ratio, r.boot_lo, r.boot_hi, r.boot_q.values, LO, HI, shade=st == "geo", inv=tf, ticks=TK)
     axC[0].set_title("US side vs China side"); axD[0].set_title("Same, usage-weighted")
 
     gsR = gs[:, 3].subgridspec(2, 1, hspace=.26 * H0 / H)   # a bit less gap so that each E panel stays as tall as its y label
     axE = fig.add_subplot(gsR[0]); axF = fig.add_subplot(gsR[1])
     w4 = .8 / len(MODES); ELO, EHI = .5, 1.9   # data span 0.58 to 1.65, plus the asterisks (Nico 23/09: tighter axes)
+    ETK = [.5, .67, 1, 1.5]
+    if tf:
+        ELO, EHI, ETK = 1 / EHI, 1 / ELO, [.67, 1, 1.5, 2]
     for ax, pole in ((axE, "usa"), (axF, "china")):
         P = "US" if pole == "usa" else "China"
         groups = [("joint", "all four")] + [(dy, DYL[dy]) for dy in DY[pole]]; xg = np.arange(len(groups))
         for k, mode in enumerate(MODES):
             v = pd.DataFrame([(E[(E.country == pole) & (E["mode"] == mode)] if key == "joint" else Ed[(Ed.dyad == key) & (Ed["mode"] == mode)]).iloc[0]
                               for key, _ in groups])
+            if tf:
+                v = v.assign(OR=1 / v.OR, OR_lo=1 / v.OR_hi, OR_hi=1 / v.OR_lo)
             xo = xg + (k - (len(MODES) - 1) / 2) * w4
             ax.bar(xo, v.OR.values - 1, bottom=1, width=w4, color=MODE_COLORS[mode], alpha=.9, zorder=2)
             ax.errorbar(xo, v.OR.values, yerr=[v.OR.values - v.OR_lo.values, v.OR_hi.values - v.OR.values], fmt="none", ecolor="#111", elinewidth=.5, capsize=1.1, capthick=.5, zorder=3)
@@ -127,14 +140,14 @@ def build(data):
                         ax.text(xi, rr.OR_hi * 1.02, "*", ha="center", va="bottom", fontsize=FB + 1)
                     else:
                         ax.text(xi, rr.OR_lo / 1.03, "*", ha="center", va="top", fontsize=FB + 1)
-        or_axis(ax, [.5, .67, 1, 1.5], ELO, EHI)
+        or_axis(ax, ETK, ELO, EHI)
         ax.axvspan(-.5, .5, color="#000", alpha=.05, zorder=0); ax.axvline(.5, color="#666", lw=.6, ls="--")
-        ax.axhspan(1, EHI, color=ORIGIN["US" if pole == "usa" else "CN"], alpha=.07, zorder=0)   # above 1 = more refusal with the country as user (Wendy 26/09)
+        ax.axhspan(1, EHI, color=ORIGIN["US" if pole == "usa" else "CN"], alpha=.07, zorder=0)   # above 1 = more refusal with the country as user (as target with tf) (Wendy 26/09)
         ax.set_xticks(xg, [g[1] for g in groups], fontsize=FT)
-        ax.set_ylabel(f"OR, {P} as user / as target")
+        ax.set_ylabel(f"OR, {P} as target / as user" if tf else f"OR, {P} as user / as target")
         ax.set_title(f"Bias with respect to {P}")
 
-    fig.legend(handles=[Patch(fc=MODE_COLORS[m], label=MODE_LEG[m]) for m in MODES5] + [Patch(fc=SIDE_COL["us"], alpha=.2, label="US-side user"), Patch(fc=SIDE_COL["cn"], alpha=.2, label="China-side user")],
+    fig.legend(handles=[Patch(fc=MODE_COLORS[m], label=MODE_LEG[m]) for m in MODES5] + [Patch(fc=SIDE_COL["us"], alpha=.2, label="US-side " + ("target" if tf else "user")), Patch(fc=SIDE_COL["cn"], alpha=.2, label="China-side " + ("target" if tf else "user"))],
                frameon=False, fontsize=FT, loc="upper center", bbox_to_anchor=(.5, 1.0), ncol=7, columnspacing=1.0, handlelength=1.1)
     for st, ax in zip(SETS, axA):
         p = ax.get_position()
@@ -144,7 +157,8 @@ def build(data):
     fig.canvas.draw(); inv = fig.transFigure.inverted()
     xr = min(inv.transform(t.get_window_extent().get_points())[0, 0] for ax in (axA[0], axB[0], axC[0], axD[0]) for t in ax.get_yticklabels() if t.get_text()) - .01
     pa, pb, pc, pd_ = (ax[0].get_position() for ax in (axA, axB, axC, axD))
-    ORL = "OR" + chr(10) + "US " + chr(8594) + " China" + chr(10) + "/ China " + chr(8594) + " US"   # (Wendy 26/09) one per panel, repeated; arrow = user -> target, in the caption
+    A_, B_ = ("China", "US") if tf else ("US", "China")
+    ORL = "OR" + chr(10) + A_ + " " + chr(8594) + " " + B_ + chr(10) + "/ " + B_ + " " + chr(8594) + " " + A_   # (Wendy 26/09) one per panel, repeated; arrow = user -> target, in the caption
     for yc, txt in (((pa.y0 + pa.y1) / 2, "Refusal (%)"), ((pb.y0 + pb.y1) / 2, "|bias|" + chr(10) + "$-$ chance"),
                     ((pc.y0 + pc.y1) / 2, ORL), ((pd_.y0 + pd_.y1) / 2, ORL)):
         fig.text(xr, yc, txt, rotation=90, ha="right", va="center", multialignment="center", fontsize=FB, linespacing=1.15)
@@ -153,9 +167,9 @@ def build(data):
         g = axr[0].get_position(); fig.text(g.x0 - .012, g.y1 + .012 * H0 / H, key, fontsize=FL, fontweight="bold", ha="right", va="bottom")
     pe = axE.get_position(); fig.text(pe.x0 - .012, pe.y1 + .012 * H0 / H, "E", fontsize=FL, fontweight="bold", ha="right", va="bottom")
     for ext in ("pdf", "png"):
-        out = HERE / f"figure2_compact_en.{ext}"; fig.savefig(out, dpi=300); print("escrito:", out.relative_to(ROOT))
+        out = HERE / f"figure2_compact{'' if tf else '_userfirst'}_en.{ext}"; fig.savefig(out, dpi=300); print("escrito:", out.relative_to(ROOT))
     plt.close(fig)
 
 
 if __name__ == "__main__":
-    build(load())
+    build(load(), tf="--user-first" not in sys.argv)
