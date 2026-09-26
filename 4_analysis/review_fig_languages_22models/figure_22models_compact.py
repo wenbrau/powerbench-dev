@@ -140,7 +140,7 @@ def build(d):
             txt.remove()
     axC.set_title(""); axC.set_title("", loc="center"); axC.set_title("Order across" + chr(10) + "request types", loc="left"); axC.set_ylabel(""); axC.set_xticks([0, 1], ["PS", "CT"], fontsize=FT, rotation=0, ha="center")
     axC.set_ylim(-.05, .8)
-    axD.set_title("Range beyond" + chr(10) + "chance"); axD.set_ylabel("observed / chance range")
+    axD.set_title("Range beyond" + chr(10) + "chance"); axD.set_ylabel("odds ratio / chance")   # 26/09: the range over chance is the OR most/least refused over its chance value (A.11)
     h, l = axD.get_legend_handles_labels(); axD.legend(h, ["equal", "usage"], frameon=False, loc="lower right", handlelength=1.0, borderaxespad=.1, labelspacing=.2, fontsize=FT)
     for ax_ in (axA, axD):   # one significance level in every body figure: * = q < 0.05
         for txt in ax_.texts:

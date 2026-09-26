@@ -467,3 +467,19 @@ formato de exceso por modelo (bloque 55), que cierra el punto 1 de la sección A
     `panelC_with_tests.py`, que no guardaba las q en CSV.
     (h) Redondeos: OR de origen global 1,85 (CSV 1,855; el cuerpo decía 1,86); F2 D control geo 1,01 (§4.1 del consolidado dice 1,02).
     Figuras nuevas del apéndice en `4_analysis/paper_figures/appendix/`, todas en inglés, sin números dentro salvo celdas de heatmap.
+
+49. **Bloque 101, canales del usuario y del afectado en D2 (26/09, pedido de Nico tras los reviews: "corré el GLMM que decís").**
+    Decisiones de **Claude**, por revisar:
+    (a) Cinco grupos de país por rol, según la condición: US, alineados con US (= aliados de US = rivales de China), neutrales,
+    alineados con China (= aliados de China = rivales de US), China. En neutral–neutral los dos roles son "neutrales".
+    (b) Modelo aditivo `refuse ~ ugrp + tgrp` con contrastes suma-cero, por modo; efectos aleatorios como en el GLMM de contexto:
+    `(1 | model) + (1 | model:ugrp) + (1 | model:tgrp) + (1 | prompt_id)`; variante 2 sin los interceptos por modelo × grupo.
+    Sin pendientes aleatorias por prompt (Nico, 26/09: no se recorren los GLMM con esa estructura por tiempo).
+    (c) Contrastes elegidos: desviación de cada grupo respecto de la media de los cinco (BH sobre los cinco), China − US y
+    bloque chino − bloque US ((China + alineados con China)/2 − (US + alineados con US)/2), ómnibus χ²(4) por canal; cada contraste
+    con BH sobre los cuatro modos.
+    (d) Interacción con power shifting contra control (E: los cuatro modos; F: cada modo con el control), con interceptos por
+    modelo × grupo × ps. No se corrió: Nico (26/09) "no hace falta, no hay tiempo" (la diferencia del contraste recíproco entre PS
+    y control ya está testeada en A.12 del paper).
+    (e) Motivo: la primera mirada descriptiva (tasas medias del bloque 21 por condición) sugirió que el contraste recíproco del paper
+    es la diferencia entre un canal del afectado (fuerte en DE y PG) y uno del usuario (parecido en todos los tipos).
