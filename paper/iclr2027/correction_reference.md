@@ -6,9 +6,9 @@ texto o no es una decisión del equipo.
 
 Este archivo tiene solo lo pendiente. Lo que ya se aplicó, o se decidió no hacer, pasa con su descripción
 completa a [correction_archive.md](correction_archive.md), y acá queda una línea por entrada, con el mismo
-número. Estado verificado contra la v41 (commit `295bbe5`): las entradas 15, 17 y 26 siguen sin aplicar.
+número. Estado verificado contra la v42 (commit `d525d2e`): las entradas 15, 17, 26, 27, 28 y 29 siguen sin aplicar.
 
-**Espacio:** en la v41 el cuerpo se pasa de la página 9: la discusión sigue en la página 10 (según el commit, "main body over 9 pages, cuts pending"). Todo lo que se agregue al cuerpo hay que pagarlo con recortes, y lo que libera una corrección (por ejemplo, ~18 caracteres la entrada 26) ayuda.
+**Espacio:** en la v42 el cuerpo vuelve a terminar en la página 9 (línea 485, al pie), sin margen; el AI use statement empieza en la página 10. Lo que se agregue al cuerpo hay que pagarlo con recortes, y lo que libera una corrección ayuda (por ejemplo, ~18 caracteres la entrada 26).
 
 **Actualización del 25-09 (v40, decisiones de Nico):** se aplicaron las entradas 4, 5, 7, 8, 10, 11, 12, 13 y 14, y
 se descartó la 6. De [READING_LIST.md](READING_LIST.md) también se aplicaron: Apsel, Greenwald y Bai (opción C,
@@ -25,6 +25,9 @@ API, no los gráficos Activity de cada modelo de donde salen los pesos); McNemar
 | 15 | Choi et al. | Sacarlo de 3.3 y ajustar la oración a El Yagoubi ("can behave differently when told…") | Aplicada en parte en la v40: Choi salió y entró "told", pero la v40 agregó a Xie et al. y no puso "can". Gonzalo había decidido solo El Yagoubi, con "can": falta acordarlo con Nico |
 | 17 | Durmus et al. | Related work: la cita más débil de la oración de identidad (sesgo de representación, un solo modelo) | La v40 aplicó la opción (B): quedó corregida ("a model can represent…", separada del idioma). Gonzalo vota quitarla (A), sin estar muy convencido: falta decidir. El apéndice B sigue en plural |
 | 26 | Li, Chen & Saphra | Intro ¶3: mide sesgos en dimensiones (edad, género, etnia, ideología) que no están en la lista, que son las que mide PowerBench | Decidida: sacarlo del ¶3, falta aplicar |
+| 27 | Wang et al. (MMLU-Pro) | Methods dice que corrimos MMLU-Pro; fueron 200 de sus 12.032 preguntas: "200 MMLU-Pro items" | Decidida, falta aplicar |
+| 28 | Schroeder de Witt et al. | El bib mezcla la v1 (2025, un autor) con los 24 autores de la v2: citar la v2, de 2026 | Decidida, falta aplicar |
+| 29 | McNemar 1947 | Nadie lo pudo leer (paywall): conservarlo, reemplazarlo por Fagerland et al. 2013 (abierto), usar los dos o sacarlo | A decidir |
 | 1–14, 16, 18–25 | Deng; MacAskill; IASR; Model Spec; Turner; Davidson; Stead & Hobbs; Khorramrouz (2); Pan & Xu; Liu; El Yagoubi; Buyl; Kulveit; Haslett; SORRY-Bench y StrongREJECT; Deng y Wang; Yong 2025; Marx; Akinode; Oppong; Zhang; Wuhrmann | — | Archivadas (ver abajo) |
 
 ---
@@ -250,6 +253,126 @@ Libera ~18 caracteres ("; Li et al., 2024b").
 **Verificado:** PDF de ACL Anthology (EMNLP 2024, pp. 6327–6345), leído el 25-09-2026 por un agente; Claude verificó
 el abstract, el primer punto de la introducción, §3.2 ("Our experiments analyze gpt-3.5-turbo") y la nota sobre las
 personas que aclaran de qué país vino su familia. El texto del paper, en la versión actual (`4020854`).
+
+---
+
+## 27. MMLU-Pro, Methods: aclarar que corrimos 200 preguntas, no el benchmark entero
+
+**Estado (25-09-2026): decidida. Falta aplicarla en el `.tex`.** Decisión de Gonzalo: decir "200 MMLU-Pro items",
+para que no se lea que corrimos todo MMLU-Pro. No es un problema de la cita, que está bien (ver la fila de Wang et
+al. en [READING_LIST.md](READING_LIST.md)), sino de cómo describimos lo que hicimos.
+
+**Dónde:** `submission/sections/methods.tex`, línea 23 (PDF de la v41: p. 3, líneas 135–138).
+
+**Texto actual:**
+
+> To measure capability under the same conditions as our experiments, we ran every model on GPQA Diamond
+> \citep{rein2023gpqa} and MMLU-Pro \citep{wang2024mmlupro} (Appendix~\ref{app:panel}).
+
+**El problema.** MMLU-Pro tiene 12.032 preguntas ("Our dataset comprises 14 discipline subsets, totaling 12,032
+questions", §3.1, p. 3). La prueba de capacidad usó 200, repartidas entre sus 14 categorías; el apéndice lo dice:
+"The capability evaluation consists of the 198 GPQA Diamond questions and 200 MMLU-Pro questions drawn evenly from
+its 14 categories" (`appendix.tex:149`). GPQA Diamond sí se corrió entero (198 preguntas). Tal como está, el
+cuerpo se lee como que corrimos todo MMLU-Pro, y el índice de capacidad de un subconjunto de 200 es más ruidoso que
+el del benchmark completo.
+
+**Propuesta:**
+
+> To measure capability under the same conditions as our experiments, we ran every model on GPQA Diamond
+> \citep{rein2023gpqa} and 200 MMLU-Pro items \citep{wang2024mmlupro} (Appendix~\ref{app:panel}).
+
+Variante que coincide con el apéndice: "200 MMLU-Pro questions" (4 caracteres más).
+
+**Costo:** ~10 caracteres. La última línea del párrafo ("similar in capability (58.2 vs. 60.4).", p. 3, línea
+138) tiene unos 60 de aire, así que probablemente no suma una línea; hay que compilar para confirmarlo. Si hiciera
+falta compensar, "under the same conditions as our experiments" → "under our experimental conditions" ahorra ~11.
+
+**Verificado:** MMLU-Pro, PDF de NeurIPS 2024 (§3.1), leído por un agente el 25-09-2026; Claude verificó el número de
+preguntas en el texto descargado y la oración del apéndice en el `.tex`. El texto del paper, en la v41.
+
+---
+
+## 28. Schroeder de Witt et al.: el bib cita la versión equivocada (tiene que ser la v2, de 2026)
+
+**Estado (25-09-2026): decidida. Falta aplicarla en `refs.bib`.** Decisión de Gonzalo: citar la versión más nueva,
+la v2 de 2026.
+
+**Dónde:** `submission/refs.bib`, entrada `schroederdewitt2025multiagent`. Se cita en la primera oración de §3.3
+(`results.tex:47`): "Interaction between AI agents has been identified as a safety risk in its own right".
+
+**El problema.** El bib mezcla dos versiones de arXiv 2505.02077:
+
+- **v1** (4 de mayo de 2025): un solo autor, Christian Schroeder de Witt (verificado en el encabezado del PDF de la
+  v1 y en los metadatos de arXiv).
+- **v2** (29 de abril de 2026): 24 autores.
+
+La entrada tiene los 24 autores de la v2 pero `year = {2025}` y `note = {arXiv:2505.02077}`, así que en el PDF sale
+como "Schroeder de Witt et al., 2025", una versión que no existe con esos autores. Las dos versiones sostienen
+nuestra oración ("novel threats emerge that cannot be addressed by securing individual agents in isolation", v1
+p. 2, v2 p. 3), pero la frase más fuerte está solo en la v2: "security in multi-agent systems is
+non-compositional. Individually safe agents can compose into unsafe systems" (§1, p. 2).
+
+**Propuesta:** en la entrada del bib, `year = {2026}` y `note = {arXiv:2505.02077v2}`. En el PDF pasa a "Schroeder de
+Witt et al., 2026". La clave (`schroederdewitt2025multiagent`) no se imprime; cambiarla es opcional y obligaría a
+cambiar también `results.tex`. No cuesta espacio.
+
+**Nota opcional (no cambia nada importante; lo importante es la versión):** el paper habla sobre todo de *security*
+(amenazas con un adversario: "secret collusion and coordinated swarm attacks", "privacy breaches, disinformation,
+jailbreaks, and data poisoning", abstract de la v1) y se presenta como algo que va "beyond existing cyber-security
+or AI safety and security frameworks". Nuestra oración dice "safety risk". No es un error, porque su frase central
+también usa el lenguaje de safety ("Individually safe agents can compose into unsafe systems"). Si se quisiera
+evitar la discusión, "a risk in its own right" es más corto. Gonzalo no ve necesario cambiarlo.
+
+**Verificado:** PDFs de la v1 y de la v2 y las páginas de arXiv (fechas de cada versión), descargados el 25-09-2026
+por un agente; Claude verificó el autor de la v1, las fechas y las dos frases citadas. El bib, en la v41.
+
+---
+
+## 29. McNemar 1947: nadie pudo leerlo (paywall); ¿conservarlo, reemplazarlo o sacarlo?
+
+**Estado (25-09-2026): a decidir por el equipo.** Ni una persona del equipo ni Claude leyó el artículo: está detrás
+de un paywall (Cambridge Core y Springer), sin copia abierta (Unpaywall: "closed"). Solo se pudo leer el abstract del
+editor. La cita sirve para decir que el test que usamos existe y no lo inventamos nosotros; hay que decidir si se
+conserva, se reemplaza por una fuente abierta o se saca y se nombra solo la técnica.
+
+**Dónde:**
+
+- Methods (`methods.tex:37`, párrafo de la *direction of disagreement*): "When models may be biased in opposite
+  directions, we test its absolute value against its expectation when each change is equally likely to go either
+  way (\citealp{mcnemar1947}; Appendix~\ref{app:stats})." Desde la v40 la cita está en el nulo del test, no en
+  nuestro índice (b − c)/(b + c), que es nuestro.
+- Apéndice (`appendix.tex:330`, "Unsigned bias"), sin cita: "$b \sim \mathrm{Binomial}(b+c, \tfrac12)$, the null of
+  McNemar's exact test".
+
+**Qué se sabe del artículo sin haberlo leído.** El abstract del editor: "Two formulas are presented for judging the
+significance of the difference between correlated proportions. The chi square equivalent of one of the developed
+formulas is pointed out." Fagerland et al. (2013, abajo) le atribuyen el estadístico asintótico sobre los pares
+discordantes, $(n_{12} - n_{21})/\sqrt{n_{12} + n_{21}}$ (su referencia 7 es McNemar 1947). O sea que, de segunda
+mano, sí trabaja con las celdas discordantes. La versión exacta (binomial) que nombra nuestro apéndice es una
+formulación posterior; no sabemos si McNemar la menciona.
+
+**Alternativa de acceso abierto (leída por Claude, 25-09-2026):** Fagerland, Lydersen & Laake, "The McNemar test for
+binary matched-pairs data: mid-p and asymptotic are better than exact conditional", *BMC Medical Research
+Methodology* 13:91, 2013, doi:10.1186/1471-2288-13-91, CC BY 2.0. Sostiene exactamente nuestro nulo: "The asymptotic
+McNemar test conditions on the number of discordant pairs (n12 + n21). Conditionally, n12 is binomially distributed
+with parameters n = n12 + n21 and p = 1/2 under the null hypothesis" (Methods, p. 2), y define "the McNemar exact
+conditional test" con esa binomial (p. 3). Hoy no está en `refs.bib`.
+
+**Opciones:**
+
+- **(A) Conservar a McNemar.** Es la cita canónica de un test con nombre propio, la práctica estándar, y Fagerland
+  confirma de segunda mano que el artículo trata los pares discordantes. Queda anotado que nadie lo leyó.
+- **(B) Reemplazarlo por Fagerland et al. 2013** en Methods. Se puede leer y sostiene el nulo tal como lo usamos.
+  Hay que agregar la entrada al bib. En el cuerpo cuesta ~8 caracteres ("Fagerland et al., 2013" contra "McNemar,
+  1947").
+- **(C) Las dos, repartidas:** McNemar en Methods, como origen del test (sin cambios en el cuerpo), y Fagerland en el
+  apéndice, en "the null of McNemar's exact test", que hoy no tiene cita. No cuesta espacio en el cuerpo.
+- **(D) Sacar la cita y nombrar solo la técnica**, por ejemplo "…equally likely to go either way (the null of
+  McNemar's test; Appendix …)". Es menos habitual dejar un test sin cita, y un revisor podría pedirla.
+
+**Verificado:** abstract de McNemar 1947 en Cambridge Core y Springer (páginas guardadas por un agente el 25-09-2026);
+Fagerland et al. 2013, PDF de BMC/Springer, leído por Claude (abstract, "Notation", "The asymptotic McNemar test",
+"The McNemar exact conditional test" y la lista de referencias). El texto del paper, en la v41.
 
 ---
 
