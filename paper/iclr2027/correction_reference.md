@@ -6,11 +6,11 @@ texto o no es una decisión del equipo.
 
 Este archivo tiene solo lo pendiente. Lo que ya se aplicó, o se decidió no hacer, pasa con su descripción
 completa a [correction_archive.md](correction_archive.md), y acá queda una línea por entrada, con el mismo
-número. Estado verificado contra la v47 (commit `56a482a`): las entradas 15, 17, 26, 27, 28, 29, 30, 40 y 41 siguen sin aplicar en `main`, y todas las archivadas
+número. Estado verificado contra la v48 (commit `1ecb9f4`): las entradas 15, 17, 26, 27, 28, 29, 30, 40, 41 y 42 siguen sin aplicar en `main`, y todas las archivadas
 (1–14, 16, 18–25, más Apsel, Greenwald, Bai, OpenRouter y Choi) siguen aplicadas (revisado el 26-09 contra el `.tex` y
 el `.bib`). Las líneas de los `.tex` que dan las entradas siguen valiendo; las del PDF se corrieron desde la v41 (cada entrada dice de qué versión son). La rama `claude/youthful-turing-00tlr5` (revisión del apéndice B con decisiones de Tomás, sin mergear) archiva sus entradas con los números 31–39; por eso la entrada de Chatterji, anotada primero como 31, pasó a 40.
 
-**Espacio:** en la v47, igual que en la v42 y la v43, el cuerpo termina en la página 9 (línea 485, al pie), sin margen; el AI use statement empieza en la página 10. Lo que se agregue al cuerpo hay que pagarlo con recortes, y lo que libera una corrección ayuda (por ejemplo, ~18 caracteres la entrada 26).
+**Espacio:** en la v48, igual que desde la v42, el cuerpo termina en la página 9 (línea 485, al pie), sin margen; el AI use statement empieza en la página 10. Lo que se agregue al cuerpo hay que pagarlo con recortes, y lo que libera una corrección ayuda (por ejemplo, ~18 caracteres la entrada 26).
 
 **Actualización del 25-09 (v40, decisiones de Nico):** se aplicaron las entradas 4, 5, 7, 8, 10, 11, 12, 13 y 14, y
 se descartó la 6. De [READING_LIST.md](READING_LIST.md) también se aplicaron: Apsel, Greenwald y Bai (opción C,
@@ -33,6 +33,7 @@ API, no los gráficos Activity de cada modelo de donde salen los pesos); McNemar
 | 30 | Acemoglu; Benjamini & Hochberg; Baayen; Bailey; Field & Welsh; Kendall | Citadas en una versión con paywall que tiene una versión libre: citar la libre o agregar el enlace | Propuesta, a decidir |
 | 40 | Chatterji et al. (intro, oración siguiente) | "Many of the goals behind that guidance concern power" no tiene fuente, y Chatterji no lo sostiene: *Practical Guidance* es sobre todo tutoría, how-to y salud. Cambiar a "Some" | Decidida, falta aplicar |
 | 41 | Chupilkin | Apéndice B: la oración de `main` dice que no detectamos un castigo a China, y la v47 lo detecta para los usuarios de China (apéndice C.2, tabla `channels`); la de la rama de Tomás es cierta pero compara con el sesgo neto. La cita, además, omite a DeepSeek | Propuesta, a decidir: se recomienda la (A) |
+| 42 | MacAskill & Assadi | Intro ¶2: reabre la 2. Al lado de Acemoglu aporta poco; lo que dice sobre lock-in es tangencial y a escala de AGI (5/10). Sacarlo de la intro y dejarlo en el apéndice B, o dejarlo | Propuesta, a decidir |
 | 1–14, 16, 18–25 | Deng; MacAskill; IASR; Model Spec; Turner; Davidson; Stead & Hobbs; Khorramrouz (2); Pan & Xu; Liu; El Yagoubi; Buyl; Kulveit; Haslett; SORRY-Bench y StrongREJECT; Deng y Wang; Yong 2025; Marx; Akinode; Oppong; Zhang; Wuhrmann | — | Archivadas (ver abajo) |
 
 ---
@@ -558,12 +559,76 @@ Leer: el abstract, la p. 3 y la p. 8.
 
 ---
 
+## 42. MacAskill & Assadi, intro ¶2: aporta poco al lado de Acemoglu (reabre la entrada 2)
+
+**Estado (26-09-2026): propuesta, a decidir por el equipo.** Reabre la entrada 2, archivada el 25-09. En la v22 se
+agregó Acemoglu, Johnson & Robinson, que sostiene la oración, pero MacAskill quedó citado al lado.
+
+**Opinión de Gonzalo.** En esta oración, MacAskill a priori no parece aportar mucho. Lo que dice sobre lock-in y
+atrincheramiento es tangencial. Para lo que lo citamos (quien tiene el poder pone las reglas, y eso lleva al
+atrincheramiento), el ensayo tiene poco más que el ejemplo del dictador de §7. No es activamente negativo mantenerlo,
+pero tampoco se gana mucho.
+
+**Dónde:** `submission/sections/introduction.tex`, línea 6, segundo párrafo (PDF de la v47: p. 1, líneas 41–43).
+
+**Texto actual:**
+
+> If certain people consistently receive more help than others in these requests, the disparity may compound and
+> entrench, because those who are helped gain the means to get more power, and those who hold power set the rules
+> \citep{acemoglu2005institutions, macaskill2025beyond}.
+
+**Qué dice MacAskill sobre esto** (texto completo de la página de Forethought, releído el 26-09). El ensayo discute si
+reducir el riesgo existencial debe ser la prioridad de un altruista de largo plazo (el principio *Maxipok*). Sobre
+poder dice cuatro cosas, todas a escala de civilización y con la AGI como mecanismo:
+
+- **§1, lock-in:** podríamos enfrentar "moments of lock-in—events where certain distributions of power, values, or
+  institutional arrangements become effectively permanent". Entre las acciones posibles está "Advocate for distributed
+  power in the institutions likely to govern AGI".
+- **§7, el primer mecanismo:** la AGI permitiría crear y hacer cumplir "perpetually binding institutions, laws, or
+  constitutions", y "A global hegemon wielding such technology could lock in a specific system of governance
+  indefinitely".
+- **§7, el segundo mecanismo:** el reparto de los recursos del espacio, que podría persistir indefinidamente.
+- **§7, el dictador:** "a dictator might initially secure power for only 10 years, but use that time to develop means
+  to retain power for 20 more years, and then reach AGI within that further 20 years, thereby indefinitely
+  entrenching what would otherwise have been only short-term dominance".
+
+**Qué sostiene y qué no.**
+
+- **"compound and entrench":** lo ilustra el dictador, que usa el poder para conseguir los medios de conservarlo. Es la
+  única frase del ensayo cercana a "gain the means to get more power", y es un ejemplo, no un argumento.
+- **"those who hold power set the rules":** solo de forma indirecta, con instituciones o constituciones que una AGI haría
+  cumplir para siempre.
+- **El mecanismo como tal no aparece.** Que las diferencias de ayuda entre personas se acumulen, que es lo que dice la
+  oración, no está en el ensayo. Llevarlo del lock-in civilizatorio con AGI a las disparidades de ayuda entre usuarios
+  es una extrapolación nuestra.
+- **La oración ya está sostenida por Acemoglu, Johnson & Robinson.** Sostienen las dos mitades: "those who hold
+  political power influence the evolution of political institutions, and they will generally opt to maintain the
+  political institutions that give them political power" (p. 5 del NBER WP 10481), y "This will tend to reproduce the
+  initial relative wealth disparity in the future" (p. 6).
+
+**Puntaje (Claude):** 5/10 como fuente de esta oración. Ilustra el atrincheramiento con un ejemplo y a otra escala, pero
+no sostiene el mecanismo. Al lado de Acemoglu, que sí lo sostiene, dejarlo cuesta poco: la oración no queda mal
+apoyada. El único riesgo es que un revisor lo abra y encuentre un ensayo de largo plazo sobre AGI y el espacio.
+
+**Opciones:**
+
+- **(A) Sacarlo de la intro y dejarlo solo en el apéndice B.** Allí la cita es correcta: "\citet{macaskill2025beyond}
+  describe how distributions of power can become locked in, as those who hold political power shape the institutions
+  that keep it \citep{acemoglu2005institutions}" (`appendix.tex:403`). Se sigue citando, así que queda en la
+  bibliografía. Libera unos 26 caracteres del cuerpo ("; MacAskill & Assadi, 2026"). En la v47 esto termina la línea
+  42 y empieza la 43 del PDF; como el cuerpo está justo, ayuda.
+- **(B) Dejarlo como está.** No es incorrecto, y la oración queda sostenida por Acemoglu.
+
+**Costo de (A):** ninguno; libera espacio.
+
+---
+
 ## Archivadas
 
 La descripción completa de cada una está en [correction_archive.md](correction_archive.md), con el mismo número.
 
 - **1. Deng et al. 2024, apéndice B.** La oración describía mal los dos escenarios de Deng: "translated unsafe requests" y "multilingual prompting" eran lo mismo, y faltaba el jailbreak en inglés. Aplicada en la v22. Ver [correction_archive.md](correction_archive.md), entrada 1.
-- **2. MacAskill & Assadi, intro: el mecanismo de acumulación.** MacAskill no sostiene "those who are helped gain the means to get more and those who hold power set the rules". Se agregó Acemoglu, Johnson & Robinson en la v22, que sí lo sostiene. Ver [correction_archive.md](correction_archive.md), entrada 2.
+- **2. MacAskill & Assadi, intro: el mecanismo de acumulación.** MacAskill no sostiene "those who are helped gain the means to get more and those who hold power set the rules". Se agregó Acemoglu, Johnson & Robinson en la v22, que sí lo sostiene. Ver [correction_archive.md](correction_archive.md), entrada 2. Reabierta el 26-09 como entrada 42: MacAskill sigue citado al lado de Acemoglu.
 - **3. International AI Safety Report 2026.** El informe no nombra la concentración de poder como riesgo sistémico. Se reemplazó por el informe de la ONU en la v20. Ver [correction_archive.md](correction_archive.md), entrada 3.
 - **4. OpenAI, Model Spec.** Actualizar el bib a la revisión del 18-08-2026. Aplicada en la v40. Ver [correction_archive.md](correction_archive.md), entrada 4.
 - **5. Turner et al., discusión.** Su teorema es sobre políticas óptimas de RL; los agentes de D3 son LLMs. Se sacó de la discusión en la v40 (queda Carlsmith). Ver [correction_archive.md](correction_archive.md), entrada 5.
