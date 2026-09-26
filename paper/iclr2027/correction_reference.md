@@ -23,13 +23,13 @@ API, no los gráficos Activity de cada modelo de donde salen los pesos); McNemar
 | # | Fuente | Qué | Estado |
 |---|---|---|---|
 | 15 | Choi et al. | Sacarlo de 3.3 y ajustar la oración a El Yagoubi ("can behave differently when told…") | Aplicada en parte en la v40: Choi salió y entró "told", pero la v40 agregó a Xie et al. y no puso "can". Gonzalo había decidido solo El Yagoubi, con "can": falta acordarlo con Nico. El apéndice B ya dice "Models can disclose…" (26-09, entrada 33) |
-| 17 | Durmus et al. | Related work: la cita más débil de la oración de identidad (sesgo de representación, un solo modelo) | La v40 aplicó la opción (B): quedó corregida ("a model can represent…", separada del idioma). Gonzalo vota quitarla (A), sin estar muy convencido: falta decidir. El apéndice B sigue en plural |
+| 17 | Durmus et al. | Related work: la cita más débil de la oración de identidad (sesgo de representación, un solo modelo) | La v40 aplicó la opción (B): quedó corregida ("a model can represent…", separada del idioma). Gonzalo vota quitarla (A), sin estar muy convencido: falta decidir. El apéndice B pasó al singular el 26-09 (Tomás) |
 | 26 | Li, Chen & Saphra | Intro ¶3: mide sesgos en dimensiones (edad, género, etnia, ideología) que no están en la lista, que son las que mide PowerBench | Decidida: sacarlo del ¶3, falta aplicar |
 | 27 | Wang et al. (MMLU-Pro) | Methods dice que corrimos MMLU-Pro; fueron 200 de sus 12.032 preguntas: "200 MMLU-Pro items" | Decidida, falta aplicar |
 | 28 | Schroeder de Witt et al. | El bib mezcla la v1 (2025, un autor) con los 24 autores de la v2: citar la v2, de 2026 | Decidida, falta aplicar |
 | 29 | McNemar 1947 | Nadie lo pudo leer (paywall): conservarlo, reemplazarlo por Fagerland et al. 2013 (abierto), usar los dos o sacarlo | A decidir |
 | 30 | Acemoglu; Benjamini & Hochberg; Baayen; Bailey; Field & Welsh; Kendall | Citadas en una versión con paywall que tiene una versión libre: citar la libre o agregar el enlace | Propuesta, a decidir |
-| 1–14, 16, 18–25, 31–34 | Deng; MacAskill; IASR; Model Spec; Turner; Davidson; Stead & Hobbs; Khorramrouz (2); Pan & Xu; Liu; El Yagoubi; Buyl; Kulveit; Haslett; SORRY-Bench y StrongREJECT; Deng y Wang; Yong 2025; Marx; Akinode; Oppong; Zhang; Wuhrmann; Poole-Dayan; Tamkin; El Yagoubi; Kim (apéndice B) | — | Archivadas (ver abajo) |
+| 1–14, 16, 18–25, 31–35 | Deng; MacAskill; IASR; Model Spec; Turner; Davidson; Stead & Hobbs; Khorramrouz (2); Pan & Xu; Liu; El Yagoubi; Buyl; Kulveit; Haslett; SORRY-Bench y StrongREJECT; Deng y Wang; Yong 2025; Marx; Akinode; Oppong; Zhang; Wuhrmann; Poole-Dayan; Tamkin; El Yagoubi; Kim; Bladon & Bent (apéndice B) | — | Archivadas (ver abajo) |
 
 ---
 
@@ -101,6 +101,8 @@ la v38.
 ---
 
 ## 17. Durmus et al., related work: la cita más débil de la oración de identidad
+
+**26-09:** el apéndice B pasó al singular (decisión de Tomás): "\citet{durmus2023globalopinion} found that a model represents the opinions of some countries better than others, and \citet{li2024thisland} that models take sides in territorial disputes depending on the language of the prompt" ("they" pasó a "models", porque ya no tenía antecedente en plural). Sigue abierto lo de related work.
 
 **En la v40 (`f9cd440`): se aplicó la opción (B), no la que vota Gonzalo.** El texto quedó "…, models take sides in territorial disputes depending on the prompt's language \citep{li2024thisland}, and a model can represent some countries' opinions better \citep{durmus2023globalopinion}. Models also serve some users worse than others …". Sigue abierto si se la saca (A). El apéndice B (`appendix.tex:381`) sigue diciendo "found that models represent the opinions of some countries better than others".
 
@@ -444,3 +446,4 @@ La descripción completa de cada una está en [correction_archive.md](correction
 - **32. Tamkin et al., apéndice B.** "Models" era un solo modelo (Claude 2.0). Ahora: "found that Claude~2 decides differently about people depending on their age, gender, and race". Aplicada el 26-09 (Tomás). Ver [correction_archive.md](correction_archive.md), entrada 32.
 - **33. El Yagoubi et al., apéndice B.** Los autores confirman el efecto solo en GPT-4o ("not a universal rule"). Ahora: "Models can disclose more personal data …". Aplicada el 26-09 (Tomás). Ver [correction_archive.md](correction_archive.md), entrada 33.
 - **34. Kim et al., apéndice B.** "A group that models treat as more privileged" era circular: los autores fijan de antemano quién es privilegiado, y solo leen la jerarquía de los modelos en casos ambiguos como EE.UU. y China. Ahora: "…belongs to a traditionally privileged group, and also when an American asks to mock Chinese people rather than the reverse". Aplicada el 26-09 (Tomás). Ver [correction_archive.md](correction_archive.md), entrada 34.
+- **35. Bladon & Bent, apéndice B.** Lo que sigue al desarrollador es la dirección del cambio que introduce el post-entrenamiento (6 de 7 laboratorios), no el país que el modelo termina favoreciendo (solo Qwen termina pro-China). Ahora: "found that post-training shifts a small open model toward its developer's side in two-country disputes". Aplicada el 26-09 (Tomás). Ver [correction_archive.md](correction_archive.md), entrada 35.
