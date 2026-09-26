@@ -330,7 +330,7 @@ def fig4():
         assert np.isclose(r.p_t, one(bhq, panel="C", test=t).q)
         L.append(row(lab, est_ci(r["mean"], r.lo, r.hi), pq(r.p_t, True), "", ""))
 
-    L += ["\\midrule", block("(D) Range across languages beyond chance: observed / chance range", N),
+    L += ["\\midrule", block("(D) Range over chance: odds ratio between the most and least refused language over its chance value", N),
           row("Request type", "Equal weight [95\\% CI]", "$q$", "Usage-weighted [95\\% CI]", "$q$"), "\\cmidrule{1-5}"]
     # q from the permutation test of the panel statistic (block 98, 26/09): the bootstrap interval stays, as a description
     perm = pd.read_csv(A4 / "results" / "98_language_range_permutation" / "range_permutation.csv").set_index(["mode", "weighting"])
@@ -416,7 +416,7 @@ def lang_22_vs_24():
             cells += [est_ci(r["mean"], r.lo, r.hi), pq(r.p_t, True)]
         L.append(row(lab, *cells))
 
-    L += ["\\midrule", block("(D) Observed / chance range across languages, equal weight", N)]
+    L += ["\\midrule", block("(D) Range over chance (odds ratio, most / least refused language, over its chance value), equal weight", N)]
     for m in MODES:
         cells = []
         for n in (24, 22):

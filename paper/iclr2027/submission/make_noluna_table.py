@@ -58,7 +58,7 @@ def main():
             cells += cell(ai[(ai.weights == w) & (ai.models == "all") & (ai.group == g)].iloc[0], only_estimate=(w == "equal"))
         L.append(" & ".join([MODE[g]] + cells) + " \\\\")
 
-    block("Language range over chance, 22 models (observed / chance range; $q$ from the permutation test)")
+    block("Language range over chance, 22 models (odds ratio, most / least refused language, over its chance value; $q$ from the permutation test)")
     for g in ("he", "de", "pg", "control"):
         cells = []
         for w in ("eq", "use", "use_noluna"):
